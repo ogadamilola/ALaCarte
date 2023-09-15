@@ -1,0 +1,30 @@
+CMPT 370
+TEAM 01 
+
+Name: Dami Adetula
+NSID: ola746
+Email: ola746@usask.ca
+
+Name: Vidhi Dhorajia
+NSID: ojk162
+Email: ojk162@usask.ca
+
+Name: Evan James
+NSID: Not found		
+Email: Not found
+
+Name: Kristian Manaloto
+NSID: kcm662
+Email: kcm662@usask.ca
+
+Name: Justin Nahirney
+NSID: jmn566
+Email: jmn566@usask.ca
+
+Name: Tomi Bamimore
+NSID: ise652
+Email: ise652@usask.ca
+
+Name: Randall Sungcang
+NSID: rts063
+Email: rts063@usask.ca
