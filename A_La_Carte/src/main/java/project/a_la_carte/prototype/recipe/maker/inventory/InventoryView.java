@@ -1,4 +1,4 @@
-package project.a_la_carte.prototype;
+package project.a_la_carte.prototype.recipe.maker.inventory;
 
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
@@ -8,19 +8,22 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import project.a_la_carte.prototype.ProgramController;
 
 public class InventoryView extends StackPane {
     InventoryModel inventoryModel;
-    InventoryController inventoryController;
     /**
      * HBoxes and VBoxes up here are those that updates when changes are made
      */
     VBox listVBox;
-    VBox addVBox;
+    TextField nameText;
+    TextField quantityText;
+    Button submit;
+    Button mainMenu;
     public InventoryView(){
         this.setMaxSize(1000,500);
 
-        addVBox = new VBox();
+        VBox addVBox = new VBox();
         listVBox = new VBox();
 
         addVBox.setPrefSize(300,500);
@@ -33,7 +36,7 @@ public class InventoryView extends StackPane {
         //TextField might have to be added as a public variable,
         //since it's values will have to be used by the Model and Controller
         //Or by the planned ingredient class
-        TextField nameText = new TextField();
+        nameText = new TextField();
 
         addNameHBox.getChildren().addAll(nameLabel, nameText);
         addNameHBox.setPrefWidth(300);
@@ -42,7 +45,7 @@ public class InventoryView extends StackPane {
         HBox addQuantityHBox = new HBox();
         //Same here (Variable)
         Label quantityLabel = new Label("Quantity:");
-        TextField quantityText = new TextField();
+        quantityText = new TextField();
 
         addQuantityHBox.getChildren().addAll(quantityLabel,quantityText);
         addQuantityHBox.setPrefWidth(300);
@@ -50,9 +53,10 @@ public class InventoryView extends StackPane {
 
 
         //Will probably have to be a variable as well to connect with controller class
-        Button submit = new Button("Submit");
+        submit = new Button("Submit");
+        mainMenu = new Button("Main Menu");
 
-        addVBox.getChildren().addAll(addLabel,addNameHBox, addQuantityHBox, submit);
+        addVBox.getChildren().addAll(mainMenu, addLabel,addNameHBox, addQuantityHBox, submit);
         addVBox.setPadding(new Insets(5,5,5,5));
 
         listVBox.setPrefSize(700,500);
@@ -72,8 +76,8 @@ public class InventoryView extends StackPane {
         this.inventoryModel = newModel;
 
     }
-    public void setController(InventoryController newController){
-        this.inventoryController = newController;
+    public void setController(ProgramController controller){
+        mainMenu.setOnAction(controller::openStartUpMVC);
 
     }
 }
