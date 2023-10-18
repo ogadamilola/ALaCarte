@@ -14,7 +14,7 @@ import project.a_la_carte.prototype.ProgramController;
 public class RecipeListView extends StackPane {
     RecipeListModel recipeListModel;
     VBox recipeListVBox;
-    VBox selectedRecipeVBox;
+    VBox ingredientVBox;
 
     //We can make these text fields instead if we plan on making possible to change the recipe right here
     //Or we can just stay on making changes to the recipe in the recipe maker page
@@ -43,10 +43,10 @@ public class RecipeListView extends StackPane {
 
         this.recipeListVBox = new VBox();
         this.recipeListVBox.setStyle("-fx-border-color: black;\n");
-        this.recipeListVBox.setPrefSize(400,500);
+        this.recipeListVBox.setPrefSize(300,500);
 
         VBox leftVBox = new VBox();
-        leftVBox.setPrefSize(400,500);
+        leftVBox.setPrefSize(300,500);
         leftVBox.setPadding(new Insets(5,5,5,5));
         leftVBox.getChildren().addAll(menuHBox, title,recipeListVBox);
 
@@ -62,35 +62,35 @@ public class RecipeListView extends StackPane {
         Label name = new Label("Name: ");
         recipeName = new Label(" ");
         recipeName.setStyle("-fx-border-color: black;\n");
-        recipeName.setPrefWidth(300);
+        recipeName.setPrefWidth(150);
         HBox nameHBox = new HBox(name,recipeName);
         nameHBox.setPadding(new Insets(5,5,5,5));
 
         Label price = new Label("Price: ");
         recipePrice = new Label(" ");
         recipePrice.setStyle("-fx-border-color: black;\n");
-        recipePrice.setPrefWidth(300);
+        recipePrice.setPrefWidth(150);
         HBox priceHBox = new HBox(price, recipePrice);
         priceHBox.setPadding(new Insets(5,5,5,5));
 
         Label description = new Label("Recipe Description: ");
         recipeDescription = new Label(" ");
         recipeDescription.setStyle("-fx-border-color: black;\n");
-        recipeDescription.setPrefSize(600,100);
+        recipeDescription.setPrefSize(400,100);
         VBox descriptionVBox = new VBox(description,recipeDescription);
         descriptionVBox.setPadding(new Insets(5,5,5,5));
 
         Label prepInstruction = new Label("Preparation Instruction: ");
         recipePrepI = new Label(" ");
         recipePrepI.setStyle("-fx-border-color: black;\n");
-        recipePrepI.setPrefSize(600,100);
+        recipePrepI.setPrefSize(400,100);
         VBox prepInstructionVBox = new VBox(prepInstruction,recipePrepI);
         prepInstructionVBox.setPadding(new Insets(5,5,5,5));
 
         Label prepTime = new Label("Estimated Preptime: ");
         recipePrepT = new Label(" ");
         recipePrepT.setStyle("-fx-border-color: black;\n");
-        recipePrepT.setPrefWidth(300);
+        recipePrepT.setPrefWidth(150);
         HBox prepTimeHBox = new HBox(prepTime,recipePrepT);
         prepTimeHBox.setPadding(new Insets(5,5,5,5));
 
@@ -104,20 +104,34 @@ public class RecipeListView extends StackPane {
         this.editIngredients = new Button("Edit Recipe");
 
         HBox buttonsHBox = new HBox(deleteButton,editIngredients);
-        buttonsHBox.setSpacing(600);
+        buttonsHBox.setPrefWidth(400);
         buttonsHBox.setSpacing(7);
         buttonsHBox.setPadding(new Insets(5,3,5,3));
 
-        this.selectedRecipeVBox = new VBox();
-        this.selectedRecipeVBox.setStyle("-fx-border-color: black;\n");
-        this.selectedRecipeVBox.setPrefSize(600,500);
-        this.selectedRecipeVBox.setPadding(new Insets(5,5,5,5));
-        this.selectedRecipeVBox.getChildren().addAll(selectedLabel,nameHBox,priceHBox,descriptionVBox,prepInstructionVBox,prepTimeHBox,buttonsHBox);
+        VBox selectedRecipeVBox = new VBox();
+        selectedRecipeVBox.setPrefSize(400,500);
+        selectedRecipeVBox.setPadding(new Insets(5,5,5,5));
+        selectedRecipeVBox.getChildren().addAll(selectedLabel,nameHBox,priceHBox,descriptionVBox,prepInstructionVBox,prepTimeHBox,buttonsHBox);
+
+        Label ingredientTitle = new Label("List of Ingredients");
+        ingredientTitle.setFont(new Font(15));
+
+        this.ingredientVBox = new VBox();
+        this.ingredientVBox.setStyle("-fx-border-color: black;\n");
+        this.ingredientVBox.setPrefSize(300,500);
+
+        VBox ingredientAlign = new VBox(ingredientTitle,ingredientVBox);
+        ingredientAlign.setPrefSize(300,500);
+        ingredientAlign.setPadding(new Insets(5,5,5,5));
+
+        HBox alignRight = new HBox(selectedRecipeVBox,ingredientAlign);
+        alignRight.setPrefSize(700,500);
+        alignRight.setStyle("-fx-border-color: black;\n");
 
         VBox rightVBox = new VBox();
-        rightVBox.setPrefSize(600,500);
+        rightVBox.setPrefSize(700,500);
         rightVBox.setPadding(new Insets(5,5,5,5));
-        rightVBox.getChildren().addAll(createHBox,selectedTitle,selectedRecipeVBox);
+        rightVBox.getChildren().addAll(createHBox,selectedTitle,alignRight);
 
         HBox alignRecipeBox = new HBox();
         alignRecipeBox.setPrefSize(1000,500);
