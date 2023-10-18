@@ -21,6 +21,7 @@ public class RecipeMakerView extends StackPane {
     TextField recipePrep;
     Button saveRecipe;
     Button addIngredient;
+    Button recipeList;
     Button mainMenu;
     public RecipeMakerView(){
         this.setMaxSize(1000,500);
@@ -91,13 +92,19 @@ public class RecipeMakerView extends StackPane {
         alignHBoxAdd.setPrefSize(400,500);
         alignHBoxAdd.setPadding(new Insets(5,5,5,5));
 
+        HBox buttonsHBox = new HBox();
+        recipeList = new Button("Return to Recipe List");
         saveRecipe = new Button("Save Recipe to Menu");
+        buttonsHBox.getChildren().addAll(recipeList,saveRecipe);
+        buttonsHBox.setPrefWidth(400);
+        buttonsHBox.setSpacing(10);
+        buttonsHBox.setAlignment(Pos.BASELINE_RIGHT);
 
         ingredientVBox.getChildren().add(alignHBoxAdd);
         ingredientVBox.setStyle("-fx-border-color: black;\n");
 
         VBox alignRight = new VBox();
-        alignRight.getChildren().addAll(ingredientVBox,saveRecipe);
+        alignRight.getChildren().addAll(ingredientVBox,buttonsHBox);
         alignRight.setPadding(new Insets(5,5,5,5));
         alignRight.setAlignment(Pos.BASELINE_RIGHT);
 
@@ -114,5 +121,6 @@ public class RecipeMakerView extends StackPane {
     }
     public void setRecipeMakerController(ProgramController controller){
         mainMenu.setOnAction(controller::openStartUpMVC);
+        recipeList.setOnAction(controller::openRecipeList);
     }
 }

@@ -2,12 +2,14 @@ package project.a_la_carte.prototype;
 
 import javafx.event.ActionEvent;
 import project.a_la_carte.prototype.recipe.maker.inventory.InventoryModel;
+import project.a_la_carte.prototype.recipe.maker.inventory.RecipeListModel;
 import project.a_la_carte.prototype.recipe.maker.inventory.RecipeMakerModel;
 
 public class ProgramController {
     StartupMVC startupMVC;
     InventoryModel inventoryModel;
     RecipeMakerModel recipeMakerModel;
+    RecipeListModel recipeListModel;
     public ProgramController(){
 
     }
@@ -30,6 +32,10 @@ public class ProgramController {
         this.startupMVC.selectStartup();
         this.startupMVC.modelChanged();
     }
+    public void openRecipeList(ActionEvent event){
+        this.startupMVC.selectRecipeList();
+        this.startupMVC.modelChanged();
+    }
 
     /**
      * Here would be Inventory actions
@@ -42,5 +48,6 @@ public class ProgramController {
     public void setRecipeMakerModel(RecipeMakerModel newModel){
         this.recipeMakerModel = newModel;
     }
+    public void setRecipeListModel(RecipeListModel newModel){this.recipeListModel = newModel;}
 
 }
