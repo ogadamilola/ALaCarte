@@ -2,14 +2,14 @@ package project.a_la_carte.prototype;
 
 import javafx.event.ActionEvent;
 import project.a_la_carte.prototype.recipe.maker.inventory.InventoryModel;
-import project.a_la_carte.prototype.recipe.maker.inventory.RecipeListModel;
-import project.a_la_carte.prototype.recipe.maker.inventory.RecipeMakerModel;
+import project.a_la_carte.prototype.recipe.maker.inventory.RecipeModel;
+import project.a_la_carte.prototype.server.side.ServerModel;
 
 public class ProgramController {
     StartupMVC startupMVC;
     InventoryModel inventoryModel;
-    RecipeMakerModel recipeMakerModel;
-    RecipeListModel recipeListModel;
+    RecipeModel recipeModel;
+    ServerModel serverModel;
     public ProgramController(){
 
     }
@@ -24,16 +24,16 @@ public class ProgramController {
         this.startupMVC.selectInventory();
         this.startupMVC.modelChanged();
     }
-    public void openRecipeMakerScreen(ActionEvent event){
-        this.startupMVC.selectRecipeMaker();
-        this.startupMVC.modelChanged();
-    }
     public void openStartUpMVC(ActionEvent event){
         this.startupMVC.selectStartup();
         this.startupMVC.modelChanged();
     }
     public void openRecipeList(ActionEvent event){
         this.startupMVC.selectRecipeList();
+        this.startupMVC.modelChanged();
+    }
+    public void openMenuView(ActionEvent event){
+        this.startupMVC.selectMenuView();
         this.startupMVC.modelChanged();
     }
 
@@ -45,9 +45,29 @@ public class ProgramController {
     /**
      * Here would be Recipe actions
      */
-    public void setRecipeMakerModel(RecipeMakerModel newModel){
-        this.recipeMakerModel = newModel;
+    public void setRecipeModel(RecipeModel newModel){this.recipeModel = newModel;}
+    public void openRecipeMakerScreen(ActionEvent event){
+        this.startupMVC.selectRecipeMaker();
+        this.startupMVC.modelChanged();
     }
-    public void setRecipeListModel(RecipeListModel newModel){this.recipeListModel = newModel;}
+
+    /**
+     * Here would be the Server Actions
+     */
+    public void setServerModel(ServerModel newModel){
+        this.serverModel = newModel;
+    }
+    public void openNoteView(ActionEvent event){
+        this.startupMVC.selectNoteView();
+        this.startupMVC.modelChanged();
+    }
+    public void openCustomizeView(ActionEvent event){
+        this.startupMVC.selectCustomize();
+        this.startupMVC.modelChanged();
+    }
+    public void openViewOrder(ActionEvent event){
+        this.startupMVC.selectViewOrder();
+        this.startupMVC.modelChanged();
+    }
 
 }

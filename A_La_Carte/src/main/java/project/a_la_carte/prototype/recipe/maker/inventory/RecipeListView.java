@@ -12,7 +12,7 @@ import javafx.scene.text.Font;
 import project.a_la_carte.prototype.ProgramController;
 
 public class RecipeListView extends StackPane {
-    RecipeListModel recipeListModel;
+    RecipeModel recipeModel;
     VBox recipeListVBox;
     VBox ingredientVBox;
 
@@ -140,8 +140,12 @@ public class RecipeListView extends StackPane {
 
         this.getChildren().add(alignRecipeBox);
     }
-    public void setRecipeListModel(RecipeListModel newModel){this.recipeListModel = newModel;}
+    public void setRecipeListModel(RecipeModel newModel){this.recipeModel = newModel;}
     public void setController(ProgramController controller){
+        //If a recipe is selected, when createNewButton is clicked, unselects the recipe
+        //If edit ingredients is selected, then the selected recipe will show up on recipe maker
+        //If no recipe is selected and edit ingredient is clicked, send an alert to user
+        //We should have an if statement in making recipes to check if a recipe is selected or not
         this.createNewButton.setOnAction(controller::openRecipeMakerScreen);
         this.editIngredients.setOnAction(controller::openRecipeMakerScreen);
         this.mainMenu.setOnAction(controller::openStartUpMVC);

@@ -12,7 +12,7 @@ import javafx.scene.text.Font;
 import project.a_la_carte.prototype.ProgramController;
 
 public class RecipeMakerView extends StackPane {
-    RecipeMakerModel recipeMakerModel;
+    RecipeModel recipeModel;
     VBox ingredientVBox;
     TextField recipeName;
     TextField recipePrice;
@@ -116,8 +116,8 @@ public class RecipeMakerView extends StackPane {
         this.getChildren().add(connectAll);
     }
 
-    public void setRecipeMakerModel(RecipeMakerModel newModel){
-        this.recipeMakerModel = newModel;
+    public void setRecipeModel(RecipeModel newModel){
+        this.recipeModel = newModel;
     }
     public void setRecipeMakerController(ProgramController controller){
         mainMenu.setOnAction(controller::openStartUpMVC);

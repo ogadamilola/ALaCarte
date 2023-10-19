@@ -8,6 +8,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import project.a_la_carte.prototype.recipe.maker.inventory.*;
+import project.a_la_carte.prototype.server.side.*;
 
 /**
  * StartupMVC will be used as a Scene and will merge all MVC classes together
@@ -18,16 +19,27 @@ public class StartupMVC extends StackPane {
     InventoryView inventoryView;
     RecipeMakerView recipeMakerView;
     RecipeListView recipeListView;
+    MenuView menuView;
+    NoteView noteView;
+    CustomizeView customizeView;
+    ViewOrder viewOrder;
     Button inventoryButton;
     Button recipeListButton;
+    Button menuViewButton;
     boolean startUp = true;
     boolean inventory = false;
     boolean recipeMaker = false;
     boolean recipeList = false;
+    boolean menu = false;
+    boolean note = false;
+    boolean customize = false;
+    boolean order = false;
     public StartupMVC(){
         this.setMaxSize(1000,500);
         ProgramController programController = new ProgramController();
 
+        //------------------------------------------
+        //---------INVENTORY MVC-------------------------------------
         InventoryModel inventoryModel = new InventoryModel();
         inventoryView = new InventoryView();
 
@@ -37,27 +49,59 @@ public class StartupMVC extends StackPane {
         inventoryModel.setView(inventoryView);
 
         programController.setInventoryModel(inventoryModel);
+        //---------------------------------------------------------
 
+        //-----------------------------------------------------------------
+        //-----------RECIPE SIDE MVC-------------------------------
         recipeMakerView = new RecipeMakerView();
-        RecipeMakerModel recipeMakerModel = new RecipeMakerModel();
+        RecipeModel recipeModel = new RecipeModel();
 
-        recipeMakerView.setRecipeMakerModel(recipeMakerModel);
+        recipeMakerView.setRecipeModel(recipeModel);
         recipeMakerView.setRecipeMakerController(programController);
 
-        recipeMakerModel.setRecipeMakerView(recipeMakerView);
-
-        programController.setRecipeMakerModel(recipeMakerModel);
+        recipeModel.setRecipeMakerView(recipeMakerView);
 
         recipeListView = new RecipeListView();
-        RecipeListModel recipeListModel = new RecipeListModel();
 
-        recipeListView.setRecipeListModel(recipeListModel);
+        recipeListView.setRecipeListModel(recipeModel);
         recipeListView.setController(programController);
 
-        recipeListModel.setRecipeListView(recipeListView);
+        recipeModel.setRecipeListView(recipeListView);
 
-        programController.setRecipeListModel(recipeListModel);
+        programController.setRecipeModel(recipeModel);
+        //--------------------------------------------------------------
 
+        //----------------------------------------------------
+        //--------------SERVER SIDE---------------------------------
+        this.menuView = new MenuView();
+        this.noteView = new NoteView();
+        this.customizeView = new CustomizeView();
+        this.viewOrder = new ViewOrder();
+        ServerModel serverModel = new ServerModel();
+
+        serverModel.setCustomizeView(customizeView);
+        serverModel.setMenuView(menuView);
+        serverModel.setNoteView(noteView);
+        serverModel.setViewOrder(viewOrder);
+
+        this.menuView.setController(programController);
+        this.menuView.setServerModel(serverModel);
+
+        this.noteView.setController(programController);
+        this.noteView.setServerModel(serverModel);
+
+        this.customizeView.setController(programController);
+        this.customizeView.setServerModel(serverModel);
+
+        this.viewOrder.setController(programController);
+        this.viewOrder.setServerModel(serverModel);
+
+        programController.setServerModel(serverModel);
+
+        //-----------------------------------------------------
+
+        //------------------------------------------------
+        //----------START UP MVC--------------------------
         startUpView = new StackPane();
         startUpView.setMaxSize(1000,500);
         Label welcomeLabel = new Label("A La Carte Program Main Menu");
@@ -67,8 +111,10 @@ public class StartupMVC extends StackPane {
         inventoryButton.setFont(new Font(30));
         recipeListButton = new Button("Go To Recipe List");
         recipeListButton.setFont(new Font(30));
+        menuViewButton = new Button("Go To Server Menu");
+        menuViewButton.setFont(new Font(30));
 
-        VBox startUpAlign = new VBox(welcomeLabel,inventoryButton,recipeListButton);
+        VBox startUpAlign = new VBox(welcomeLabel,inventoryButton,recipeListButton,menuViewButton);
         startUpAlign.setPrefSize(1000,500);
         startUpAlign.setPadding(new Insets(20,20,20,20));
         startUpAlign.setAlignment(Pos.CENTER);
@@ -77,36 +123,91 @@ public class StartupMVC extends StackPane {
         programController.setStartupMVC(this);
         this.setController(programController);
         this.getChildren().add(startUpView);
-        //this.getChildren().add(inventoryView);
-        //To see the inventory just get rid of the comment
     }
     public void setController(ProgramController controller){
         inventoryButton.setOnAction(controller::openInventoryScreen);
         recipeListButton.setOnAction(controller::openRecipeList);
+        menuViewButton.setOnAction(controller::openMenuView);
     }
     public void selectStartup(){
         this.startUp = true;
         this.inventory = false;
         this.recipeMaker = false;
         this.recipeList = false;
+        this.menu = false;
+        this.note = false;
+        this.customize = false;
+        this.order = false;
     }
     public void selectInventory(){
         this.startUp = false;
         this.inventory = true;
         this.recipeMaker = false;
         this.recipeList = false;
+        this.menu = false;
+        this.note = false;
+        this.customize = false;
+        this.order = false;
     }
     public void selectRecipeList(){
         this.startUp = false;
         this.inventory = false;
         this.recipeMaker = false;
         this.recipeList = true;
+        this.menu = false;
+        this.note = false;
+        this.customize = false;
+        this.order = false;
     }
     public void selectRecipeMaker(){
         this.startUp = false;
         this.inventory = false;
         this.recipeMaker = true;
         this.recipeList = false;
+        this.menu = false;
+        this.note = false;
+        this.customize = false;
+        this.order = false;
+    }
+    public void selectMenuView(){
+        this.startUp = false;
+        this.inventory = false;
+        this.recipeMaker = false;
+        this.recipeList = false;
+        this.menu = true;
+        this.note = false;
+        this.customize = false;
+        this.order = false;
+    }
+    public void selectNoteView(){
+        this.startUp = false;
+        this.inventory = false;
+        this.recipeMaker = false;
+        this.recipeList = false;
+        this.menu = false;
+        this.note = true;
+        this.customize = false;
+        this.order = false;
+    }
+    public void selectCustomize(){
+        this.startUp = false;
+        this.inventory = false;
+        this.recipeMaker = false;
+        this.recipeList = false;
+        this.menu = false;
+        this.note = false;
+        this.customize = true;
+        this.order = false;
+    }
+    public void selectViewOrder(){
+        this.startUp = false;
+        this.inventory = false;
+        this.recipeMaker = false;
+        this.recipeList = false;
+        this.menu = false;
+        this.note = false;
+        this.customize = false;
+        this.order = true;
     }
     //Decided to do this for now since multiple screens is not in our todo for the prototype
     public void modelChanged() {
@@ -122,6 +223,18 @@ public class StartupMVC extends StackPane {
         }
         else if(recipeList){
             this.getChildren().add(recipeListView);
+        }
+        else if (menu){
+            this.getChildren().add(menuView);
+        }
+        else if (note){
+            this.getChildren().add(noteView);
+        }
+        else if (customize){
+            this.getChildren().add(customizeView);
+        }
+        else if (order){
+            this.getChildren().add(viewOrder);
         }
     }
 }
