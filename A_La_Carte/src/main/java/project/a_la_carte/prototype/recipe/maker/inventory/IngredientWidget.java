@@ -5,18 +5,18 @@ import javafx.scene.layout.HBox;
 
 public class IngredientWidget {
     private HBox widget;
-    private Ingredient ingredient;
 
-
+    /**
+     * Widget that displays the ingredient in InventoryView
+     * @param ingredient
+     */
     public IngredientWidget(Ingredient ingredient) {
         //we can make this prettier later on
         widget = new HBox(20);
-        this.ingredient = ingredient;
         Label ingredientName = new Label(ingredient.getName());
-
         Label quantity = new Label(Double.toString(ingredient.getQuantity()));
-        widget.getChildren().addAll(ingredientName, quantity);
-
+        Label measurement = new Label(ingredient.measurementToString());
+        widget.getChildren().addAll(ingredientName, quantity,measurement);
 
     }
 
