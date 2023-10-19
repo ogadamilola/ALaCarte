@@ -1,14 +1,19 @@
 package project.a_la_carte.prototype.recipe.maker.inventory;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Model for Inventory
  */
 public class InventoryModel {
     InventoryView inventoryView;
-    //We can have a list of inventory/ingredients here
-    //Just waiting until we have the class
+
+    //added the InventoryList
+    List<Ingredient> ingredientInventory;
     public InventoryModel(){
 
+        ingredientInventory = new ArrayList<Ingredient>();
     }
     public void setView(InventoryView newView){
         this.inventoryView = newView;

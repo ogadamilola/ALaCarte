@@ -2,6 +2,7 @@ package project.a_la_carte.prototype;
 
 import javafx.event.ActionEvent;
 import project.a_la_carte.prototype.recipe.maker.inventory.InventoryModel;
+import project.a_la_carte.prototype.recipe.maker.inventory.InventoryView;
 import project.a_la_carte.prototype.recipe.maker.inventory.RecipeModel;
 import project.a_la_carte.prototype.server.side.ServerModel;
 
@@ -10,6 +11,7 @@ public class ProgramController {
     InventoryModel inventoryModel;
     RecipeModel recipeModel;
     ServerModel serverModel;
+
     public ProgramController(){
 
     }
@@ -41,6 +43,11 @@ public class ProgramController {
      * Here would be Inventory actions
      */
     public void setInventoryModel(InventoryModel newModel){this.inventoryModel = newModel;}
+
+
+    /**
+     * End of Inventory Actions
+     */
 
     /**
      * Here would be Recipe actions
