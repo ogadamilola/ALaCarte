@@ -18,7 +18,7 @@ public class Ingredient {
         this.name = name;
         this.quantity = quantity;
         this.measurement = measurement;
-        //default not allergen
+        //default to not allergen
         this.commonAllergen = false;
     }
 

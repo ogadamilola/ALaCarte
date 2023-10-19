@@ -9,6 +9,7 @@ public class IngredientWidget {
 
 
     public IngredientWidget(Ingredient ingredient) {
+        //we can make this prettier later on
         widget = new HBox(20);
         this.ingredient = ingredient;
         Label ingredientName = new Label(ingredient.getName());
