@@ -14,9 +14,7 @@ public class IngredientWidget {
         //we can make this prettier later on
         widget = new HBox(20);
         Label ingredientName = new Label(ingredient.getName());
-        Label quantity = new Label(Double.toString(ingredient.getQuantity()));
-        Label measurement = new Label(ingredient.measurementToString());
-        widget.getChildren().addAll(ingredientName, quantity,measurement);
+        widget.getChildren().add(ingredientName);
 
     }
 

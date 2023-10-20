@@ -1,6 +1,7 @@
 package project.a_la_carte.prototype;
 
 import javafx.event.ActionEvent;
+import project.a_la_carte.prototype.recipe.maker.inventory.Ingredient;
 import project.a_la_carte.prototype.recipe.maker.inventory.InventoryModel;
 import project.a_la_carte.prototype.recipe.maker.inventory.InventoryView;
 import project.a_la_carte.prototype.recipe.maker.inventory.RecipeModel;
@@ -49,8 +50,8 @@ public class ProgramController {
     public void handleNewIngredient(ActionEvent actionEvent) {
         String ingredientName = inventoryView.getNameText().getText();
         Double quantity = Double.valueOf(inventoryView.getQuantityText().getText());
-        String measurement = inventoryView.getMeasurementCBox().getValue();
-        inventoryModel.addIngredient(ingredientName,quantity,measurement);
+        Ingredient.IngredientType type = inventoryView.getTypeComboBox().getValue();
+        inventoryModel.addIngredient(ingredientName,quantity,type);
     }
 
 
