@@ -1,7 +1,6 @@
 package project.a_la_carte.prototype;
 
 import javafx.event.ActionEvent;
-import javafx.scene.control.TextField;
 import project.a_la_carte.prototype.recipe.maker.inventory.InventoryModel;
 import project.a_la_carte.prototype.recipe.maker.inventory.InventoryView;
 import project.a_la_carte.prototype.recipe.maker.inventory.RecipeModel;
@@ -13,7 +12,6 @@ public class ProgramController {
     InventoryView inventoryView;
     RecipeModel recipeModel;
     ServerModel serverModel;
-
     public ProgramController(){
 
     }
@@ -88,6 +86,5 @@ public class ProgramController {
         this.startupMVC.selectViewOrder();
         this.startupMVC.modelChanged();
     }
+
 }
-
-

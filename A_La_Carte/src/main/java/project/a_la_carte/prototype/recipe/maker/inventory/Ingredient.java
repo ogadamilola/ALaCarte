@@ -34,8 +34,7 @@ public class Ingredient {
         //default to not allergen
         this.commonAllergen = false;
     }
-
-    public String getName() {
+        public String getName() {
         return name;
     }
 
@@ -75,5 +74,5 @@ public class Ingredient {
     public void setCommonAllergen(boolean commonAllergen) {
         this.commonAllergen = commonAllergen;
     }
-
 }
+
