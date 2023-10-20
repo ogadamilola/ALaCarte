@@ -3,11 +3,9 @@ package project.a_la_carte.prototype.recipe.maker.inventory;
 public class RecipeModel {
     RecipeListView recipeListView;
     RecipeMakerView recipeMakerView;
-    String name;
-    String description;
-    String prepInstruction;
-    float price;
-    float prepTime;
+
+    //removed attributes here and put them in recipie
+
     public RecipeModel(){
 
     }

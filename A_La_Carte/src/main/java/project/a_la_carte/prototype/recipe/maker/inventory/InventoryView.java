@@ -11,7 +11,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import project.a_la_carte.prototype.ProgramController;
 
-import java.util.List;
+import java.util.Map;
 
 public class InventoryView extends StackPane {
     InventoryModel inventoryModel;
@@ -23,7 +23,7 @@ public class InventoryView extends StackPane {
     TextField quantityText;
     Button submit;
     Button mainMenu;
-    ComboBox<String> measurementCBox;
+    ComboBox<Ingredient.IngredientType> typeComboBox;
     Label listLabel;
     public InventoryView(){
         this.setMaxSize(1000,500);
@@ -58,12 +58,15 @@ public class InventoryView extends StackPane {
         addQuantityHBox.setPadding(new Insets(2,2,2,2));
 
         //select Measurement method
-        HBox measurementHBox = new HBox();
-        Label measurementSelectLabel = new Label("Select Measurement method");
-        measurementCBox = new ComboBox<>();
-        measurementCBox.getItems().add("Pounds");
-        measurementCBox.getItems().add("Count");
-        measurementHBox.getChildren().addAll(measurementSelectLabel,measurementCBox);
+        HBox typeHBox = new HBox();
+        Label typeSelectLabel = new Label("Select type of Ingredient");
+        typeComboBox = new ComboBox<>();
+        typeComboBox.getEditor().setId("Type...");
+        for(Ingredient.IngredientType i : Ingredient.IngredientType.values()){
+            typeComboBox.getItems().add(i);
+        }
+
+        typeHBox.getChildren().addAll(typeSelectLabel,typeComboBox);
 
 
 
@@ -72,9 +75,11 @@ public class InventoryView extends StackPane {
         submit = new Button("Submit");
         mainMenu = new Button("Main Menu");
 
-        addVBox.getChildren().addAll(mainMenu, addLabel,addNameHBox, addQuantityHBox,measurementHBox, submit);
+        addVBox.getChildren().addAll(mainMenu, addLabel,addNameHBox, addQuantityHBox,typeHBox, submit);
         addVBox.setPadding(new Insets(5,5,5,5));
 
+
+        //TODO use tableview here to show
         listVBox.setPrefSize(700,500);
         listVBox.setStyle("-fx-border-color: black;\n");
         listLabel = new Label("Inventory");
@@ -98,16 +103,25 @@ public class InventoryView extends StackPane {
 
     }
 
-    public void modelChanged(List<Ingredient> ingredientInventory){
+    public void modelChanged(Map<Ingredient, Double> ingredientInventory){
         //clear text fields
         nameText.clear();
         quantityText.clear();
-        measurementCBox.setValue(null);
+
         listVBox.getChildren().clear();//redraw list
         listVBox.getChildren().add(listLabel);
 
-        for(Ingredient i : ingredientInventory){
-            IngredientWidget widget = new IngredientWidget(i);
+
+        //for debugging
+        for (Map.Entry<Ingredient, Double> entry : ingredientInventory.entrySet()) {
+            Ingredient ingredient = entry.getKey();
+            Double quantity = entry.getValue();
+            System.out.println(ingredient + " - Stock: " + quantity);
+        }
+        //TODO Better display method of inventory
+        for (Map.Entry<Ingredient, Double> entry : ingredientInventory.entrySet()) {
+
+            IngredientWidget widget = new IngredientWidget(entry.getKey());
             listVBox.getChildren().add(widget.getWidget());
         }
     }
@@ -120,8 +134,8 @@ public class InventoryView extends StackPane {
         return quantityText;
     }
 
-    public ComboBox<String> getMeasurementCBox() {
-        return measurementCBox;
+    public ComboBox<Ingredient.IngredientType> getTypeComboBox() {
+        return typeComboBox;
     }
 }
 

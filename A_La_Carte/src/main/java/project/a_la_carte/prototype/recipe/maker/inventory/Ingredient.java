@@ -1,40 +1,37 @@
 package project.a_la_carte.prototype.recipe.maker.inventory;
 
+import java.util.Objects;
+
 public class Ingredient {
 
     private String name;
-    private double quantity;
 
-    private enum Measurement{
-        //changed from oz to pounds, makes more sense for inventory
-        //enum is overkill for 2 options but it'll be easier to add more
-        pounds("Pounds"),count("Count");
+    public enum IngredientType{
+        proteins("Proteins"),dairy("Dairy"),grains("Grains"),vegetable("Vegetables"),sauce("Sauce"),other("Other");
         private String name;
-        private Measurement(String name){
+        private IngredientType(String name){
             this.name =name;
         }
         public String getName(){
             return name;
         }
     }
-    private Measurement measurement;
+
+    IngredientType ingredientType;
 
     boolean commonAllergen;
 
     /**
      *
      * @param name of ingredient
-     * @param quantity starting quantity
+     *
      */
-    public Ingredient(String name, double quantity){
+    public Ingredient(String name){
         this.name = name;
-        this.quantity = quantity;
-
-        this.measurement = Measurement.count;
         //default to not allergen
         this.commonAllergen = false;
     }
-        public String getName() {
+    public String getName() {
         return name;
     }
 
@@ -42,33 +39,41 @@ public class Ingredient {
         this.name = name;
     }
 
-    public double getQuantity() {
-        return quantity;
+    public IngredientType getIngredientType() {
+        return ingredientType;
     }
 
-    public void setQuantity(double quantity) {
-        this.quantity = quantity;
+    public void setIngredientType(IngredientType ingredientType) {
+        this.ingredientType = ingredientType;
     }
 
-    public Measurement getMeasurement() {
-        return measurement;
-    }
-
-    public void setMeasurement(Measurement measurement) {
-        this.measurement = measurement;
-    }
-    public Measurement stringToMeasurement(String measurement) {
-        switch(measurement){
-            case "Pounds":
-                return Measurement.pounds;
-            case "Count":
-                return Measurement.count;
+    public IngredientType stringToIngredientType(String type) {
+        switch(type){
+            case "Protiens":
+                return IngredientType.proteins;
+            case "Vegetables":
+                return IngredientType.vegetable;
+            case "Dairy":
+                return IngredientType.dairy;
             default:
                 return null;
         }
     }
-    public String measurementToString(){
-        return(this.measurement.toString());
+    @Override
+    public boolean equals(Object o) { //needed for the hashtable handling duplicates
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Ingredient ingredient = (Ingredient) o;
+        return Objects.equals(name, ingredient.name) && Objects.equals(ingredientType, ingredient.ingredientType);
+    }
+
+    @Override
+    public int hashCode() { //also needed
+        return Objects.hash(name, ingredientType);
+    }
+
+public String measurementToString(){
+        return(this.ingredientType.toString());
     }
 
     public void setCommonAllergen(boolean commonAllergen) {
