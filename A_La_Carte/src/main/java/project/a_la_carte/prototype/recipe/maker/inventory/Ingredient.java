@@ -34,6 +34,26 @@ public class Ingredient {
         //default to not allergen
         this.commonAllergen = false;
     }
+        public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public double getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(double quantity) {
+        this.quantity = quantity;
+    }
+
+    public Measurement getMeasurement() {
+        return measurement;
+    }
+
     public void setMeasurement(Measurement measurement) {
         this.measurement = measurement;
     }
