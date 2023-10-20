@@ -7,6 +7,8 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import project.a_la_carte.prototype.kitchen.side.KitchenModel;
+import project.a_la_carte.prototype.kitchen.side.KitchenView;
 import project.a_la_carte.prototype.recipe.maker.inventory.*;
 import project.a_la_carte.prototype.server.side.*;
 
@@ -23,17 +25,12 @@ public class StartupMVC extends StackPane {
     NoteView noteView;
     CustomizeView customizeView;
     ViewOrder viewOrder;
+    KitchenView kitchenView;
+    Button kitchenButton;
     Button inventoryButton;
     Button recipeListButton;
     Button menuViewButton;
-    boolean startUp = true;
-    boolean inventory = false;
-    boolean recipeMaker = false;
-    boolean recipeList = false;
-    boolean menu = false;
-    boolean note = false;
-    boolean customize = false;
-    boolean order = false;
+    String selectedScreen = "startUp";
     public StartupMVC(){
         this.setMaxSize(1000,500);
         ProgramController programController = new ProgramController();
@@ -101,6 +98,19 @@ public class StartupMVC extends StackPane {
 
         //-----------------------------------------------------
 
+        //----------------------------------------------------
+        //-----------KITCHEN SIDE----------------------------
+        this.kitchenView = new KitchenView();
+        KitchenModel kitchenModel = new KitchenModel();
+
+        kitchenModel.setKitchenView(this.kitchenView);
+
+        this.kitchenView.setKitchenModel(kitchenModel);
+        this.kitchenView.setController(programController);
+
+        programController.setKitchenModel(kitchenModel);
+        //----------------------------------------------------
+
         //------------------------------------------------
         //----------START UP MVC--------------------------
         startUpView = new StackPane();
@@ -114,8 +124,10 @@ public class StartupMVC extends StackPane {
         recipeListButton.setFont(new Font(30));
         menuViewButton = new Button("Go To Server Menu");
         menuViewButton.setFont(new Font(30));
+        kitchenButton = new Button("Go To Kitchen View");
+        kitchenButton.setFont(new Font(30));
 
-        VBox startUpAlign = new VBox(welcomeLabel,inventoryButton,recipeListButton,menuViewButton);
+        VBox startUpAlign = new VBox(welcomeLabel,inventoryButton,recipeListButton,menuViewButton,kitchenButton);
         startUpAlign.setPrefSize(1000,500);
         startUpAlign.setPadding(new Insets(20,20,20,20));
         startUpAlign.setAlignment(Pos.CENTER);
@@ -129,113 +141,48 @@ public class StartupMVC extends StackPane {
         inventoryButton.setOnAction(controller::openInventoryScreen);
         recipeListButton.setOnAction(controller::openRecipeList);
         menuViewButton.setOnAction(controller::openMenuView);
+        kitchenButton.setOnAction(controller::openKitchenView);
     }
     public void selectStartup(){
-        this.startUp = true;
-        this.inventory = false;
-        this.recipeMaker = false;
-        this.recipeList = false;
-        this.menu = false;
-        this.note = false;
-        this.customize = false;
-        this.order = false;
+        this.selectedScreen ="startUp";
     }
     public void selectInventory(){
-        this.startUp = false;
-        this.inventory = true;
-        this.recipeMaker = false;
-        this.recipeList = false;
-        this.menu = false;
-        this.note = false;
-        this.customize = false;
-        this.order = false;
+        this.selectedScreen = "inventory";
     }
     public void selectRecipeList(){
-        this.startUp = false;
-        this.inventory = false;
-        this.recipeMaker = false;
-        this.recipeList = true;
-        this.menu = false;
-        this.note = false;
-        this.customize = false;
-        this.order = false;
+        this.selectedScreen = "recipeList";
     }
     public void selectRecipeMaker(){
-        this.startUp = false;
-        this.inventory = false;
-        this.recipeMaker = true;
-        this.recipeList = false;
-        this.menu = false;
-        this.note = false;
-        this.customize = false;
-        this.order = false;
+        this.selectedScreen = "recipeMaker";
     }
     public void selectMenuView(){
-        this.startUp = false;
-        this.inventory = false;
-        this.recipeMaker = false;
-        this.recipeList = false;
-        this.menu = true;
-        this.note = false;
-        this.customize = false;
-        this.order = false;
+        this.selectedScreen = "menu";
     }
     public void selectNoteView(){
-        this.startUp = false;
-        this.inventory = false;
-        this.recipeMaker = false;
-        this.recipeList = false;
-        this.menu = false;
-        this.note = true;
-        this.customize = false;
-        this.order = false;
+        this.selectedScreen = "note";
     }
     public void selectCustomize(){
-        this.startUp = false;
-        this.inventory = false;
-        this.recipeMaker = false;
-        this.recipeList = false;
-        this.menu = false;
-        this.note = false;
-        this.customize = true;
-        this.order = false;
+        this.selectedScreen = "customize";
     }
     public void selectViewOrder(){
-        this.startUp = false;
-        this.inventory = false;
-        this.recipeMaker = false;
-        this.recipeList = false;
-        this.menu = false;
-        this.note = false;
-        this.customize = false;
-        this.order = true;
+        this.selectedScreen = "order";
+    }
+    public void selectKitchenView(){
+        this.selectedScreen = "kitchen";
     }
     //Decided to do this for now since multiple screens is not in our todo for the prototype
     public void modelChanged() {
         this.getChildren().clear();
-        if (startUp){
-            this.getChildren().add(startUpView);
-        }
-        else if (recipeMaker) {
-            this.getChildren().add(recipeMakerView);
-        }
-        else if (inventory) {
-            this.getChildren().add(inventoryView);
-        }
-        else if(recipeList){
-            this.getChildren().add(recipeListView);
-        }
-        else if (menu){
-            this.getChildren().add(menuView);
-        }
-        else if (note){
-            this.getChildren().add(noteView);
-        }
-        else if (customize){
-            this.getChildren().add(customizeView);
-        }
-        else if (order){
-            this.getChildren().add(viewOrder);
+        switch (this.selectedScreen) {
+            case "startUp" -> this.getChildren().add(startUpView);
+            case "recipeMaker" -> this.getChildren().add(recipeMakerView);
+            case "inventory" -> this.getChildren().add(inventoryView);
+            case "recipeList" -> this.getChildren().add(recipeListView);
+            case "menu" -> this.getChildren().add(menuView);
+            case "note" -> this.getChildren().add(noteView);
+            case "customize" -> this.getChildren().add(customizeView);
+            case "order" -> this.getChildren().add(viewOrder);
+            case "kitchen" -> this.getChildren().add(kitchenView);
         }
     }
 }

@@ -1,6 +1,7 @@
 package project.a_la_carte.prototype;
 
 import javafx.event.ActionEvent;
+import project.a_la_carte.prototype.kitchen.side.KitchenModel;
 import project.a_la_carte.prototype.recipe.maker.inventory.Ingredient;
 import project.a_la_carte.prototype.recipe.maker.inventory.InventoryModel;
 import project.a_la_carte.prototype.recipe.maker.inventory.InventoryView;
@@ -13,6 +14,7 @@ public class ProgramController {
     InventoryView inventoryView;
     RecipeModel recipeModel;
     ServerModel serverModel;
+    KitchenModel kitchenModel;
     public ProgramController(){
 
     }
@@ -37,6 +39,10 @@ public class ProgramController {
     }
     public void openMenuView(ActionEvent event){
         this.startupMVC.selectMenuView();
+        this.startupMVC.modelChanged();
+    }
+    public void openKitchenView(ActionEvent event){
+        this.startupMVC.selectKitchenView();
         this.startupMVC.modelChanged();
     }
 
@@ -68,7 +74,19 @@ public class ProgramController {
         this.startupMVC.selectRecipeMaker();
         this.startupMVC.modelChanged();
     }
+    /**
+     * End of Recipe Actions
+     */
+    /**
+     * Kitchen Actions
+     */
+    public void setKitchenModel(KitchenModel newModel){
+        this.kitchenModel = newModel;
+    }
 
+    /**
+     * End of Kitchen Actions
+     */
     /**
      * Here would be the Server Actions
      */
