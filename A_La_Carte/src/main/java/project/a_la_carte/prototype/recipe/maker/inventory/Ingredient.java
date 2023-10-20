@@ -4,33 +4,20 @@ public class Ingredient {
 
     private String name;
     private double quantity;
-
     private enum Measurement{
-        //changed from oz to pounds, makes more sense for inventory
-        //enum is overkill for 2 options but it'll be easier to add more
-        pounds("Pounds"),count("Count");
-        private String name;
-        private Measurement(String name){
-            this.name =name;
-        }
-        public String getName(){
-            return name;
-        }
+        oz,
+        count
     }
     private Measurement measurement;
 
     boolean commonAllergen;
 
-    /**
-     *
-     * @param name of ingredient
-     * @param quantity starting quantity
-     */
-    public Ingredient(String name, double quantity){
+    //example Ingredient("Burger Buns","50", Ingredient.measurement.count,true)
+    // 50 individual burger buns
+    public Ingredient(String name, double quantity,Measurement measurement){
         this.name = name;
         this.quantity = quantity;
-
-        this.measurement = Measurement.count;
+        this.measurement = measurement;
         //default to not allergen
         this.commonAllergen = false;
     }
@@ -57,19 +44,6 @@ public class Ingredient {
 
     public void setMeasurement(Measurement measurement) {
         this.measurement = measurement;
-    }
-    public Measurement stringToMeasurement(String measurement) {
-        switch(measurement){
-            case "Pounds":
-                return Measurement.pounds;
-            case "Count":
-                return Measurement.count;
-            default:
-                return null;
-        }
-    }
-    public String measurementToString(){
-        return(this.measurement.toString());
     }
 
     public void setCommonAllergen(boolean commonAllergen) {

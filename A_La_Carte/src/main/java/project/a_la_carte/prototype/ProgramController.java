@@ -1,19 +1,15 @@
 package project.a_la_carte.prototype;
 
 import javafx.event.ActionEvent;
-import javafx.scene.control.TextField;
 import project.a_la_carte.prototype.recipe.maker.inventory.InventoryModel;
-import project.a_la_carte.prototype.recipe.maker.inventory.InventoryView;
 import project.a_la_carte.prototype.recipe.maker.inventory.RecipeModel;
 import project.a_la_carte.prototype.server.side.ServerModel;
 
 public class ProgramController {
     StartupMVC startupMVC;
     InventoryModel inventoryModel;
-    InventoryView inventoryView;
     RecipeModel recipeModel;
     ServerModel serverModel;
-
     public ProgramController(){
 
     }
@@ -45,21 +41,6 @@ public class ProgramController {
      * Here would be Inventory actions
      */
     public void setInventoryModel(InventoryModel newModel){this.inventoryModel = newModel;}
-    public void setInventoryView(InventoryView inventoryView){
-        this.inventoryView = inventoryView;
-    }
-    public void handleNewIngredient(ActionEvent actionEvent) {
-        String ingredientName = inventoryView.getNameText().getText();
-        Double quantity = Double.valueOf(inventoryView.getQuantityText().getText());
-        String measurement = inventoryView.getMeasurementCBox().getValue();
-        inventoryModel.addIngredient(ingredientName,quantity,measurement);
-    }
-
-
-
-    /**
-     * End of Inventory Actions
-     */
 
     /**
      * Here would be Recipe actions
@@ -88,6 +69,5 @@ public class ProgramController {
         this.startupMVC.selectViewOrder();
         this.startupMVC.modelChanged();
     }
+
 }
-
-

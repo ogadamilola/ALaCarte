@@ -49,7 +49,6 @@ public class StartupMVC extends StackPane {
         inventoryModel.setView(inventoryView);
 
         programController.setInventoryModel(inventoryModel);
-        programController.setInventoryView(inventoryView);
         //---------------------------------------------------------
 
         //-----------------------------------------------------------------
