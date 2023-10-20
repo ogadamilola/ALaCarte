@@ -27,6 +27,11 @@ public class InventoryView extends StackPane {
     Label listLabel;
     public InventoryView(){
         this.setMaxSize(1000,500);
+        VBox addVBox = new VBox();
+        listVBox = new VBox();
+
+        addVBox.setPrefSize(300,500);
+
 
         addVBox.setStyle("-fx-border-color: black;\n");
         Label addLabel = new Label("Add To Inventory");
