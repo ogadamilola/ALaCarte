@@ -19,6 +19,12 @@ public class Recipie {
 
     }
 
+    public void addRecipieIngredients(Ingredient ingredient,Double amount){
+
+        //TODO make this function work
+        this.recipieIngredients.put(ingredient, amount);
+     }
+
     public String getName() {
         return name;
     }
@@ -57,5 +63,17 @@ public class Recipie {
 
     public float getPrice() {
         return price;
+    }
+
+    @Override
+    public String toString() {
+        return "Recipie{" +
+                //"recipieIngredients=" + recipieIngredients +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", prepInstruction='" + prepInstruction + '\'' +
+                ", price=" + price +
+                ", prepTime=" + prepTime +
+                '}';
     }
 }

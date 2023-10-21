@@ -21,7 +21,6 @@ public class IngredientSelectionView extends StackPane implements InventorySubsc
 
         Label titleLabel = new Label("Select Ingredient");
         menuBar = new MenuBar();
-
     }
 
     public void modelChanged(Map<Ingredient, Double> ingredientInventory) {

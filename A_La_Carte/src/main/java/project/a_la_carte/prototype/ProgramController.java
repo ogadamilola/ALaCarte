@@ -2,10 +2,7 @@ package project.a_la_carte.prototype;
 
 import javafx.event.ActionEvent;
 import project.a_la_carte.prototype.kitchen.side.KitchenModel;
-import project.a_la_carte.prototype.recipe.maker.inventory.Ingredient;
-import project.a_la_carte.prototype.recipe.maker.inventory.InventoryModel;
-import project.a_la_carte.prototype.recipe.maker.inventory.InventoryView;
-import project.a_la_carte.prototype.recipe.maker.inventory.RecipeModel;
+import project.a_la_carte.prototype.recipe.maker.inventory.*;
 import project.a_la_carte.prototype.server.side.ServerModel;
 
 public class ProgramController {
@@ -13,8 +10,13 @@ public class ProgramController {
     InventoryModel inventoryModel;
     InventoryView inventoryView;
     RecipeModel recipeModel;
+    RecipeMakerView recipeMakerView;
+    IngredientSelectionView ingredientSelectionView;
+
     ServerModel serverModel;
     KitchenModel kitchenModel;
+
+
     public ProgramController(){
 
     }
@@ -57,7 +59,8 @@ public class ProgramController {
         String ingredientName = inventoryView.getNameText().getText();
         Double quantity = Double.valueOf(inventoryView.getQuantityText().getText());
         Ingredient.IngredientType type = inventoryView.getTypeComboBox().getValue();
-        inventoryModel.addIngredient(ingredientName,quantity,type);
+        Ingredient.MeasurementUnit mUnit = inventoryView.getMeasurementUnitComboBox().getValue();
+        inventoryModel.addIngredient(ingredientName,quantity,type,mUnit);
     }
 
 
@@ -70,10 +73,35 @@ public class ProgramController {
      * Here would be Recipe actions
      */
     public void setRecipeModel(RecipeModel newModel){this.recipeModel = newModel;}
+
+    public void setRecipeMakerView(RecipeMakerView recipeMakerView) {
+        this.recipeMakerView = recipeMakerView;
+    }
+    public void setIngredientSelectionView(IngredientSelectionView ingredientSelectionView) {
+        this.ingredientSelectionView = ingredientSelectionView;
+    }
+
     public void openRecipeMakerScreen(ActionEvent event){
         this.startupMVC.selectRecipeMaker();
         this.startupMVC.modelChanged();
     }
+
+    public void openIngredientSelectionView(ActionEvent actionEvent) {
+        //TODO make button open ingredientSelectionView
+        //hopefully a window pops up
+    }
+
+    public void addRecipie(ActionEvent event){
+        //TODO a way to add ingredients
+        String recipeName = recipeMakerView.getRecipeName().getText();
+        double recipePrice = Double.parseDouble(recipeMakerView.getRecipePrice().getText());
+        String recipeDesc = recipeMakerView.getRecipeDescription().getText();
+        String recipeInstruction = recipeMakerView.getRecipeInstruction().getText();
+        double recipePrepTime = Double.parseDouble(recipeMakerView.getRecipePrep().getText());
+
+        recipeModel.addNewRecipe(recipeName,recipePrice,recipeDesc,recipeInstruction,recipePrepTime);
+    }
+
     /**
      * End of Recipe Actions
      */
@@ -105,5 +133,6 @@ public class ProgramController {
         this.startupMVC.selectViewOrder();
         this.startupMVC.modelChanged();
     }
+
 
 }

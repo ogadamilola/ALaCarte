@@ -122,5 +122,26 @@ public class RecipeMakerView extends StackPane {
     public void setRecipeMakerController(ProgramController controller){
         mainMenu.setOnAction(controller::openStartUpMVC);
         recipeList.setOnAction(controller::openRecipeList);
+        addIngredient.setOnAction(controller::openIngredientSelectionView);
+        saveRecipe.setOnAction(controller::addRecipie);
+    }
+    //getters for reading fields, will need setters to load recipies in the future
+    public TextField getRecipeName() {
+        return recipeName;
+    }
+    public TextField getRecipePrice() {
+        return recipePrice;
+    }
+    public TextField getRecipeDescription() {
+        return recipeDescription;
+    }
+    public TextField getRecipeInstruction() {
+        return recipeInstruction;
+    }
+    public TextField getRecipePrep() {
+        return recipePrep;
+    }
+    public Button getSaveRecipe() {
+        return saveRecipe;
     }
 }

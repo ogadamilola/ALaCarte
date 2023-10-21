@@ -41,6 +41,8 @@ public class RecipeListView extends StackPane {
         HBox menuHBox = new HBox();
         menuHBox.getChildren().add(mainMenu);
 
+
+        //TODO show existing recipies
         this.recipeListVBox = new VBox();
         this.recipeListVBox.setStyle("-fx-border-color: black;\n");
         this.recipeListVBox.setPrefSize(300,500);

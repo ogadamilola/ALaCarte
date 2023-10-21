@@ -7,7 +7,7 @@ public class Ingredient {
     private String name;
 
     public enum IngredientType{
-        proteins("Proteins"),dairy("Dairy"),grains("Grains"),vegetable("Vegetables"),sauce("Sauce"),other("Other");
+        Proteins("Proteins"),Dairy("Dairy"),Grains("Grains"),Vegetable("Vegetables"),Sauce("Sauce"),Other("Other");
         private String name;
         private IngredientType(String name){
             this.name =name;
@@ -19,15 +19,29 @@ public class Ingredient {
 
     IngredientType ingredientType;
 
-    boolean commonAllergen;
+    public enum MeasurementUnit{
+        Pounds("Pounds"), Count("Count");
+        private String name;
+        MeasurementUnit(String name){
+            this.name = name;
+        }
+        public String getName() {
+            return name;
+        }
+    }
+    MeasurementUnit measurementUnit;
+    private boolean commonAllergen;
 
     /**
-     *
      * @param name of ingredient
-     *
      */
     public Ingredient(String name){
         this.name = name;
+
+        //default to other
+        this.ingredientType = IngredientType.Other;
+        //default to count
+        this.measurementUnit = MeasurementUnit.Count;
         //default to not allergen
         this.commonAllergen = false;
     }
@@ -47,18 +61,16 @@ public class Ingredient {
         this.ingredientType = ingredientType;
     }
 
-    public IngredientType stringToIngredientType(String type) {
-        switch(type){
-            case "Protiens":
-                return IngredientType.proteins;
-            case "Vegetables":
-                return IngredientType.vegetable;
-            case "Dairy":
-                return IngredientType.dairy;
-            default:
-                return null;
-        }
+    public MeasurementUnit getMeasurementUnit() {
+        return measurementUnit;
     }
+
+    public void setMeasurementUnit(MeasurementUnit measurementUnit) {
+        this.measurementUnit = measurementUnit;
+    }
+    //deleted unnecessary method
+
+
     @Override
     public boolean equals(Object o) { //needed for the hashtable handling duplicates
         if (this == o) return true;
