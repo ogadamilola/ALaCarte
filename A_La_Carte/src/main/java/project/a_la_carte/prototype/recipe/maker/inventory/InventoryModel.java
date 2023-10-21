@@ -14,19 +14,23 @@ public class InventoryModel {
 
     //ingredientInventory is now a hashmap,
     Map<Ingredient, Double> ingredientInventory;
+
+    List<InventorySubscriber> subscriberList;
     public InventoryModel(){
 
             ingredientInventory = new HashMap<>();
+            subscriberList = new ArrayList<>();
     }
     public Map<Ingredient, Double> getIngredientMap(){
         return ingredientInventory;
     }
 
 
-    public void addIngredient(String name, double quantity, Ingredient.IngredientType type){
+    public void addIngredient(String name, double quantity, Ingredient.IngredientType type, Ingredient.MeasurementUnit unit){
         //addIngredient has been changed for the map
         Ingredient theIngredient =  new Ingredient(name);
         theIngredient.setIngredientType(type);
+        theIngredient.setMeasurementUnit(unit);
 
         //if they key already exists
         if(ingredientInventory.containsKey(theIngredient)) {
@@ -49,13 +53,20 @@ public class InventoryModel {
 
     //TODO addQuantity() method
 
-    //TODO loadDatabase() method of some sort
+    //TODO loadDatabase() or save() method of some sort
 
 
     //TODO work on this
+
+    public void addSub(InventorySubscriber sub){
+        subscriberList.add(sub);
+    }
+
     public void notifySubs(){
-        //will need to change if we add more inventory views
-        inventoryView.modelChanged(ingredientInventory);
+        for(InventorySubscriber sub : subscriberList){
+            sub.modelChanged(ingredientInventory);
+        }
+
     }
 
     public void setView(InventoryView newView){

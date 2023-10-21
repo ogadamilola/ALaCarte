@@ -13,7 +13,8 @@ import project.a_la_carte.prototype.ProgramController;
 
 import java.util.Map;
 
-public class InventoryView extends StackPane {
+public class InventoryView extends StackPane implements InventorySubscriber {
+    //not sure if needed
     InventoryModel inventoryModel;
     /**
      * HBoxes and VBoxes up here are those that updates when changes are made
@@ -24,6 +25,8 @@ public class InventoryView extends StackPane {
     Button submit;
     Button mainMenu;
     ComboBox<Ingredient.IngredientType> typeComboBox;
+
+    ComboBox<Ingredient.MeasurementUnit> measurementUnitComboBox;
     Label listLabel;
     public InventoryView(){
         this.setMaxSize(1000,500);
@@ -57,7 +60,16 @@ public class InventoryView extends StackPane {
         addQuantityHBox.setPrefWidth(300);
         addQuantityHBox.setPadding(new Insets(2,2,2,2));
 
-        //select Measurement method
+        //select measurementUnit
+        HBox measureHBox = new HBox();
+        Label measurementLabel = new Label("Select measurement unit");
+        measurementUnitComboBox = new ComboBox<>();
+        for(Ingredient.MeasurementUnit mUnit : Ingredient.MeasurementUnit.values()){
+            measurementUnitComboBox.getItems().add(mUnit);
+        }
+        measureHBox.getChildren().addAll(measurementLabel,measurementUnitComboBox);
+
+        //select food type
         HBox typeHBox = new HBox();
         Label typeSelectLabel = new Label("Select type of Ingredient");
         typeComboBox = new ComboBox<>();
@@ -65,9 +77,7 @@ public class InventoryView extends StackPane {
         for(Ingredient.IngredientType i : Ingredient.IngredientType.values()){
             typeComboBox.getItems().add(i);
         }
-
         typeHBox.getChildren().addAll(typeSelectLabel,typeComboBox);
-
 
 
 
@@ -75,7 +85,7 @@ public class InventoryView extends StackPane {
         submit = new Button("Submit");
         mainMenu = new Button("Main Menu");
 
-        addVBox.getChildren().addAll(mainMenu, addLabel,addNameHBox, addQuantityHBox,typeHBox, submit);
+        addVBox.getChildren().addAll(mainMenu, addLabel,addNameHBox, addQuantityHBox,measureHBox,typeHBox, submit);
         addVBox.setPadding(new Insets(5,5,5,5));
 
 
@@ -93,6 +103,8 @@ public class InventoryView extends StackPane {
 
         this.getChildren().add(mergeHBox);
     }
+
+    //dont think we need this with the Inventory subscriber but i kept it
     public void setModel(InventoryModel newModel){
         this.inventoryModel = newModel;
 
@@ -113,11 +125,12 @@ public class InventoryView extends StackPane {
 
 
         //for debugging
-        for (Map.Entry<Ingredient, Double> entry : ingredientInventory.entrySet()) {
+        /*for (Map.Entry<Ingredient, Double> entry : ingredientInventory.entrySet()) {
             Ingredient ingredient = entry.getKey();
             Double quantity = entry.getValue();
-            System.out.println(ingredient + " - Stock: " + quantity);
-        }
+            System.out.println(ingredient.getName() + " - Stock: " + quantity + " - " + ingredient.getMeasurementUnit().getName() + " - type " + ingredient.getIngredientType().getName());
+        }*/
+
         //TODO Better display method of inventory
         for (Map.Entry<Ingredient, Double> entry : ingredientInventory.entrySet()) {
 
@@ -137,5 +150,10 @@ public class InventoryView extends StackPane {
     public ComboBox<Ingredient.IngredientType> getTypeComboBox() {
         return typeComboBox;
     }
+
+    public ComboBox<Ingredient.MeasurementUnit> getMeasurementUnitComboBox() {
+        return measurementUnitComboBox;
+    }
 }
+
 
