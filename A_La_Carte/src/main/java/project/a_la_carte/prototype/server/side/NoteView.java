@@ -4,6 +4,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
@@ -14,7 +15,7 @@ import project.a_la_carte.prototype.ProgramController;
 
 public class NoteView extends StackPane {
     ServerModel serverModel;
-    TextField noteText;
+    TextArea noteText;
     //We can use this to send an alert if the Note is successfully saved or not
     Label savedAlert;
     Button save;
@@ -47,11 +48,11 @@ public class NoteView extends StackPane {
         Label textLabel = new Label("Type Here: ");
         textLabel.setFont(new Font(20));
 
-        this.noteText = new TextField();
+        this.noteText = new TextArea();
         this.noteText.setFont(new Font(20));
         this.noteText.setPrefSize(1000,300);
         this.noteText.setStyle("-fx-background-color: lightgrey;\n");
-        this.noteText.setAlignment(Pos.TOP_LEFT);
+        this.noteText.setWrapText(true);
 
         VBox textVBox = new VBox(textLabel, noteText);
         textVBox.setPrefSize(1000,300);
@@ -65,6 +66,10 @@ public class NoteView extends StackPane {
         this.discard = new Button("DISCARD");
         this.discard.setFont(new Font(18));
         this.discard.setStyle("-fx-border-color: black;-fx-background-color: lightpink;\n");
+        this.discard.setOnAction(e ->{
+            this.noteText.clear();
+            this.savedAlert.setText("DELETED!");
+        });
 
         this.savedAlert = new Label("");
         this.savedAlert.setFont(new Font(18));
@@ -83,10 +88,14 @@ public class NoteView extends StackPane {
 
         this.getChildren().add(align);
     }
+    public String getNote(){
+        return noteText.getText();
+    }
     public void setServerModel(ServerModel newModel){
         this.serverModel = newModel;
     }
     public void setController(ProgramController controller){
         this.back.setOnAction(controller::openMenuView);
+        this.save.setOnAction(controller::sendNoteToKitchen);
     }
 }
