@@ -1,13 +1,16 @@
 package project.a_la_carte.prototype.server.side;
 
+
 public class ServerModel {
     MenuView menuView;
     NoteView noteView;
     CustomizeView customizeView;
     ViewOrder viewOrder;
     String noteMessage = "";
+    int orderNumber;
     public ServerModel(){
-
+        //Used when creating order and assigning their number
+        this.orderNumber = 1;
     }
     public void setNoteMessage(){
         this.noteMessage = this.noteView.getNote();
