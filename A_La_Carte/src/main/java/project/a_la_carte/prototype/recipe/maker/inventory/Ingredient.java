@@ -84,9 +84,6 @@ public class Ingredient {
         return Objects.hash(name, ingredientType);
     }
 
-public String measurementToString(){
-        return(this.ingredientType.toString());
-    }
 
     public void setCommonAllergen(boolean commonAllergen) {
         this.commonAllergen = commonAllergen;

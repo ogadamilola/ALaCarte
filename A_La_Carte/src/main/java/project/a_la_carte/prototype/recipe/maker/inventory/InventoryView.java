@@ -134,7 +134,7 @@ public class InventoryView extends StackPane implements InventorySubscriber {
         //TODO Better display method of inventory
         for (Map.Entry<Ingredient, Double> entry : ingredientInventory.entrySet()) {
 
-            IngredientWidget widget = new IngredientWidget(entry.getKey());
+            IngredientWidget widget = new IngredientWidget(entry.getKey(),entry.getValue(), entry.getKey().getMeasurementUnit().getName());
             listVBox.getChildren().add(widget.getWidget());
         }
     }
