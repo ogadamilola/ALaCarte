@@ -10,11 +10,13 @@ public class IngredientWidget {
      * Widget that displays the ingredient in InventoryView
      * @param ingredient
      */
-    public IngredientWidget(Ingredient ingredient) {
+    public IngredientWidget(Ingredient ingredient,Double quantity, String measurement) {
         //we can make this prettier later on
         widget = new HBox(20);
         Label ingredientName = new Label(ingredient.getName());
-        widget.getChildren().add(ingredientName);
+        Label ingredientQuantity = new Label(quantity.toString());
+        Label ingredientMeasurement = new Label(measurement);
+        widget.getChildren().addAll(ingredientName,ingredientQuantity,ingredientMeasurement);
 
     }
 

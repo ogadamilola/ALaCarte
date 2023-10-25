@@ -14,23 +14,38 @@ public class InventoryModel {
 
     //ingredientInventory is now a hashmap,
     Map<Ingredient, Double> ingredientInventory;
+
+    List<InventorySubscriber> subscriberList;
     public InventoryModel(){
 
-            ingredientInventory = new HashMap<>();
+        ingredientInventory = new HashMap<>();
+        subscriberList = new ArrayList<>();
+
+        //this is temporary
+        addIngredient("Burger Patty", 30, Ingredient.IngredientType.Proteins, Ingredient.MeasurementUnit.Count);
+        addIngredient("Burger Bun", 50, Ingredient.IngredientType.Grains, Ingredient.MeasurementUnit.Count);
+        addIngredient("Cheese", 60, Ingredient.IngredientType.Dairy, Ingredient.MeasurementUnit.Count);
+        addIngredient("Lettuce", 10, Ingredient.IngredientType.Vegetable, Ingredient.MeasurementUnit.Pounds);
+        addIngredient("Mayo", 10, Ingredient.IngredientType.Sauce, Ingredient.MeasurementUnit.Pounds);
+        addIngredient("Pepsi", 10, Ingredient.IngredientType.Other, Ingredient.MeasurementUnit.Pounds);
+        notifySubs();
+
     }
     public Map<Ingredient, Double> getIngredientMap(){
         return ingredientInventory;
     }
 
 
-    public void addIngredient(String name, double quantity, Ingredient.IngredientType type){
-        //addIngredient has been changed for the map
+    public void addIngredient(String name, double quantity, Ingredient.IngredientType type, Ingredient.MeasurementUnit unit){
+
         Ingredient theIngredient =  new Ingredient(name);
         theIngredient.setIngredientType(type);
+        theIngredient.setMeasurementUnit(unit);
 
+        //TODO need a more obvious way to add quantity, maybe a add button
         //if they key already exists
         if(ingredientInventory.containsKey(theIngredient)) {
-            //update the value to new amount
+            //add the value to new amount
             Double currentAmount = ingredientInventory.get(theIngredient);
             ingredientInventory.put(theIngredient,currentAmount + quantity);
         }
@@ -38,8 +53,14 @@ public class InventoryModel {
             ingredientInventory.put(theIngredient, quantity);
         }
         notifySubs();
+
     }
 
+    /**
+     * subtract the quantity from inventory
+     * @param ingredient    the key ingredient
+     * @param quantity      the quantity to subtract
+     */
     public void removeQuantity(Ingredient ingredient, double quantity){
 
         double currentStock = ingredientInventory.get(ingredient);
@@ -47,20 +68,34 @@ public class InventoryModel {
         notifySubs();
     }
 
-    //TODO addQuantity() method
+    //TODO unused addQuantity method
+    public void addQuantity(Ingredient ingredient, double quantity){
+        if(ingredientInventory.containsKey(ingredient)) {
+            //add the value to new amount
+            Double currentAmount = ingredientInventory.get(ingredient);
+            ingredientInventory.put(ingredient,currentAmount + quantity);
+            notifySubs();
+        }
+        else{
+            //do nothing for now, idk what it should do
+        }
 
-    //TODO loadDatabase() method of some sort
+    }
 
+    //TODO loadDatabase() or save() method of some sort
 
-    //TODO work on this
+    public void addSub(InventorySubscriber sub){
+        subscriberList.add(sub);
+    }
+
     public void notifySubs(){
-        //will need to change if we add more inventory views
-        inventoryView.modelChanged(ingredientInventory);
+        for(InventorySubscriber sub : subscriberList){
+            sub.modelChanged(ingredientInventory);
+        }
     }
 
-    public void setView(InventoryView newView){
-        this.inventoryView = newView;
-    }
+    //setView not needed with subscribers
+
 
 
 }

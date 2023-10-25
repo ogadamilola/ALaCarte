@@ -26,6 +26,7 @@ public class StartupMVC extends StackPane {
     CustomizeView customizeView;
     ViewOrder viewOrder;
     KitchenView kitchenView;
+
     Button kitchenButton;
     Button inventoryButton;
     Button recipeListButton;
@@ -43,7 +44,10 @@ public class StartupMVC extends StackPane {
         inventoryView.setController(programController);
         inventoryView.setModel(inventoryModel);
 
-        inventoryModel.setView(inventoryView);
+        //no longer needed
+        //inventoryModel.setView(inventoryView);
+        inventoryModel.addSub(inventoryView);
+
 
         programController.setInventoryModel(inventoryModel);
         programController.setInventoryView(inventoryView);
@@ -53,6 +57,9 @@ public class StartupMVC extends StackPane {
         //-----------RECIPE SIDE MVC-------------------------------
         recipeMakerView = new RecipeMakerView();
         RecipeModel recipeModel = new RecipeModel();
+        RecipeInteractiveModel recipeInteractiveModel = new RecipeInteractiveModel();
+
+
 
         recipeMakerView.setRecipeModel(recipeModel);
         recipeMakerView.setRecipeMakerController(programController);
@@ -61,12 +68,17 @@ public class StartupMVC extends StackPane {
 
         recipeListView = new RecipeListView();
 
-        recipeListView.setRecipeListModel(recipeModel);
+
         recipeListView.setController(programController);
 
+        inventoryModel.addSub(recipeMakerView);
+        recipeInteractiveModel.addSubscriber(recipeMakerView);
         recipeModel.setRecipeListView(recipeListView);
 
+        recipeModel.addSubscriber(recipeListView);
+        programController.setRecipeInteractiveModel(recipeInteractiveModel);
         programController.setRecipeModel(recipeModel);
+        programController.setRecipeMakerView(recipeMakerView);
         //--------------------------------------------------------------
 
         //----------------------------------------------------
