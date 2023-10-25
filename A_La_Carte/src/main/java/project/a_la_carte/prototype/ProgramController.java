@@ -1,7 +1,11 @@
 package project.a_la_carte.prototype;
 
 import javafx.event.ActionEvent;
+import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
+import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
 import project.a_la_carte.prototype.kitchen.side.KitchenModel;
 import project.a_la_carte.prototype.recipe.maker.inventory.*;
 import project.a_la_carte.prototype.server.side.ServerModel;
@@ -125,6 +129,28 @@ public class ProgramController {
         }
 
         recipeModel.addNewRecipe(recipeName,recipePrice,recipeDesc,recipeInstruction,recipePrepTime,ingredientMap);
+
+        //clear all the fields
+        recipeMakerView.getRecipeName().clear();
+        recipeMakerView.getRecipePrice().clear();
+        recipeMakerView.getRecipeDescription().clear();
+        recipeMakerView.getRecipeInstruction().clear();
+        recipeMakerView.getRecipePrep().clear();
+
+        //clear recipe iModel
+        recipeInteractiveModel.clearList();
+        recipieAddedPopUp(recipeName);
+    }
+
+    /**
+     * popup window that we can honestly remove
+     * @param recipieName
+     */
+    public void recipieAddedPopUp(String recipieName){
+
+        Stage secondStage = new Stage();
+        secondStage.setScene(new Scene(new HBox(4, new Label(recipieName + " added to Recipie List!"))));
+        secondStage.show();
     }
 
     /**

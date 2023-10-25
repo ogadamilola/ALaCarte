@@ -21,14 +21,14 @@ public class InventoryModel {
         ingredientInventory = new HashMap<>();
         subscriberList = new ArrayList<>();
 
-        //to make testing easier
-        /*addIngredient("Burger Patty", 30, Ingredient.IngredientType.Proteins, Ingredient.MeasurementUnit.Count);
+        //this is temporary
+        addIngredient("Burger Patty", 30, Ingredient.IngredientType.Proteins, Ingredient.MeasurementUnit.Count);
         addIngredient("Burger Bun", 50, Ingredient.IngredientType.Grains, Ingredient.MeasurementUnit.Count);
         addIngredient("Cheese", 60, Ingredient.IngredientType.Dairy, Ingredient.MeasurementUnit.Count);
         addIngredient("Lettuce", 10, Ingredient.IngredientType.Vegetable, Ingredient.MeasurementUnit.Pounds);
         addIngredient("Mayo", 10, Ingredient.IngredientType.Sauce, Ingredient.MeasurementUnit.Pounds);
         addIngredient("Pepsi", 10, Ingredient.IngredientType.Other, Ingredient.MeasurementUnit.Pounds);
-        notifySubs();*/
+        notifySubs();
 
     }
     public Map<Ingredient, Double> getIngredientMap(){
@@ -54,6 +54,7 @@ public class InventoryModel {
         notifySubs();
 
     }
+
 
     public void removeQuantity(Ingredient ingredient, double quantity){
 

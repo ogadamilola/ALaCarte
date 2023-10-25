@@ -33,4 +33,9 @@ public class RecipeInteractiveModel {
     public Map<Ingredient, Double> getTemporaryIngredientMap() {
         return temporaryIngredientMap;
     }
+
+    public void clearList(){
+        temporaryIngredientMap.clear();
+        notifySubscribers();
+    }
 }
