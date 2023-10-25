@@ -11,9 +11,12 @@ public class RecipeModel {
 
     List<Recipe> recipeList;
 
+    List<RecipeModelSubscriber> subscriberList;
+
     public RecipeModel(){
 
         recipeList = new ArrayList<>();
+        subscriberList = new ArrayList<>();
     }
     public void addNewRecipe(String name, double price, String desc, String intruction, double prepTime, HashMap<Ingredient, Double> ingredientMap){
 
@@ -27,11 +30,20 @@ public class RecipeModel {
             recipe.addRecipeIngredients(entry.getKey(), entry.getValue());
         }
         recipeList.add(recipe);
+
         System.out.println(recipe);
     }
 
 
+    public void addSubscriber(RecipeModelSubscriber subscriber){
+        subscriberList.add(subscriber);
+    }
 
+    public void notifySubscribers(){
+        for(RecipeModelSubscriber subscriber : subscriberList){
+            subscriber.RecipieModelChanged(recipeList);
+        }
+    }
     public void setRecipeListView(RecipeListView newView){
         this.recipeListView = newView;
     }

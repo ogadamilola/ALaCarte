@@ -47,6 +47,7 @@ public class ProgramController {
     public void openRecipeList(ActionEvent event){
         this.startupMVC.selectRecipeList();
         this.startupMVC.modelChanged();
+        this.recipeModel.notifySubscribers();
     }
     public void openMenuView(ActionEvent event){
         this.startupMVC.selectMenuView();
@@ -71,8 +72,6 @@ public class ProgramController {
         Ingredient.MeasurementUnit mUnit = inventoryView.getMeasurementUnitComboBox().getValue();
         inventoryModel.addIngredient(ingredientName,quantity,type,mUnit);
 
-        //set event handlers to new menu items
-        recipeMakerView.updateMenuHandlers(this);
     }
 
 
@@ -162,7 +161,7 @@ public class ProgramController {
         String selectedIngredientName = selectedIngredient.getText();
 
 
-        System.out.println(selectedIngredientName);
+        //System.out.println(selectedIngredientName);
         recipeMakerView.getSelectedIngredient().setEditable(true);
         recipeMakerView.getSelectedIngredient().setText(selectedIngredientName);
         recipeMakerView.getSelectedIngredient().setEditable(false);
@@ -199,7 +198,8 @@ public class ProgramController {
         Double recipeQuantity = Double.valueOf(recipeMakerView.getEnterMeasurementField().getText());
         //find the ingredient;
         recipeInteractiveModel.addToMap(ingredient,recipeQuantity);
-        //add ingredient to temp list of ingredients to be displayed
+        //add ingredient to temp list of ingredients to be displayed\
+        recipeMakerView.getEnterMeasurementField().clear();
 
     }
 

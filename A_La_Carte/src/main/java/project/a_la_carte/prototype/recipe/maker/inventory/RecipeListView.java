@@ -11,7 +11,9 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import project.a_la_carte.prototype.ProgramController;
 
-public class RecipeListView extends StackPane {
+import java.util.List;
+
+public class RecipeListView extends StackPane implements RecipeModelSubscriber{
     RecipeModel recipeModel;
     VBox recipeListVBox;
     VBox ingredientVBox;
@@ -42,7 +44,7 @@ public class RecipeListView extends StackPane {
         menuHBox.getChildren().add(mainMenu);
 
 
-        //TODO show existing recipies
+        //TODO show existing recipes
         this.recipeListVBox = new VBox();
         this.recipeListVBox.setStyle("-fx-border-color: black;\n");
         this.recipeListVBox.setPrefSize(300,500);
@@ -151,5 +153,13 @@ public class RecipeListView extends StackPane {
         this.createNewButton.setOnAction(controller::openRecipeMakerScreen);
         this.editIngredients.setOnAction(controller::openRecipeMakerScreen);
         this.mainMenu.setOnAction(controller::openStartUpMVC);
+    }
+
+    @Override
+    public void RecipieModelChanged(List<Recipe> recipeList) {
+        for(Recipe recipe : recipeList){
+            RecipeWidget widget = new RecipeWidget(recipe);
+            recipeListVBox.getChildren().add(widget.getWidget());
+        }
     }
 }

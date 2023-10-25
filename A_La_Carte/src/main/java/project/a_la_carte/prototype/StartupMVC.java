@@ -68,13 +68,14 @@ public class StartupMVC extends StackPane {
 
         recipeListView = new RecipeListView();
 
-        recipeListView.setRecipeListModel(recipeModel);
+
         recipeListView.setController(programController);
 
         inventoryModel.addSub(recipeMakerView);
         recipeInteractiveModel.addSubscriber(recipeMakerView);
         recipeModel.setRecipeListView(recipeListView);
 
+        recipeModel.addSubscriber(recipeListView);
         programController.setRecipeInteractiveModel(recipeInteractiveModel);
         programController.setRecipeModel(recipeModel);
         programController.setRecipeMakerView(recipeMakerView);
