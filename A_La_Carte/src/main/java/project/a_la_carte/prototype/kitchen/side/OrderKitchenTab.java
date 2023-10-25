@@ -35,6 +35,7 @@ public class OrderKitchenTab extends StackPane {
         this.ordersVBox.setStyle("-fx-border-color: black;\n");
         //Filling in the order with recipes
         //this.order.getRecipeList().forEach((order)->{
+        //We can make this a button
          //   Label recipeName = new Label(order)
          //   this.ordersVBox.getChildren().add()
         //});
