@@ -37,14 +37,15 @@ public class InventoryModel {
 
 
     public void addIngredient(String name, double quantity, Ingredient.IngredientType type, Ingredient.MeasurementUnit unit){
-        //addIngredient has been changed for the map
+
         Ingredient theIngredient =  new Ingredient(name);
         theIngredient.setIngredientType(type);
         theIngredient.setMeasurementUnit(unit);
 
+        //TODO need a more obvious way to add quantity, maybe a add button
         //if they key already exists
         if(ingredientInventory.containsKey(theIngredient)) {
-            //update the value to new amount
+            //add the value to new amount
             Double currentAmount = ingredientInventory.get(theIngredient);
             ingredientInventory.put(theIngredient,currentAmount + quantity);
         }
@@ -55,7 +56,11 @@ public class InventoryModel {
 
     }
 
-
+    /**
+     * subtract the quantity from inventory
+     * @param ingredient    the key ingredient
+     * @param quantity      the quantity to subtract
+     */
     public void removeQuantity(Ingredient ingredient, double quantity){
 
         double currentStock = ingredientInventory.get(ingredient);
@@ -63,12 +68,21 @@ public class InventoryModel {
         notifySubs();
     }
 
-    //TODO addQuantity() method
+    //TODO unused addQuantity method
+    public void addQuantity(Ingredient ingredient, double quantity){
+        if(ingredientInventory.containsKey(ingredient)) {
+            //add the value to new amount
+            Double currentAmount = ingredientInventory.get(ingredient);
+            ingredientInventory.put(ingredient,currentAmount + quantity);
+            notifySubs();
+        }
+        else{
+            //do nothing for now, idk what it should do
+        }
+
+    }
 
     //TODO loadDatabase() or save() method of some sort
-
-
-    //TODO work on this
 
     public void addSub(InventorySubscriber sub){
         subscriberList.add(sub);
