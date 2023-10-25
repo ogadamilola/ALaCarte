@@ -1,17 +1,22 @@
 package project.a_la_carte.prototype;
 
 import javafx.event.ActionEvent;
+import javafx.scene.control.MenuItem;
 import project.a_la_carte.prototype.kitchen.side.KitchenModel;
 import project.a_la_carte.prototype.recipe.maker.inventory.*;
 import project.a_la_carte.prototype.server.side.ServerModel;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class ProgramController {
     StartupMVC startupMVC;
     InventoryModel inventoryModel;
     InventoryView inventoryView;
     RecipeModel recipeModel;
+    RecipeInteractiveModel recipeInteractiveModel;
     RecipeMakerView recipeMakerView;
-    IngredientSelectionView ingredientSelectionView;
+
 
     ServerModel serverModel;
     KitchenModel kitchenModel;
@@ -61,6 +66,9 @@ public class ProgramController {
         Ingredient.IngredientType type = inventoryView.getTypeComboBox().getValue();
         Ingredient.MeasurementUnit mUnit = inventoryView.getMeasurementUnitComboBox().getValue();
         inventoryModel.addIngredient(ingredientName,quantity,type,mUnit);
+
+        //set event handlers to new menu items
+        recipeMakerView.updateMenuHandlers(this);
     }
 
 
@@ -77,30 +85,114 @@ public class ProgramController {
     public void setRecipeMakerView(RecipeMakerView recipeMakerView) {
         this.recipeMakerView = recipeMakerView;
     }
-    public void setIngredientSelectionView(IngredientSelectionView ingredientSelectionView) {
-        this.ingredientSelectionView = ingredientSelectionView;
-    }
 
+    public void setRecipeInteractiveModel(RecipeInteractiveModel recipeInteractiveModel) {
+        this.recipeInteractiveModel = recipeInteractiveModel;
+    }
     public void openRecipeMakerScreen(ActionEvent event){
         this.startupMVC.selectRecipeMaker();
         this.startupMVC.modelChanged();
+
+        //i dont know is this is a good solution but it refreshes the menu to stay updated with inventory
+        this.inventoryModel.notifySubs();
+        this.recipeMakerView.updateMenuHandlers(this);//and updates the handlers for every new menu item
     }
 
-    public void openIngredientSelectionView(ActionEvent actionEvent) {
-        //TODO make button open ingredientSelectionView
-        //hopefully a window pops up
-    }
-
+    /**
+     * When the addRecipe button is hit, take all the information from the fields and create a new recipe
+     * take ingredients iModel and use the map to store them in the recipie
+     * @param event
+     */
     public void addRecipie(ActionEvent event){
-        //TODO a way to add ingredients
+
         String recipeName = recipeMakerView.getRecipeName().getText();
         double recipePrice = Double.parseDouble(recipeMakerView.getRecipePrice().getText());
         String recipeDesc = recipeMakerView.getRecipeDescription().getText();
         String recipeInstruction = recipeMakerView.getRecipeInstruction().getText();
         double recipePrepTime = Double.parseDouble(recipeMakerView.getRecipePrep().getText());
 
-        recipeModel.addNewRecipe(recipeName,recipePrice,recipeDesc,recipeInstruction,recipePrepTime);
+        HashMap<Ingredient,Double> ingredientMap = new HashMap<>();
+
+        for (Map.Entry<Ingredient, Double> entry : recipeInteractiveModel.getTemporaryIngredientMap().entrySet()) {
+            Double ingredientQuantity;
+            if(entry.getKey().getMeasurementUnit() == Ingredient.MeasurementUnit.Pounds){
+                ingredientQuantity = ozToPounds(entry.getValue());//convert the oz number inputted for the recipe to pounds
+            }
+            else{
+                ingredientQuantity = entry.getValue();
+            }
+            ingredientMap.put(entry.getKey(), ingredientQuantity);
+        }
+
+        recipeModel.addNewRecipe(recipeName,recipePrice,recipeDesc,recipeInstruction,recipePrepTime,ingredientMap);
     }
+
+    /**
+     * When the user clicks from the menu, show the selected Ingredient in the textfield
+     * @param actionEvent
+     */
+    public void ingredientSelected(ActionEvent actionEvent) {
+        MenuItem selectedIngredient = (MenuItem) actionEvent.getSource();
+        String selectedIngredientName = selectedIngredient.getText();
+
+
+        System.out.println(selectedIngredientName);
+        recipeMakerView.getSelectedIngredient().setEditable(true);
+        recipeMakerView.getSelectedIngredient().setText(selectedIngredientName);
+        recipeMakerView.getSelectedIngredient().setEditable(false);
+
+        //set comboBox to match measurement;
+        Ingredient ingredient = searchIngredientByName(selectedIngredientName);
+        if(ingredient.getMeasurementUnit() == Ingredient.MeasurementUnit.Count){
+            recipeMakerView.getMeasurementBox().setValue("Count");
+        }
+        else{
+            //Ounces makes sense for small recipes, will have to convert ounce to pound
+            recipeMakerView.getMeasurementBox().setValue("Oz");
+        }
+    }
+
+    /**
+     * convert inputted ounce to pounds for subtracting from inventory
+     * @param ounces
+     * @return
+     */
+    public double ozToPounds(double ounces){
+        double pounds = ounces / 16.0;
+        pounds = Math.round(pounds * 10.)/10.0;
+        return pounds;
+    }
+
+    /**
+     * add ingredient in textbox to temp ingredient list in Recipe I model
+     * @param actionEvent
+     */
+    public void addIngredientToRecipie(ActionEvent actionEvent) {
+        String ingredientName = recipeMakerView.getSelectedIngredient().getText();
+        Ingredient ingredient = searchIngredientByName(ingredientName);
+        Double recipeQuantity = Double.valueOf(recipeMakerView.getEnterMeasurementField().getText());
+        //find the ingredient;
+        recipeInteractiveModel.addToMap(ingredient,recipeQuantity);
+        //add ingredient to temp list of ingredients to be displayed
+
+    }
+
+    /**
+     * find ingredient by String name in inventoryModel
+     * @param name gotten from textfield
+     * @return ingredient with matching name
+     * null if not found
+     */
+    public Ingredient searchIngredientByName(String name){
+        for(Ingredient key: inventoryModel.getIngredientMap().keySet()){
+            if(key.getName().equals(name)){
+                return key;
+            }
+        }
+        //handle error better
+        return null;
+    }
+
 
     /**
      * End of Recipe Actions
@@ -133,6 +225,7 @@ public class ProgramController {
         this.startupMVC.selectViewOrder();
         this.startupMVC.modelChanged();
     }
+
 
 
 }

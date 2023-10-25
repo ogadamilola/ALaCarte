@@ -4,25 +4,25 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Recipie {
+public class Recipe {
 
-    private Map<Ingredient,Double> recipieIngredients;
+
+    private Map<Ingredient,Double> recipeIngredients;
     private String name;
     private String description;
     private String prepInstruction;
     private float price;
     private float prepTime;
 
-    public Recipie(String name){
+    public Recipe(String name){
         this.name = name;
-        this.recipieIngredients = new HashMap<>();
+        this.recipeIngredients = new HashMap<>();
 
     }
 
-    public void addRecipieIngredients(Ingredient ingredient,Double amount){
 
-        //TODO make this function work
-        this.recipieIngredients.put(ingredient, amount);
+    public void addRecipeIngredients(Ingredient ingredient,Double amount){
+        this.recipeIngredients.put(ingredient, amount);
      }
 
     public String getName() {
@@ -67,8 +67,8 @@ public class Recipie {
 
     @Override
     public String toString() {
-        return "Recipie{" +
-                //"recipieIngredients=" + recipieIngredients +
+        return "Recipe{" +
+                "recipeIngredients=" + recipeIngredients +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", prepInstruction='" + prepInstruction + '\'' +

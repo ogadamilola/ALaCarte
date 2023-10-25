@@ -18,8 +18,18 @@ public class InventoryModel {
     List<InventorySubscriber> subscriberList;
     public InventoryModel(){
 
-            ingredientInventory = new HashMap<>();
-            subscriberList = new ArrayList<>();
+        ingredientInventory = new HashMap<>();
+        subscriberList = new ArrayList<>();
+
+        //to make testing easier
+        /*addIngredient("Burger Patty", 30, Ingredient.IngredientType.Proteins, Ingredient.MeasurementUnit.Count);
+        addIngredient("Burger Bun", 50, Ingredient.IngredientType.Grains, Ingredient.MeasurementUnit.Count);
+        addIngredient("Cheese", 60, Ingredient.IngredientType.Dairy, Ingredient.MeasurementUnit.Count);
+        addIngredient("Lettuce", 10, Ingredient.IngredientType.Vegetable, Ingredient.MeasurementUnit.Pounds);
+        addIngredient("Mayo", 10, Ingredient.IngredientType.Sauce, Ingredient.MeasurementUnit.Pounds);
+        addIngredient("Pepsi", 10, Ingredient.IngredientType.Other, Ingredient.MeasurementUnit.Pounds);
+        notifySubs();*/
+
     }
     public Map<Ingredient, Double> getIngredientMap(){
         return ingredientInventory;
@@ -42,6 +52,7 @@ public class InventoryModel {
             ingredientInventory.put(theIngredient, quantity);
         }
         notifySubs();
+
     }
 
     public void removeQuantity(Ingredient ingredient, double quantity){
@@ -66,12 +77,10 @@ public class InventoryModel {
         for(InventorySubscriber sub : subscriberList){
             sub.modelChanged(ingredientInventory);
         }
-
     }
 
-    public void setView(InventoryView newView){
-        this.inventoryView = newView;
-    }
+    //setView not needed with subscribers
+
 
 
 }

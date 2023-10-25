@@ -2,17 +2,18 @@ package project.a_la_carte.prototype.recipe.maker.inventory;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import project.a_la_carte.prototype.ProgramController;
 
-public class RecipeMakerView extends StackPane {
+import java.util.Map;
+
+public class RecipeMakerView extends StackPane implements InventorySubscriber, RecipeInteractiveModelSubsciber {
     RecipeModel recipeModel;
+    RecipeInteractiveModel iModel;
     VBox ingredientVBox;
     TextField recipeName;
     TextField recipePrice;
@@ -23,6 +24,11 @@ public class RecipeMakerView extends StackPane {
     Button addIngredient;
     Button recipeList;
     Button mainMenu;
+    TextField selectedIngredient;
+    MenuBar ingredientMenuBar;
+
+    TextField enterMeasurementField;
+    ComboBox<Object> measurementBox;
     public RecipeMakerView(){
         this.setMaxSize(1000,500);
 
@@ -73,9 +79,34 @@ public class RecipeMakerView extends StackPane {
         prepTHBox.setPrefWidth(600);
         prepTHBox.setSpacing(8);
 
+        //menu for selecting ingredients
+        VBox selectionVBox = new VBox();
+        Label selectLabel = new Label("Select Ingredient");
+        ingredientMenuBar = new MenuBar();
+        selectedIngredient = new TextField();
+        selectedIngredient.setEditable(false);
+        addIngredient = new Button("add ingredient");
+
+        for(Ingredient.IngredientType type : Ingredient.IngredientType.values()){
+            Menu typeMenu = new Menu(type.getName());
+            ingredientMenuBar.getMenus().add(typeMenu);
+        }
+
+        HBox amountHBox = new HBox();
+        enterMeasurementField = new TextField();
+
+        measurementBox = new ComboBox<>();
+        measurementBox.getItems().add("Oz");
+        measurementBox.getItems().add(Ingredient.MeasurementUnit.Count);
+
+
+        amountHBox.getChildren().addAll(enterMeasurementField,measurementBox);
+
+        selectionVBox.getChildren().addAll( selectLabel, ingredientMenuBar,selectedIngredient,amountHBox,addIngredient);
+
         mainMenu = new Button("Main Menu");
 
-        createVBox.getChildren().addAll(mainMenu,title, nameHBox,priceHBox,descVBox,prepIVBox,prepTHBox);
+        createVBox.getChildren().addAll(mainMenu,title, nameHBox,priceHBox,descVBox,prepIVBox,prepTHBox,selectionVBox);
         createVBox.setPadding(new Insets(5,5,5,5));
 
         //Right side, ingredient list ---------------------------------------------
@@ -86,8 +117,8 @@ public class RecipeMakerView extends StackPane {
         //ingredientVBox is a variable, so that we can clear it, add ingredients, and delete ingredients
 
         HBox alignHBoxAdd = new HBox();
-        addIngredient = new Button("add ingredient");
-        alignHBoxAdd.getChildren().add(addIngredient);
+
+        //alignHBoxAdd.getChildren().add(addIngredient);
         alignHBoxAdd.setAlignment(Pos.BOTTOM_CENTER);
         alignHBoxAdd.setPrefSize(400,500);
         alignHBoxAdd.setPadding(new Insets(5,5,5,5));
@@ -116,16 +147,78 @@ public class RecipeMakerView extends StackPane {
         this.getChildren().add(connectAll);
     }
 
+    /**
+     * Update the Ingredient selection menu whenever there is a
+     * new ingredient added to InventoryModel
+     * @param ingredientInventory
+     */
+    public void modelChanged(Map<Ingredient, Double> ingredientInventory) {
+        ingredientMenuBar.getMenus().clear();
+        for(Ingredient.IngredientType type : Ingredient.IngredientType.values()){
+
+            Menu typeMenu = new Menu(type.getName());
+            //for each ingredient with the same type make it a menu item
+            for(Map.Entry<Ingredient, Double> entry :ingredientInventory.entrySet() ){
+                if(entry.getKey().getIngredientType().getName().equals(type.getName())){
+                    MenuItem menuItem = new MenuItem(entry.getKey().getName());
+                    typeMenu.getItems().add(menuItem);
+
+                    //System.out.println("Added: " + entry.getKey().getName() + " to " + type.getName() + " menu");
+                }
+            }
+            ingredientMenuBar.getMenus().add(typeMenu);
+
+        }
+    }
+    /**
+     * take updates from Recipie iModel to update recipie list
+     * @param tempIngredientList
+     */
+
+    public void iModelChanged(Map<Ingredient, Double> tempIngredientList) {
+        ingredientVBox.getChildren().clear();
+        //make an ingredient widget and show it in the list
+        for (Map.Entry<Ingredient, Double> entry : tempIngredientList.entrySet()) {
+            String measurement;
+            switch (entry.getKey().getMeasurementUnit()){
+                case Count -> measurement = "Count";
+                case Pounds -> measurement = "Oz";
+                default -> measurement = "Error";
+            }
+            IngredientWidget widget = new IngredientWidget(entry.getKey(),entry.getValue(), measurement);
+            ingredientVBox.getChildren().add(widget.getWidget());
+        }
+    }
     public void setRecipeModel(RecipeModel newModel){
         this.recipeModel = newModel;
+    }
+    public void setRecipeMakerIModel(RecipeInteractiveModel iModel){
+        this.iModel = iModel;
     }
     public void setRecipeMakerController(ProgramController controller){
         mainMenu.setOnAction(controller::openStartUpMVC);
         recipeList.setOnAction(controller::openRecipeList);
-        addIngredient.setOnAction(controller::openIngredientSelectionView);
         saveRecipe.setOnAction(controller::addRecipie);
+        addIngredient.setOnAction(controller::addIngredientToRecipie);
     }
-    //getters for reading fields, will need setters to load recipies in the future
+
+
+
+    /**
+     * update event handlers for the menus
+     * @param controller
+     */
+    public void updateMenuHandlers(ProgramController controller) {
+        for(Menu types: ingredientMenuBar.getMenus() ){
+            for(MenuItem ingredient : types.getItems()){
+
+                ingredient.setOnAction(controller::ingredientSelected);
+            }
+        }
+    }
+
+
+    //getters for reading fields, will need setters to load recipes in the future
     public TextField getRecipeName() {
         return recipeName;
     }
@@ -141,7 +234,15 @@ public class RecipeMakerView extends StackPane {
     public TextField getRecipePrep() {
         return recipePrep;
     }
-    public Button getSaveRecipe() {
-        return saveRecipe;
+    public TextField getSelectedIngredient() {
+        return selectedIngredient;
     }
+    public TextField getEnterMeasurementField() {
+        return enterMeasurementField;
+    }
+    public ComboBox<Object> getMeasurementBox() {
+        return measurementBox;
+    }
+
+
 }
