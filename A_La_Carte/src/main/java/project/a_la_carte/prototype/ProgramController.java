@@ -236,6 +236,10 @@ public class ProgramController {
     /**
      * Here would be the Server Actions
      */
+    public void sendNoteToKitchen(ActionEvent event){
+        this.serverModel.setNoteMessage();
+        this.kitchenModel.addNote(this.serverModel.getNoteMessage());
+    }
     public void setServerModel(ServerModel newModel){
         this.serverModel = newModel;
     }

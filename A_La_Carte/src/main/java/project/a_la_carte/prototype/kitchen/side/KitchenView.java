@@ -14,6 +14,7 @@ public class KitchenView extends StackPane {
     KitchenModel kitchenModel;
     Button mainMenu;
     VBox ordersVBox;
+    HBox notesBox;
     public KitchenView(){
         this.setPrefSize(1000,500);
 
@@ -34,12 +35,26 @@ public class KitchenView extends StackPane {
         topHBox.setStyle("-fx-border-color: black;\n");
 
         this.ordersVBox = new VBox();
-        this.ordersVBox.setPrefSize(1000,500);
+        this.ordersVBox.setPrefSize(1000,350);
         this.ordersVBox.setPadding(new Insets(10,10,10,10));
         //Bordering it red just to show the area the orders take up
         this.ordersVBox.setStyle("-fx-border-color: red;\n");
 
-        VBox align = new VBox(topHBox,ordersVBox);
+        this.notesBox = new HBox();
+        this.notesBox.setPrefSize(1000,150);
+        this.notesBox.setSpacing(5);
+        this.notesBox.setStyle("-fx-border-color: black;\n");
+
+        if (kitchenModel!=null && !kitchenModel.getNoteList().isEmpty()) {
+            kitchenModel.getNoteList().forEach((notes) -> {
+                this.notesBox.getChildren().add(notes);
+            });
+        }
+
+        VBox alignOrderNote = new VBox(ordersVBox,notesBox);
+        alignOrderNote.setPrefSize(1000,500);
+
+        VBox align = new VBox(topHBox,alignOrderNote);
         align.setPrefSize(1000,500);
 
         this.getChildren().addAll(align);
@@ -49,5 +64,14 @@ public class KitchenView extends StackPane {
     }
     public void setController(ProgramController controller){
         this.mainMenu.setOnAction(controller::openStartUpMVC);
+    }
+    public void modelChanged(){
+        this.notesBox.getChildren().clear();
+
+        if (!this.kitchenModel.getNoteList().isEmpty()){
+            kitchenModel.getNoteList().forEach((notes) ->{
+                this.notesBox.getChildren().add(notes);
+            });
+        }
     }
 }
