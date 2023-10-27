@@ -269,6 +269,7 @@ public class ProgramController {
         }
     }
     public void addItemToMenu(ActionEvent event){
+
         if (menuItemMakerView.getMenuItemName() != null && menuItemMakerView.getMenuItemDescription() != null) {
             MenuFoodItem newItem = new MenuFoodItem(menuItemModel.getAddedRecipes(), menuItemMakerView.getMenuItemName(), menuItemMakerView.getMenuItemDescription());
             if (!menuItemMakerView.getMenuPrice().isBlank()) {
