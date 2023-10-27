@@ -255,7 +255,4 @@ public class ProgramController {
         this.startupMVC.selectViewOrder();
         this.startupMVC.modelChanged();
     }
-
-
-
 }
