@@ -18,20 +18,32 @@ public class MenuFoodItem {
     private String name;
     private String description;
     private float price = 0;
-
     private float prepTime = 0;
-
-
+    MenuItemListButton menuItemListButton;
+    Boolean selectedStatus;
     public MenuFoodItem(ArrayList<Recipe> listOfRecipes, String name, String desc) {
         this.name = name;
         this.description = desc;
         this.menuItemRecipes = listOfRecipes;
-        menuItemRecipes.forEach((recipe -> {
-            this.price += recipe.getPrice();
-            this.prepTime = max(recipe.getPrepTime(), this.prepTime);
-        }));
+        this.menuItemListButton = new MenuItemListButton(name);
+        selectedStatus = false;
+        if (menuItemRecipes != null) {
+            menuItemRecipes.forEach((recipe -> {
+                this.price += recipe.getPrice();
+                this.prepTime = max(recipe.getPrepTime(), this.prepTime);
+            }));
+        }
     }
-
+    public MenuItemListButton getButton(){return this.menuItemListButton;}
+    public Boolean getSelectedStatus(){return this.selectedStatus;}
+    public void selectedRecipe(){
+        this.selectedStatus = true;
+        this.getButton().select();
+    }
+    public void unselectRecipe(){
+        this.selectedStatus = false;
+        this.getButton().unselect();
+    }
     public void addMenuItemRecipes(Recipe newRecipe){
         this.menuItemRecipes.add(newRecipe);
 

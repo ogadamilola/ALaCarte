@@ -271,14 +271,15 @@ public class ProgramController {
     public void addItemToMenu(ActionEvent event){
         if (menuItemMakerView.getMenuItemName() != null && menuItemMakerView.getMenuItemDescription() != null) {
             MenuFoodItem newItem = new MenuFoodItem(menuItemModel.getAddedRecipes(), menuItemMakerView.getMenuItemName(), menuItemMakerView.getMenuItemDescription());
-            if (menuItemMakerView.getMenuPrice() != null) {
+            if (!menuItemMakerView.getMenuPrice().isBlank()) {
                 newItem.setPrice(menuItemMakerView.setMenuPrice());
             }
-            if (menuItemMakerView.getMenuPrep() != null) {
+            if (!menuItemMakerView.getMenuPrep().isBlank()) {
                 newItem.setPrepTime(menuItemMakerView.setMenuPrep());
             }
             this.menuItemModel.addNewMenuItem(newItem);
             menuItemMakerView.clearTextFields();
+            this.menuItemModel.resetAddedRecipes();
         }
     }
     /**

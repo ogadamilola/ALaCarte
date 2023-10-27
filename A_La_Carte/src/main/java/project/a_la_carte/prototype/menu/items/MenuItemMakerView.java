@@ -73,15 +73,7 @@ public class MenuItemMakerView extends StackPane implements MenuItemModelSubscri
         prepBox.setPrefWidth(500);
         prepBox.setPadding(new Insets(2));
 
-        //menu for selecting ingredients
-        VBox selectionVBox = new VBox();
-        Label selectLabel = new Label("Select recipes");
-        recipeMenuBar = new MenuBar();
-        selectedRecipe = new TextField();
-        selectedRecipe.setEditable(false);
-
         addRecipe = new Button("Add Selected Recipe");
-
         mainMenu = new Button("Main Menu");
 
         createVBox.getChildren().addAll(mainMenu,title, nameHBox,descVBox,priceBox,prepBox);

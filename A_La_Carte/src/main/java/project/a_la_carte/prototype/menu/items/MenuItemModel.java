@@ -19,7 +19,13 @@ public class MenuItemModel {
         addedRecipes = new ArrayList<>();
     }
     public void addRecipesToItem(Recipe recipe){
-        this.addedRecipes.add(recipe);
+        Recipe newRecipe = new Recipe(recipe.getName());
+        newRecipe.setDescription(recipe.getDescription());
+        newRecipe.setPrice(recipe.getPrice());
+        newRecipe.setPrepTime(recipe.getPrepTime());
+        newRecipe.setPrepInstruction(recipe.getPrepInstruction());
+
+        this.addedRecipes.add(newRecipe);
         notifySubscribers();
     }
     public void removeRecipeFromItem(Recipe recipe){
@@ -45,6 +51,10 @@ public class MenuItemModel {
         this.selectedAddedRecipe = newRecipe;
         newRecipe.selectedRecipe();
     }
+    public void setSelectedAddedRecipe(ArrayList<Recipe> newList){
+        this.addedRecipes = newList;
+        notifySubscribers();
+    }
     public void setRecipeArrayList(ArrayList<Recipe> newList){
         this.recipeArrayList = newList;
         notifySubscribers();
@@ -65,7 +75,11 @@ public class MenuItemModel {
         notifySubscribers();
     }
     public void selectMenuItem(MenuFoodItem newItem){
+        menuItemsList.forEach((MenuFoodItem::unselectRecipe));
+
         this.selectedItem = newItem;
+        this.addedRecipes = selectedItem.getMenuItemRecipes();
+        notifySubscribers();
     }
     public MenuFoodItem getSelectedItem(){return this.selectedItem;}
     public void addSubscriber(MenuItemModelSubscriber subscriber){

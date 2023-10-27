@@ -63,6 +63,7 @@ public class MenuItemListView extends StackPane implements MenuItemModelSubscrib
         descLabel.setFont(new Font(20));
         this.menuItemDescription = new Label();
         this.menuItemDescription.setPrefSize(400,300);
+        this.menuItemDescription.setAlignment(Pos.TOP_LEFT);
         this.menuItemDescription.setStyle("-fx-border-color: black;\n");
         menuItemDescription.setWrapText(true);
 
@@ -134,9 +135,28 @@ public class MenuItemListView extends StackPane implements MenuItemModelSubscrib
     @Override
     public void MenuItemModelChanged(List<MenuFoodItem> menuItemList) {
         menuItemListVBox.getChildren().clear();
-        //for(MenuFoodItem menuItem : menuItemList){
-            //MenuItemWidget widget = new MenuItemWidget(menuItem);
-            //menuItemListVBox.getChildren().add(widget.getWidget());
-        //}
+        recipeListVBox.getChildren().clear();
+
+        if (menuItemModel.getMenuItemsList() != null){
+            menuItemModel.getMenuItemsList().forEach((item ->{
+                item.getButton().setOnAction((event -> {
+                    menuItemModel.selectMenuItem(item);
+                }));
+                menuItemListVBox.getChildren().add(item.getButton());
+            }));
+        }
+        if (menuItemModel.getSelectedItem() != null){
+            this.selectedTitle.setText("Selected Item: "+ menuItemModel.getSelectedItem().getName());
+            this.menuItemDescription.setText(menuItemModel.getSelectedItem().getDescription());
+            this.menuItemPrice.setText(String.valueOf(menuItemModel.getSelectedItem().getPrice()));
+            this.menuItemPrepT.setText(String.valueOf(menuItemModel.getSelectedItem().getPrepTime()));
+
+            if (menuItemModel.selectedItem.getMenuItemRecipes() != null) {
+                menuItemModel.selectedItem.getMenuItemRecipes().forEach((recipe -> {
+                    Label newLabel = new Label(recipe.getName());
+                    this.recipeListVBox.getChildren().add(newLabel);
+                }));
+            }
+        }
     }
 }

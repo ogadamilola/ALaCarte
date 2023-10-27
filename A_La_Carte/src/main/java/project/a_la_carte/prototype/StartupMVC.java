@@ -145,6 +145,7 @@ public class StartupMVC extends StackPane {
         menuItemModel.addSubscriber(menuItemMakerView);
 
         programController.setMenuItemModel(menuItemModel);
+        programController.setMenuItemMakerView(this.menuItemMakerView);
         //--------------------------------------------------------
 
         //------------------------------------------------
