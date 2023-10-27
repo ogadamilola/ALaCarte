@@ -36,6 +36,7 @@ public class InventoryModel {
     }
 
 
+
     public void addIngredient(String name, double quantity, Ingredient.IngredientType type, Ingredient.MeasurementUnit unit){
 
         Ingredient theIngredient =  new Ingredient(name);

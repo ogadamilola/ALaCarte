@@ -29,8 +29,7 @@ public class InventoryView extends StackPane implements InventorySubscriber {
     ComboBox<Ingredient.IngredientType> typeComboBox;
 
     ComboBox<Ingredient.MeasurementUnit> measurementUnitComboBox;
-    Label listLabel;
-
+    Button clearButton;
     TableView<IngredientData> inventoryTable;
     TableColumn<IngredientData,String> nameCol;
     TableColumn<IngredientData,Double> quantityCol;
@@ -92,8 +91,9 @@ public class InventoryView extends StackPane implements InventorySubscriber {
         //Will probably have to be a variable as well to connect with controller class
         submit = new Button("Submit");
         mainMenu = new Button("Main Menu");
+        clearButton = new Button("Clear");
 
-        addVBox.getChildren().addAll(mainMenu, addLabel,addNameHBox, addQuantityHBox,measureHBox,typeHBox, submit);
+        addVBox.getChildren().addAll(mainMenu, addLabel,addNameHBox, addQuantityHBox,measureHBox,typeHBox,clearButton, submit);
         addVBox.setPadding(new Insets(5,5,5,5));
 
         //tables are so weird to work with but looks so much better
@@ -123,11 +123,8 @@ public class InventoryView extends StackPane implements InventorySubscriber {
         listVBox.setPrefSize(700,500);
         listVBox.setStyle("-fx-border-color: black;\n");
         listVBox.getChildren().add(inventoryTable);
-        /*listLabel = new Label("Inventory");
-        listLabel.setFont(new Font(20));
 
-        listVBox.getChildren().add(listLabel);
-        listVBox.setPadding(new Insets(5,5,5,5));*/
+        listVBox.setPadding(new Insets(5,5,5,5));
 
         HBox mergeHBox = new HBox();
         mergeHBox.getChildren().addAll(addVBox,listVBox);
@@ -143,7 +140,8 @@ public class InventoryView extends StackPane implements InventorySubscriber {
     public void setController(ProgramController controller){
         mainMenu.setOnAction(controller::openStartUpMVC);
         submit.setOnAction(controller::handleNewIngredient);
-
+        inventoryTable.setOnMouseClicked(controller::loadIngredient);
+        clearButton.setOnAction(controller::clearFields);
     }
 
     public void modelChanged(Map<Ingredient, Double> ingredientInventory){
@@ -194,6 +192,11 @@ public class InventoryView extends StackPane implements InventorySubscriber {
     public ComboBox<Ingredient.MeasurementUnit> getMeasurementUnitComboBox() {
         return measurementUnitComboBox;
     }
+
+    public TableView<IngredientData> getInventoryTable(){
+        return inventoryTable;
+    }
 }
+
 
 

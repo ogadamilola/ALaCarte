@@ -4,6 +4,8 @@ import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.TableView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import project.a_la_carte.prototype.kitchen.side.KitchenModel;
@@ -66,14 +68,47 @@ public class ProgramController {
         this.inventoryView = inventoryView;
     }
     public void handleNewIngredient(ActionEvent actionEvent) {
+        try{
         String ingredientName = inventoryView.getNameText().getText();
         Double quantity = Double.valueOf(inventoryView.getQuantityText().getText());
         Ingredient.IngredientType type = inventoryView.getTypeComboBox().getValue();
         Ingredient.MeasurementUnit mUnit = inventoryView.getMeasurementUnitComboBox().getValue();
         inventoryModel.addIngredient(ingredientName,quantity,type,mUnit);
 
+        if (ingredientName.isEmpty() || type == null || mUnit == null) {
+            throw new IllegalArgumentException("Please fill in all the required fields.");
+        }
+        } catch(NumberFormatException e){
+            System.out.println("ERROR: Quantity must be a valid number");
+        } catch(IllegalArgumentException e){
+            System.out.println("ERROR:" + e.getMessage());
+        } catch (Exception e){
+            System.out.println("An unexpected error occurred: " + e.getMessage());
+        }
+
+    }
+    public void loadIngredient(MouseEvent mouseEvent) {
+        String ingredientName = inventoryView.getInventoryTable().getSelectionModel().getSelectedItem().getIngredient().getName();
+        Double quantity = inventoryView.getInventoryTable().getSelectionModel().getSelectedItem().getQuantity();
+        Ingredient.MeasurementUnit measurementUnit = inventoryView.getInventoryTable().getSelectionModel().getSelectedItem().getIngredient().getMeasurementUnit();
+        Ingredient.IngredientType ingredientType = inventoryView.getInventoryTable().getSelectionModel().getSelectedItem().getIngredient().getIngredientType();
+
+        inventoryView.getNameText().setText(ingredientName);
+        inventoryView.getNameText().setEditable(false);
+        inventoryView.getQuantityText().setText(String.valueOf(quantity));
+        inventoryView.getMeasurementUnitComboBox().setValue(measurementUnit);
+        inventoryView.getTypeComboBox().setValue(ingredientType);
     }
 
+    public void clearFields(ActionEvent actionEvent) {
+        inventoryView.getNameText().clear();
+        inventoryView.getNameText().setEditable(true);
+        inventoryView.getQuantityText().clear();
+        inventoryView.getQuantityText().setEditable(true);
+        inventoryView.getMeasurementUnitComboBox().setValue(null);
+        inventoryView.getMeasurementUnitComboBox().setEditable(true);
+        inventoryView.getTypeComboBox().setValue(null);
+    }
 
 
     /**
@@ -255,4 +290,7 @@ public class ProgramController {
         this.startupMVC.selectViewOrder();
         this.startupMVC.modelChanged();
     }
+
+
+
 }
