@@ -1,12 +1,15 @@
 package project.a_la_carte.prototype.recipe.maker.inventory;
 
-import javafx.beans.property.*;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 import java.util.Objects;
 
 public class Ingredient {
-
     private String name;
+    private IngredientType ingredientType;
+    private MeasurementUnit measurementUnit;
+    private boolean commonAllergen;
 
     public enum IngredientType{
         Proteins("Proteins"),Dairy("Dairy"),Grains("Grains"),Vegetable("Vegetables"),Sauce("Sauce"),Other("Other");
@@ -19,8 +22,6 @@ public class Ingredient {
         }
     }
 
-    IngredientType ingredientType;
-
     public enum MeasurementUnit{
         Pounds("Pounds"), Count("Count");
         private String name;
@@ -31,9 +32,6 @@ public class Ingredient {
             return name;
         }
     }
-    MeasurementUnit measurementUnit;
-    private boolean commonAllergen;
-
     /**
      * @param name of ingredient
      */
@@ -47,32 +45,33 @@ public class Ingredient {
         //default to not allergen
         this.commonAllergen = false;
     }
-
     public String getName() {
         return name;
     }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-
     public IngredientType getIngredientType() {
         return ingredientType;
-    }
-
-    public void setIngredientType(IngredientType ingredientType) {
-        this.ingredientType = ingredientType;
     }
 
     public MeasurementUnit getMeasurementUnit() {
         return measurementUnit;
     }
 
+    public void setCommonAllergen(boolean commonAllergen) {
+        this.commonAllergen = commonAllergen;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
+    public void setIngredientType(IngredientType ingredientType) {
+        this.ingredientType = ingredientType;
+    }
     public void setMeasurementUnit(MeasurementUnit measurementUnit) {
         this.measurementUnit = measurementUnit;
     }
     //deleted unnecessary method
+
+
+    //property stuff for table
 
 
     @Override
@@ -89,8 +88,8 @@ public class Ingredient {
     }
 
 
-    public void setCommonAllergen(boolean commonAllergen) {
-        this.commonAllergen = commonAllergen;
-    }
+
+
+
 }
 

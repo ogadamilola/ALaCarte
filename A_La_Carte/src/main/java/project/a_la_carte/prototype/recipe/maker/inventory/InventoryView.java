@@ -1,10 +1,12 @@
 package project.a_la_carte.prototype.recipe.maker.inventory;
 
+import javafx.beans.property.ReadOnlyDoubleWrapper;
+import javafx.beans.property.ReadOnlyStringWrapper;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -28,6 +30,14 @@ public class InventoryView extends StackPane implements InventorySubscriber {
 
     ComboBox<Ingredient.MeasurementUnit> measurementUnitComboBox;
     Label listLabel;
+
+    TableView<IngredientData> inventoryTable;
+    TableColumn<IngredientData,String> nameCol;
+    TableColumn<IngredientData,Double> quantityCol;
+    TableColumn<IngredientData,String> typeCol;
+    TableColumn<IngredientData,String> statusCol;
+    TableColumn<IngredientData,String> measurementUnitCol;
+
     public InventoryView(){
         this.setMaxSize(1000,500);
         VBox addVBox = new VBox();
@@ -79,8 +89,6 @@ public class InventoryView extends StackPane implements InventorySubscriber {
         }
         typeHBox.getChildren().addAll(typeSelectLabel,typeComboBox);
 
-
-
         //Will probably have to be a variable as well to connect with controller class
         submit = new Button("Submit");
         mainMenu = new Button("Main Menu");
@@ -88,15 +96,38 @@ public class InventoryView extends StackPane implements InventorySubscriber {
         addVBox.getChildren().addAll(mainMenu, addLabel,addNameHBox, addQuantityHBox,measureHBox,typeHBox, submit);
         addVBox.setPadding(new Insets(5,5,5,5));
 
+        //tables are so weird to work with but looks so much better
+        inventoryTable = new TableView<>();
+        nameCol = new TableColumn<>("Ingredient Name");
+        nameCol.setMinWidth(120);
+
+        quantityCol = new TableColumn<>("Quantity");
+        quantityCol.setMaxWidth(70);
+        quantityCol.setMinWidth(70);
+
+
+        measurementUnitCol = new TableColumn<>("Unit");
+        measurementUnitCol.setMinWidth(50);
+        measurementUnitCol.setMaxWidth(50);
+
+        typeCol = new TableColumn<>("Type");
+
+        statusCol = new TableColumn<>("Status");
+
+        inventoryTable.getColumns().addAll(nameCol,quantityCol,measurementUnitCol,typeCol,statusCol);
+        inventoryTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+
 
         //TODO use tableview here to show
+        inventoryTable.setPrefSize(700,700);
         listVBox.setPrefSize(700,500);
         listVBox.setStyle("-fx-border-color: black;\n");
-        listLabel = new Label("Inventory");
+        listVBox.getChildren().add(inventoryTable);
+        /*listLabel = new Label("Inventory");
         listLabel.setFont(new Font(20));
 
         listVBox.getChildren().add(listLabel);
-        listVBox.setPadding(new Insets(5,5,5,5));
+        listVBox.setPadding(new Insets(5,5,5,5));*/
 
         HBox mergeHBox = new HBox();
         mergeHBox.getChildren().addAll(addVBox,listVBox);
@@ -121,8 +152,7 @@ public class InventoryView extends StackPane implements InventorySubscriber {
         quantityText.clear();
 
         listVBox.getChildren().clear();//redraw list
-        listVBox.getChildren().add(listLabel);
-
+        listVBox.getChildren().add(inventoryTable);
 
         //for debugging
         /*for (Map.Entry<Ingredient, Double> entry : ingredientInventory.entrySet()) {
@@ -131,12 +161,22 @@ public class InventoryView extends StackPane implements InventorySubscriber {
             System.out.println(ingredient.getName() + " - Stock: " + quantity + " - " + ingredient.getMeasurementUnit().getName() + " - type " + ingredient.getIngredientType().getName());
         }*/
 
-        //TODO Better display method of inventory
-        for (Map.Entry<Ingredient, Double> entry : ingredientInventory.entrySet()) {
 
-            IngredientWidget widget = new IngredientWidget(entry.getKey(),entry.getValue(), entry.getKey().getMeasurementUnit().getName());
-            listVBox.getChildren().add(widget.getWidget());
+        //new way to display inventory
+        ObservableList<IngredientData> data = FXCollections.observableArrayList();
+        for (Map.Entry<Ingredient, Double> entry : ingredientInventory.entrySet()) {
+            Ingredient ingredient = entry.getKey();
+            Double quantity = entry.getValue();
+            IngredientData theData = new IngredientData(ingredient,quantity);
+            data.add(theData);
         }
+        inventoryTable.setItems(data);
+        nameCol.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
+        quantityCol.setCellValueFactory(cellData -> cellData.getValue().quantityProperty().asObject());
+        measurementUnitCol.setCellValueFactory(cellData -> cellData.getValue().measurementProperty());
+        typeCol.setCellValueFactory(cellData -> cellData.getValue().typeProperty());
+        statusCol.setCellValueFactory(cellData -> cellData.getValue().statusProperty());
+
     }
 
     public TextField getNameText() {
