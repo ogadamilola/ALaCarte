@@ -6,6 +6,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
+import org.controlsfx.control.action.Action;
 import project.a_la_carte.prototype.kitchen.side.KitchenModel;
 import project.a_la_carte.prototype.menu.items.MenuFoodItem;
 import project.a_la_carte.prototype.menu.items.MenuItemListView;
@@ -256,8 +257,24 @@ public class ProgramController {
         this.menuItemMakerView = newView;
     }
     public void openMenuMakerView(ActionEvent event){
+        this.menuItemMakerView.setSave();
         this.startupMVC.selectMenuMakerView();
         this.startupMVC.modelChanged();
+    }
+    public void editMenuMakerView(ActionEvent event){
+        this.menuItemMakerView.setEdit();
+
+        menuItemMakerView.setNameText(menuItemModel.getSelectedItem().getName());
+        menuItemMakerView.setDescText(menuItemModel.getSelectedItem().getDescription());
+        menuItemMakerView.setPriceText(String.valueOf(menuItemModel.getSelectedItem().getPrice()));
+        menuItemMakerView.setPrepText(String.valueOf(menuItemModel.getSelectedItem().getPrepTime()));
+
+        this.menuItemModel.notifySubscribers();
+        this.startupMVC.selectMenuMakerView();
+        this.startupMVC.modelChanged();
+    }
+    public void deleteMenuItem(ActionEvent event){
+        this.menuItemModel.deleteMenuItem(menuItemModel.getSelectedItem());
     }
     public void addRecipeToItem(ActionEvent event){
         if (this.menuItemModel.getSelectedRecipe() != null){
@@ -269,7 +286,6 @@ public class ProgramController {
         }
     }
     public void addItemToMenu(ActionEvent event){
-
         if (menuItemMakerView.getMenuItemName() != null && menuItemMakerView.getMenuItemDescription() != null) {
             MenuFoodItem newItem = new MenuFoodItem(menuItemModel.getAddedRecipes(), menuItemMakerView.getMenuItemName(), menuItemMakerView.getMenuItemDescription());
             if (!menuItemMakerView.getMenuPrice().isBlank()) {
@@ -281,6 +297,23 @@ public class ProgramController {
             this.menuItemModel.addNewMenuItem(newItem);
             menuItemMakerView.clearTextFields();
             this.menuItemModel.resetAddedRecipes();
+        }
+    }
+    public void saveEditsToItem(ActionEvent event){
+        if (menuItemMakerView.getMenuItemName() != null && menuItemMakerView.getMenuItemDescription() != null) {
+            menuItemModel.getSelectedItem().setName(menuItemMakerView.getMenuItemName());
+            menuItemModel.getSelectedItem().setDescription(menuItemMakerView.getMenuItemDescription());
+            if (!menuItemMakerView.getMenuPrice().isBlank()) {
+                menuItemModel.getSelectedItem().setPrice(menuItemMakerView.setMenuPrice());
+            }
+            if (!menuItemMakerView.getMenuPrep().isBlank()) {
+                menuItemModel.getSelectedItem().setPrepTime(menuItemMakerView.setMenuPrep());
+            }
+            menuItemMakerView.clearTextFields();
+            this.menuItemModel.resetAddedRecipes();
+
+            this.startupMVC.selectMenuItemList();
+            this.startupMVC.modelChanged();
         }
     }
     /**

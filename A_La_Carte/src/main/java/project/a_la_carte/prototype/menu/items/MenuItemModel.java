@@ -74,11 +74,19 @@ public class MenuItemModel {
         this.menuItemsList.add(menuFoodItem);
         notifySubscribers();
     }
+    public void deleteMenuItem(MenuFoodItem item){
+        this.menuItemsList.remove(item);
+        menuItemsList.forEach((MenuFoodItem::unselectRecipe));
+
+        this.selectedItem = null;
+        notifySubscribers();
+    }
     public void selectMenuItem(MenuFoodItem newItem){
         menuItemsList.forEach((MenuFoodItem::unselectRecipe));
 
         this.selectedItem = newItem;
-        this.addedRecipes = selectedItem.getMenuItemRecipes();
+        this.selectedItem.getButton().select();
+        this.setSelectedAddedRecipe(selectedItem.getMenuItemRecipes());
         notifySubscribers();
     }
     public MenuFoodItem getSelectedItem(){return this.selectedItem;}

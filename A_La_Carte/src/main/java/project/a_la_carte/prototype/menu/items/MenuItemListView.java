@@ -17,6 +17,7 @@ public class MenuItemListView extends StackPane implements MenuItemModelSubscrib
     MenuItemModel menuItemModel;
     VBox menuItemListVBox;
     VBox recipeListVBox;
+    HBox modifyButtons;
     Label selectedTitle;
     Label menuItemDescription;
     Label menuItemPrice;
@@ -24,7 +25,7 @@ public class MenuItemListView extends StackPane implements MenuItemModelSubscrib
     Button mainMenu;
     Button createNewButton;
     Button deleteButton;
-    Button editRecipe;
+    Button editButton;
 
     public MenuItemListView(){
         this.setPrefSize(1000,500);
@@ -44,8 +45,6 @@ public class MenuItemListView extends StackPane implements MenuItemModelSubscrib
         topAlign.setPrefWidth(1000);
         topAlign.setStyle("-fx-border-color: black;\n");
         topAlign.setPadding(new Insets(5));
-
-        this.createNewButton = new Button("Create New Menu Item");
 
         Label menuTitle = new Label("Menu Items");
         this.menuItemListVBox = new VBox();
@@ -89,7 +88,15 @@ public class MenuItemListView extends StackPane implements MenuItemModelSubscrib
         prepVBox.setPrefSize(400,100);
         prepVBox.setPadding(new Insets(5));
 
-        VBox informationVBox = new VBox(descVBox,priceHBox,prepVBox);
+        this.editButton = new Button("Edit Recipe");
+        this.deleteButton = new Button("Delete Recipe");
+        modifyButtons = new HBox();
+        modifyButtons.setPrefWidth(400);
+        modifyButtons.setSpacing(3);
+        modifyButtons.setAlignment(Pos.BOTTOM_CENTER);
+        modifyButtons.setPadding(new Insets(2));
+
+        VBox informationVBox = new VBox(descVBox,priceHBox,prepVBox, modifyButtons);
         informationVBox.setPrefSize(400,500);
         informationVBox.setStyle("-fx-border-color: black;\n");
 
@@ -104,6 +111,7 @@ public class MenuItemListView extends StackPane implements MenuItemModelSubscrib
         this.recipeListVBox.setPadding(new Insets(5));
 
         this.createNewButton = new Button("Create New Menu Item");
+
         HBox createBox = new HBox(createNewButton);
         createBox.setPrefWidth(300);
         createBox.setAlignment(Pos.BOTTOM_RIGHT);
@@ -127,8 +135,9 @@ public class MenuItemListView extends StackPane implements MenuItemModelSubscrib
     }
     public void setController(ProgramController controller){
         this.createNewButton.setOnAction(controller::openMenuMakerView);
-        //this.editIngredients.setOnAction(controller::openMenuItemMakerScreen);
+        this.editButton.setOnAction(controller::editMenuMakerView);
         this.mainMenu.setOnAction(controller::openStartUpMVC);
+        this.deleteButton.setOnAction(controller::deleteMenuItem);
     }
 
 
@@ -136,6 +145,7 @@ public class MenuItemListView extends StackPane implements MenuItemModelSubscrib
     public void MenuItemModelChanged(List<MenuFoodItem> menuItemList) {
         menuItemListVBox.getChildren().clear();
         recipeListVBox.getChildren().clear();
+        modifyButtons.getChildren().clear();
 
         if (menuItemModel.getMenuItemsList() != null){
             menuItemModel.getMenuItemsList().forEach((item ->{
@@ -150,6 +160,7 @@ public class MenuItemListView extends StackPane implements MenuItemModelSubscrib
             this.menuItemDescription.setText(menuItemModel.getSelectedItem().getDescription());
             this.menuItemPrice.setText(String.valueOf(menuItemModel.getSelectedItem().getPrice()));
             this.menuItemPrepT.setText(String.valueOf(menuItemModel.getSelectedItem().getPrepTime()));
+            this.modifyButtons.getChildren().addAll(editButton,deleteButton);
 
             if (menuItemModel.selectedItem.getMenuItemRecipes() != null) {
                 menuItemModel.selectedItem.getMenuItemRecipes().forEach((recipe -> {
@@ -157,6 +168,12 @@ public class MenuItemListView extends StackPane implements MenuItemModelSubscrib
                     this.recipeListVBox.getChildren().add(newLabel);
                 }));
             }
+        }
+        else{
+            this.selectedTitle.setText("Selected Item: Select Item");
+            this.menuItemDescription.setText("");
+            this.menuItemPrice.setText("");
+            this.menuItemPrepT.setText("");
         }
     }
 }

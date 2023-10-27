@@ -17,22 +17,22 @@ public class MenuItemMakerView extends StackPane implements MenuItemModelSubscri
     MenuItemModel menuItemModel;
     VBox recipeVBOX;
     VBox selectRecipeVBox;
+    HBox buttonsHBox;
     TextField menuItemName;
     TextArea menuItemDescription;
     TextField menuItemPrice;
     TextField menuItemPrep;
     Button saveMenuItem;
+    Button editMenuItem;
     Button addRecipe;
     Button removeRecipe;
     Button menuItemList;
     Button mainMenu;
-    TextField selectedRecipe;
-    MenuBar recipeMenuBar;
+    Boolean edit;
 
     public MenuItemMakerView(){
-
         this.setMaxSize(1000,500);
-
+        this.edit = false;
         //Left side of MenuItem Creator page
         //----------------------------------------------------
         VBox createVBox = new VBox();
@@ -124,9 +124,11 @@ public class MenuItemMakerView extends StackPane implements MenuItemModelSubscri
         alignRecipe.setPrefSize(600,500);
         alignRecipe.setPadding(new Insets(2));
 
-        HBox buttonsHBox = new HBox();
+        buttonsHBox = new HBox();
         menuItemList = new Button("Return to Menu Item List");
         saveMenuItem = new Button("Save Menu Item");
+        editMenuItem = new Button("Save Edits to Item");
+
         buttonsHBox.getChildren().addAll(menuItemList,saveMenuItem);
         buttonsHBox.setPrefWidth(600);
         buttonsHBox.setSpacing(10);
@@ -147,14 +149,26 @@ public class MenuItemMakerView extends StackPane implements MenuItemModelSubscri
     public String getMenuItemName(){
         return this.menuItemName.getText();
     }
+    public void setNameText(String name){
+        this.menuItemName.setText(name);
+    }
     public String getMenuItemDescription(){
         return this.menuItemDescription.getText();
+    }
+    public void setDescText(String descText){
+        this.menuItemDescription.setText(descText);
     }
     public String getMenuPrice(){
         return this.menuItemPrice.getText();
     }
+    public void setPriceText(String priceText){
+        this.menuItemPrice.setText(priceText);
+    }
     public String getMenuPrep(){
         return this.menuItemPrep.getText();
+    }
+    public void setPrepText(String prepText){
+        this.menuItemPrep.setText(prepText);
     }
     public float setMenuPrice(){
         return Float.parseFloat(this.menuItemPrice.getText());
@@ -168,6 +182,12 @@ public class MenuItemMakerView extends StackPane implements MenuItemModelSubscri
         this.menuItemPrice.clear();
         this.menuItemPrep.clear();
     }
+    public void setSave(){
+        this.edit = false;
+    }
+    public void setEdit(){
+        this.edit = true;
+    }
     public void setMenuItemModel(MenuItemModel newModel) {
         this.menuItemModel = newModel;
     }
@@ -176,6 +196,7 @@ public class MenuItemMakerView extends StackPane implements MenuItemModelSubscri
         mainMenu.setOnAction(controller::openStartUpMVC);
         menuItemList.setOnAction(controller::openMenuListView);
         saveMenuItem.setOnAction(controller::addItemToMenu);
+        editMenuItem.setOnAction(controller::saveEditsToItem);
         addRecipe.setOnAction(controller::addRecipeToItem);
         removeRecipe.setOnAction(controller::removeRecipeFromItem);
     }
@@ -183,7 +204,7 @@ public class MenuItemMakerView extends StackPane implements MenuItemModelSubscri
     @Override
     public void MenuItemModelChanged(List<MenuFoodItem> menuItemList) {
         this.selectRecipeVBox.getChildren().clear();
-        if (!menuItemModel.getRecipeArrayList().isEmpty()){
+        if (menuItemModel.getRecipeArrayList() != null){
             menuItemModel.getRecipeArrayList().forEach((recipe -> {
                 recipe.getButton().setOnAction((event -> {
                     menuItemModel.selectRecipe(recipe);
@@ -193,13 +214,21 @@ public class MenuItemMakerView extends StackPane implements MenuItemModelSubscri
         }
 
         this.recipeVBOX.getChildren().clear();
-        if (!menuItemModel.getAddedRecipes().isEmpty()){
+        if (menuItemModel.getAddedRecipes() != null){
             menuItemModel.getAddedRecipes().forEach((recipe -> {
                 recipe.getButton().setOnAction((event -> {
                     menuItemModel.selectAddedRecipe(recipe);
                 }));
                 recipeVBOX.getChildren().add(recipe.getButton());
             }));
+        }
+
+        this.buttonsHBox.getChildren().clear();
+        if (edit){
+            this.buttonsHBox.getChildren().addAll(this.menuItemList,this.editMenuItem);
+        }
+        else {
+            this.buttonsHBox.getChildren().addAll(this.menuItemList,this.saveMenuItem);
         }
     }
 }
