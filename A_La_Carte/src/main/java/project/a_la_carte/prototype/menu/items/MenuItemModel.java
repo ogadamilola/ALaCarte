@@ -33,6 +33,7 @@ public class MenuItemModel {
     public ArrayList<Recipe> getAddedRecipes(){
         return this.addedRecipes;
     }
+    public Recipe getSelectedAddedRecipe(){return this.selectedAddedRecipe;}
     public Recipe getSelectedRecipe(){
         return this.selectedRecipe;
     }

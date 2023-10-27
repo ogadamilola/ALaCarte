@@ -264,20 +264,22 @@ public class ProgramController {
             this.menuItemModel.addRecipesToItem(this.menuItemModel.getSelectedRecipe());}
     }
     public void removeRecipeFromItem(ActionEvent event){
-        if (this.menuItemModel.getSelectedRecipe() != null) {
-            this.menuItemModel.removeRecipeFromItem(this.menuItemModel.getSelectedRecipe());
+        if (this.menuItemModel.getSelectedAddedRecipe() != null) {
+            this.menuItemModel.removeRecipeFromItem(this.menuItemModel.getSelectedAddedRecipe());
         }
     }
     public void addItemToMenu(ActionEvent event){
-        MenuFoodItem newItem = new MenuFoodItem(menuItemModel.getAddedRecipes(),menuItemMakerView.getMenuItemName(),menuItemMakerView.getMenuItemDescription());
-        if (menuItemMakerView.getMenuPrice() != null) {
-            newItem.setPrice(menuItemMakerView.setMenuPrice());
+        if (menuItemMakerView.getMenuItemName() != null && menuItemMakerView.getMenuItemDescription() != null) {
+            MenuFoodItem newItem = new MenuFoodItem(menuItemModel.getAddedRecipes(), menuItemMakerView.getMenuItemName(), menuItemMakerView.getMenuItemDescription());
+            if (menuItemMakerView.getMenuPrice() != null) {
+                newItem.setPrice(menuItemMakerView.setMenuPrice());
+            }
+            if (menuItemMakerView.getMenuPrep() != null) {
+                newItem.setPrepTime(menuItemMakerView.setMenuPrep());
+            }
+            this.menuItemModel.addNewMenuItem(newItem);
+            menuItemMakerView.clearTextFields();
         }
-        if (menuItemMakerView.getMenuPrep()  != null){
-            newItem.setPrepTime(menuItemMakerView.setMenuPrep());
-        }
-        this.menuItemModel.addNewMenuItem(newItem);
-        menuItemMakerView.clearTextFields();
     }
     /**
      * Here would be the Server Actions

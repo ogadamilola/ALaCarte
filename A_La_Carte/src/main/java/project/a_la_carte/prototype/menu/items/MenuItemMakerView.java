@@ -183,8 +183,9 @@ public class MenuItemMakerView extends StackPane implements MenuItemModelSubscri
     public void setController(ProgramController controller){
         mainMenu.setOnAction(controller::openStartUpMVC);
         menuItemList.setOnAction(controller::openMenuListView);
-        //saveRecipe.setOnAction(controller::addRecipie);
+        saveMenuItem.setOnAction(controller::addItemToMenu);
         addRecipe.setOnAction(controller::addRecipeToItem);
+        removeRecipe.setOnAction(controller::removeRecipeFromItem);
     }
 
     @Override
