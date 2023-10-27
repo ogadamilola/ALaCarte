@@ -1,5 +1,7 @@
 package project.a_la_carte.prototype.recipe.maker.inventory;
 
+import javafx.beans.property.*;
+
 import java.util.Objects;
 
 public class Ingredient {
@@ -45,6 +47,7 @@ public class Ingredient {
         //default to not allergen
         this.commonAllergen = false;
     }
+
     public String getName() {
         return name;
     }
@@ -52,6 +55,7 @@ public class Ingredient {
     public void setName(String name) {
         this.name = name;
     }
+
 
     public IngredientType getIngredientType() {
         return ingredientType;
