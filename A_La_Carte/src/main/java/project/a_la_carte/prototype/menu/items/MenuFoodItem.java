@@ -1,5 +1,8 @@
-package project.a_la_carte.prototype.recipe.maker.inventory;
+package project.a_la_carte.prototype.menu.items;
 
+import project.a_la_carte.prototype.recipe.maker.inventory.Recipe;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,29 +14,32 @@ import static java.lang.Float.max;
  * Maven: org.openjfx:javafx-controls:win:18.0.1 (javafx-controls-18.0.1-win.jar) javafx.scene.control MenuItem
  */
 public class MenuFoodItem {
-    private Map<Recipe, Double> menuItemRecipes;
+    private ArrayList<Recipe> menuItemRecipes;
     private String name;
     private String description;
-    private float price;
+    private float price = 0;
 
-    private float prepTime;
+    private float prepTime = 0;
 
 
-    public MenuFoodItem(String name) {
+    public MenuFoodItem(ArrayList<Recipe> listOfRecipes, String name, String desc) {
         this.name = name;
-        this.menuItemRecipes = new HashMap<>();
-
+        this.description = desc;
+        this.menuItemRecipes = listOfRecipes;
+        menuItemRecipes.forEach((recipe -> {
+            this.price += recipe.getPrice();
+            this.prepTime = max(recipe.getPrepTime(), this.prepTime);
+        }));
     }
 
-    public void addMenuItemRecipes(Recipe recipe, Double amount){
-        this.menuItemRecipes.put(recipe, amount);
+    public void addMenuItemRecipes(Recipe newRecipe){
+        this.menuItemRecipes.add(newRecipe);
 
-        // This is untested, and I'm not sure if it works - Oct 25 Evan
-        this.price += recipe.getPrice();
-        this.prepTime = max(this.prepTime, recipe.getPrepTime());
+        this.price += newRecipe.getPrice();
+        this.prepTime = max(this.prepTime, newRecipe.getPrepTime());
     }
 
-    public Map<Recipe, Double> getMenuItemRecipes() {
+    public ArrayList<Recipe> getMenuItemRecipes() {
         return menuItemRecipes;
     }
 
@@ -64,7 +70,7 @@ public class MenuFoodItem {
     public float getPrepTime() {
         return prepTime;
     }
-
+    public void setPrepTime(float newTime){this.prepTime = newTime;}
     public String toString() {
         return "MenuItem{" +
                 "menuItemRecipes" + menuItemRecipes +

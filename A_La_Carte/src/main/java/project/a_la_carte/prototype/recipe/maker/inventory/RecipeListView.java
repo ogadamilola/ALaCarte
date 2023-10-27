@@ -157,6 +157,7 @@ public class RecipeListView extends StackPane implements RecipeModelSubscriber{
 
     @Override
     public void RecipieModelChanged(List<Recipe> recipeList) {
+        recipeListVBox.getChildren().clear();
         for(Recipe recipe : recipeList){
             RecipeWidget widget = new RecipeWidget(recipe);
             recipeListVBox.getChildren().add(widget.getWidget());

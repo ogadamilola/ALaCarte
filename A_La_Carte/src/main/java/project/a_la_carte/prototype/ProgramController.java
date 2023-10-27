@@ -7,9 +7,14 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import project.a_la_carte.prototype.kitchen.side.KitchenModel;
+import project.a_la_carte.prototype.menu.items.MenuFoodItem;
+import project.a_la_carte.prototype.menu.items.MenuItemListView;
+import project.a_la_carte.prototype.menu.items.MenuItemMakerView;
+import project.a_la_carte.prototype.menu.items.MenuItemModel;
 import project.a_la_carte.prototype.recipe.maker.inventory.*;
 import project.a_la_carte.prototype.server.side.ServerModel;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,8 +25,8 @@ public class ProgramController {
     RecipeModel recipeModel;
     RecipeInteractiveModel recipeInteractiveModel;
     RecipeMakerView recipeMakerView;
-
-
+    MenuItemModel menuItemModel;
+    MenuItemMakerView menuItemMakerView;
     ServerModel serverModel;
     KitchenModel kitchenModel;
 
@@ -55,6 +60,10 @@ public class ProgramController {
     }
     public void openKitchenView(ActionEvent event){
         this.startupMVC.selectKitchenView();
+        this.startupMVC.modelChanged();
+    }
+    public void openMenuListView(ActionEvent event){
+        this.startupMVC.selectMenuItemList();
         this.startupMVC.modelChanged();
     }
 
@@ -128,6 +137,9 @@ public class ProgramController {
         }
 
         recipeModel.addNewRecipe(recipeName,recipePrice,recipeDesc,recipeInstruction,recipePrepTime,ingredientMap);
+
+        ArrayList<Recipe> newRecipeList = new ArrayList<>(recipeModel.getRecipeList());
+        menuItemModel.setRecipeArrayList(newRecipeList);
 
         //clear all the fields
         recipeMakerView.getRecipeName().clear();
@@ -233,6 +245,40 @@ public class ProgramController {
     /**
      * End of Kitchen Actions
      */
+
+    /**
+     * Menu Action
+     */
+    public void setMenuItemModel(MenuItemModel newModel){
+        this.menuItemModel = newModel;
+    }
+    public void setMenuItemMakerView(MenuItemMakerView newView){
+        this.menuItemMakerView = newView;
+    }
+    public void openMenuMakerView(ActionEvent event){
+        this.startupMVC.selectMenuMakerView();
+        this.startupMVC.modelChanged();
+    }
+    public void addRecipeToItem(ActionEvent event){
+        if (this.menuItemModel.getSelectedRecipe() != null){
+            this.menuItemModel.addRecipesToItem(this.menuItemModel.getSelectedRecipe());}
+    }
+    public void removeRecipeFromItem(ActionEvent event){
+        if (this.menuItemModel.getSelectedRecipe() != null) {
+            this.menuItemModel.removeRecipeFromItem(this.menuItemModel.getSelectedRecipe());
+        }
+    }
+    public void addItemToMenu(ActionEvent event){
+        MenuFoodItem newItem = new MenuFoodItem(menuItemModel.getAddedRecipes(),menuItemMakerView.getMenuItemName(),menuItemMakerView.getMenuItemDescription());
+        if (menuItemMakerView.getMenuPrice() != null) {
+            newItem.setPrice(menuItemMakerView.setMenuPrice());
+        }
+        if (menuItemMakerView.getMenuPrep()  != null){
+            newItem.setPrepTime(menuItemMakerView.setMenuPrep());
+        }
+        this.menuItemModel.addNewMenuItem(newItem);
+        menuItemMakerView.clearTextFields();
+    }
     /**
      * Here would be the Server Actions
      */

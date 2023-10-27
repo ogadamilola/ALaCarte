@@ -1,4 +1,6 @@
-package project.a_la_carte.prototype.recipe.maker.inventory;
+package project.a_la_carte.prototype.menu.items;
+
+import project.a_la_carte.prototype.menu.items.MenuFoodItem;
 
 import java.util.List;
 
