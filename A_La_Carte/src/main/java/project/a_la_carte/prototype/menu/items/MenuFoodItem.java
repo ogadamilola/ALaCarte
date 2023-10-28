@@ -21,6 +21,8 @@ public class MenuFoodItem {
     MenuItemListButton menuItemListButton;
     MenuItemMainDisplay menuItemMainDisplay;
     Boolean selectedStatus;
+    Boolean customized = false;
+    String customizeOption = "";
     public MenuFoodItem(ArrayList<Recipe> listOfRecipes, String name, String desc) {
         this.name = name;
         this.description = desc;
@@ -34,6 +36,13 @@ public class MenuFoodItem {
                 this.prepTime = max(recipe.getPrepTime(), this.prepTime);
             }));
         }
+    }
+    public void setCustomizeOption(String change){
+        this.customizeOption = change;
+        this.customized = true;
+    }
+    public String getCustomize(){
+        return this.customizeOption;
     }
     public MenuItemListButton getButton(){return this.menuItemListButton;}
     public MenuItemMainDisplay getDisplay(){return this.menuItemMainDisplay;}

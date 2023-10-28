@@ -1,33 +1,31 @@
 package project.a_la_carte.prototype.server.side;
 
+import project.a_la_carte.prototype.menu.items.MenuFoodItem;
 import project.a_la_carte.prototype.recipe.maker.inventory.Recipe;
 
 import java.util.ArrayList;
 
 public class Order {
-    ArrayList<Recipe> recipeList;
+    ArrayList<MenuFoodItem> menuItems;
     int orderNum;
     int totalItems;
-    public Order(ArrayList<Recipe> recipes, int i){
-        this.recipeList = recipes;
+    public Order(ArrayList<MenuFoodItem> items, int i){
+        this.menuItems = items;
         this.orderNum = i;
         this.totalItems = 0;
     }
-    //Maybe a select button on top of the menu view recipes that would select it then it would be customizable
-    //When save is hit on the customize section, the order is put on send, and the selected is unselected
-    //This way the customer can have different versions of the recipe
-    public void addRecipe(Recipe recipe){
-        this.recipeList.add(recipe);
-        this.totalItems += 1;
+
+    public void addItem(MenuFoodItem newItem){
+        this.menuItems.add(newItem);
     }
-    public void deleteRecipe(Recipe recipe){
-        if (!recipeList.isEmpty() && this.totalItems != 0){
-            this.recipeList.remove(recipe);
+    public void deleteItem(MenuFoodItem item){
+        if (!menuItems.isEmpty() && this.totalItems != 0){
+            this.menuItems.remove(item);
             this.totalItems -= 1;
         }
     }
-    public ArrayList<Recipe> getRecipeList(){
-        return this.recipeList;
+    public ArrayList<MenuFoodItem> getOrderList(){
+        return this.menuItems;
     }
     public void completedSingleOrder(){
         this.totalItems -= 1;

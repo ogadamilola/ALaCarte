@@ -334,15 +334,27 @@ public class ProgramController {
         this.serverModel = newModel;
     }
     public void openNoteView(ActionEvent event){
+        this.serverModel.clearNoteAlert();
+        this.serverModel.notifySubscribers();
         this.startupMVC.selectNoteView();
         this.startupMVC.modelChanged();
     }
     public void openCustomizeView(ActionEvent event){
+        this.serverModel.notifySubscribers();
         this.startupMVC.selectCustomize();
         this.startupMVC.modelChanged();
     }
     public void openViewOrder(ActionEvent event){
+        this.serverModel.notifySubscribers();
         this.startupMVC.selectViewOrder();
         this.startupMVC.modelChanged();
+    }
+    public void discardSelection(ActionEvent event){
+        this.serverModel.unselectAll();
+    }
+    public void saveCustomize(ActionEvent event){
+        this.serverModel.setCustomization();
+        this.serverModel.unselectAll();
+
     }
 }

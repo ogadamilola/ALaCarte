@@ -5,6 +5,7 @@ import project.a_la_carte.prototype.menu.items.MenuFoodItem;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class ServerModel {
     MenuView menuView;
@@ -14,24 +15,116 @@ public class ServerModel {
     ViewOrder viewOrder;
     String noteMessage = "";
     int orderNumber;
+    ArrayList<IngredientsCustomize> ingredientList;
+    ArrayList<CustomizeSelectionButton> customizeButtons;
     ArrayList<MenuFoodItem> menuItemList;
     MenuFoodItem selectedMenuItem;
+    String selectedIngredient = "";
+    String selectedOption = "";
+    Order currentOrder;
     public ServerModel(){
         //Used when creating order and assigning their number
         this.orderNumber = 1;
         menuItemList = new ArrayList<>();
         this.subscribers = new ArrayList<>();
+        this.ingredientList = new ArrayList<>();
+        this.customizeButtons = new ArrayList<>();
+
+        this.addIngredient("Cheese");
+        this.addIngredient("Milk");
+        this.addIngredient("Tomato");
+        this.addIngredient("Pickles");
+        this.addIngredient("Rice");
+        this.addIngredient("Beans");
+        this.addIngredient("Fries");
+        this.addIngredient("Poutine");
+
+        this.addOptionButton("No");
+        this.addOptionButton("Extra");
+        this.addOptionButton("Just");
+    }
+    public ArrayList<IngredientsCustomize> getIngredientList(){
+        return this.ingredientList;
+    }
+    public ArrayList<CustomizeSelectionButton> getCustomizeButtons(){
+        return this.customizeButtons;
+    }
+    public void addIngredient(String name){
+        IngredientsCustomize newI = new IngredientsCustomize(name);
+        ingredientList.add(newI);
+    }
+    public void addOptionButton(String name){
+        CustomizeSelectionButton newB = new CustomizeSelectionButton(name);
+        customizeButtons.add(newB);
+    }
+    public void selectIngredient(String name){
+        this.selectedIngredient = name;
+
+        ingredientList.forEach((ingredient ->{
+            if (ingredient.getIngredientName().equals(this.selectedIngredient)){
+                ingredient.select();
+            }
+            else{
+                ingredient.unselect();
+            }
+        }));
+        notifySubscribers();
+    }
+    public void selectOption(String name){
+        this.selectedOption = name;
+        customizeButtons.forEach((option -> {
+            if (option.getOptionName().equals(this.selectedOption)){
+                option.select();
+            }
+            else{
+                option.unselect();
+            }
+        }));
+        notifySubscribers();
+    }
+
+    public Order getCurrentOrder() {
+        return currentOrder;
+    }
+
+    public void setCustomization(){
+        MenuFoodItem copy = new MenuFoodItem(this.getSelectedItem().getMenuItemRecipes()
+                , this.getSelectedItem().getName(),this.getSelectedItem().getDescription());
+        copy.setPrice(this.selectedMenuItem.getPrice());
+        copy.setPrepTime(this.selectedMenuItem.getPrepTime());
+        if (!selectedOption.equals("") && !selectedIngredient.equals("")) {
+            copy.setCustomizeOption(this.selectedOption + " " + this.selectedIngredient);
+        }
+
+        this.addToOrder(copy);
+        notifySubscribers();
+    }
+    public void addToOrder(MenuFoodItem item){
+        if (this.currentOrder == null){
+            currentOrder = new Order(new ArrayList<>(),this.orderNumber);
+        }
+        currentOrder.addItem(item);
+    }
+    public void unselectAll(){
+        this.customizeButtons.forEach((CustomizeSelectionButton::unselect));
+        this.ingredientList.forEach((IngredientsCustomize::unselect));
     }
     public void setNoteMessage(){
         this.noteMessage = this.noteView.getNote();
         this.noteView.noteText.clear();
         this.noteView.savedAlert.setText("SENT!");
     }
+    public void clearNoteAlert(){
+        this.noteView.savedAlert.setText("");
+    }
     public void setSelectedMenuItem(MenuFoodItem item){
         this.getMenuItemList().forEach((MenuFoodItem::unselectDisplay));
 
         selectedMenuItem = item;
         notifySubscribers();
+    }
+    public MenuFoodItem getSelectedItem(){
+        return this.selectedMenuItem;
     }
     public ArrayList<MenuFoodItem> getMenuItemList(){
         return this.menuItemList;

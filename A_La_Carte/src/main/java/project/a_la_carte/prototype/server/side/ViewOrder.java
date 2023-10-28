@@ -4,6 +4,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -16,10 +17,11 @@ public class ViewOrder extends StackPane implements ServerViewInterface{
     VBox ordersVBox;
     Button back;
     Button send;
+    Label title;
     public ViewOrder(){
         this.setPrefSize(1000,500);
 
-        Label title = new Label("VIEW ORDER");
+        title = new Label("VIEW ORDER");
         title.setFont(new Font(20));
 
         double r = 2;
@@ -50,7 +52,7 @@ public class ViewOrder extends StackPane implements ServerViewInterface{
 
         this.ordersVBox = new VBox();
         this.ordersVBox.setPrefSize(1000,500);
-        this.ordersVBox.setPadding(new Insets(10));
+        this.ordersVBox.setPadding(new Insets(5,50,5,50));
 
         VBox align = new VBox(topHBox,ordersVBox,sendHBox);
         align.setPrefSize(1000,500);
@@ -66,6 +68,17 @@ public class ViewOrder extends StackPane implements ServerViewInterface{
 
     @Override
     public void modelChanged() {
-
+        ordersVBox.getChildren().clear();
+        if (serverModel.getCurrentOrder() != null){
+            title.setText("Order #"+ serverModel.getCurrentOrder().getOrderNum());
+            serverModel.getCurrentOrder().getOrderList().forEach((item ->{
+                OrderListView newView = new OrderListView(item);
+                ordersVBox.getChildren().add(newView);
+                newView.getDeleteButton().setOnAction((event -> {
+                    serverModel.getCurrentOrder().deleteItem(newView.getMenuItem());
+                    ordersVBox.getChildren().remove(newView);
+                }));
+            }));
+        }
     }
 }
