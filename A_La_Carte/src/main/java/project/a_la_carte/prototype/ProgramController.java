@@ -355,6 +355,8 @@ public class ProgramController {
     public void saveCustomize(ActionEvent event){
         this.serverModel.setCustomization();
         this.serverModel.unselectAll();
-
+    }
+    public void sendToKitchen(ActionEvent event){
+        this.kitchenModel.addOrder(this.serverModel.sendOrderToKitchen());
     }
 }

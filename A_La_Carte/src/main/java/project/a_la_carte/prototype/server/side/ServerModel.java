@@ -86,6 +86,14 @@ public class ServerModel {
     public Order getCurrentOrder() {
         return currentOrder;
     }
+    public Order sendOrderToKitchen(){
+        Order sendOrder = currentOrder;
+        this.orderNumber += 1;
+        currentOrder = null;
+
+        notifySubscribers();
+        return sendOrder;
+    }
 
     public void setCustomization(){
         MenuFoodItem copy = new MenuFoodItem(this.getSelectedItem().getMenuItemRecipes()

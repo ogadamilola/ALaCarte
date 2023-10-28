@@ -44,6 +44,9 @@ public class MenuFoodItem {
     public String getCustomize(){
         return this.customizeOption;
     }
+    public Boolean isCustomized(){
+        return this.customized;
+    }
     public MenuItemListButton getButton(){return this.menuItemListButton;}
     public MenuItemMainDisplay getDisplay(){return this.menuItemMainDisplay;}
     public void selectDisplay(){

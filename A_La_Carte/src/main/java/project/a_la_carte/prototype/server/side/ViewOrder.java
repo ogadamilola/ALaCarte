@@ -42,7 +42,7 @@ public class ViewOrder extends StackPane implements ServerViewInterface{
         topHBox.setStyle("-fx-border-color: black;\n");
         topHBox.setPadding(new Insets(5));
 
-        this.send = new Button("SEND");
+        this.send = new Button("SEND ORDER TO KITCHEN");
         this.send.setStyle("-fx-border-color: black;-fx-background-color: lightskyblue;\n");
 
         HBox sendHBox = new HBox(send);
@@ -64,6 +64,7 @@ public class ViewOrder extends StackPane implements ServerViewInterface{
     }
     public void setController(ProgramController controller){
         this.back.setOnAction(controller::openMenuView);
+        this.send.setOnAction(controller::sendToKitchen);
     }
 
     @Override
