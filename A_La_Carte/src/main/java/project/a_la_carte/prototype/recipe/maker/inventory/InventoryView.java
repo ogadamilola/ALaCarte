@@ -1,17 +1,16 @@
 package project.a_la_carte.prototype.recipe.maker.inventory;
 
-import javafx.beans.property.ReadOnlyDoubleWrapper;
-import javafx.beans.property.ReadOnlyStringWrapper;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
+
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
-import javafx.scene.text.Text;
+
 import project.a_la_carte.prototype.ProgramController;
 
 import java.util.Map;
@@ -32,6 +31,7 @@ public class InventoryView extends StackPane implements InventorySubscriber {
     CheckBox commonAllergenCheck;
     Button clearButton;
     Button updateButton;
+    Button deleteButton;
     TableView<IngredientData> inventoryTable;
     TableColumn<IngredientData,String> nameCol;
     TableColumn<IngredientData,Double> quantityCol;
@@ -97,12 +97,14 @@ public class InventoryView extends StackPane implements InventorySubscriber {
 
 
         //Will probably have to be a variable as well to connect with controller class
+
         submit = new Button("Submit");
         updateButton = new Button("Update");
+        deleteButton = new Button("Delete Item");
         mainMenu = new Button("Main Menu");
         clearButton = new Button("Clear");
 
-        addVBox.getChildren().addAll(mainMenu, addLabel,addNameHBox, addQuantityHBox,measureHBox,typeHBox,commonAllergenCheck,updateButton,clearButton, submit);
+        addVBox.getChildren().addAll(mainMenu, addLabel,addNameHBox, addQuantityHBox,measureHBox,typeHBox,commonAllergenCheck,updateButton,deleteButton,clearButton, submit);
         addVBox.setPadding(new Insets(5,5,5,5));
 
         //tables are so weird to work with but looks so much better
@@ -152,6 +154,7 @@ public class InventoryView extends StackPane implements InventorySubscriber {
         inventoryTable.setOnMouseClicked(controller::loadIngredient);
         clearButton.setOnAction(controller::clearFields);
         updateButton.setOnAction(controller::updateItem);
+        deleteButton.setOnAction(controller::deleteItem);
     }
 
     public void modelChanged(Map<Ingredient, Double> ingredientInventory){

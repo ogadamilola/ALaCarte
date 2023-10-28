@@ -112,23 +112,29 @@ public class ProgramController {
         inventoryView.getQuantityText().clear();
         inventoryView.getQuantityText().setEditable(true);
         inventoryView.getMeasurementUnitComboBox().setValue(null);
-        inventoryView.getMeasurementUnitComboBox().setEditable(true);
         inventoryView.getTypeComboBox().setValue(null);
         inventoryView.getCommonAllergenCheck().setSelected(false);
     }
 
     public void updateItem(ActionEvent actionEvent){
+
         String ingredientName = inventoryView.getNameText().getText();
+        Ingredient ingredient = searchIngredientByName(ingredientName);
         Double quantity = Double.valueOf(inventoryView.getQuantityText().getText());
         Ingredient.IngredientType type = inventoryView.getTypeComboBox().getValue();
         Ingredient.MeasurementUnit mUnit = inventoryView.getMeasurementUnitComboBox().getValue();
         Boolean commonAllergen = inventoryView.getCommonAllergenCheck().isSelected();
-        inventoryModel.updateItem(ingredientName,quantity,type,mUnit,commonAllergen);
+        inventoryModel.updateItem(ingredient,quantity,type,mUnit,commonAllergen);
 
 
         clearFields(actionEvent);
+    }
 
+    public void deleteItem(ActionEvent actionEvent) {
 
+        String ingredientName = inventoryView.getNameText().getText();
+        Ingredient ingredient = searchIngredientByName(ingredientName);
+        inventoryModel.deleteItem(ingredient);
     }
 
     /**

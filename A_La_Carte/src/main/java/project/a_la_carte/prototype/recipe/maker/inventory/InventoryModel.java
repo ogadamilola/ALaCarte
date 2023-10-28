@@ -70,9 +70,16 @@ public class InventoryModel {
     }
 
 
-    public void updateItem(String name, double quantity, Ingredient.IngredientType type, Ingredient.MeasurementUnit unit, boolean allergen){
+    /**
+     * Update the item with the new values put in the fields, if the item doesnt exist throw exception
+     * @param quantity
+     * @param type
+     * @param unit
+     * @param allergen
+     */
+    public void updateItem(Ingredient ingredient, double quantity, Ingredient.IngredientType type, Ingredient.MeasurementUnit unit, boolean allergen){
         try{
-            Ingredient ingredient = getIngredientByName(name);
+
             ingredient.setIngredientType(type);
             ingredient.setMeasurementUnit(unit);
             ingredient.setCommonAllergen(allergen);
@@ -85,14 +92,17 @@ public class InventoryModel {
 
 
     }
-    public Ingredient getIngredientByName(String name) {
-        for (Ingredient ingredient : ingredientInventory.keySet()) {
-            if (ingredient.getName().equals(name)) {
-                return ingredient;
-            }
+
+    public void deleteItem(Ingredient ingredient){
+        try {
+            ingredientInventory.remove(ingredient);
+            notifySubs();
         }
-        return null; // Ingredient not found
+        catch (IllegalArgumentException e){
+            System.out.println("Ingredient does not exist, can not delete");
+        }
     }
+
 
     //TODO loadDatabase() or save() method of some sort
 
