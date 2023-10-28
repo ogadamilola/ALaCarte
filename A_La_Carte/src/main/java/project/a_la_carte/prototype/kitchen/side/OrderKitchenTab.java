@@ -8,43 +8,67 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import project.a_la_carte.prototype.server.side.Order;
+import project.a_la_carte.prototype.server.side.OrderClassesInterface;
 
-public class OrderKitchenTab extends StackPane {
-    Order order;
-    KitchenView kitchenView;
+import java.util.ArrayList;
+
+public class OrderKitchenTab extends StackPane implements OrderClassesInterface {
+    Label orderLabel;
+    Label itemsRemain;
     VBox ordersVBox;
-    public OrderKitchenTab(KitchenView kView, Order x){
-        this.setPrefSize(300,115);
+    Button cancelButton;
+    Order orderItems;
+    KitchenModel kModel;
+    public OrderKitchenTab(KitchenModel model,Order order){
+        this.setPrefSize(230,230);
+        kModel = model;
+        this.cancelButton = new Button("Cancel Order");
+        HBox cancelBox = new HBox(cancelButton);
+        cancelBox.setPrefWidth(230);
+        cancelBox.setAlignment(Pos.BOTTOM_CENTER);
+        cancelBox.setPadding(new Insets(2));
 
-        this.order = x;
-        this.kitchenView = kView;
-        Label orderLabel = new Label("Order #" + this.order.getOrderNum());
+        this.orderItems = order;
+        orderLabel = new Label("");
+        itemsRemain = new Label("");
 
-        HBox titleBox = new HBox(orderLabel);
-        titleBox.setPrefWidth(300);
+        HBox titleBox = new HBox(orderLabel, itemsRemain);
+        titleBox.setPrefWidth(230);
         titleBox.setAlignment(Pos.CENTER);
         titleBox.setStyle("-fx-border-color: black;\n");
 
-        Button done = new Button("Done");
-        done.setOnAction(e ->{
-            this.kitchenView.getChildren().remove(this);
-        });
-
-        this.ordersVBox.setPrefSize(300,115);
-        this.ordersVBox.setSpacing(5);
+        this.ordersVBox = new VBox();
+        this.ordersVBox.setPrefSize(230,230);
+        this.ordersVBox.setSpacing(2);
         this.ordersVBox.setStyle("-fx-border-color: black;\n");
-        //Filling in the order with recipes
-        //this.order.getRecipeList().forEach((order)->{
-        //We can make this a button
-         //   Label recipeName = new Label(order)
-         //   this.ordersVBox.getChildren().add()
-        //});
 
-        VBox align = new VBox(titleBox,this.ordersVBox,done);
-        align.setPrefSize(300,115);
+        VBox align = new VBox(titleBox,this.ordersVBox, cancelBox);
+        align.setPrefSize(230,230);
 
         this.getChildren().add(align);
     }
-    //Over here would be the changing of order time on kitchen side <-- don't need this yet, not in proto todo
-    //Also the prep timer
+    public Button getCancelButton(){
+        return this.cancelButton;
+    }
+    @Override
+    public void modelChanged() {
+        ordersVBox.getChildren().clear();
+
+        if (!orderItems.isFinished()){
+            orderItems.getOrderList().forEach((order ->{
+                OrderItems newDisplay = new OrderItems(order);
+                newDisplay.getCompleteButton().setOnAction((event -> {
+                    orderItems.completedSingleItem();
+                }));
+                ordersVBox.getChildren().add(newDisplay);
+            }));
+        }
+        else {
+            kModel.deleteOrder(orderItems);
+        }
+
+
+        orderLabel.setText("Order #"+ orderItems.getOrderNum());
+        itemsRemain.setText("Remaining Items: "+ orderItems.getTotalItems());
+    }
 }

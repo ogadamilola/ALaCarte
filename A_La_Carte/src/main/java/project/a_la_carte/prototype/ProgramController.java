@@ -59,6 +59,9 @@ public class ProgramController {
         this.recipeModel.notifySubscribers();
     }
     public void openMenuView(ActionEvent event){
+        //So that the new display is shown
+        this.serverModel.setMenuItemList(menuItemModel.getMenuItemsList());
+
         this.startupMVC.selectMenuView();
         this.startupMVC.modelChanged();
     }
@@ -330,12 +333,14 @@ public class ProgramController {
         menuItemMakerView.setPriceText(String.valueOf(menuItemModel.getSelectedItem().getPrice()));
         menuItemMakerView.setPrepText(String.valueOf(menuItemModel.getSelectedItem().getPrepTime()));
 
+        this.menuItemModel.setSelectedAddedRecipe(this.menuItemModel.getSelectedItem().getMenuItemRecipes());
         this.menuItemModel.notifySubscribers();
         this.startupMVC.selectMenuMakerView();
         this.startupMVC.modelChanged();
     }
     public void deleteMenuItem(ActionEvent event){
         this.menuItemModel.deleteMenuItem(menuItemModel.getSelectedItem());
+        this.serverModel.setMenuItemList(menuItemModel.getMenuItemsList());
     }
     public void addRecipeToItem(ActionEvent event){
         if (this.menuItemModel.getSelectedRecipe() != null){
@@ -358,6 +363,8 @@ public class ProgramController {
             this.menuItemModel.addNewMenuItem(newItem);
             menuItemMakerView.clearTextFields();
             this.menuItemModel.resetAddedRecipes();
+
+            this.serverModel.setMenuItemList(menuItemModel.getMenuItemsList());
         }
     }
     public void saveEditsToItem(ActionEvent event){
@@ -388,18 +395,29 @@ public class ProgramController {
         this.serverModel = newModel;
     }
     public void openNoteView(ActionEvent event){
+        this.serverModel.clearNoteAlert();
+        this.serverModel.notifySubscribers();
         this.startupMVC.selectNoteView();
         this.startupMVC.modelChanged();
     }
     public void openCustomizeView(ActionEvent event){
+        this.serverModel.notifySubscribers();
         this.startupMVC.selectCustomize();
         this.startupMVC.modelChanged();
     }
     public void openViewOrder(ActionEvent event){
+        this.serverModel.notifySubscribers();
         this.startupMVC.selectViewOrder();
         this.startupMVC.modelChanged();
     }
-
-
-
+    public void discardSelection(ActionEvent event){
+        this.serverModel.unselectAll();
+    }
+    public void saveCustomize(ActionEvent event){
+        this.serverModel.setCustomization();
+        this.serverModel.unselectAll();
+    }
+    public void sendToKitchen(ActionEvent event){
+        this.kitchenModel.addOrder(this.serverModel.sendOrderToKitchen());
+    }
 }

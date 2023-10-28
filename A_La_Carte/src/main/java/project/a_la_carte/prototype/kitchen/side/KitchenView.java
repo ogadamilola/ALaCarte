@@ -4,16 +4,17 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import project.a_la_carte.prototype.ProgramController;
 
-public class KitchenView extends StackPane {
+public class KitchenView extends StackPane implements KitchenViewsInterface{
     KitchenModel kitchenModel;
     Button mainMenu;
-    VBox ordersVBox;
+    FlowPane ordersVBox;
     HBox notesBox;
     public KitchenView(){
         this.setPrefSize(1000,500);
@@ -34,7 +35,7 @@ public class KitchenView extends StackPane {
         topHBox.setPadding(new Insets(5,5,5,5));
         topHBox.setStyle("-fx-border-color: black;\n");
 
-        this.ordersVBox = new VBox();
+        this.ordersVBox = new FlowPane();
         this.ordersVBox.setPrefSize(1000,350);
         this.ordersVBox.setPadding(new Insets(10,10,10,10));
         //Bordering it red just to show the area the orders take up
@@ -67,11 +68,22 @@ public class KitchenView extends StackPane {
     }
     public void modelChanged(){
         this.notesBox.getChildren().clear();
+        this.ordersVBox.getChildren().clear();
 
         if (!this.kitchenModel.getNoteList().isEmpty()){
             kitchenModel.getNoteList().forEach((notes) ->{
                 this.notesBox.getChildren().add(notes);
             });
+        }
+        if (kitchenModel.getOrders() != null){
+            kitchenModel.getOrders().forEach((order -> {
+                OrderKitchenTab newTab = new OrderKitchenTab(kitchenModel,order);
+                order.addSubscriber(newTab);
+                newTab.getCancelButton().setOnAction((event -> {
+                    kitchenModel.deleteOrder(order);
+                }));
+                this.ordersVBox.getChildren().add(newTab);
+            }));
         }
     }
 }
