@@ -11,7 +11,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import project.a_la_carte.prototype.ProgramController;
 
-public class ViewOrder extends StackPane {
+public class ViewOrder extends StackPane implements ServerViewInterface{
     ServerModel serverModel;
     VBox ordersVBox;
     Button back;
@@ -62,5 +62,10 @@ public class ViewOrder extends StackPane {
     }
     public void setController(ProgramController controller){
         this.back.setOnAction(controller::openMenuView);
+    }
+
+    @Override
+    public void modelChanged() {
+
     }
 }

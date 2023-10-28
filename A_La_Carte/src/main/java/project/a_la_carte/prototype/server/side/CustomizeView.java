@@ -11,10 +11,11 @@ import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import project.a_la_carte.prototype.ProgramController;
 
-public class CustomizeView extends StackPane {
+public class CustomizeView extends StackPane implements ServerViewInterface{
     ServerModel serverModel;
     VBox ingredientsLeft;
     VBox ingredientsRight;
+    Label title;
     Button no;
     Button extra;
     Button just;
@@ -24,7 +25,7 @@ public class CustomizeView extends StackPane {
     public CustomizeView(){
         this.setPrefSize(1000,500);
 
-        Label title = new Label("CUSTOMIZE");
+        title = new Label("CUSTOMIZE");
         title.setFont(new Font(20));
 
         double r = 2;
@@ -102,5 +103,10 @@ public class CustomizeView extends StackPane {
     }
     public void setController(ProgramController controller){
         this.back.setOnAction(controller::openMenuView);
+    }
+
+    @Override
+    public void modelChanged() {
+
     }
 }
