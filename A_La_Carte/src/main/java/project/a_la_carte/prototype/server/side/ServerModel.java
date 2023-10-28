@@ -116,6 +116,8 @@ public class ServerModel {
     public void unselectAll(){
         this.customizeButtons.forEach((CustomizeSelectionButton::unselect));
         this.ingredientList.forEach((IngredientsCustomize::unselect));
+        this.selectedIngredient = "";
+        this.selectedOption = "";
     }
     public void setNoteMessage(){
         this.noteMessage = this.noteView.getNote();

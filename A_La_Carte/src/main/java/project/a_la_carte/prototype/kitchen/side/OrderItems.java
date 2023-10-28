@@ -44,6 +44,9 @@ public class OrderItems extends HBox {
 
         this.getChildren().addAll(stringDisplay,buttonBox);
     }
+    public MenuFoodItem getMenuFoodItem(){
+        return this.menuFoodItem;
+    }
     public Button getCompleteButton(){
         return this.complete;
     }

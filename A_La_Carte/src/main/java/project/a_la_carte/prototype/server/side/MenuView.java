@@ -4,6 +4,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -11,11 +12,9 @@ import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import project.a_la_carte.prototype.ProgramController;
 
-import java.util.ArrayList;
-
 public class MenuView extends StackPane implements ServerViewInterface{
     ServerModel serverModel;
-    HBox menuDisplay;
+    FlowPane menuDisplay;
     Button addNote;
     Button customize;
     Button send;
@@ -67,7 +66,7 @@ public class MenuView extends StackPane implements ServerViewInterface{
         buttons.setPadding(new Insets(5,5,5,5));
         buttons.setAlignment(Pos.BOTTOM_LEFT);
 
-        menuDisplay = new HBox();
+        menuDisplay = new FlowPane();
         menuDisplay.setPrefSize(1000,400);
 
         VBox alignAll = new VBox(topHBox,menuDisplay,buttons);

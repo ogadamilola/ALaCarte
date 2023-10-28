@@ -116,7 +116,7 @@ public class CustomizeView extends StackPane implements ServerViewInterface{
             optionsVBox.getChildren().add(button);
         }));
         if (serverModel.getSelectedItem() != null){
-            title.setText("Customize: "+ serverModel.getSelectedItem().getName());
+            title.setText("Selected Menu Item: "+ serverModel.getSelectedItem().getName());
             serverModel.getIngredientList().forEach((recipe ->{
                 recipe.setOnAction((event -> {
                     serverModel.selectIngredient(recipe.getIngredientName());

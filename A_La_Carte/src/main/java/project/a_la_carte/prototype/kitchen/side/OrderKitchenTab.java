@@ -58,6 +58,7 @@ public class OrderKitchenTab extends StackPane implements OrderClassesInterface 
             orderItems.getOrderList().forEach((order ->{
                 OrderItems newDisplay = new OrderItems(order);
                 newDisplay.getCompleteButton().setOnAction((event -> {
+                    orderItems.getOrderList().remove(newDisplay.getMenuFoodItem());
                     orderItems.completedSingleItem();
                 }));
                 ordersVBox.getChildren().add(newDisplay);

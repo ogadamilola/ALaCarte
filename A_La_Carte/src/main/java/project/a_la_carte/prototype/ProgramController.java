@@ -61,7 +61,6 @@ public class ProgramController {
     public void openMenuView(ActionEvent event){
         //So that the new display is shown
         this.serverModel.setMenuItemList(menuItemModel.getMenuItemsList());
-
         this.startupMVC.selectMenuView();
         this.startupMVC.modelChanged();
     }
