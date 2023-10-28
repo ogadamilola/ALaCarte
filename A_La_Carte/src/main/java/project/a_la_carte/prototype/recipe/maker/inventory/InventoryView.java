@@ -11,6 +11,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import project.a_la_carte.prototype.ProgramController;
 
 import java.util.Map;
@@ -27,9 +28,10 @@ public class InventoryView extends StackPane implements InventorySubscriber {
     Button submit;
     Button mainMenu;
     ComboBox<Ingredient.IngredientType> typeComboBox;
-
     ComboBox<Ingredient.MeasurementUnit> measurementUnitComboBox;
+    CheckBox commonAllergenCheck;
     Button clearButton;
+    Button updateButton;
     TableView<IngredientData> inventoryTable;
     TableColumn<IngredientData,String> nameCol;
     TableColumn<IngredientData,Double> quantityCol;
@@ -65,6 +67,8 @@ public class InventoryView extends StackPane implements InventorySubscriber {
         Label quantityLabel = new Label("Quantity:");
         quantityText = new TextField();
 
+
+
         addQuantityHBox.getChildren().addAll(quantityLabel,quantityText);
         addQuantityHBox.setPrefWidth(300);
         addQuantityHBox.setPadding(new Insets(2,2,2,2));
@@ -88,12 +92,17 @@ public class InventoryView extends StackPane implements InventorySubscriber {
         }
         typeHBox.getChildren().addAll(typeSelectLabel,typeComboBox);
 
+
+        commonAllergenCheck = new CheckBox("    Common Allergen");
+
+
         //Will probably have to be a variable as well to connect with controller class
         submit = new Button("Submit");
+        updateButton = new Button("Update");
         mainMenu = new Button("Main Menu");
         clearButton = new Button("Clear");
 
-        addVBox.getChildren().addAll(mainMenu, addLabel,addNameHBox, addQuantityHBox,measureHBox,typeHBox,clearButton, submit);
+        addVBox.getChildren().addAll(mainMenu, addLabel,addNameHBox, addQuantityHBox,measureHBox,typeHBox,commonAllergenCheck,updateButton,clearButton, submit);
         addVBox.setPadding(new Insets(5,5,5,5));
 
         //tables are so weird to work with but looks so much better
@@ -118,7 +127,7 @@ public class InventoryView extends StackPane implements InventorySubscriber {
         inventoryTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
 
-        //TODO use tableview here to show
+        //use tableview here to show
         inventoryTable.setPrefSize(700,700);
         listVBox.setPrefSize(700,500);
         listVBox.setStyle("-fx-border-color: black;\n");
@@ -142,6 +151,7 @@ public class InventoryView extends StackPane implements InventorySubscriber {
         submit.setOnAction(controller::handleNewIngredient);
         inventoryTable.setOnMouseClicked(controller::loadIngredient);
         clearButton.setOnAction(controller::clearFields);
+        updateButton.setOnAction(controller::updateItem);
     }
 
     public void modelChanged(Map<Ingredient, Double> ingredientInventory){
@@ -159,7 +169,6 @@ public class InventoryView extends StackPane implements InventorySubscriber {
             System.out.println(ingredient.getName() + " - Stock: " + quantity + " - " + ingredient.getMeasurementUnit().getName() + " - type " + ingredient.getIngredientType().getName());
         }*/
 
-
         //new way to display inventory
         ObservableList<IngredientData> data = FXCollections.observableArrayList();
         for (Map.Entry<Ingredient, Double> entry : ingredientInventory.entrySet()) {
@@ -174,8 +183,8 @@ public class InventoryView extends StackPane implements InventorySubscriber {
         measurementUnitCol.setCellValueFactory(cellData -> cellData.getValue().measurementProperty());
         typeCol.setCellValueFactory(cellData -> cellData.getValue().typeProperty());
         statusCol.setCellValueFactory(cellData -> cellData.getValue().statusProperty());
-
     }
+
 
     public TextField getNameText() {
         return nameText;
@@ -195,6 +204,10 @@ public class InventoryView extends StackPane implements InventorySubscriber {
 
     public TableView<IngredientData> getInventoryTable(){
         return inventoryTable;
+    }
+
+    public CheckBox getCommonAllergenCheck() {
+        return commonAllergenCheck;
     }
 }
 

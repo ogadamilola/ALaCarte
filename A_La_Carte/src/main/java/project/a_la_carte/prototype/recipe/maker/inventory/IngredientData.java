@@ -1,9 +1,6 @@
 package project.a_la_carte.prototype.recipe.maker.inventory;
 
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
 
 public class IngredientData {
     private Ingredient ingredient;
@@ -39,6 +36,11 @@ public class IngredientData {
     public StringProperty measurementProperty(){
         return new SimpleStringProperty(ingredient.getMeasurementUnit().getName());
     }
+    public BooleanProperty allergenProperty(){
+        return new SimpleBooleanProperty(ingredient.isCommonAllergen());
+    }
+
+    //TODO is this a good way for reorderpoints?
     public StringProperty statusProperty(){
         StringProperty status;
         switch (this.ingredient.getMeasurementUnit()){
@@ -68,5 +70,6 @@ public class IngredientData {
                 status = new SimpleStringProperty("ERROR");
                 return status;
         }
+
     }
 }

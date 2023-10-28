@@ -7,9 +7,11 @@ import java.util.Objects;
 
 public class Ingredient {
     private String name;
+
     private IngredientType ingredientType;
     private MeasurementUnit measurementUnit;
     private boolean commonAllergen;
+
 
     public enum IngredientType{
         Proteins("Proteins"),Dairy("Dairy"),Grains("Grains"),Vegetable("Vegetables"),Sauce("Sauce"),Other("Other");
@@ -37,7 +39,6 @@ public class Ingredient {
      */
     public Ingredient(String name){
         this.name = name;
-
         //default to other
         this.ingredientType = IngredientType.Other;
         //default to count
@@ -51,9 +52,12 @@ public class Ingredient {
     public IngredientType getIngredientType() {
         return ingredientType;
     }
-
     public MeasurementUnit getMeasurementUnit() {
         return measurementUnit;
+    }
+
+    public boolean isCommonAllergen() {
+        return commonAllergen;
     }
 
     public void setCommonAllergen(boolean commonAllergen) {

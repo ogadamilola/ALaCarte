@@ -41,6 +41,7 @@ public class ProgramController {
     public void openInventoryScreen(ActionEvent event){
         this.startupMVC.selectInventory();
         this.startupMVC.modelChanged();
+        this.inventoryModel.notifySubs();
     }
     public void openStartUpMVC(ActionEvent event){
         this.startupMVC.selectStartup();
@@ -73,11 +74,14 @@ public class ProgramController {
         Double quantity = Double.valueOf(inventoryView.getQuantityText().getText());
         Ingredient.IngredientType type = inventoryView.getTypeComboBox().getValue();
         Ingredient.MeasurementUnit mUnit = inventoryView.getMeasurementUnitComboBox().getValue();
-        inventoryModel.addIngredient(ingredientName,quantity,type,mUnit);
+        Boolean commonAllergen = inventoryView.getCommonAllergenCheck().isSelected();
+        inventoryModel.addIngredient(ingredientName,quantity,type,mUnit,commonAllergen);
+        clearFields(actionEvent);
 
         if (ingredientName.isEmpty() || type == null || mUnit == null) {
             throw new IllegalArgumentException("Please fill in all the required fields.");
         }
+
         } catch(NumberFormatException e){
             System.out.println("ERROR: Quantity must be a valid number");
         } catch(IllegalArgumentException e){
@@ -92,12 +96,14 @@ public class ProgramController {
         Double quantity = inventoryView.getInventoryTable().getSelectionModel().getSelectedItem().getQuantity();
         Ingredient.MeasurementUnit measurementUnit = inventoryView.getInventoryTable().getSelectionModel().getSelectedItem().getIngredient().getMeasurementUnit();
         Ingredient.IngredientType ingredientType = inventoryView.getInventoryTable().getSelectionModel().getSelectedItem().getIngredient().getIngredientType();
+        boolean allergen = inventoryView.getInventoryTable().getSelectionModel().getSelectedItem().getIngredient().isCommonAllergen();
 
         inventoryView.getNameText().setText(ingredientName);
         inventoryView.getNameText().setEditable(false);
         inventoryView.getQuantityText().setText(String.valueOf(quantity));
         inventoryView.getMeasurementUnitComboBox().setValue(measurementUnit);
         inventoryView.getTypeComboBox().setValue(ingredientType);
+        inventoryView.getCommonAllergenCheck().setSelected(allergen);
     }
 
     public void clearFields(ActionEvent actionEvent) {
@@ -108,8 +114,22 @@ public class ProgramController {
         inventoryView.getMeasurementUnitComboBox().setValue(null);
         inventoryView.getMeasurementUnitComboBox().setEditable(true);
         inventoryView.getTypeComboBox().setValue(null);
+        inventoryView.getCommonAllergenCheck().setSelected(false);
     }
 
+    public void updateItem(ActionEvent actionEvent){
+        String ingredientName = inventoryView.getNameText().getText();
+        Double quantity = Double.valueOf(inventoryView.getQuantityText().getText());
+        Ingredient.IngredientType type = inventoryView.getTypeComboBox().getValue();
+        Ingredient.MeasurementUnit mUnit = inventoryView.getMeasurementUnitComboBox().getValue();
+        Boolean commonAllergen = inventoryView.getCommonAllergenCheck().isSelected();
+        inventoryModel.updateItem(ingredientName,quantity,type,mUnit,commonAllergen);
+
+
+        clearFields(actionEvent);
+
+
+    }
 
     /**
      * End of Inventory Actions
