@@ -17,8 +17,8 @@ public class RecipeMakerView extends StackPane implements InventorySubscriber, R
     VBox ingredientVBox;
     TextField recipeName;
     TextField recipePrice;
-    TextField recipeDescription;
-    TextField recipeInstruction;
+    TextArea recipeDescription;
+    TextArea recipeInstruction;
     TextField recipePrep;
     Button saveRecipe;
     Button addIngredient;
@@ -57,16 +57,18 @@ public class RecipeMakerView extends StackPane implements InventorySubscriber, R
 
         VBox descVBox = new VBox();
         Label descLabel = new Label("Enter Description");
-        recipeDescription = new TextField();
+        recipeDescription = new TextArea();
         recipeDescription.setPrefSize(600,100);
+        recipeDescription.setWrapText(true);
         descVBox.getChildren().addAll(descLabel,recipeDescription);
         descVBox.setPadding(new Insets(2,2,2,2));
         descVBox.setPrefSize(600,100);
 
         VBox prepIVBox = new VBox();
         Label prepILabel = new Label("Preparation Instructions");
-        recipeInstruction = new TextField();
+        recipeInstruction = new TextArea();
         recipeInstruction.setPrefSize(600,100);
+        recipeInstruction.setWrapText(true);
         prepIVBox.getChildren().addAll(prepILabel,recipeInstruction);
         prepIVBox.setPadding(new Insets(2,2,2,2));
         prepIVBox.setPrefSize(600,100);
@@ -176,7 +178,6 @@ public class RecipeMakerView extends StackPane implements InventorySubscriber, R
      */
 
     public void iModelChanged(Map<Ingredient, Double> tempIngredientList) {
-        ingredientVBox.getChildren().clear();
         //make an ingredient widget and show it in the list
         for (Map.Entry<Ingredient, Double> entry : tempIngredientList.entrySet()) {
             String measurement;
@@ -225,10 +226,10 @@ public class RecipeMakerView extends StackPane implements InventorySubscriber, R
     public TextField getRecipePrice() {
         return recipePrice;
     }
-    public TextField getRecipeDescription() {
+    public TextArea getRecipeDescription() {
         return recipeDescription;
     }
-    public TextField getRecipeInstruction() {
+    public TextArea getRecipeInstruction() {
         return recipeInstruction;
     }
     public TextField getRecipePrep() {

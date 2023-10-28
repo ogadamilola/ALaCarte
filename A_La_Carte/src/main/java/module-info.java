@@ -11,4 +11,6 @@ module project.a_la_carte {
     opens project.a_la_carte.prototype to javafx.fxml;
     exports project.a_la_carte.prototype.recipe.maker.inventory;
     opens project.a_la_carte.prototype.recipe.maker.inventory to javafx.fxml;
+    exports project.a_la_carte.prototype.menu.items;
+    opens project.a_la_carte.prototype.menu.items to javafx.fxml;
 }

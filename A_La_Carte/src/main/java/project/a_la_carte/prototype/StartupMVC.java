@@ -9,6 +9,9 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import project.a_la_carte.prototype.kitchen.side.KitchenModel;
 import project.a_la_carte.prototype.kitchen.side.KitchenView;
+import project.a_la_carte.prototype.menu.items.MenuItemListView;
+import project.a_la_carte.prototype.menu.items.MenuItemMakerView;
+import project.a_la_carte.prototype.menu.items.MenuItemModel;
 import project.a_la_carte.prototype.recipe.maker.inventory.*;
 import project.a_la_carte.prototype.server.side.*;
 
@@ -26,11 +29,14 @@ public class StartupMVC extends StackPane {
     CustomizeView customizeView;
     ViewOrder viewOrder;
     KitchenView kitchenView;
-
+    MenuItemListView menuItemListView;
+    MenuItemMakerView menuItemMakerView;
     Button kitchenButton;
     Button inventoryButton;
     Button recipeListButton;
     Button menuViewButton;
+    Button menuItemListButton;
+    Button menuMakerButton;
     String selectedScreen = "startUp";
     public StartupMVC(){
         this.setMaxSize(1000,500);
@@ -123,6 +129,25 @@ public class StartupMVC extends StackPane {
         programController.setKitchenModel(kitchenModel);
         //----------------------------------------------------
 
+        //------------------------------------------------------
+        //-----------Menu Item------------------------
+        MenuItemModel menuItemModel = new MenuItemModel();
+        this.menuItemListView = new MenuItemListView();
+        this.menuItemMakerView = new MenuItemMakerView();
+
+        this.menuItemListView.setController(programController);
+        this.menuItemListView.setMenuItemModel(menuItemModel);
+
+        this.menuItemMakerView.setMenuItemModel(menuItemModel);
+        this.menuItemMakerView.setController(programController);
+
+        menuItemModel.addSubscriber(menuItemListView);
+        menuItemModel.addSubscriber(menuItemMakerView);
+
+        programController.setMenuItemModel(menuItemModel);
+        programController.setMenuItemMakerView(this.menuItemMakerView);
+        //--------------------------------------------------------
+
         //------------------------------------------------
         //----------START UP MVC--------------------------
         startUpView = new StackPane();
@@ -138,8 +163,10 @@ public class StartupMVC extends StackPane {
         menuViewButton.setFont(new Font(30));
         kitchenButton = new Button("Go To Kitchen View");
         kitchenButton.setFont(new Font(30));
+        menuItemListButton = new Button("Go To Menu List");
+        menuItemListButton.setFont(new Font(30));
 
-        VBox startUpAlign = new VBox(welcomeLabel,inventoryButton,recipeListButton,menuViewButton,kitchenButton);
+        VBox startUpAlign = new VBox(welcomeLabel,inventoryButton,recipeListButton,menuViewButton,kitchenButton,menuItemListButton);
         startUpAlign.setPrefSize(1000,500);
         startUpAlign.setPadding(new Insets(20,20,20,20));
         startUpAlign.setAlignment(Pos.CENTER);
@@ -154,6 +181,7 @@ public class StartupMVC extends StackPane {
         recipeListButton.setOnAction(controller::openRecipeList);
         menuViewButton.setOnAction(controller::openMenuView);
         kitchenButton.setOnAction(controller::openKitchenView);
+        menuItemListButton.setOnAction(controller::openMenuListView);
     }
     public void selectStartup(){
         this.selectedScreen ="startUp";
@@ -182,6 +210,8 @@ public class StartupMVC extends StackPane {
     public void selectKitchenView(){
         this.selectedScreen = "kitchen";
     }
+    public void selectMenuItemList(){this.selectedScreen ="menuList";}
+    public void selectMenuMakerView(){this.selectedScreen = "menuMaker";}
     //Decided to do this for now since multiple screens is not in our todo for the prototype
     public void modelChanged() {
         this.getChildren().clear();
@@ -195,6 +225,8 @@ public class StartupMVC extends StackPane {
             case "customize" -> this.getChildren().add(customizeView);
             case "order" -> this.getChildren().add(viewOrder);
             case "kitchen" -> this.getChildren().add(kitchenView);
+            case "menuList" -> this.getChildren().add(menuItemListView);
+            case "menuMaker" -> this.getChildren().add(menuItemMakerView);
         }
     }
 }

@@ -51,5 +51,9 @@ public class RecipeModel {
         this.recipeMakerView = newView;
     }
 
+    public List<Recipe> getRecipeList(){
+        return this.recipeList;
+    }
+
 
 }
