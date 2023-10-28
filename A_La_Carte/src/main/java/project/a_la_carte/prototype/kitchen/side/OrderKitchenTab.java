@@ -15,12 +15,13 @@ import java.util.ArrayList;
 public class OrderKitchenTab extends StackPane implements OrderClassesInterface {
     Label orderLabel;
     Label itemsRemain;
+    //We can probably add a ScrollPane for the VBox so that its not cluttered and it scrolls
     VBox ordersVBox;
     Button cancelButton;
     Order orderItems;
     KitchenModel kModel;
     public OrderKitchenTab(KitchenModel model,Order order){
-        this.setPrefSize(230,230);
+        this.setPrefSize(230,70);
         kModel = model;
         this.cancelButton = new Button("Cancel Order");
         HBox cancelBox = new HBox(cancelButton);
@@ -38,12 +39,12 @@ public class OrderKitchenTab extends StackPane implements OrderClassesInterface 
         titleBox.setStyle("-fx-border-color: black;\n");
 
         this.ordersVBox = new VBox();
-        this.ordersVBox.setPrefSize(230,230);
+        this.ordersVBox.setPrefSize(230,70);
         this.ordersVBox.setSpacing(2);
         this.ordersVBox.setStyle("-fx-border-color: black;\n");
 
         VBox align = new VBox(titleBox,this.ordersVBox, cancelBox);
-        align.setPrefSize(230,230);
+        align.setPrefSize(230,70);
 
         this.getChildren().add(align);
     }
