@@ -7,6 +7,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
+import org.controlsfx.control.tableview2.filter.filtereditor.SouthFilter;
 import project.a_la_carte.prototype.kitchen.side.KitchenModel;
 import project.a_la_carte.prototype.menu.items.MenuFoodItem;
 import project.a_la_carte.prototype.menu.items.MenuItemMakerView;
@@ -63,6 +64,7 @@ public class ProgramController {
         this.startupMVC.selectRecipeList();
         this.startupMVC.modelChanged();
         this.recipeModel.notifySubscribers();
+        this.recipeInteractiveModel.notifySubscribers();
     }
     public void openMenuView(ActionEvent event){
         //So that the new display is shown
@@ -81,11 +83,9 @@ public class ProgramController {
 
     public void setStateLoaded(){
         this.interactionState = INTERACTION_STATE.RECIPE_LOADED;
-        System.out.println("State loaded");
     }
     public void setStateNotLoaded(ActionEvent event){
         this.interactionState = INTERACTION_STATE.NOT_LOADED;
-        System.out.println("State not loaded");
     }
 
     /**
@@ -143,8 +143,6 @@ public class ProgramController {
         Ingredient.MeasurementUnit mUnit = inventoryView.getMeasurementUnitComboBox().getValue();
         Boolean commonAllergen = inventoryView.getCommonAllergenCheck().isSelected();
         inventoryModel.updateItem(ingredient,quantity,type,mUnit,commonAllergen);
-
-
         clearInventoryViewFields(actionEvent);
     }
 
@@ -158,7 +156,6 @@ public class ProgramController {
     /**
      * End of Inventory Actions
      */
-
 
     /**
      * Here would be Recipe List Actions
@@ -175,7 +172,6 @@ public class ProgramController {
         } else {
 
             Recipe recipeToLoad = recipeListView.getRecipeTable().getSelectionModel().getSelectedItem().getRecipe();
-            System.out.println(recipeToLoad.getRecipeIngredients().size());
             recipeInteractiveModel.setLoadedRecipe(recipeToLoad);
             setStateLoaded();
         }
@@ -247,40 +243,49 @@ public class ProgramController {
      */
     public void addRecipe(ActionEvent event){
 
-        String recipeName = recipeMakerView.getRecipeName().getText();
-        double recipePrice = Double.parseDouble(recipeMakerView.getRecipePrice().getText());
-        String recipeDesc = recipeMakerView.getRecipeDescription().getText();
-        String recipeInstruction = recipeMakerView.getRecipeInstruction().getText();
-        double recipePrepTime = Double.parseDouble(recipeMakerView.getRecipePrep().getText());
-
-        HashMap<Ingredient,Double> ingredientMap = new HashMap<>();
-
-        for (Map.Entry<Ingredient, Double> entry : recipeInteractiveModel.getTemporaryIngredientMap().entrySet()) {
-            Double ingredientQuantity;
-            if(entry.getKey().getMeasurementUnit() == Ingredient.MeasurementUnit.Pounds){
-                ingredientQuantity = ozToPounds(entry.getValue());//convert the oz number inputted for the recipe to pounds
+        try {
+            if(recipeMakerView.getRecipeName().getText().isBlank() || recipeMakerView.getRecipeDescription().getText().isEmpty() || recipeMakerView.getRecipeInstruction().getText().isEmpty()) {
+            throw new IllegalArgumentException("Please fill out all fields");
             }
-            else{
-                ingredientQuantity = entry.getValue();
+            String recipeName = recipeMakerView.getRecipeName().getText();
+            double recipePrice = Double.parseDouble(recipeMakerView.getRecipePrice().getText());
+            String recipeDesc = recipeMakerView.getRecipeDescription().getText();
+            String recipeInstruction = recipeMakerView.getRecipeInstruction().getText();
+            double recipePrepTime = Double.parseDouble(recipeMakerView.getRecipePrep().getText());
+
+            HashMap<Ingredient, Double> ingredientMap = new HashMap<>();
+
+            for (Map.Entry<Ingredient, Double> entry : recipeInteractiveModel.getTemporaryIngredientMap().entrySet()) {
+                Double ingredientQuantity;
+                if (entry.getKey().getMeasurementUnit() == Ingredient.MeasurementUnit.Pounds) {
+                    ingredientQuantity = ozToPounds(entry.getValue());//convert the oz number inputted for the recipe to pounds
+                } else {
+                    ingredientQuantity = entry.getValue();
+                }
+                ingredientMap.put(entry.getKey(), ingredientQuantity);
             }
-            ingredientMap.put(entry.getKey(), ingredientQuantity);
+
+            recipeModel.addNewOrUpdateRecipe(recipeName, recipePrice, recipeDesc, recipeInstruction, recipePrepTime, ingredientMap);
+
+            ArrayList<Recipe> newRecipeList = new ArrayList<>(recipeModel.getRecipeList());
+            menuItemModel.setRecipeArrayList(newRecipeList);
+
+
+            //could be deleted if we wanted to leave the recipe on the scree
+            //clear all the fields
+            recipeMakerView.getRecipeName().clear();
+            recipeMakerView.getRecipePrice().clear();
+            recipeMakerView.getRecipeDescription().clear();
+            recipeMakerView.getRecipeInstruction().clear();
+            recipeMakerView.getRecipePrep().clear();
+            recipeMakerView.getIngredientTable().setItems(null);
+            setStateNotLoaded(event);
+            recipieAddedPopUp(recipeName);
+        }catch(NumberFormatException e){
+            System.out.println("Error: " + "Fill out all the fields");
+        } catch (IllegalArgumentException e){
+            System.out.println("Error: " + e.getMessage());
         }
-
-        recipeModel.addNewOrUpdateRecipe(recipeName,recipePrice,recipeDesc,recipeInstruction,recipePrepTime,ingredientMap);
-
-        ArrayList<Recipe> newRecipeList = new ArrayList<>(recipeModel.getRecipeList());
-        menuItemModel.setRecipeArrayList(newRecipeList);
-
-        //clear all the fields
-        recipeMakerView.getRecipeName().clear();
-        recipeMakerView.getRecipePrice().clear();
-        recipeMakerView.getRecipeDescription().clear();
-        recipeMakerView.getRecipeInstruction().clear();
-        recipeMakerView.getRecipePrep().clear();
-
-        recipieAddedPopUp(recipeName);
-        setStateNotLoaded(event);
-
 
     }
 
@@ -334,12 +339,23 @@ public class ProgramController {
      * @param actionEvent
      */
     public void addIngredientToRecipe(ActionEvent actionEvent) {
-        String ingredientName = recipeMakerView.getSelectedIngredient().getText();
-        Ingredient ingredient = searchIngredientByName(ingredientName);
-        Double recipeQuantity = Double.valueOf(recipeMakerView.getEnterMeasurementField().getText());
-        //find the ingredient;
-        recipeInteractiveModel.addToTempMap(ingredient,recipeQuantity);
-        //add ingredient to temp list of ingredients to be displayed
+
+        try {
+            if(recipeMakerView.getSelectedIngredient().getText().isBlank()){
+                throw new IllegalArgumentException("No Ingredient to add");
+            }
+            String ingredientName = recipeMakerView.getSelectedIngredient().getText();
+            Ingredient ingredient = searchIngredientByName(ingredientName);
+            Double recipeQuantity = Double.valueOf(recipeMakerView.getEnterMeasurementField().getText());
+            //find the ingredient;
+            recipeInteractiveModel.addToTempMap(ingredient, recipeQuantity);
+            //add ingredient to temp list of ingredients to be displayed
+        }
+        catch(NumberFormatException e){
+            System.out.println("Error: Enter valid quantity");
+        } catch(IllegalArgumentException e){
+            System.out.println("Error: " + e.getMessage());
+        }
     }
 
     /**

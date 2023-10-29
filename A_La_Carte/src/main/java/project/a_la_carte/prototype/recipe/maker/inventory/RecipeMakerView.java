@@ -224,7 +224,6 @@ public class RecipeMakerView extends StackPane implements InventorySubscriber, R
             getRecipeDescription().clear();
             getRecipeInstruction().clear();
             getRecipePrep().clear();
-            System.out.println("maker Loaded = null");
         }
         else{
             getRecipeName().setText(loadedRecipe.getName());
@@ -232,7 +231,6 @@ public class RecipeMakerView extends StackPane implements InventorySubscriber, R
             getRecipeDescription().setText(loadedRecipe.getDescription());
             getRecipeInstruction().setText(loadedRecipe.getPrepInstruction());
             getRecipePrep().setText(String.valueOf(loadedRecipe.getPrepTime()));
-            System.out.println("maker Loaded = not null");
         }
 
         getSelectedIngredient().clear();

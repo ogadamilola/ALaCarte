@@ -49,8 +49,6 @@ public class RecipeInteractiveModel {
         if (loadedRecipe != null) {
             temporaryIngredientMap.put(ingredient, recipeQuantity);
             notifySubscribers();
-            System.out.println(loadedRecipe.getRecipeIngredients().size());
-            System.out.println(temporaryIngredientMap.size());
         }
     }
 

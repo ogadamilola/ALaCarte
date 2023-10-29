@@ -256,7 +256,6 @@ public class RecipeListView extends StackPane implements RecipeModelSubscriber,R
             getRecipeDescriptionText().clear();
             getRecipePrepIText().clear();
             getRecipePrepTimeText().clear();
-            System.out.println("Loaded = null");
         }
         else{
             getRecipeNameText().setText(loadedRecipe.getName());
@@ -271,7 +270,6 @@ public class RecipeListView extends StackPane implements RecipeModelSubscriber,R
                 IngredientData iData = new IngredientData(ingredient,ingredientQuantity);
                 ingredientData.add(iData);
             }
-            System.out.println("Loaded = a recipe");
         }
 
         ingredientTable.setItems(ingredientData);
