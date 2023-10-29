@@ -152,6 +152,7 @@ public class MenuItemListView extends StackPane implements MenuItemModelSubscrib
                 item.getButton().setOnAction((event -> {
                     menuItemModel.selectMenuItem(item);
                 }));
+                item.getButton().setPrefSize(300,25);
                 menuItemListVBox.getChildren().add(item.getButton());
             }));
         }

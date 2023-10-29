@@ -1,38 +1,58 @@
 package project.a_la_carte.prototype.server.side;
 
+import project.a_la_carte.prototype.menu.items.MenuFoodItem;
 import project.a_la_carte.prototype.recipe.maker.inventory.Recipe;
 
 import java.util.ArrayList;
 
 public class Order {
-    ArrayList<Recipe> recipeList;
+    ArrayList<MenuFoodItem> menuItems;
+    ArrayList<OrderClassesInterface> subscriber;
     int orderNum;
     int totalItems;
-    public Order(ArrayList<Recipe> recipes, int i){
-        this.recipeList = recipes;
+    Boolean completed = false;
+    public Order(ArrayList<MenuFoodItem> items, int i){
+        this.menuItems = items;
         this.orderNum = i;
         this.totalItems = 0;
+        this.subscriber = new ArrayList<>();
     }
-    //Maybe a select button on top of the menu view recipes that would select it then it would be customizable
-    //When save is hit on the customize section, the order is put on send, and the selected is unselected
-    //This way the customer can have different versions of the recipe
-    public void addRecipe(Recipe recipe){
-        this.recipeList.add(recipe);
+    public void addSubscriber(OrderClassesInterface view){
+        this.subscriber.add(view);
+        notifySubscribers();
+    }
+    public void notifySubscribers(){
+        this.subscriber.forEach((OrderClassesInterface::modelChanged));
+    }
+    public void addItem(MenuFoodItem newItem){
         this.totalItems += 1;
+        this.menuItems.add(newItem);
     }
-    public void deleteRecipe(Recipe recipe){
-        if (!recipeList.isEmpty() && this.totalItems != 0){
-            this.recipeList.remove(recipe);
+    public void deleteItem(MenuFoodItem item){
+        if (!menuItems.isEmpty() && this.totalItems != 0){
+            this.menuItems.remove(item);
             this.totalItems -= 1;
         }
     }
-    public ArrayList<Recipe> getRecipeList(){
-        return this.recipeList;
+    public ArrayList<MenuFoodItem> getOrderList(){
+        return this.menuItems;
     }
-    public void completedSingleOrder(){
+    public void completedSingleItem(){
         this.totalItems -= 1;
+        if (totalItems == 0){
+            this.orderFinished();
+        }
+        notifySubscribers();
+    }
+    public void orderFinished(){
+        this.completed = true;
+        notifySubscribers();
+    }
+    public Boolean isFinished(){
+        return completed;
     }
     public int getOrderNum(){
         return this.orderNum;
     }
+    public int getTotalItems(){return this.totalItems;}
 }

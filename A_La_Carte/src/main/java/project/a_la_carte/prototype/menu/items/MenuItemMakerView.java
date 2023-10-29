@@ -209,6 +209,7 @@ public class MenuItemMakerView extends StackPane implements MenuItemModelSubscri
                 recipe.getButton().setOnAction((event -> {
                     menuItemModel.selectRecipe(recipe);
                 }));
+                recipe.getButton().setPrefSize(300,25);
                 selectRecipeVBox.getChildren().add(recipe.getButton());
             }));
         }

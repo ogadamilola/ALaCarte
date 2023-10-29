@@ -1,16 +1,19 @@
-package project.a_la_carte.prototype.menu.items;
+package project.a_la_carte.prototype.server.side;
 
 import javafx.scene.control.Button;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import project.a_la_carte.prototype.menu.items.MenuItemWidget;
 
-public class MenuItemListButton extends Button implements MenuItemWidget {
+public class IngredientsCustomize extends Button implements MenuItemWidget {
     Background selectedBG;
     Background unselectedBG;
-    public MenuItemListButton(String name){
-        this.setPrefSize(300,25);
+    Boolean selected;
+    String ingredientName;
+    public IngredientsCustomize(String name){
+        this.setPrefSize(200,120);
+        ingredientName = name;
+        selected = false;
 
         //If this menu item is selected, it will be highlighted
         selectedBG = new Background(new BackgroundFill(Color.GRAY,new CornerRadii(3),null));
@@ -22,13 +25,18 @@ public class MenuItemListButton extends Button implements MenuItemWidget {
                 "fx-border-width: 1;\n");
         this.setText(name);
     }
+    public String getIngredientName(){
+        return this.ingredientName;
+    }
     @Override
     public void select() {
-        this.setBackground(selectedBG);
+        this.selected = true;
+        setBackground(selectedBG);
     }
 
     @Override
     public void unselect() {
-        this.setBackground(unselectedBG);
+        this.selected = false;
+        setBackground(unselectedBG);
     }
 }

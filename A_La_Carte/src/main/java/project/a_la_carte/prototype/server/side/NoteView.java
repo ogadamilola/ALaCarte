@@ -13,7 +13,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import project.a_la_carte.prototype.ProgramController;
 
-public class NoteView extends StackPane {
+public class NoteView extends StackPane implements ServerViewInterface{
     ServerModel serverModel;
     TextArea noteText;
     //We can use this to send an alert if the Note is successfully saved or not
@@ -97,5 +97,10 @@ public class NoteView extends StackPane {
     public void setController(ProgramController controller){
         this.back.setOnAction(controller::openMenuView);
         this.save.setOnAction(controller::sendNoteToKitchen);
+    }
+
+    @Override
+    public void modelChanged() {
+
     }
 }

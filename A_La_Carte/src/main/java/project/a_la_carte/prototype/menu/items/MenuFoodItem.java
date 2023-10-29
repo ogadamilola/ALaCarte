@@ -1,10 +1,9 @@
 package project.a_la_carte.prototype.menu.items;
 
 import project.a_la_carte.prototype.recipe.maker.inventory.Recipe;
+import project.a_la_carte.prototype.server.side.MenuItemMainDisplay;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 import static java.lang.Float.max;
 
@@ -20,12 +19,16 @@ public class MenuFoodItem {
     private float price = 0;
     private float prepTime = 0;
     MenuItemListButton menuItemListButton;
+    MenuItemMainDisplay menuItemMainDisplay;
     Boolean selectedStatus;
+    Boolean customized = false;
+    String customizeOption = "";
     public MenuFoodItem(ArrayList<Recipe> listOfRecipes, String name, String desc) {
         this.name = name;
         this.description = desc;
         this.menuItemRecipes = listOfRecipes;
         this.menuItemListButton = new MenuItemListButton(name);
+        this.menuItemMainDisplay = new MenuItemMainDisplay(name);
         selectedStatus = false;
         if (menuItemRecipes != null) {
             menuItemRecipes.forEach((recipe -> {
@@ -34,8 +37,29 @@ public class MenuFoodItem {
             }));
         }
     }
+    public void setCustomizeOption(String change){
+        this.customizeOption = change;
+        this.customized = true;
+    }
+    public String getCustomize(){
+        return this.customizeOption;
+    }
+    public Boolean isCustomized(){
+        return this.customized;
+    }
     public MenuItemListButton getButton(){return this.menuItemListButton;}
+    public MenuItemMainDisplay getDisplay(){return this.menuItemMainDisplay;}
+    public void selectDisplay(){
+        this.selectedStatus = true;
+        this.getDisplay().select();
+    }
+    public void unselectDisplay(){
+        this.selectedStatus = false;
+        this.getDisplay().unselect();
+    }
     public Boolean getSelectedStatus(){return this.selectedStatus;}
+
+    //For editing recipes in Menu Items
     public void selectedRecipe(){
         this.selectedStatus = true;
         this.getButton().select();
@@ -43,12 +67,6 @@ public class MenuFoodItem {
     public void unselectRecipe(){
         this.selectedStatus = false;
         this.getButton().unselect();
-    }
-    public void addMenuItemRecipes(Recipe newRecipe){
-        this.menuItemRecipes.add(newRecipe);
-
-        this.price += newRecipe.getPrice();
-        this.prepTime = max(this.prepTime, newRecipe.getPrepTime());
     }
 
     public ArrayList<Recipe> getMenuItemRecipes() {

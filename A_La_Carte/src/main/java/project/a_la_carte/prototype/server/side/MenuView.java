@@ -4,6 +4,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -11,8 +12,9 @@ import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import project.a_la_carte.prototype.ProgramController;
 
-public class MenuView extends StackPane {
+public class MenuView extends StackPane implements ServerViewInterface{
     ServerModel serverModel;
+    FlowPane menuDisplay;
     Button addNote;
     Button customize;
     Button send;
@@ -60,12 +62,16 @@ public class MenuView extends StackPane {
         addNoteBox.setPadding(new Insets(5));
 
         VBox buttons = new VBox(addNoteBox,alignBot);
-        buttons.setPrefSize(1000,500);
+        buttons.setPrefSize(1000,100);
         buttons.setPadding(new Insets(5,5,5,5));
         buttons.setAlignment(Pos.BOTTOM_LEFT);
 
-        VBox alignAll = new VBox(topHBox,buttons);
+        menuDisplay = new FlowPane();
+        menuDisplay.setPrefSize(1000,400);
+
+        VBox alignAll = new VBox(topHBox,menuDisplay,buttons);
         alignAll.setPrefSize(1000,500);
+
         this.getChildren().addAll(alignAll);
     }
     public void setServerModel(ServerModel newModel){
@@ -76,5 +82,19 @@ public class MenuView extends StackPane {
         this.addNote.setOnAction(controller::openNoteView);
         this.customize.setOnAction(controller::openCustomizeView);
         this.send.setOnAction(controller::openViewOrder);
+    }
+
+    @Override
+    public void modelChanged() {
+        menuDisplay.getChildren().clear();
+        if (serverModel.getMenuItemList() != null){
+            serverModel.getMenuItemList().forEach((item -> {
+                item.getDisplay().setOnAction((event -> {
+                    serverModel.setSelectedMenuItem(item);
+                    item.selectDisplay();
+                }));
+                menuDisplay.getChildren().add(item.getDisplay());
+            }));
+        }
     }
 }
