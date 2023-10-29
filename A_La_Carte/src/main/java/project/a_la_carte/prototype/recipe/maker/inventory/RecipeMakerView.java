@@ -196,7 +196,7 @@ public class RecipeMakerView extends StackPane implements InventorySubscriber, R
      * @param tempIngredientList
      */
 
-    public void iModelChanged(Map<Ingredient, Double> tempIngredientList) {
+    public void iModelChanged(Map<Ingredient, Double> tempIngredientList,Recipe loadedRecipe) {
         //make an ingredient widget and show it in the list
         ObservableList<IngredientData> data =  FXCollections.observableArrayList();
         ingredientTable.setItems(data);

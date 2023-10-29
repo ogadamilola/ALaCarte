@@ -24,6 +24,7 @@ public class ProgramController {
     InventoryView inventoryView;
     RecipeModel recipeModel;
     RecipeInteractiveModel recipeInteractiveModel;
+    RecipeListView recipeListView;
     RecipeMakerView recipeMakerView;
     MenuItemModel menuItemModel;
     MenuItemMakerView menuItemMakerView;
@@ -141,8 +142,37 @@ public class ProgramController {
      * End of Inventory Actions
      */
 
+
     /**
-     * Here would be Recipe actions
+     * Here would be Recipe List Actions
+     */
+    public void setRecipeListView(RecipeListView recipeListView) {
+        this.recipeListView = recipeListView;
+    }
+
+    public void loadRecipe(MouseEvent mouseEvent) {
+
+        String recipeName = recipeListView.getRecipeTable().getSelectionModel().getSelectedItem().getRecipe().getName();
+        Recipe recipeToLoad = searchRecipeByName(recipeName);
+        recipeInteractiveModel.setLoadedRecipe(recipeToLoad);
+        System.out.println("clicked that fosho");
+    }
+
+    public Recipe searchRecipeByName(String name){
+        for(Recipe recipe : recipeModel.getRecipeList()){
+            if(recipe.getName().equals(name)){
+                return recipe;
+            }
+        }
+        //recipe not found
+        return null;
+    }
+    /**
+     * End of Recipe List Actions
+     */
+
+    /**
+     * Here would be Recipe Maker actions
      */
     public void setRecipeModel(RecipeModel newModel){this.recipeModel = newModel;}
 
@@ -188,7 +218,7 @@ public class ProgramController {
             ingredientMap.put(entry.getKey(), ingredientQuantity);
         }
 
-        recipeModel.addNewRecipe(recipeName,recipePrice,recipeDesc,recipeInstruction,recipePrepTime,ingredientMap);
+        recipeModel.addNewOrUpdateRecipe(recipeName,recipePrice,recipeDesc,recipeInstruction,recipePrepTime,ingredientMap);
 
         ArrayList<Recipe> newRecipeList = new ArrayList<>(recipeModel.getRecipeList());
         menuItemModel.setRecipeArrayList(newRecipeList);
@@ -407,4 +437,6 @@ public class ProgramController {
     public void sendToKitchen(ActionEvent event){
         this.kitchenModel.addOrder(this.serverModel.sendOrderToKitchen());
     }
+
+
 }

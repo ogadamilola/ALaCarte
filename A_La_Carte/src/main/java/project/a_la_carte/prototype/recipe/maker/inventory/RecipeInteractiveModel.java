@@ -9,11 +9,32 @@ public class RecipeInteractiveModel {
     Map<Ingredient, Double> temporaryIngredientMap;
     List<RecipeInteractiveModelSubsciber> subsciberList;
 
+    Recipe loadedRecipe;
+    Map<Ingredient, Double> loadedRecipeSavedIngredientsMap;
+
     public RecipeInteractiveModel(){
 
         temporaryIngredientMap = new HashMap<Ingredient,Double>();
         subsciberList = new ArrayList<RecipeInteractiveModelSubsciber>();
+        loadedRecipe = null;
 
+    }
+
+    public void setLoadedRecipe(Recipe loadedRecipe) {
+        this.loadedRecipe = loadedRecipe;
+        notifySubscribers();
+        System.out.println("them subs notified");
+    }
+
+    public Recipe getLoadedRecipe() {
+        return loadedRecipe;
+    }
+
+    public void setLoadedRecipeSavedIngredientsMap(Map<Ingredient, Double> loadedRecipeSavedIngredientsMap) {
+        this.loadedRecipeSavedIngredientsMap = loadedRecipeSavedIngredientsMap;
+    }
+    public Map<Ingredient, Double> getLoadedRecipeSavedIngredientsMap() {
+        return loadedRecipeSavedIngredientsMap;
     }
 
     public void addToMap(Ingredient ingredient, Double recipeQuantity){
@@ -22,7 +43,7 @@ public class RecipeInteractiveModel {
     }
     public void notifySubscribers(){
         for(RecipeInteractiveModelSubsciber sub: subsciberList){
-            sub.iModelChanged(temporaryIngredientMap);
+            sub.iModelChanged(temporaryIngredientMap,loadedRecipe);
         }
     }
 

@@ -17,21 +17,39 @@ public class RecipeModel {
 
         recipeList = new ArrayList<>();
         subscriberList = new ArrayList<>();
+
+        HashMap<Ingredient,Double> spagMap = new HashMap<>();
+        addNewOrUpdateRecipe("Spaghetti Meatball",15.00,"Spaghetti with meatballs and sauce","Put spag on plate",10,spagMap);
+
+        HashMap<Ingredient,Double> burgMap = new HashMap<>();
+        addNewOrUpdateRecipe("Cheese burger",24.00,"Burger with cheese and lettuce","Assemble burger",12,burgMap);
+
+        notifySubscribers();
     }
-    public void addNewRecipe(String name, double price, String desc, String intruction, double prepTime, HashMap<Ingredient, Double> ingredientMap){
+    public void addNewOrUpdateRecipe(String name, double price, String desc, String instruction, double prepTime, HashMap<Ingredient, Double> ingredientMap){
 
-        Recipe recipe = new Recipe(name);
-        recipe.setPrice((float) price);
-        recipe.setDescription(desc);
-        recipe.setPrepInstruction(intruction);
-        recipe.setPrepTime((float) prepTime);
-
-        for(Map.Entry<Ingredient,Double> entry : ingredientMap.entrySet()){
-            recipe.addRecipeIngredients(entry.getKey(), entry.getValue());
+        for(Recipe r: recipeList){
+            if(r.getName().equals(name)){
+                r.setPrice((float) price);
+                r.setDescription(desc);
+                r.setPrepInstruction(instruction);
+                r.setPrepTime((float) prepTime);
+                for(Map.Entry<Ingredient,Double> entry : ingredientMap.entrySet()){
+                    r.addRecipeIngredients(entry.getKey(), entry.getValue());
+                }
+                return;//recipe updated no need for new one
+            }
         }
-        recipeList.add(recipe);
-
-        System.out.println(recipe);
+        Recipe newRecipe = new Recipe(name);
+        newRecipe.setPrice((float) price);
+        newRecipe.setDescription(desc);
+        newRecipe.setPrepInstruction(instruction);
+        newRecipe.setPrepTime((float) prepTime);
+        for(Map.Entry<Ingredient,Double> entry : ingredientMap.entrySet()){
+            newRecipe.addRecipeIngredients(entry.getKey(), entry.getValue());
+        }
+        recipeList.add(newRecipe);
+        System.out.println(newRecipe);
     }
 
 
