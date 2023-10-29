@@ -31,6 +31,8 @@ public class ProgramController {
     ServerModel serverModel;
     KitchenModel kitchenModel;
 
+
+
     private enum INTERACTION_STATE{
         RECIPE_LOADED,
         NOT_LOADED
@@ -207,17 +209,12 @@ public class ProgramController {
         this.recipeInteractiveModel = recipeInteractiveModel;
     }
     public void openRecipeMakerScreen(ActionEvent event){
-
         switch (interactionState){
             case RECIPE_LOADED -> {
-
                 this.startupMVC.selectRecipeMaker();
                 this.startupMVC.modelChanged();
                 this.inventoryModel.notifySubs();
                 this.recipeMakerView.updateMenuHandlers(this);//and updates the handlers for every new menu item
-
-
-
             }
             case NOT_LOADED -> {
                 this.recipeInteractiveModel.clearRecipeIModel();
@@ -227,8 +224,21 @@ public class ProgramController {
                 this.recipeMakerView.updateMenuHandlers(this);//and updates the handlers for every new menu item
             }
         }
+    }
+
+    public void selectIngredient(MouseEvent mouseEvent) {
+
+        Ingredient selectedIngredientName = recipeMakerView.getIngredientTable().getSelectionModel().getSelectedItem().getIngredient();
+        recipeMakerView.getSelectedIngredient().setText(selectedIngredientName.getName());
 
     }
+
+    public void deleteIngredientFromRecipe(ActionEvent actionEvent) {
+
+        Ingredient ingredientToRemove = searchIngredientByName(recipeMakerView.getSelectedIngredient().getText());
+        recipeInteractiveModel.removeFromTempMap(ingredientToRemove);
+    }
+
 
     /**
      * When the addRecipe button is hit, take all the information from the fields and create a new recipe
@@ -270,7 +280,7 @@ public class ProgramController {
 
         recipieAddedPopUp(recipeName);
         setStateNotLoaded(event);
-        recipeInteractiveModel.clearRecipeIModel();
+
 
     }
 

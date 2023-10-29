@@ -53,6 +53,13 @@ public class RecipeInteractiveModel {
             System.out.println(temporaryIngredientMap.size());
         }
     }
+
+    public void removeFromTempMap(Ingredient ingredient){
+        if(loadedRecipe != null){
+            temporaryIngredientMap.remove(ingredient);
+            notifySubscribers();
+        }
+    }
     public void notifySubscribers(){
         for(RecipeInteractiveModelSubsciber sub: subsciberList){
             sub.iModelChanged(temporaryIngredientMap,loadedRecipe);

@@ -24,6 +24,7 @@ public class RecipeMakerView extends StackPane implements InventorySubscriber, R
     TextField recipePrep;
     Button saveRecipe;
     Button addIngredient;
+    Button deleteIngredient;
     Button recipeList;
     Button mainMenu;
     TextField selectedIngredient;
@@ -95,7 +96,12 @@ public class RecipeMakerView extends StackPane implements InventorySubscriber, R
         ingredientMenuBar = new MenuBar();
         selectedIngredient = new TextField();
         selectedIngredient.setEditable(false);
+
         addIngredient = new Button("add ingredient");
+        deleteIngredient = new Button("Delete ingredient");
+
+        HBox addAndDelBox = new HBox(addIngredient,deleteIngredient);
+
 
         for(Ingredient.IngredientType type : Ingredient.IngredientType.values()){
             Menu typeMenu = new Menu(type.getName());
@@ -112,7 +118,7 @@ public class RecipeMakerView extends StackPane implements InventorySubscriber, R
 
         amountHBox.getChildren().addAll(enterMeasurementField,measurementBox);
 
-        selectionVBox.getChildren().addAll( selectLabel, ingredientMenuBar,selectedIngredient,amountHBox,addIngredient);
+        selectionVBox.getChildren().addAll( selectLabel, ingredientMenuBar,selectedIngredient,amountHBox,addAndDelBox);
 
         mainMenu = new Button("Main Menu");
 
@@ -245,6 +251,8 @@ public class RecipeMakerView extends StackPane implements InventorySubscriber, R
         recipeList.setOnAction(controller::openRecipeList);
         saveRecipe.setOnAction(controller::addRecipe);
         addIngredient.setOnAction(controller::addIngredientToRecipe);
+        ingredientTable.setOnMouseClicked(controller::selectIngredient);
+        deleteIngredient.setOnAction(controller::deleteIngredientFromRecipe);
     }
 
 
@@ -289,5 +297,7 @@ public class RecipeMakerView extends StackPane implements InventorySubscriber, R
         return measurementBox;
     }
 
-
+    public TableView<IngredientData> getIngredientTable() {
+        return ingredientTable;
+    }
 }
