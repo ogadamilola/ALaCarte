@@ -276,9 +276,11 @@ public class RecipeListView extends StackPane implements RecipeModelSubscriber,R
 
         ingredientTable.setItems(ingredientData);
         ingredientNameCol.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
-        quantityCol.setCellValueFactory(cellData -> cellData.getValue().quantityProperty().asObject());
-        measurementUnitCol.setCellValueFactory(cellData -> cellData.getValue().measurementProperty());
+        //recipe list map takes the recipe map quantity, which has been converted to pounds so this changes it back to ounces, for display only
+        quantityCol.setCellValueFactory(cellData -> cellData.getValue().recipeQuantityProperty().asObject());
+        measurementUnitCol.setCellValueFactory(cellData -> cellData.getValue().recipeMeasurementProperty());
         allergenCol.setCellValueFactory(cellData -> cellData.getValue().allergenProperty());
+
 
 
 

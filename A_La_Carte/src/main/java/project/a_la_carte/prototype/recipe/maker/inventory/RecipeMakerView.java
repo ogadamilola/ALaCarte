@@ -208,8 +208,8 @@ public class RecipeMakerView extends StackPane implements InventorySubscriber, R
         }
         ingredientTable.setItems(data);
         nameCol.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
-        quantityCol.setCellValueFactory(cellData -> cellData.getValue().quantityProperty().asObject());
-        measurementUnitCol.setCellValueFactory(cellData -> cellData.getValue().measurementProperty());
+        quantityCol.setCellValueFactory(cellData -> cellData.getValue().inventoryQuantityProperty().asObject());
+        measurementUnitCol.setCellValueFactory(cellData -> cellData.getValue().recipeMeasurementProperty());
         allergenCol.setCellValueFactory(cellData -> cellData.getValue().allergenProperty());
 
         if(loadedRecipe == null){
@@ -228,6 +228,10 @@ public class RecipeMakerView extends StackPane implements InventorySubscriber, R
             getRecipePrep().setText(String.valueOf(loadedRecipe.getPrepTime()));
             System.out.println("maker Loaded = not null");
         }
+
+        getSelectedIngredient().clear();
+        getMeasurementBox().setValue(null);
+        getEnterMeasurementField().clear();
 
     }
     public void setRecipeModel(RecipeModel newModel){

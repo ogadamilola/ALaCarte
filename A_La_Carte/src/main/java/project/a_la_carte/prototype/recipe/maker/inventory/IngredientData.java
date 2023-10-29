@@ -24,8 +24,21 @@ public class IngredientData {
         return quantity;
     }
 
-    public DoubleProperty quantityProperty(){
+    public DoubleProperty inventoryQuantityProperty(){
         return new SimpleDoubleProperty(quantity);
+    }
+
+    public DoubleProperty recipeQuantityProperty(){//use to display ounces in recipe tables
+        switch(this.ingredient.getMeasurementUnit()){
+            case Count -> {
+                return new SimpleDoubleProperty(quantity);
+            }
+            case Pounds -> {return new SimpleDoubleProperty(quantity*16);}
+
+
+            default -> {return new SimpleDoubleProperty(-1);}
+        }
+
     }
     public StringProperty nameProperty(){
         return new SimpleStringProperty(ingredient.getName());
@@ -33,8 +46,22 @@ public class IngredientData {
     public StringProperty typeProperty(){
         return new SimpleStringProperty(ingredient.getIngredientType().getName());
     }
-    public StringProperty measurementProperty(){
+
+    public StringProperty inventoryMeasurementProperty(){ //use to display pounds in inventory
         return new SimpleStringProperty(ingredient.getMeasurementUnit().getName());
+    }
+
+    //use to display ounces recipe
+    public StringProperty recipeMeasurementProperty(){
+        StringProperty measurementUnit;
+        switch (this.ingredient.getMeasurementUnit()){
+            case Pounds -> measurementUnit = new SimpleStringProperty("Oz");
+
+            case Count ->  measurementUnit = new SimpleStringProperty(ingredient.getMeasurementUnit().getName());
+
+            default -> measurementUnit = new SimpleStringProperty((ingredient.getMeasurementUnit().getName()));
+        }
+        return  measurementUnit;
     }
     public BooleanProperty allergenProperty(){
         return new SimpleBooleanProperty(ingredient.isCommonAllergen());

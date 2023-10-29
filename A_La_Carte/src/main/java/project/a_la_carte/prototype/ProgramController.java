@@ -270,6 +270,8 @@ public class ProgramController {
 
         recipieAddedPopUp(recipeName);
         setStateNotLoaded(event);
+        recipeInteractiveModel.clearRecipeIModel();
+
     }
 
     /**
@@ -291,11 +293,9 @@ public class ProgramController {
         MenuItem selectedIngredient = (MenuItem) actionEvent.getSource();
         String selectedIngredientName = selectedIngredient.getText();
 
-
         //System.out.println(selectedIngredientName);
-        recipeMakerView.getSelectedIngredient().setEditable(true);
-        recipeMakerView.getSelectedIngredient().setText(selectedIngredientName);
         recipeMakerView.getSelectedIngredient().setEditable(false);
+        recipeMakerView.getSelectedIngredient().setText(selectedIngredientName);
 
         //set comboBox to match measurement;
         Ingredient ingredient = searchIngredientByName(selectedIngredientName);
@@ -329,7 +329,7 @@ public class ProgramController {
         Double recipeQuantity = Double.valueOf(recipeMakerView.getEnterMeasurementField().getText());
         //find the ingredient;
         recipeInteractiveModel.addToTempMap(ingredient,recipeQuantity);
-        //add ingredient to temp list of ingredients to be displayed\
+        //add ingredient to temp list of ingredients to be displayed
     }
 
     /**
