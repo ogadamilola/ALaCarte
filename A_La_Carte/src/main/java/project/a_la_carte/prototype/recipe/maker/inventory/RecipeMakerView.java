@@ -1,5 +1,7 @@
 package project.a_la_carte.prototype.recipe.maker.inventory;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -22,6 +24,7 @@ public class RecipeMakerView extends StackPane implements InventorySubscriber, R
     TextField recipePrep;
     Button saveRecipe;
     Button addIngredient;
+    Button deleteIngredient;
     Button recipeList;
     Button mainMenu;
     TextField selectedIngredient;
@@ -29,6 +32,12 @@ public class RecipeMakerView extends StackPane implements InventorySubscriber, R
 
     TextField enterMeasurementField;
     ComboBox<Object> measurementBox;
+
+    TableView<IngredientData> ingredientTable;
+    TableColumn<IngredientData,String> nameCol;
+    TableColumn<IngredientData,Double> quantityCol;
+    TableColumn<IngredientData,String> measurementUnitCol;
+    TableColumn<IngredientData, Boolean> allergenCol;
     public RecipeMakerView(){
         this.setMaxSize(1000,500);
 
@@ -87,7 +96,12 @@ public class RecipeMakerView extends StackPane implements InventorySubscriber, R
         ingredientMenuBar = new MenuBar();
         selectedIngredient = new TextField();
         selectedIngredient.setEditable(false);
+
         addIngredient = new Button("add ingredient");
+        deleteIngredient = new Button("Delete ingredient");
+
+        HBox addAndDelBox = new HBox(addIngredient,deleteIngredient);
+
 
         for(Ingredient.IngredientType type : Ingredient.IngredientType.values()){
             Menu typeMenu = new Menu(type.getName());
@@ -104,7 +118,7 @@ public class RecipeMakerView extends StackPane implements InventorySubscriber, R
 
         amountHBox.getChildren().addAll(enterMeasurementField,measurementBox);
 
-        selectionVBox.getChildren().addAll( selectLabel, ingredientMenuBar,selectedIngredient,amountHBox,addIngredient);
+        selectionVBox.getChildren().addAll( selectLabel, ingredientMenuBar,selectedIngredient,amountHBox,addAndDelBox);
 
         mainMenu = new Button("Main Menu");
 
@@ -118,13 +132,6 @@ public class RecipeMakerView extends StackPane implements InventorySubscriber, R
         //The ingredient list would probably be filled with a HBox making class which is why
         //ingredientVBox is a variable, so that we can clear it, add ingredients, and delete ingredients
 
-        HBox alignHBoxAdd = new HBox();
-
-        //alignHBoxAdd.getChildren().add(addIngredient);
-        alignHBoxAdd.setAlignment(Pos.BOTTOM_CENTER);
-        alignHBoxAdd.setPrefSize(400,500);
-        alignHBoxAdd.setPadding(new Insets(5,5,5,5));
-
         HBox buttonsHBox = new HBox();
         recipeList = new Button("Return to Recipe List");
         saveRecipe = new Button("Save Recipe to Menu");
@@ -133,13 +140,31 @@ public class RecipeMakerView extends StackPane implements InventorySubscriber, R
         buttonsHBox.setSpacing(10);
         buttonsHBox.setAlignment(Pos.BASELINE_RIGHT);
 
-        ingredientVBox.getChildren().add(alignHBoxAdd);
         ingredientVBox.setStyle("-fx-border-color: black;\n");
+
+        ingredientTable = new TableView<>();
+        nameCol = new TableColumn<>("Ingredient Name");
+        quantityCol = new TableColumn<>("Quantity");
+        quantityCol.setMaxWidth(70);
+        quantityCol.setMinWidth(70);
+        measurementUnitCol = new TableColumn<>("Unit");
+        measurementUnitCol.setMinWidth(50);
+        measurementUnitCol.setMaxWidth(50);
+        allergenCol = new TableColumn<>("Allergen");
+        allergenCol.setMinWidth(60);
+        allergenCol.setMaxWidth(60);
+
+        ingredientTable.getColumns().addAll(nameCol,quantityCol,measurementUnitCol,allergenCol);
+        ingredientTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+
+        ingredientTable.setPrefSize(700,1500);
+        ingredientVBox.getChildren().add(ingredientTable);
+        ingredientVBox.setPrefSize(600,700);
 
         VBox alignRight = new VBox();
         alignRight.getChildren().addAll(ingredientVBox,buttonsHBox);
         alignRight.setPadding(new Insets(5,5,5,5));
-        alignRight.setAlignment(Pos.BASELINE_RIGHT);
+
 
         HBox connectAll = new HBox();
         connectAll.getChildren().addAll(createVBox,alignRight);
@@ -154,7 +179,7 @@ public class RecipeMakerView extends StackPane implements InventorySubscriber, R
      * new ingredient added to InventoryModel
      * @param ingredientInventory
      */
-    public void modelChanged(Map<Ingredient, Double> ingredientInventory) {
+    public void modelChanged(Map<Ingredient, Double> ingredientInventory,Ingredient loadedIngredient) {
         ingredientMenuBar.getMenus().clear();
         for(Ingredient.IngredientType type : Ingredient.IngredientType.values()){
 
@@ -177,18 +202,41 @@ public class RecipeMakerView extends StackPane implements InventorySubscriber, R
      * @param tempIngredientList
      */
 
-    public void iModelChanged(Map<Ingredient, Double> tempIngredientList) {
+    public void iModelChanged(Map<Ingredient, Double> tempIngredientList,Recipe loadedRecipe) {
         //make an ingredient widget and show it in the list
+        ObservableList<IngredientData> data =  FXCollections.observableArrayList();
+        ingredientTable.setItems(data);
         for (Map.Entry<Ingredient, Double> entry : tempIngredientList.entrySet()) {
-            String measurement;
-            switch (entry.getKey().getMeasurementUnit()){
-                case Count -> measurement = "Count";
-                case Pounds -> measurement = "Oz";
-                default -> measurement = "Error";
-            }
-            IngredientWidget widget = new IngredientWidget(entry.getKey(),entry.getValue(), measurement);
-            ingredientVBox.getChildren().add(widget.getWidget());
+            Ingredient ingredient = entry.getKey();
+            Double quantity = entry.getValue();
+            IngredientData theData = new IngredientData(ingredient,quantity);
+            data.add(theData);
         }
+        ingredientTable.setItems(data);
+        nameCol.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
+        quantityCol.setCellValueFactory(cellData -> cellData.getValue().inventoryQuantityProperty().asObject());
+        measurementUnitCol.setCellValueFactory(cellData -> cellData.getValue().recipeMeasurementProperty());
+        allergenCol.setCellValueFactory(cellData -> cellData.getValue().allergenProperty());
+
+        if(loadedRecipe == null){
+            getRecipeName().clear();
+            getRecipePrice().clear();
+            getRecipeDescription().clear();
+            getRecipeInstruction().clear();
+            getRecipePrep().clear();
+        }
+        else{
+            getRecipeName().setText(loadedRecipe.getName());
+            getRecipePrice().setText(String.valueOf(loadedRecipe.getPrice()));
+            getRecipeDescription().setText(loadedRecipe.getDescription());
+            getRecipeInstruction().setText(loadedRecipe.getPrepInstruction());
+            getRecipePrep().setText(String.valueOf(loadedRecipe.getPrepTime()));
+        }
+
+        getSelectedIngredient().clear();
+        getMeasurementBox().setValue(null);
+        getEnterMeasurementField().clear();
+
     }
     public void setRecipeModel(RecipeModel newModel){
         this.recipeModel = newModel;
@@ -199,8 +247,10 @@ public class RecipeMakerView extends StackPane implements InventorySubscriber, R
     public void setRecipeMakerController(ProgramController controller){
         mainMenu.setOnAction(controller::openStartUpMVC);
         recipeList.setOnAction(controller::openRecipeList);
-        saveRecipe.setOnAction(controller::addRecipie);
-        addIngredient.setOnAction(controller::addIngredientToRecipie);
+        saveRecipe.setOnAction(controller::addRecipe);
+        addIngredient.setOnAction(controller::addIngredientToRecipe);
+        ingredientTable.setOnMouseClicked(controller::selectIngredient);
+        deleteIngredient.setOnAction(controller::deleteIngredientFromRecipe);
     }
 
 
@@ -245,5 +295,7 @@ public class RecipeMakerView extends StackPane implements InventorySubscriber, R
         return measurementBox;
     }
 
-
+    public TableView<IngredientData> getIngredientTable() {
+        return ingredientTable;
+    }
 }

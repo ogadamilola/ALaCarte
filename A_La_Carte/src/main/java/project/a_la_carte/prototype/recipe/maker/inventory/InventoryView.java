@@ -152,12 +152,12 @@ public class InventoryView extends StackPane implements InventorySubscriber {
         mainMenu.setOnAction(controller::openStartUpMVC);
         submit.setOnAction(controller::handleNewIngredient);
         inventoryTable.setOnMouseClicked(controller::loadIngredient);
-        clearButton.setOnAction(controller::clearFields);
+        clearButton.setOnAction(controller::clearInventoryViewFields);
         updateButton.setOnAction(controller::updateItem);
         deleteButton.setOnAction(controller::deleteItem);
     }
 
-    public void modelChanged(Map<Ingredient, Double> ingredientInventory){
+    public void modelChanged(Map<Ingredient, Double> ingredientInventory, Ingredient loadedIngredient){
         //clear text fields
         nameText.clear();
         quantityText.clear();
@@ -173,6 +173,7 @@ public class InventoryView extends StackPane implements InventorySubscriber {
         }*/
 
         //new way to display inventory
+
         ObservableList<IngredientData> data = FXCollections.observableArrayList();
         for (Map.Entry<Ingredient, Double> entry : ingredientInventory.entrySet()) {
             Ingredient ingredient = entry.getKey();
@@ -182,10 +183,28 @@ public class InventoryView extends StackPane implements InventorySubscriber {
         }
         inventoryTable.setItems(data);
         nameCol.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
-        quantityCol.setCellValueFactory(cellData -> cellData.getValue().quantityProperty().asObject());
-        measurementUnitCol.setCellValueFactory(cellData -> cellData.getValue().measurementProperty());
+        //temp map takes the input, which the user puts in ounces
+        quantityCol.setCellValueFactory(cellData -> cellData.getValue().inventoryQuantityProperty().asObject());
+        measurementUnitCol.setCellValueFactory(cellData -> cellData.getValue().inventoryMeasurementProperty());
         typeCol.setCellValueFactory(cellData -> cellData.getValue().typeProperty());
         statusCol.setCellValueFactory(cellData -> cellData.getValue().statusProperty());
+
+        if(loadedIngredient == null){
+            getNameText().clear();
+            getNameText().setEditable(true);
+            getQuantityText().clear();
+            getTypeComboBox().setValue(null);
+            getMeasurementUnitComboBox().setValue(null);
+            getCommonAllergenCheck().setSelected(false);
+        } else{
+            getNameText().setText(loadedIngredient.getName());
+            getNameText().setEditable(false);
+            Double currentQuantity = ingredientInventory.get(loadedIngredient);
+            getQuantityText().setText(String.valueOf(currentQuantity));
+            getTypeComboBox().setValue(loadedIngredient.getIngredientType());
+            getMeasurementUnitComboBox().setValue(loadedIngredient.getMeasurementUnit());
+            getCommonAllergenCheck().setSelected(loadedIngredient.isCommonAllergen());
+        }
     }
 
 
