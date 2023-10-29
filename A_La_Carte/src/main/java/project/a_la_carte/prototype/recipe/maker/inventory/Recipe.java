@@ -21,7 +21,7 @@ public class Recipe {
     public Recipe(String name){
         this.name = name;
         this.recipeIngredients = new HashMap<>();
-
+        this.price = 0.0F;
         //Menu Item side
         this.menuItemRecipeButton = new MenuItemRecipeButton(name);
         this.selectedStatus = false;
