@@ -52,6 +52,10 @@ public class Recipe {
         return recipeIngredients;
     }
 
+    public void setRecipeIngredients(Map<Ingredient, Double> recipeIngredients) {
+        this.recipeIngredients = recipeIngredients;
+    }
+
     public String getName() {
         return name;
     }

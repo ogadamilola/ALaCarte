@@ -34,9 +34,7 @@ public class RecipeModel {
                 r.setDescription(desc);
                 r.setPrepInstruction(instruction);
                 r.setPrepTime((float) prepTime);
-                for(Map.Entry<Ingredient,Double> entry : ingredientMap.entrySet()){
-                    r.addRecipeIngredients(entry.getKey(), entry.getValue());
-                }
+                r.setRecipeIngredients(ingredientMap);//update the map to the new given map
                 return;//recipe updated no need for new one
             }
         }
@@ -45,9 +43,7 @@ public class RecipeModel {
         newRecipe.setDescription(desc);
         newRecipe.setPrepInstruction(instruction);
         newRecipe.setPrepTime((float) prepTime);
-        for(Map.Entry<Ingredient,Double> entry : ingredientMap.entrySet()){
-            newRecipe.addRecipeIngredients(entry.getKey(), entry.getValue());
-        }
+        newRecipe.setRecipeIngredients(ingredientMap);
         recipeList.add(newRecipe);
         System.out.println(newRecipe);
     }
