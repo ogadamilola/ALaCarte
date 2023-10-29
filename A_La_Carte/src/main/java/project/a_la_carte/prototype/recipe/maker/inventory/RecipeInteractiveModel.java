@@ -46,10 +46,10 @@ public class RecipeInteractiveModel {
     }
 
     public void addToTempMap(Ingredient ingredient, Double recipeQuantity){
-        if (loadedRecipe != null) {
+
             temporaryIngredientMap.put(ingredient, recipeQuantity);
             notifySubscribers();
-        }
+
     }
 
     public void removeFromTempMap(Ingredient ingredient){

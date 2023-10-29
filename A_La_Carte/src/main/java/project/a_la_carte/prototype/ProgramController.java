@@ -299,8 +299,6 @@ public class ProgramController {
             System.out.println("Error: " + "No recipe selected to delete");
         }
 
-
-
     }
 
     public void showRecipeInfo(ActionEvent actionEvent){
