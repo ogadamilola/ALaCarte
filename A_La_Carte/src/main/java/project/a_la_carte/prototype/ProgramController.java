@@ -63,7 +63,7 @@ public class ProgramController {
         this.startupMVC.selectRecipeList();
         this.startupMVC.modelChanged();
         this.recipeModel.notifySubscribers();
-        this.recipeInteractiveModel.notifySubscribers();
+        this.recipeInteractiveModel.clearRecipeIModel();
     }
     public void openMenuView(ActionEvent event){
         //So that the new display is shown

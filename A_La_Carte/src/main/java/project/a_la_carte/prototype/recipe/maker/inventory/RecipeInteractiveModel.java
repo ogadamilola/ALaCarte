@@ -33,8 +33,14 @@ public class RecipeInteractiveModel {
         } else {
             this.loadedRecipe = loadedRecipe;
             setLoadedRecipeSavedIngredientsMap(this.loadedRecipe.getRecipeIngredients());
+            updateTempMap();
         }
         notifySubscribers();
+    }
+    public void updateTempMap(){
+        for(Map.Entry<Ingredient,Double> entry : loadedRecipeSavedIngredientsMap.entrySet()){
+            temporaryIngredientMap.put(entry.getKey(),entry.getValue());
+        }
     }
 
     public Recipe getLoadedRecipe() {
