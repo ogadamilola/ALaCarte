@@ -212,6 +212,23 @@ public class RecipeMakerView extends StackPane implements InventorySubscriber, R
         measurementUnitCol.setCellValueFactory(cellData -> cellData.getValue().measurementProperty());
         allergenCol.setCellValueFactory(cellData -> cellData.getValue().allergenProperty());
 
+        if(loadedRecipe == null){
+            getRecipeName().clear();
+            getRecipePrice().clear();
+            getRecipeDescription().clear();
+            getRecipeInstruction().clear();
+            getRecipePrep().clear();
+            System.out.println("maker Loaded = null");
+        }
+        else{
+            getRecipeName().setText(loadedRecipe.getName());
+            getRecipePrice().setText(String.valueOf(loadedRecipe.getPrice()));
+            getRecipeDescription().setText(loadedRecipe.getDescription());
+            getRecipeInstruction().setText(loadedRecipe.getPrepInstruction());
+            getRecipePrep().setText(String.valueOf(loadedRecipe.getPrepTime()));
+            System.out.println("maker Loaded = not null");
+        }
+
     }
     public void setRecipeModel(RecipeModel newModel){
         this.recipeModel = newModel;
@@ -222,8 +239,8 @@ public class RecipeMakerView extends StackPane implements InventorySubscriber, R
     public void setRecipeMakerController(ProgramController controller){
         mainMenu.setOnAction(controller::openStartUpMVC);
         recipeList.setOnAction(controller::openRecipeList);
-        saveRecipe.setOnAction(controller::addRecipie);
-        addIngredient.setOnAction(controller::addIngredientToRecipie);
+        saveRecipe.setOnAction(controller::addRecipe);
+        addIngredient.setOnAction(controller::addIngredientToRecipe);
     }
 
 

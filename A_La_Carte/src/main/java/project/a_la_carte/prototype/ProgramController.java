@@ -31,6 +31,12 @@ public class ProgramController {
     ServerModel serverModel;
     KitchenModel kitchenModel;
 
+    private enum INTERACTION_STATE{
+        RECIPE_LOADED,
+        NOT_LOADED
+    }
+    private INTERACTION_STATE interactionState = INTERACTION_STATE.NOT_LOADED;
+
 
     public ProgramController(){
 
@@ -69,6 +75,15 @@ public class ProgramController {
     public void openMenuListView(ActionEvent event){
         this.startupMVC.selectMenuItemList();
         this.startupMVC.modelChanged();
+    }
+
+    public void setStateLoaded(){
+        this.interactionState = INTERACTION_STATE.RECIPE_LOADED;
+        System.out.println("State loaded");
+    }
+    public void setStateNotLoaded(ActionEvent event){
+        this.interactionState = INTERACTION_STATE.NOT_LOADED;
+        System.out.println("State not loaded");
     }
 
     /**
@@ -152,10 +167,18 @@ public class ProgramController {
 
     public void loadRecipe(MouseEvent mouseEvent) {
 
-        String recipeName = recipeListView.getRecipeTable().getSelectionModel().getSelectedItem().getRecipe().getName();
-        Recipe recipeToLoad = searchRecipeByName(recipeName);
-        recipeInteractiveModel.setLoadedRecipe(recipeToLoad);
-        System.out.println("clicked that fosho");
+        if( recipeListView.getRecipeTable().getSelectionModel().getSelectedItem() ==null){
+            recipeInteractiveModel.setLoadedRecipe(null);
+            setStateNotLoaded(null);
+        } else {
+
+            Recipe recipeToLoad = recipeListView.getRecipeTable().getSelectionModel().getSelectedItem().getRecipe();
+            System.out.println(recipeToLoad.getRecipeIngredients().size());
+            recipeInteractiveModel.setLoadedRecipe(recipeToLoad);
+            setStateLoaded();
+        }
+        //cant figure out how to unselect a recipe lol
+
     }
 
     public Recipe searchRecipeByName(String name){
@@ -184,12 +207,27 @@ public class ProgramController {
         this.recipeInteractiveModel = recipeInteractiveModel;
     }
     public void openRecipeMakerScreen(ActionEvent event){
-        this.startupMVC.selectRecipeMaker();
-        this.startupMVC.modelChanged();
 
-        //i dont know is this is a good solution but it refreshes the menu to stay updated with inventory
-        this.inventoryModel.notifySubs();
-        this.recipeMakerView.updateMenuHandlers(this);//and updates the handlers for every new menu item
+        switch (interactionState){
+            case RECIPE_LOADED -> {
+
+                this.startupMVC.selectRecipeMaker();
+                this.startupMVC.modelChanged();
+                this.inventoryModel.notifySubs();
+                this.recipeMakerView.updateMenuHandlers(this);//and updates the handlers for every new menu item
+
+
+
+            }
+            case NOT_LOADED -> {
+                this.recipeInteractiveModel.clearRecipeIModel();
+                this.startupMVC.selectRecipeMaker();
+                this.startupMVC.modelChanged();
+                this.inventoryModel.notifySubs();
+                this.recipeMakerView.updateMenuHandlers(this);//and updates the handlers for every new menu item
+            }
+        }
+
     }
 
     /**
@@ -197,7 +235,7 @@ public class ProgramController {
      * take ingredients iModel and use the map to store them in the recipie
      * @param event
      */
-    public void addRecipie(ActionEvent event){
+    public void addRecipe(ActionEvent event){
 
         String recipeName = recipeMakerView.getRecipeName().getText();
         double recipePrice = Double.parseDouble(recipeMakerView.getRecipePrice().getText());
@@ -230,9 +268,8 @@ public class ProgramController {
         recipeMakerView.getRecipeInstruction().clear();
         recipeMakerView.getRecipePrep().clear();
 
-        //clear recipe iModel
-        recipeInteractiveModel.clearList();
         recipieAddedPopUp(recipeName);
+        setStateNotLoaded(event);
     }
 
     /**
@@ -286,15 +323,13 @@ public class ProgramController {
      * add ingredient in textbox to temp ingredient list in Recipe I model
      * @param actionEvent
      */
-    public void addIngredientToRecipie(ActionEvent actionEvent) {
+    public void addIngredientToRecipe(ActionEvent actionEvent) {
         String ingredientName = recipeMakerView.getSelectedIngredient().getText();
         Ingredient ingredient = searchIngredientByName(ingredientName);
         Double recipeQuantity = Double.valueOf(recipeMakerView.getEnterMeasurementField().getText());
         //find the ingredient;
-        recipeInteractiveModel.addToMap(ingredient,recipeQuantity);
+        recipeInteractiveModel.addToTempMap(ingredient,recipeQuantity);
         //add ingredient to temp list of ingredients to be displayed\
-        recipeMakerView.getEnterMeasurementField().clear();
-
     }
 
     /**

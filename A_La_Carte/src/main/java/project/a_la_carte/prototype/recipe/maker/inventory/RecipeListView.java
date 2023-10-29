@@ -206,6 +206,7 @@ public class RecipeListView extends StackPane implements RecipeModelSubscriber,R
     public void setController(ProgramController controller){
 
         this.createNewButton.setOnAction(event -> {//need to do it like it
+            controller.setStateNotLoaded(event);
             controller.openRecipeMakerScreen(event);
         });
 
@@ -229,7 +230,7 @@ public class RecipeListView extends StackPane implements RecipeModelSubscriber,R
     public void RecipieModelChanged(List<Recipe> recipeList) {
 
         ObservableList<RecipeData> data = FXCollections.observableArrayList();
-        recipeTable.setItems(data);
+
         for(Recipe recipe : recipeList){
             RecipeData myRecipe = new RecipeData(recipe);
             data.add(myRecipe);
@@ -246,13 +247,31 @@ public class RecipeListView extends StackPane implements RecipeModelSubscriber,R
      */
     public void iModelChanged(Map<Ingredient, Double> tempIngredientList,Recipe loadedRecipe) {
 
+
         ObservableList<IngredientData> ingredientData = FXCollections.observableArrayList();
 
-        for(Map.Entry<Ingredient, Double> entry : tempIngredientList.entrySet()){
-            Double ingredientQuantity = entry.getValue();
-            Ingredient ingredient = entry.getKey();
-            IngredientData iData = new IngredientData(ingredient,ingredientQuantity);
-            ingredientData.add(iData);
+        if(loadedRecipe == null){
+            getRecipeNameText().clear();
+            getRecipePriceText().clear();
+            getRecipeDescriptionText().clear();
+            getRecipePrepIText().clear();
+            getRecipePrepTimeText().clear();
+            System.out.println("Loaded = null");
+        }
+        else{
+            getRecipeNameText().setText(loadedRecipe.getName());
+            getRecipePriceText().setText(String.valueOf(loadedRecipe.getPrice()));
+            getRecipeDescriptionText().setText(loadedRecipe.getDescription());
+            getRecipePrepIText().setText(loadedRecipe.getPrepInstruction());
+            getRecipePrepTimeText().setText(String.valueOf(loadedRecipe.getPrepTime()));
+
+            for(Map.Entry<Ingredient, Double> entry : loadedRecipe.getRecipeIngredients().entrySet()){
+                Double ingredientQuantity = entry.getValue();
+                Ingredient ingredient = entry.getKey();
+                IngredientData iData = new IngredientData(ingredient,ingredientQuantity);
+                ingredientData.add(iData);
+            }
+            System.out.println("Loaded = a recipe");
         }
 
         ingredientTable.setItems(ingredientData);
@@ -261,21 +280,7 @@ public class RecipeListView extends StackPane implements RecipeModelSubscriber,R
         measurementUnitCol.setCellValueFactory(cellData -> cellData.getValue().measurementProperty());
         allergenCol.setCellValueFactory(cellData -> cellData.getValue().allergenProperty());
 
-        if(loadedRecipe == null){
-            getRecipeNameText().clear();
-            getRecipePriceText().clear();
-            getRecipeDescriptionText().clear();
-            getRecipePrepIText().clear();
-            getRecipePrepTimeText().clear();
-            System.out.println("null");
-        }
-        else{
-            getRecipeNameText().setText(loadedRecipe.getName());
-            getRecipePriceText().setText(String.valueOf(loadedRecipe.getPrice()));
-            getRecipeDescriptionText().setText(loadedRecipe.getDescription());
-            getRecipePrepIText().setText(loadedRecipe.getPrepInstruction());
-            getRecipePrepTimeText().setText(String.valueOf(loadedRecipe.getPrepTime()));
-        }
+
 
     }
 

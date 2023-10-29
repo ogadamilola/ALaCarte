@@ -20,10 +20,21 @@ public class RecipeInteractiveModel {
 
     }
 
-    public void setLoadedRecipe(Recipe loadedRecipe) {
-        this.loadedRecipe = loadedRecipe;
+    public void clearRecipeIModel(){
+        temporaryIngredientMap.clear();
+        loadedRecipe = null;
         notifySubscribers();
-        System.out.println("them subs notified");
+    }
+
+    public void setLoadedRecipe(Recipe loadedRecipe) {
+        if(loadedRecipe == null){
+            this.loadedRecipe = null;
+            setLoadedRecipeSavedIngredientsMap(null);
+        } else {
+            this.loadedRecipe = loadedRecipe;
+            setLoadedRecipeSavedIngredientsMap(this.loadedRecipe.getRecipeIngredients());
+        }
+        notifySubscribers();
     }
 
     public Recipe getLoadedRecipe() {
@@ -33,13 +44,14 @@ public class RecipeInteractiveModel {
     public void setLoadedRecipeSavedIngredientsMap(Map<Ingredient, Double> loadedRecipeSavedIngredientsMap) {
         this.loadedRecipeSavedIngredientsMap = loadedRecipeSavedIngredientsMap;
     }
-    public Map<Ingredient, Double> getLoadedRecipeSavedIngredientsMap() {
-        return loadedRecipeSavedIngredientsMap;
-    }
 
-    public void addToMap(Ingredient ingredient, Double recipeQuantity){
-        temporaryIngredientMap.put(ingredient,recipeQuantity);
-        notifySubscribers();
+    public void addToTempMap(Ingredient ingredient, Double recipeQuantity){
+        if (loadedRecipe != null) {
+            temporaryIngredientMap.put(ingredient, recipeQuantity);
+            notifySubscribers();
+            System.out.println(loadedRecipe.getRecipeIngredients().size());
+            System.out.println(temporaryIngredientMap.size());
+        }
     }
     public void notifySubscribers(){
         for(RecipeInteractiveModelSubsciber sub: subsciberList){

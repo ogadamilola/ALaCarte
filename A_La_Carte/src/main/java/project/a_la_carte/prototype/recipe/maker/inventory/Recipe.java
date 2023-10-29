@@ -48,6 +48,10 @@ public class Recipe {
         this.recipeIngredients.put(ingredient, amount);
      }
 
+    public Map<Ingredient, Double> getRecipeIngredients() {
+        return recipeIngredients;
+    }
+
     public String getName() {
         return name;
     }
