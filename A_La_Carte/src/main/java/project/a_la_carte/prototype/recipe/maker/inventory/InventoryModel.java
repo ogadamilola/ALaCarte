@@ -16,10 +16,12 @@ public class InventoryModel {
     Map<Ingredient, Double> ingredientInventory;
 
     List<InventorySubscriber> subscriberList;
+    Ingredient loadedIngredient;
     public InventoryModel(){
 
         ingredientInventory = new HashMap<>();
         subscriberList = new ArrayList<>();
+        loadedIngredient = null;
 
         //this is temporary
         addIngredient("Burger Patty", 30, Ingredient.IngredientType.Proteins, Ingredient.MeasurementUnit.Count,false);
@@ -32,11 +34,18 @@ public class InventoryModel {
         notifySubs();
 
     }
+
+    public void setLoadedIngredient(Ingredient loadedIngredient) {
+        this.loadedIngredient = loadedIngredient;
+        notifySubs();
+    }
+    public Ingredient getLoadedIngredient() {
+        return loadedIngredient;
+    }
+
     public Map<Ingredient, Double> getIngredientMap(){
         return ingredientInventory;
     }
-
-
 
     public void addIngredient(String name, double quantity, Ingredient.IngredientType type, Ingredient.MeasurementUnit unit, boolean allergen){
 
@@ -112,7 +121,7 @@ public class InventoryModel {
 
     public void notifySubs(){
         for(InventorySubscriber sub : subscriberList){
-            sub.modelChanged(ingredientInventory);
+            sub.modelChanged(ingredientInventory,loadedIngredient);
         }
     }
 

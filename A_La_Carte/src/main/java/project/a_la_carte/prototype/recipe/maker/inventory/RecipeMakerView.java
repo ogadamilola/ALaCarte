@@ -154,7 +154,7 @@ public class RecipeMakerView extends StackPane implements InventorySubscriber, R
      * new ingredient added to InventoryModel
      * @param ingredientInventory
      */
-    public void modelChanged(Map<Ingredient, Double> ingredientInventory) {
+    public void modelChanged(Map<Ingredient, Double> ingredientInventory,Ingredient loadedIngredient) {
         ingredientMenuBar.getMenus().clear();
         for(Ingredient.IngredientType type : Ingredient.IngredientType.values()){
 

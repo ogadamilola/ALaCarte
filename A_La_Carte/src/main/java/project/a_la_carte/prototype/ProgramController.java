@@ -4,14 +4,11 @@ import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.TableView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
-import org.controlsfx.control.action.Action;
 import project.a_la_carte.prototype.kitchen.side.KitchenModel;
 import project.a_la_carte.prototype.menu.items.MenuFoodItem;
-import project.a_la_carte.prototype.menu.items.MenuItemListView;
 import project.a_la_carte.prototype.menu.items.MenuItemMakerView;
 import project.a_la_carte.prototype.menu.items.MenuItemModel;
 import project.a_la_carte.prototype.recipe.maker.inventory.*;
@@ -88,7 +85,7 @@ public class ProgramController {
         Ingredient.MeasurementUnit mUnit = inventoryView.getMeasurementUnitComboBox().getValue();
         Boolean commonAllergen = inventoryView.getCommonAllergenCheck().isSelected();
         inventoryModel.addIngredient(ingredientName,quantity,type,mUnit,commonAllergen);
-        clearFields(actionEvent);
+        clearInventoryViewFields(actionEvent);
 
         if (ingredientName.isEmpty() || type == null || mUnit == null) {
             throw new IllegalArgumentException("Please fill in all the required fields.");
@@ -105,20 +102,11 @@ public class ProgramController {
     }
     public void loadIngredient(MouseEvent mouseEvent) {
         String ingredientName = inventoryView.getInventoryTable().getSelectionModel().getSelectedItem().getIngredient().getName();
-        Double quantity = inventoryView.getInventoryTable().getSelectionModel().getSelectedItem().getQuantity();
-        Ingredient.MeasurementUnit measurementUnit = inventoryView.getInventoryTable().getSelectionModel().getSelectedItem().getIngredient().getMeasurementUnit();
-        Ingredient.IngredientType ingredientType = inventoryView.getInventoryTable().getSelectionModel().getSelectedItem().getIngredient().getIngredientType();
-        boolean allergen = inventoryView.getInventoryTable().getSelectionModel().getSelectedItem().getIngredient().isCommonAllergen();
-
-        inventoryView.getNameText().setText(ingredientName);
-        inventoryView.getNameText().setEditable(false);
-        inventoryView.getQuantityText().setText(String.valueOf(quantity));
-        inventoryView.getMeasurementUnitComboBox().setValue(measurementUnit);
-        inventoryView.getTypeComboBox().setValue(ingredientType);
-        inventoryView.getCommonAllergenCheck().setSelected(allergen);
+        Ingredient loadedIngredient = searchIngredientByName(ingredientName);
+        inventoryModel.setLoadedIngredient(loadedIngredient);
     }
 
-    public void clearFields(ActionEvent actionEvent) {
+    public void clearInventoryViewFields(ActionEvent actionEvent) {
         inventoryView.getNameText().clear();
         inventoryView.getNameText().setEditable(true);
         inventoryView.getQuantityText().clear();
@@ -139,7 +127,7 @@ public class ProgramController {
         inventoryModel.updateItem(ingredient,quantity,type,mUnit,commonAllergen);
 
 
-        clearFields(actionEvent);
+        clearInventoryViewFields(actionEvent);
     }
 
     public void deleteItem(ActionEvent actionEvent) {
