@@ -48,6 +48,11 @@ public class RecipeModel {
         System.out.println(newRecipe);
     }
 
+    public void deleteRecipe(Recipe recipe) {
+        recipeList.remove(recipe);
+        notifySubscribers();
+    }
+
 
     public void addSubscriber(RecipeModelSubscriber subscriber){
         subscriberList.add(subscriber);
@@ -68,6 +73,7 @@ public class RecipeModel {
     public List<Recipe> getRecipeList(){
         return this.recipeList;
     }
+
 
 
 }

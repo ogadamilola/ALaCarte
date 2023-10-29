@@ -47,6 +47,7 @@ public class RecipeListView extends StackPane implements RecipeModelSubscriber,R
     Button saveChangesButton;
     Button deleteButton;
     Button editIngredients;
+    Button showRecipe;
     public RecipeListView(){
         this.setPrefSize(1000,500);
 
@@ -143,7 +144,8 @@ public class RecipeListView extends StackPane implements RecipeModelSubscriber,R
         //For now it will just lead to the RecipeMaker page
         this.editIngredients = new Button("Edit Recipe");
 
-        HBox buttonsHBox = new HBox(deleteButton,editIngredients);
+        this.showRecipe = new Button("Display Recipe");
+        HBox buttonsHBox = new HBox(deleteButton,editIngredients,showRecipe);
         buttonsHBox.setPrefWidth(400);
         buttonsHBox.setSpacing(7);
         buttonsHBox.setPadding(new Insets(5,3,5,3));
@@ -215,10 +217,11 @@ public class RecipeListView extends StackPane implements RecipeModelSubscriber,R
         this.mainMenu.setOnAction(controller::openStartUpMVC);
         this.recipeTable.setOnMouseClicked(controller::loadRecipe);
 
-        /*this.deleteButton.setOnAction(event -> {
+        this.showRecipe.setOnAction(controller::showRecipeInfo);
+        this.deleteButton.setOnAction(event -> {
             controller.deleteRecipe(event);
             controller.setStateNotLoaded(event);
-        });*/
+        });
 
     }
 

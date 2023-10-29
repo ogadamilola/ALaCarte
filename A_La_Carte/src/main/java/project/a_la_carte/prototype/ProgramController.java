@@ -33,7 +33,6 @@ public class ProgramController {
     KitchenModel kitchenModel;
 
 
-
     private enum INTERACTION_STATE{
         RECIPE_LOADED,
         NOT_LOADED
@@ -289,11 +288,35 @@ public class ProgramController {
 
     }
 
-    /**
-     * popup window that we can honestly remove
-     * @param recipieName
-     */
-    public void recipieAddedPopUp(String recipieName){
+    public void deleteRecipe(ActionEvent actionEvent) {
+        try{
+        String recipeName = recipeListView.getRecipeTable().getSelectionModel().getSelectedItem().getRecipe().getName();
+        Recipe recipe = searchRecipeByName(recipeName);
+        recipeModel.deleteRecipe(recipe);
+        setStateNotLoaded(actionEvent);
+        recipeInteractiveModel.clearRecipeIModel();
+        }catch (NullPointerException e){
+            System.out.println("Error: " + "No recipe selected to delete");
+        }
+
+
+
+    }
+
+    public void showRecipeInfo(ActionEvent actionEvent){
+        //TODO might need to use separate Models depending on who wants to view
+        //for now this is fine
+        try {
+            Recipe selectedRecipe = recipeInteractiveModel.getLoadedRecipe();
+            new ShowRecipeInfoView(selectedRecipe);
+        } catch (NullPointerException e){
+            System.out.println("Error: " + "There is no recipeSelected");
+        }
+    }
+
+
+
+    public void recipieAddedPopUp(String recipieName){//this is just for some user feedback we can remove it tbh
 
         Stage secondStage = new Stage();
         secondStage.setScene(new Scene(new HBox(4, new Label(recipieName + " added to Recipie List!"))));
