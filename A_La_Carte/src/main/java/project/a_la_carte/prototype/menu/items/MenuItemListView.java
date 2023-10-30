@@ -4,6 +4,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -48,11 +49,13 @@ public class MenuItemListView extends StackPane implements MenuItemModelSubscrib
 
         Label menuTitle = new Label("Menu Items");
         this.menuItemListVBox = new VBox();
-        this.menuItemListVBox.setPrefSize(300,500);
-        this.menuItemListVBox.setStyle("-fx-border-color: black;\n");
+        this.menuItemListVBox.setPrefSize(270,500);;
         this.menuItemListVBox.setPadding(new Insets(5));
+        ScrollPane menuItemScroll = new ScrollPane(menuItemListVBox);
+        menuItemScroll.setPrefSize(300,500);
+        menuItemScroll.setStyle("-fx-border-color: black;\n");
 
-        VBox left = new VBox(menuTitle,this.menuItemListVBox);
+        VBox left = new VBox(menuTitle,menuItemScroll);
         left.setPrefSize(300,500);
         left.setPadding(new Insets(5));
 
@@ -106,9 +109,12 @@ public class MenuItemListView extends StackPane implements MenuItemModelSubscrib
 
         Label recipeLabel = new Label("Recipes In Menu Item");
         this.recipeListVBox = new VBox();
-        this.recipeListVBox.setPrefSize(300,400);
-        this.recipeListVBox.setStyle("-fx-border-color: black;\n");
+        this.recipeListVBox.setPrefSize(270,400);
         this.recipeListVBox.setPadding(new Insets(5));
+
+        ScrollPane recipeScroll = new ScrollPane(recipeListVBox);
+        recipeScroll.setPrefSize(300,400);
+        recipeScroll.setStyle("-fx-border-color: black;\n");
 
         this.createNewButton = new Button("Create New Menu Item");
 
@@ -117,7 +123,7 @@ public class MenuItemListView extends StackPane implements MenuItemModelSubscrib
         createBox.setAlignment(Pos.BOTTOM_RIGHT);
         createBox.setPadding(new Insets(5));
 
-        VBox right = new VBox(recipeLabel,recipeListVBox,createBox);
+        VBox right = new VBox(recipeLabel,recipeScroll,createBox);
         right.setPrefSize(300,500);
         right.setPadding(new Insets(5));
 

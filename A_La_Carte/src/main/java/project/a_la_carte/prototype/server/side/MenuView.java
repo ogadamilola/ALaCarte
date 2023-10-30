@@ -4,6 +4,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
@@ -81,10 +82,13 @@ public class MenuView extends StackPane implements ServerViewInterface{
         sendTKHBox.setPadding(new Insets(5));
 
         this.ordersVBox = new VBox();
-        this.ordersVBox.setPrefSize(400,500);
+        this.ordersVBox.setPrefSize(370,500);
         this.ordersVBox.setPadding(new Insets(5,50,5,50));
 
-        VBox alignRight = new VBox(titleViewHBox,ordersVBox,sendTKHBox);
+        ScrollPane ordersFlow = new ScrollPane(ordersVBox);
+        ordersFlow.setPrefSize(400,500);
+
+        VBox alignRight = new VBox(titleViewHBox,ordersFlow,sendTKHBox);
         alignRight.setPrefSize(400,500);
         alignRight.setStyle("-fx-border-color: black;\n");
 

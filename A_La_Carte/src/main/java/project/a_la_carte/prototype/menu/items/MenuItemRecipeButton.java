@@ -10,7 +10,7 @@ public class MenuItemRecipeButton extends Button implements MenuItemWidget {
     Background selectedBG;
     Background unselectedBG;
     public MenuItemRecipeButton(String name){
-        this.setPrefWidth(300);
+        this.setPrefWidth(270);
 
         //If this menu item is selected, it will be highlighted
         selectedBG = new Background(new BackgroundFill(Color.GRAY,new CornerRadii(3),null));

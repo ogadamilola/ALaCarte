@@ -10,7 +10,7 @@ public class MenuItemListButton extends Button implements MenuItemWidget {
     Background selectedBG;
     Background unselectedBG;
     public MenuItemListButton(String name){
-        this.setPrefSize(300,25);
+        this.setPrefSize(270,25);
 
         //If this menu item is selected, it will be highlighted
         selectedBG = new Background(new BackgroundFill(Color.GRAY,new CornerRadii(3),null));
