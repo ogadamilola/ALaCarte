@@ -33,6 +33,8 @@ public class ProgramController {
     KitchenModel kitchenModel;
 
 
+
+
     private enum INTERACTION_STATE{
         RECIPE_LOADED,
         NOT_LOADED
@@ -85,6 +87,13 @@ public class ProgramController {
     }
     public void setStateNotLoaded(ActionEvent event){
         this.interactionState = INTERACTION_STATE.NOT_LOADED;
+    }
+
+    public void setIModelCreating(ActionEvent event) {
+        recipeInteractiveModel.setCreating(true);
+    }
+    public void setIModelNotCreating(ActionEvent event) {
+        recipeInteractiveModel.setCreating(false);
     }
 
     /**
@@ -246,6 +255,7 @@ public class ProgramController {
             if(recipeMakerView.getRecipeName().getText().isBlank() || recipeMakerView.getRecipeDescription().getText().isEmpty() || recipeMakerView.getRecipeInstruction().getText().isEmpty()) {
             throw new IllegalArgumentException("Please fill out all fields");
             }
+
             String recipeName = recipeMakerView.getRecipeName().getText();
             double recipePrice = Double.parseDouble(recipeMakerView.getRecipePrice().getText());
             String recipeDesc = recipeMakerView.getRecipeDescription().getText();
@@ -269,7 +279,6 @@ public class ProgramController {
             ArrayList<Recipe> newRecipeList = new ArrayList<>(recipeModel.getRecipeList());
             menuItemModel.setRecipeArrayList(newRecipeList);
 
-
             //could be deleted if we wanted to leave the recipe on the scree
             //clear all the fields
             recipeMakerView.getRecipeName().clear();
@@ -280,6 +289,8 @@ public class ProgramController {
             recipeMakerView.getIngredientTable().setItems(null);
             setStateNotLoaded(event);
             recipieAddedPopUp(recipeName);
+
+
         }catch(NumberFormatException e){
             System.out.println("Error: " + "Fill out all the fields");
         } catch (IllegalArgumentException e){
@@ -364,6 +375,10 @@ public class ProgramController {
         try {
             if(recipeMakerView.getSelectedIngredient().getText().isBlank()){
                 throw new IllegalArgumentException("No Ingredient to add");
+            }
+            if(!recipeMakerView.getRecipeName().getText().isEmpty()){
+                recipeInteractiveModel.setCreating(true);
+                System.out.println("set creating true");
             }
             String ingredientName = recipeMakerView.getSelectedIngredient().getText();
             Ingredient ingredient = searchIngredientByName(ingredientName);

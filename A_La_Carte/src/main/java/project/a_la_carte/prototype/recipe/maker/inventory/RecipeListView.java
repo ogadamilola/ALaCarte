@@ -208,6 +208,7 @@ public class RecipeListView extends StackPane implements RecipeModelSubscriber,R
     public void setController(ProgramController controller){
 
         this.createNewButton.setOnAction(event -> {//need to do it like it
+            controller.setIModelNotCreating(event);
             controller.setStateNotLoaded(event);
             controller.openRecipeMakerScreen(event);
         });
@@ -248,7 +249,7 @@ public class RecipeListView extends StackPane implements RecipeModelSubscriber,R
      * update the recipe imodel and use it to display selected recipe ingredients
      * @param tempIngredientList
      */
-    public void iModelChanged(Map<Ingredient, Double> tempIngredientList,Recipe loadedRecipe) {
+    public void iModelChanged(Map<Ingredient, Double> tempIngredientList,Recipe loadedRecipe,boolean isCreating) {
 
 
         ObservableList<IngredientData> ingredientData = FXCollections.observableArrayList();
