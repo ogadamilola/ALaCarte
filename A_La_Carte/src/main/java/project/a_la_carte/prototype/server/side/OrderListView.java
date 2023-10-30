@@ -13,7 +13,7 @@ public class OrderListView extends VBox {
     Button deleteButton;
     MenuFoodItem menuItem;
     public OrderListView(MenuFoodItem item){
-        this.setPrefSize(800,70);
+        this.setPrefSize(250,70);
         menuItem = item;
         double r = 1.5;
         deleteButton = new Button("X");
@@ -22,7 +22,7 @@ public class OrderListView extends VBox {
         deleteButton.setStyle("-fx-border-color: black;-fx-background-color: cornflowerblue;\n");
 
         HBox buttonAlign = new HBox(deleteButton);
-        buttonAlign.setPrefWidth(800);
+        buttonAlign.setPrefWidth(250);
         buttonAlign.setAlignment(Pos.TOP_RIGHT);
 
         Label name = new Label(menuItem.getName());

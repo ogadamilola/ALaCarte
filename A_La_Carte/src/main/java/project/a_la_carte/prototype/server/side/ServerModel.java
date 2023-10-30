@@ -12,7 +12,6 @@ public class ServerModel {
     NoteView noteView;
     List<ServerViewInterface> subscribers;
     CustomizeView customizeView;
-    ViewOrder viewOrder;
     String noteMessage = "";
     int orderNumber;
     ArrayList<IngredientsCustomize> ingredientList;
@@ -161,11 +160,6 @@ public class ServerModel {
     public void setCustomizeView(CustomizeView customizeView) {
         this.customizeView = customizeView;
         this.addSubscriber(this.customizeView);
-    }
-
-    public void setViewOrder(ViewOrder viewOrder) {
-        this.viewOrder = viewOrder;
-        this.addSubscriber(this.viewOrder);
     }
     public void notifySubscribers(){
         this.subscribers.forEach((ServerViewInterface::modelChanged));
