@@ -27,7 +27,6 @@ public class StartupMVC extends StackPane {
     MenuView menuView;
     NoteView noteView;
     CustomizeView customizeView;
-    ViewOrder viewOrder;
     KitchenView kitchenView;
     MenuItemListView menuItemListView;
     MenuItemMakerView menuItemMakerView;
@@ -95,13 +94,11 @@ public class StartupMVC extends StackPane {
         this.menuView = new MenuView();
         this.noteView = new NoteView();
         this.customizeView = new CustomizeView();
-        this.viewOrder = new ViewOrder();
         ServerModel serverModel = new ServerModel();
 
         serverModel.setCustomizeView(customizeView);
         serverModel.setMenuView(menuView);
         serverModel.setNoteView(noteView);
-        serverModel.setViewOrder(viewOrder);
 
         this.menuView.setController(programController);
         this.menuView.setServerModel(serverModel);
@@ -111,9 +108,6 @@ public class StartupMVC extends StackPane {
 
         this.customizeView.setController(programController);
         this.customizeView.setServerModel(serverModel);
-
-        this.viewOrder.setController(programController);
-        this.viewOrder.setServerModel(serverModel);
 
         programController.setServerModel(serverModel);
 
@@ -158,16 +152,21 @@ public class StartupMVC extends StackPane {
         Label welcomeLabel = new Label("A La Carte Program Main Menu");
         welcomeLabel.setFont(new Font(40));
 
-        inventoryButton = new Button("Go To Inventory");
+        inventoryButton = new Button("Inventory");
         inventoryButton.setFont(new Font(30));
-        recipeListButton = new Button("Go To Recipe List");
+        inventoryButton.setPrefSize(300,30);
+        recipeListButton = new Button("Recipe List");
         recipeListButton.setFont(new Font(30));
-        menuViewButton = new Button("Go To Server Menu");
+        recipeListButton.setPrefSize(300,30);
+        menuViewButton = new Button("Server Menu");
         menuViewButton.setFont(new Font(30));
-        kitchenButton = new Button("Go To Kitchen View");
+        menuViewButton.setPrefSize(300,30);
+        kitchenButton = new Button("Kitchen View");
         kitchenButton.setFont(new Font(30));
-        menuItemListButton = new Button("Go To Menu List");
+        kitchenButton.setPrefSize(300,30);
+        menuItemListButton = new Button("Menu List");
         menuItemListButton.setFont(new Font(30));
+        menuItemListButton.setPrefSize(300,30);
 
         VBox startUpAlign = new VBox(welcomeLabel,inventoryButton,recipeListButton,menuViewButton,kitchenButton,menuItemListButton);
         startUpAlign.setPrefSize(1000,500);
@@ -207,9 +206,6 @@ public class StartupMVC extends StackPane {
     public void selectCustomize(){
         this.selectedScreen = "customize";
     }
-    public void selectViewOrder(){
-        this.selectedScreen = "order";
-    }
     public void selectKitchenView(){
         this.selectedScreen = "kitchen";
     }
@@ -226,7 +222,6 @@ public class StartupMVC extends StackPane {
             case "menu" -> this.getChildren().add(menuView);
             case "note" -> this.getChildren().add(noteView);
             case "customize" -> this.getChildren().add(customizeView);
-            case "order" -> this.getChildren().add(viewOrder);
             case "kitchen" -> this.getChildren().add(kitchenView);
             case "menuList" -> this.getChildren().add(menuItemListView);
             case "menuMaker" -> this.getChildren().add(menuItemMakerView);

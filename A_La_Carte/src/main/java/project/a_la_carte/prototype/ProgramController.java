@@ -522,11 +522,6 @@ public class ProgramController {
         this.startupMVC.selectCustomize();
         this.startupMVC.modelChanged();
     }
-    public void openViewOrder(ActionEvent event){
-        this.serverModel.notifySubscribers();
-        this.startupMVC.selectViewOrder();
-        this.startupMVC.modelChanged();
-    }
     public void discardSelection(ActionEvent event){
         this.serverModel.unselectAll();
     }
