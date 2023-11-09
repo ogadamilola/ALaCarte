@@ -26,6 +26,8 @@ public class MenuView extends StackPane implements ServerViewInterface {
     VBox ordersVBox;
     Button sendToKitchen;
     Label title;
+    Label total;
+    float price = 0;
     public MenuView(){
         this.setPrefSize(1000,500);
         Label menuTitle = new Label("MENU ITEMS");
@@ -83,10 +85,23 @@ public class MenuView extends StackPane implements ServerViewInterface {
         this.sendToKitchen = new Button("SEND ORDER TO KITCHEN");
         this.sendToKitchen.setStyle("-fx-border-color: black;-fx-background-color: lightskyblue;\n");
 
+        Label totalLabel = new Label("Total: $");
+        totalLabel.setFont(new Font(20));
+        this.total = new Label("");
+        this.total.setFont(new Font(20));
+
+        HBox totalBox = new HBox(totalLabel,total);
+        totalBox.setPrefSize(200,100);
+        totalBox.setPadding(new Insets(5));
+        totalBox.setAlignment(Pos.BASELINE_LEFT);
+
         HBox sendTKHBox = new HBox(sendToKitchen);
-        sendTKHBox.setPrefSize(400,100);
+        sendTKHBox.setPrefSize(200,100);
         sendTKHBox.setAlignment(Pos.BASELINE_RIGHT);
         sendTKHBox.setPadding(new Insets(5));
+
+        HBox alignBot = new HBox(totalBox,sendTKHBox);
+        alignBot.setPrefSize(400,100);
 
         this.ordersVBox = new VBox();
         this.ordersVBox.setPrefSize(370,500);
@@ -95,7 +110,7 @@ public class MenuView extends StackPane implements ServerViewInterface {
         ScrollPane ordersFlow = new ScrollPane(ordersVBox);
         ordersFlow.setPrefSize(400,500);
 
-        VBox alignRight = new VBox(titleViewHBox,ordersFlow,sendTKHBox);
+        VBox alignRight = new VBox(titleViewHBox,ordersFlow,alignBot);
         alignRight.setPrefSize(400,500);
         alignRight.setStyle("-fx-border-color: black;\n");
 
@@ -135,16 +150,19 @@ public class MenuView extends StackPane implements ServerViewInterface {
         }
 
         ordersVBox.getChildren().clear();
+        this.price = 0;
         if (serverModel.getCurrentOrder() != null){
             title.setText("Order #"+ serverModel.getCurrentOrder().getOrderNum());
             serverModel.getCurrentOrder().getOrderList().forEach((item ->{
                 OrderListView newView = new OrderListView(item);
                 ordersVBox.getChildren().add(newView);
+                price += item.getPrice();
                 newView.getDeleteButton().setOnAction((event -> {
                     serverModel.getCurrentOrder().deleteItem(newView.getMenuItem());
                     ordersVBox.getChildren().remove(newView);
                 }));
             }));
+            total.setText(String.valueOf(this.price));
         }
     }
 }
