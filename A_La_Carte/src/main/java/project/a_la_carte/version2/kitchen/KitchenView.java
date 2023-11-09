@@ -79,8 +79,8 @@ public class KitchenView extends StackPane implements KitchenViewsInterface {
         else {
             this.alertButton.notificationNo();
         }
-        if (kitchenModel.getOrders() != null){
-            kitchenModel.getOrders().forEach((order -> {
+        if (kitchenModel.getActiveOrders() != null){
+            kitchenModel.getActiveOrders().forEach((order -> {
                 OrderKitchenTab newTab = new OrderKitchenTab(kitchenModel,order);
                 order.addSubscriber(newTab);
                 newTab.getCancelButton().setOnAction((event -> {

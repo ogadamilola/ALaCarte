@@ -561,6 +561,14 @@ public class ProgramController {
     public void voidOrder(ActionEvent event){
         this.serverModel.clearOrder();
     }
+    public void refundDisplay(ActionEvent event){
+        RefundView refundView = new RefundView(kitchenModel);
+        this.kitchenModel.addSubscribers(refundView);
+        this.kitchenModel.notifySubscribers();
 
+        Stage refundStage = new Stage();
+        refundStage.setScene(new Scene(refundView));
+        refundStage.show();
+    }
 
 }

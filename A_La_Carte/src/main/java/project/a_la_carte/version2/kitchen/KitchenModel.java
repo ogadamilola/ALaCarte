@@ -11,12 +11,14 @@ public class KitchenModel {
     KitchenView kitchenView;
     List<KitchenViewsInterface> subscribers;
     ArrayList<KitchenNotes> noteList;
-    ArrayList<Order> orders;
+    ArrayList<Order> activeOrders;
+    ArrayList<Order> totalOrdersTracker;
     String sentAlert = "";
     public KitchenModel(){
-        this.orders = new ArrayList<>();
+        this.activeOrders = new ArrayList<>();
         this.noteList = new ArrayList<>();
         this.subscribers = new ArrayList<>();
+        this.totalOrdersTracker = new ArrayList<>();
     }
     public void sendServerAlert(String alert){
         this.sentAlert = alert;
@@ -25,15 +27,24 @@ public class KitchenModel {
         return this.sentAlert;
     }
     public void addOrder(Order order){
-        this.orders.add(order);
+        this.activeOrders.add(order);
+        this.totalOrdersTracker.add(order);
         notifySubscribers();
     }
     public void deleteOrder(Order order){
-        this.orders.remove(order);
+        this.activeOrders.remove(order);
         notifySubscribers();
     }
-    public ArrayList<Order> getOrders(){
-        return this.orders;
+    public void refundOrder(Order order){
+        this.totalOrdersTracker.remove(order);
+        if (!order.isFinished()){
+            order.orderFinished();
+        }
+        notifySubscribers();
+    }
+    public ArrayList<Order> getTotalOrders(){return this.totalOrdersTracker;}
+    public ArrayList<Order> getActiveOrders(){
+        return this.activeOrders;
     }
     public void addNote(String message){
         KitchenNotes newNote = new KitchenNotes(message,this);

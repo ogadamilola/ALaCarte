@@ -20,6 +20,7 @@ public class MenuView extends StackPane implements ServerViewInterface {
     FlowPane menuDisplay;
     Button addNote;
     Button customize;
+    Button refund;
     Button mainMenu;
     AlertButton alertButton;
     //View Order Variables
@@ -54,23 +55,39 @@ public class MenuView extends StackPane implements ServerViewInterface {
 
         this.addNote = new Button("ADD NOTE");
         this.customize = new Button("CUSTOMIZE");
+        this.refund = new Button("REFUND ORDER");
 
         HBox customizeHBox = new HBox(customize);
-        customizeHBox.setPrefWidth(600);
+        customizeHBox.setPrefWidth(295);
         customizeHBox.setPadding(new Insets(5));
+
+        HBox refundBox = new HBox(refund);
+        refundBox.setPrefWidth(300);
+        refundBox.setPadding(new Insets(5));
+        refundBox.setAlignment(Pos.BASELINE_RIGHT);
+
+        HBox botButtonsBox = new HBox(customizeHBox,refundBox);
+        botButtonsBox.setPrefWidth(600);
+
         HBox addNoteBox = new HBox(addNote);
         addNoteBox.setPrefWidth(600);
         addNoteBox.setPadding(new Insets(5));
 
-        VBox buttons = new VBox(addNoteBox,customizeHBox);
+        VBox buttons = new VBox(addNoteBox,botButtonsBox);
         buttons.setPrefSize(600,100);
         buttons.setPadding(new Insets(5,5,5,5));
         buttons.setAlignment(Pos.BOTTOM_LEFT);
 
         menuDisplay = new FlowPane();
-        menuDisplay.setPrefSize(600,400);
+        menuDisplay.setPrefSize(584,375);
+        menuDisplay.setHgap(4);
+        menuDisplay.setVgap(2);
+        menuDisplay.setPadding(new Insets(5));
 
-        VBox alignAllLeft = new VBox(topHBox,menuDisplay,buttons);
+        ScrollPane displayScroll = new ScrollPane(menuDisplay);
+        displayScroll.setPrefSize(600,400);
+
+        VBox alignAllLeft = new VBox(topHBox,displayScroll,buttons);
         alignAllLeft.setPrefSize(600,500);
 
 
@@ -134,6 +151,7 @@ public class MenuView extends StackPane implements ServerViewInterface {
         this.sendToKitchen.setOnAction(controller::sendToKitchen);
         this.alertButton.setOnAction(controller::showServerAlerts);
         this.voidOrderButton.setOnAction(controller::voidOrder);
+        this.refund.setOnAction(controller::refundDisplay);
     }
 
     @Override
