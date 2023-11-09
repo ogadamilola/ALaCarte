@@ -2,7 +2,6 @@ package project.a_la_carte.version2.serverSide;
 
 import project.a_la_carte.version2.interfaces.ServerViewInterface;
 import project.a_la_carte.version2.classesObjects.*;
-import project.a_la_carte.version2.kitchen.widgets.KitchenNotes;
 import project.a_la_carte.version2.serverSide.widgets.*;
 
 import java.util.ArrayList;
@@ -114,7 +113,10 @@ public class ServerModel {
         notifySubscribers();
         return sendOrder;
     }
-
+    public void clearOrder(){
+        this.currentOrder = null;
+        notifySubscribers();
+    }
     public void setCustomization(){
         MenuFoodItem copy = new MenuFoodItem(this.getSelectedItem().getMenuItemRecipes()
                 , this.getSelectedItem().getName(),this.getSelectedItem().getDescription());

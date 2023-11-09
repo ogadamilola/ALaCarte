@@ -25,6 +25,7 @@ public class MenuView extends StackPane implements ServerViewInterface {
     //View Order Variables
     VBox ordersVBox;
     Button sendToKitchen;
+    Button voidOrderButton;
     Label title;
     Label total;
     float price = 0;
@@ -82,8 +83,11 @@ public class MenuView extends StackPane implements ServerViewInterface {
         titleViewHBox.setAlignment(Pos.TOP_CENTER);
         titleViewHBox.setStyle("-fx-border-color: black;\n");
 
-        this.sendToKitchen = new Button("SEND ORDER TO KITCHEN");
+        this.sendToKitchen = new Button("SEND ORDER");
         this.sendToKitchen.setStyle("-fx-border-color: black;-fx-background-color: lightskyblue;\n");
+
+        this.voidOrderButton = new Button("VOID ORDER");
+        this.voidOrderButton.setStyle("-fx-border-color: black;-fx-background-color: lightskyblue;\n");
 
         Label totalLabel = new Label("Total: $");
         totalLabel.setFont(new Font(20));
@@ -91,13 +95,14 @@ public class MenuView extends StackPane implements ServerViewInterface {
         this.total.setFont(new Font(20));
 
         HBox totalBox = new HBox(totalLabel,total);
-        totalBox.setPrefSize(200,100);
+        totalBox.setPrefSize(150,100);
         totalBox.setPadding(new Insets(5));
         totalBox.setAlignment(Pos.BASELINE_LEFT);
 
-        HBox sendTKHBox = new HBox(sendToKitchen);
-        sendTKHBox.setPrefSize(200,100);
+        HBox sendTKHBox = new HBox(voidOrderButton,sendToKitchen);
+        sendTKHBox.setPrefSize(250,100);
         sendTKHBox.setAlignment(Pos.BASELINE_RIGHT);
+        sendTKHBox.setSpacing(5);
         sendTKHBox.setPadding(new Insets(5));
 
         HBox alignBot = new HBox(totalBox,sendTKHBox);
@@ -128,6 +133,7 @@ public class MenuView extends StackPane implements ServerViewInterface {
         this.customize.setOnAction(controller::openCustomizeView);
         this.sendToKitchen.setOnAction(controller::sendToKitchen);
         this.alertButton.setOnAction(controller::showServerAlerts);
+        this.voidOrderButton.setOnAction(controller::voidOrder);
     }
 
     @Override
@@ -159,10 +165,11 @@ public class MenuView extends StackPane implements ServerViewInterface {
                 price += item.getPrice();
                 newView.getDeleteButton().setOnAction((event -> {
                     serverModel.getCurrentOrder().deleteItem(newView.getMenuItem());
+                    serverModel.notifySubscribers();
                     ordersVBox.getChildren().remove(newView);
                 }));
             }));
-            total.setText(String.valueOf(this.price));
         }
+        total.setText(String.valueOf(this.price));
     }
 }

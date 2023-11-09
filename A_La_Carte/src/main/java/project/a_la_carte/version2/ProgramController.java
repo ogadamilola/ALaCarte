@@ -558,6 +558,9 @@ public class ProgramController {
     public void sendToKitchen(ActionEvent event){
         this.kitchenModel.addOrder(this.serverModel.sendOrderToKitchen());
     }
+    public void voidOrder(ActionEvent event){
+        this.serverModel.clearOrder();
+    }
 
 
 }
