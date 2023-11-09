@@ -11,6 +11,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import project.a_la_carte.version2.ProgramController;
+import project.a_la_carte.version2.classesObjects.AlertButton;
 import project.a_la_carte.version2.serverSide.widgets.OrderListView;
 import project.a_la_carte.version2.interfaces.ServerViewInterface;
 
@@ -20,7 +21,7 @@ public class MenuView extends StackPane implements ServerViewInterface {
     Button addNote;
     Button customize;
     Button mainMenu;
-
+    AlertButton alertButton;
     //View Order Variables
     VBox ordersVBox;
     Button sendToKitchen;
@@ -38,7 +39,12 @@ public class MenuView extends StackPane implements ServerViewInterface {
         titleHBox.setPrefWidth(400);
         titleHBox.setAlignment(Pos.TOP_CENTER);
 
-        HBox topHBox = new HBox(menuHBox, titleHBox);
+        this.alertButton = new AlertButton("!");
+        HBox alertBox = new HBox(alertButton);
+        alertBox.setPrefWidth(100);
+        alertBox.setAlignment(Pos.BASELINE_RIGHT);
+
+        HBox topHBox = new HBox(menuHBox, titleHBox, alertBox);
         topHBox.setPrefWidth(600);
         topHBox.setPadding(new Insets(5,5,5,5));
         topHBox.setStyle("-fx-border-color: black;\n");
@@ -106,11 +112,18 @@ public class MenuView extends StackPane implements ServerViewInterface {
         this.addNote.setOnAction(controller::openNoteView);
         this.customize.setOnAction(controller::openCustomizeView);
         this.sendToKitchen.setOnAction(controller::sendToKitchen);
+        this.alertButton.setOnAction(controller::showServerAlerts);
     }
 
     @Override
     public void modelChanged() {
         menuDisplay.getChildren().clear();
+        if (!serverModel.getNoteList().isEmpty()){
+            alertButton.notificationYes();
+        }
+        else {
+            alertButton.notificationNo();
+        }
         if (serverModel.getMenuItemList() != null){
             serverModel.getMenuItemList().forEach((item -> {
                 item.getDisplay().setOnAction((event -> {

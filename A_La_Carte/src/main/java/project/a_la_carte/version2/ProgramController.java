@@ -10,6 +10,7 @@ import javafx.stage.Stage;
 
 import project.a_la_carte.version2.classesObjects.*;
 import project.a_la_carte.version2.kitchen.*;
+import project.a_la_carte.version2.kitchen.widgets.ServerNoteMaker;
 import project.a_la_carte.version2.managerSide.inventory.*;
 import project.a_la_carte.version2.menuItems.*;
 import project.a_la_carte.version2.managerSide.recipe.*;
@@ -31,9 +32,6 @@ public class ProgramController {
     MenuItemMakerView menuItemMakerView;
     ServerModel serverModel;
     KitchenModel kitchenModel;
-
-
-
 
     private enum INTERACTION_STATE{
         RECIPE_LOADED,
@@ -420,7 +418,26 @@ public class ProgramController {
     public void setKitchenModel(KitchenModel newModel){
         this.kitchenModel = newModel;
     }
+    public void showKitchenAlerts(ActionEvent event){
+        KitchenAlertView alertView = new KitchenAlertView(this.kitchenModel);
+        this.kitchenModel.addSubscribers(alertView);
+        this.kitchenModel.notifySubscribers();
 
+        Stage kitchenAlertStage = new Stage();
+        kitchenAlertStage.setScene(new Scene(alertView));
+        kitchenAlertStage.show();
+    }
+    public void alertSenderToServer(ActionEvent event){
+        ServerNoteMaker serverNoteMaker = new ServerNoteMaker(this, this.kitchenModel);
+
+        Stage serverNoteStage = new Stage();
+        serverNoteStage.setScene(new Scene(serverNoteMaker));
+        serverNoteStage.show();
+    }
+    public void sendKitchenAlertToServer(ActionEvent event){
+        serverModel.addNote(kitchenModel.getSentAlert());
+        serverModel.notifySubscribers();
+    }
     /**
      * End of Kitchen Actions
      */
@@ -504,6 +521,15 @@ public class ProgramController {
     /**
      * Here would be the Server Actions
      */
+    public void showServerAlerts(ActionEvent event){
+        ServerAlertView alertView = new ServerAlertView(this.serverModel);
+        this.serverModel.addSubscriber(alertView);
+        this.serverModel.notifySubscribers();
+
+        Stage kitchenAlertStage = new Stage();
+        kitchenAlertStage.setScene(new Scene(alertView));
+        kitchenAlertStage.show();
+    }
     public void sendNoteToKitchen(ActionEvent event){
         this.serverModel.setNoteMessage();
         this.kitchenModel.addNote(this.serverModel.getNoteMessage());

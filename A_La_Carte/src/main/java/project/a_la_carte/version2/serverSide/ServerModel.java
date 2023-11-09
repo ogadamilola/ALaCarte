@@ -1,8 +1,8 @@
 package project.a_la_carte.version2.serverSide;
 
-
 import project.a_la_carte.version2.interfaces.ServerViewInterface;
 import project.a_la_carte.version2.classesObjects.*;
+import project.a_la_carte.version2.kitchen.widgets.KitchenNotes;
 import project.a_la_carte.version2.serverSide.widgets.*;
 
 import java.util.ArrayList;
@@ -18,6 +18,7 @@ public class ServerModel {
     ArrayList<IngredientsCustomize> ingredientList;
     ArrayList<CustomizeSelectionButton> customizeButtons;
     ArrayList<MenuFoodItem> menuItemList;
+    ArrayList<ServerNotes> notesArrayList;
     MenuFoodItem selectedMenuItem;
     String selectedIngredient = "";
     String selectedOption = "";
@@ -29,6 +30,7 @@ public class ServerModel {
         this.subscribers = new ArrayList<>();
         this.ingredientList = new ArrayList<>();
         this.customizeButtons = new ArrayList<>();
+        this.notesArrayList = new ArrayList<>();
 
         this.addIngredient("Cheese");
         this.addIngredient("Milk");
@@ -43,6 +45,24 @@ public class ServerModel {
         this.addOptionButton("Extra");
         this.addOptionButton("Just");
     }
+    public void addNote(String message){
+        ServerNotes newNote = new ServerNotes(message,this);
+
+        notesArrayList.add(newNote);
+        notifySubscribers();
+    }
+    public void deleteNote(ServerNotes note){
+        this.getNoteList().remove(note);
+        notifySubscribers();
+    }
+    public ArrayList<ServerNotes> getNoteList(){
+        return this.notesArrayList;
+    }
+    public void clearNotes(){
+        this.notesArrayList = new ArrayList<>();
+        notifySubscribers();
+    }
+
     public ArrayList<IngredientsCustomize> getIngredientList(){
         return this.ingredientList;
     }

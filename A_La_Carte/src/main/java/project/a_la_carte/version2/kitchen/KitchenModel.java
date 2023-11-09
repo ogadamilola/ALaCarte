@@ -12,10 +12,17 @@ public class KitchenModel {
     List<KitchenViewsInterface> subscribers;
     ArrayList<KitchenNotes> noteList;
     ArrayList<Order> orders;
+    String sentAlert = "";
     public KitchenModel(){
         this.orders = new ArrayList<>();
         this.noteList = new ArrayList<>();
         this.subscribers = new ArrayList<>();
+    }
+    public void sendServerAlert(String alert){
+        this.sentAlert = alert;
+    }
+    public String getSentAlert(){
+        return this.sentAlert;
     }
     public void addOrder(Order order){
         this.orders.add(order);
@@ -40,6 +47,10 @@ public class KitchenModel {
     }
     public ArrayList<KitchenNotes> getNoteList(){
         return this.noteList;
+    }
+    public void clearNotes(){
+        this.noteList = new ArrayList<>();
+        notifySubscribers();
     }
     public void addSubscribers(KitchenViewsInterface view){
         this.subscribers.add(view);
