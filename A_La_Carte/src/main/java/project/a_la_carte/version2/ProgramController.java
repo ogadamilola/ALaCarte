@@ -22,6 +22,8 @@ import java.util.Map;
 
 public class ProgramController {
     StartupMVC startupMVC;
+    ManagerMainView managerMainView;
+    WorkerView workerView;
     InventoryModel inventoryModel;
     InventoryView inventoryView;
     RecipeModel recipeModel;
@@ -47,12 +49,41 @@ public class ProgramController {
     /**
      * These would be the action in StartupMVC
      */
+    public void setManagerMainView(ManagerMainView view){
+        this.managerMainView = view;
+    }
+    public void setWorkerView(WorkerView view){
+        this.workerView = view;
+    }
+    public void openManagerMainView(ActionEvent event){
+        this.managerMainView.selectManagerMenu();
+        this.managerMainView.modelChanged();
+    }
+    public void openWorkerView(ActionEvent event){
+        this.workerView.selectWorkerView();
+        this.workerView.modelChanged();
+    }
+    public void startManagerMainView(ActionEvent event){
+        ManagerMainView newView = new ManagerMainView(this.startupMVC);
+
+        Stage managerStage = new Stage();
+        managerStage.setScene(new Scene(newView));
+        managerStage.show();
+
+    }
+    public void startWorkerView(ActionEvent event){
+        WorkerView newView = new WorkerView(this.startupMVC);
+
+        Stage workerStage = new Stage();
+        workerStage.setScene(new Scene(newView));
+        workerStage.show();
+    }
     public void setStartupMVC(StartupMVC newModel){
         this.startupMVC = newModel;
     }
     public void openInventoryScreen(ActionEvent event){
-        this.startupMVC.selectInventory();
-        this.startupMVC.modelChanged();
+        this.managerMainView.selectInventory();
+        this.managerMainView.modelChanged();
         this.inventoryModel.notifySubs();
     }
     public void openStartUpMVC(ActionEvent event){
@@ -60,24 +91,24 @@ public class ProgramController {
         this.startupMVC.modelChanged();
     }
     public void openRecipeList(ActionEvent event){
-        this.startupMVC.selectRecipeList();
-        this.startupMVC.modelChanged();
+        this.managerMainView.selectRecipeList();
+        this.managerMainView.modelChanged();
         this.recipeModel.notifySubscribers();
         this.recipeInteractiveModel.clearRecipeIModel();
     }
     public void openMenuView(ActionEvent event){
         //So that the new display is shown
         this.serverModel.setMenuItemList(menuItemModel.getMenuItemsList());
-        this.startupMVC.selectMenuView();
-        this.startupMVC.modelChanged();
+        this.workerView.selectMenuView();
+        this.workerView.modelChanged();
     }
     public void openKitchenView(ActionEvent event){
-        this.startupMVC.selectKitchenView();
-        this.startupMVC.modelChanged();
+        this.workerView.selectKitchenView();
+        this.workerView.modelChanged();
     }
     public void openMenuListView(ActionEvent event){
-        this.startupMVC.selectMenuItemList();
-        this.startupMVC.modelChanged();
+        this.managerMainView.selectMenuItemList();
+        this.managerMainView.modelChanged();
     }
 
     public void setStateLoaded(){
@@ -213,15 +244,15 @@ public class ProgramController {
     public void openRecipeMakerScreen(ActionEvent event){
         switch (interactionState){
             case RECIPE_LOADED -> {
-                this.startupMVC.selectRecipeMaker();
-                this.startupMVC.modelChanged();
+                this.managerMainView.selectRecipeMaker();
+                this.managerMainView.modelChanged();
                 this.inventoryModel.notifySubs();
                 this.recipeMakerView.updateMenuHandlers(this);//and updates the handlers for every new menu item
             }
             case NOT_LOADED -> {
                 this.recipeInteractiveModel.clearRecipeIModel();
-                this.startupMVC.selectRecipeMaker();
-                this.startupMVC.modelChanged();
+                this.managerMainView.selectRecipeMaker();
+                this.managerMainView.modelChanged();
                 this.inventoryModel.notifySubs();
                 this.recipeMakerView.updateMenuHandlers(this);//and updates the handlers for every new menu item
             }
@@ -456,8 +487,8 @@ public class ProgramController {
         ArrayList<Recipe> newList = new ArrayList<>(recipeModel.getRecipeList());
 
         this.menuItemModel.setRecipeArrayList(newList);
-        this.startupMVC.selectMenuMakerView();
-        this.startupMVC.modelChanged();
+        this.managerMainView.selectMenuMakerView();
+        this.managerMainView.modelChanged();
     }
     public void editMenuMakerView(ActionEvent event){
         this.menuItemMakerView.setEdit();
@@ -469,8 +500,8 @@ public class ProgramController {
 
         this.menuItemModel.setSelectedAddedRecipe(this.menuItemModel.getSelectedItem().getMenuItemRecipes());
         this.menuItemModel.notifySubscribers();
-        this.startupMVC.selectMenuMakerView();
-        this.startupMVC.modelChanged();
+        this.managerMainView.selectMenuMakerView();
+        this.managerMainView.modelChanged();
     }
     public void deleteMenuItem(ActionEvent event){
         this.menuItemModel.deleteMenuItem(menuItemModel.getSelectedItem());
@@ -514,8 +545,8 @@ public class ProgramController {
             menuItemMakerView.clearTextFields();
             this.menuItemModel.resetAddedRecipes();
 
-            this.startupMVC.selectMenuItemList();
-            this.startupMVC.modelChanged();
+            this.managerMainView.selectMenuItemList();
+            this.managerMainView.modelChanged();
         }
     }
     /**
@@ -540,13 +571,13 @@ public class ProgramController {
     public void openNoteView(ActionEvent event){
         this.serverModel.clearNoteAlert();
         this.serverModel.notifySubscribers();
-        this.startupMVC.selectNoteView();
-        this.startupMVC.modelChanged();
+        this.workerView.selectNoteView();
+        this.workerView.modelChanged();
     }
     public void openCustomizeView(ActionEvent event){
         this.serverModel.notifySubscribers();
-        this.startupMVC.selectCustomize();
-        this.startupMVC.modelChanged();
+        this.workerView.selectCustomize();
+        this.workerView.modelChanged();
     }
     public void discardSelection(ActionEvent event){
         this.serverModel.unselectAll();

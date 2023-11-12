@@ -149,7 +149,7 @@ public class InventoryView extends StackPane implements InventorySubscriber {
 
     }
     public void setController(ProgramController controller){
-        mainMenu.setOnAction(controller::openStartUpMVC);
+        mainMenu.setOnAction(controller::openManagerMainView);
         submit.setOnAction(controller::handleNewIngredient);
         inventoryTable.setOnMouseClicked(controller::loadIngredient);
         clearButton.setOnAction(controller::clearInventoryViewFields);

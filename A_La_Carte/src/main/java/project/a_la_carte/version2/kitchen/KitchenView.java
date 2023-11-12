@@ -66,7 +66,7 @@ public class KitchenView extends StackPane implements KitchenViewsInterface {
         this.kitchenModel = newModel;
     }
     public void setController(ProgramController controller){
-        this.mainMenu.setOnAction(controller::openStartUpMVC);
+        this.mainMenu.setOnAction(controller::openWorkerView);
         this.alertButton.setOnAction(controller::showKitchenAlerts);
         this.sendNoteButton.setOnAction(controller::alertSenderToServer);
     }

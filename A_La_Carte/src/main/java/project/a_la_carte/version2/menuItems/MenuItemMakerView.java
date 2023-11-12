@@ -203,7 +203,7 @@ public class MenuItemMakerView extends StackPane implements MenuItemModelSubscri
     }
 
     public void setController(ProgramController controller){
-        mainMenu.setOnAction(controller::openStartUpMVC);
+        mainMenu.setOnAction(controller::openManagerMainView);
         menuItemList.setOnAction(controller::openMenuListView);
         saveMenuItem.setOnAction(controller::addItemToMenu);
         editMenuItem.setOnAction(controller::saveEditsToItem);

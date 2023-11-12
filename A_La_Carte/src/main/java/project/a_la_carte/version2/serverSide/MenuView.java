@@ -145,7 +145,7 @@ public class MenuView extends StackPane implements ServerViewInterface {
         this.serverModel = newModel;
     }
     public void setController(ProgramController controller){
-        this.mainMenu.setOnAction(controller::openStartUpMVC);
+        this.mainMenu.setOnAction(controller::openWorkerView);
         this.addNote.setOnAction(controller::openNoteView);
         this.customize.setOnAction(controller::openCustomizeView);
         this.sendToKitchen.setOnAction(controller::sendToKitchen);

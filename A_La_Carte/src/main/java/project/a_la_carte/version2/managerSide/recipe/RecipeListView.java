@@ -217,7 +217,7 @@ public class RecipeListView extends StackPane implements RecipeModelSubscriber, 
 
         this.editIngredients.setOnAction(controller::openRecipeMakerScreen);
 
-        this.mainMenu.setOnAction(controller::openStartUpMVC);
+        this.mainMenu.setOnAction(controller::openManagerMainView);
         this.recipeTable.setOnMouseClicked(controller::loadRecipe);
 
         this.showRecipe.setOnAction(controller::showRecipeInfo);

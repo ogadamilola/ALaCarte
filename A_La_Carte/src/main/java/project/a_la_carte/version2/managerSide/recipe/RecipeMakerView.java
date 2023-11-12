@@ -251,7 +251,7 @@ public class RecipeMakerView extends StackPane implements InventorySubscriber, R
         this.iModel = iModel;
     }
     public void setRecipeMakerController(ProgramController controller){
-        mainMenu.setOnAction(controller::openStartUpMVC);
+        mainMenu.setOnAction(controller::openManagerMainView);
         recipeList.setOnAction(controller::openRecipeList);
         saveRecipe.setOnAction(controller::addRecipe);
         addIngredient.setOnAction(event -> {

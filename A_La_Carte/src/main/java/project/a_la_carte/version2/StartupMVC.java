@@ -21,12 +21,18 @@ import project.a_la_carte.version2.serverSide.*;
 public class StartupMVC extends StackPane {
     StackPane startUpView;
     InventoryView inventoryView;
+    InventoryModel inventoryModel;
+    RecipeModel recipeModel;
+    RecipeInteractiveModel recipeInteractiveModel;
     RecipeMakerView recipeMakerView;
     RecipeListView recipeListView;
+    ServerModel serverModel;
     MenuView menuView;
     NoteView noteView;
     CustomizeView customizeView;
+    KitchenModel kitchenModel;
     KitchenView kitchenView;
+    MenuItemModel menuItemModel;
     MenuItemListView menuItemListView;
     MenuItemMakerView menuItemMakerView;
     Button kitchenButton;
@@ -34,14 +40,17 @@ public class StartupMVC extends StackPane {
     Button recipeListButton;
     Button menuViewButton;
     Button menuItemListButton;
+    Button managerButton;
+    Button workerButton;
     String selectedScreen = "startUp";
+    ProgramController programController;
     public StartupMVC(){
         this.setMaxSize(1000,500);
-        ProgramController programController = new ProgramController();
+        programController = new ProgramController();
 
         //------------------------------------------
         //---------INVENTORY MVC-------------------------------------
-        InventoryModel inventoryModel = new InventoryModel();
+        inventoryModel = new InventoryModel();
         inventoryView = new InventoryView();
 
         inventoryView.setController(programController);
@@ -59,8 +68,8 @@ public class StartupMVC extends StackPane {
         //-----------------------------------------------------------------
         //-----------RECIPE SIDE MVC-------------------------------
         recipeMakerView = new RecipeMakerView();
-        RecipeModel recipeModel = new RecipeModel();
-        RecipeInteractiveModel recipeInteractiveModel = new RecipeInteractiveModel();
+        recipeModel = new RecipeModel();
+        recipeInteractiveModel = new RecipeInteractiveModel();
 
 
 
@@ -92,7 +101,7 @@ public class StartupMVC extends StackPane {
         this.menuView = new MenuView();
         this.noteView = new NoteView();
         this.customizeView = new CustomizeView();
-        ServerModel serverModel = new ServerModel();
+        serverModel = new ServerModel();
 
         serverModel.setCustomizeView(customizeView);
         serverModel.setMenuView(menuView);
@@ -114,7 +123,7 @@ public class StartupMVC extends StackPane {
         //----------------------------------------------------
         //-----------KITCHEN SIDE----------------------------
         this.kitchenView = new KitchenView();
-        KitchenModel kitchenModel = new KitchenModel();
+        kitchenModel = new KitchenModel();
 
         kitchenModel.setKitchenView(this.kitchenView);
 
@@ -126,7 +135,7 @@ public class StartupMVC extends StackPane {
 
         //------------------------------------------------------
         //-----------Menu Item------------------------
-        MenuItemModel menuItemModel = new MenuItemModel();
+        menuItemModel = new MenuItemModel();
         this.menuItemListView = new MenuItemListView();
         this.menuItemMakerView = new MenuItemMakerView();
 
@@ -152,6 +161,13 @@ public class StartupMVC extends StackPane {
 
         inventoryButton = new Button("Inventory");
         inventoryButton.setFont(new Font(30));
+        inventoryButton.setStyle("-fx-border-color: transparent;-fx-background-color: transparent;\n");
+        inventoryButton.setOnMouseEntered((event -> {
+            inventoryButton.setStyle("-fx-text-fill: blue;-fx-underline: true;-fx-border-color: transparent;-fx-background-color: transparent;\n");
+        }));
+        inventoryButton.setOnMouseExited((event -> {
+            inventoryButton.setStyle("-fx-text-fill: black;-fx-underline: false;-fx-border-color: transparent;-fx-background-color: transparent;\n");
+        }));
         inventoryButton.setPrefSize(300,30);
         recipeListButton = new Button("Recipe List");
         recipeListButton.setFont(new Font(30));
@@ -165,8 +181,14 @@ public class StartupMVC extends StackPane {
         menuItemListButton = new Button("Menu List");
         menuItemListButton.setFont(new Font(30));
         menuItemListButton.setPrefSize(300,30);
+        managerButton = new Button("Manager");
+        managerButton.setFont(new Font(30));
+        managerButton.setPrefSize(300,30);
+        workerButton = new Button("Worker");
+        workerButton.setFont(new Font(30));
+        workerButton.setPrefSize(300,30);
 
-        VBox startUpAlign = new VBox(welcomeLabel,inventoryButton,recipeListButton,menuViewButton,kitchenButton,menuItemListButton);
+        VBox startUpAlign = new VBox(welcomeLabel,managerButton, workerButton);
         startUpAlign.setPrefSize(1000,500);
         startUpAlign.setPadding(new Insets(20,20,20,20));
         startUpAlign.setAlignment(Pos.CENTER);
@@ -176,12 +198,35 @@ public class StartupMVC extends StackPane {
         this.setController(programController);
         this.getChildren().add(startUpView);
     }
+    public KitchenModel getKitchenModel(){
+        return this.kitchenModel;
+    }
+    public ServerModel getServerModel(){
+        return this.serverModel;
+    }
+    public ProgramController getController(){
+        return this.programController;
+    }
+    public InventoryModel getInventoryModel(){
+        return this.inventoryModel;
+    }
+    public RecipeModel getRecipeModel(){
+        return this.recipeModel;
+    }
+    public RecipeInteractiveModel getRecipeInteractiveModel(){
+        return this.recipeInteractiveModel;
+    }
+    public MenuItemModel getMenuItemModel(){
+        return this.menuItemModel;
+    }
     public void setController(ProgramController controller){
         inventoryButton.setOnAction(controller::openInventoryScreen);
         recipeListButton.setOnAction(controller::openRecipeList);
         menuViewButton.setOnAction(controller::openMenuView);
         kitchenButton.setOnAction(controller::openKitchenView);
         menuItemListButton.setOnAction(controller::openMenuListView);
+        managerButton.setOnAction(controller::startManagerMainView);
+        workerButton.setOnAction(controller::startWorkerView);
     }
     public void selectStartup(){
         this.selectedScreen ="startUp";

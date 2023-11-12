@@ -145,7 +145,7 @@ public class MenuItemListView extends StackPane implements MenuItemModelSubscrib
     public void setController(ProgramController controller){
         this.createNewButton.setOnAction(controller::openMenuMakerView);
         this.editButton.setOnAction(controller::editMenuMakerView);
-        this.mainMenu.setOnAction(controller::openStartUpMVC);
+        this.mainMenu.setOnAction(controller::openManagerMainView);
         this.deleteButton.setOnAction(controller::deleteMenuItem);
     }
 
@@ -158,6 +158,7 @@ public class MenuItemListView extends StackPane implements MenuItemModelSubscrib
 
         if (menuItemModel.getMenuItemsList() != null){
             menuItemModel.getMenuItemsList().forEach((item ->{
+                item.getButton().setText(item.getName());
                 item.getButton().setOnAction((event -> {
                     menuItemModel.selectMenuItem(item);
                 }));
