@@ -24,16 +24,10 @@ public class ProgramController {
     StartupMVC startupMVC;
     ManagerMainView managerMainView;
     WorkerView workerView;
-    InventoryModel inventoryModel;
     InventoryView inventoryView;
-    RecipeModel recipeModel;
-    RecipeInteractiveModel recipeInteractiveModel;
     RecipeListView recipeListView;
     RecipeMakerView recipeMakerView;
-    MenuItemModel menuItemModel;
     MenuItemMakerView menuItemMakerView;
-    ServerModel serverModel;
-    KitchenModel kitchenModel;
 
     private enum INTERACTION_STATE{
         RECIPE_LOADED,
@@ -84,7 +78,7 @@ public class ProgramController {
     public void openInventoryScreen(ActionEvent event){
         this.managerMainView.selectInventory();
         this.managerMainView.modelChanged();
-        this.inventoryModel.notifySubs();
+        this.startupMVC.getInventoryModel().notifySubs();
     }
     public void openStartUpMVC(ActionEvent event){
         this.startupMVC.selectStartup();
@@ -97,12 +91,12 @@ public class ProgramController {
     public void openRecipeList(ActionEvent event){
         this.managerMainView.selectRecipeList();
         this.managerMainView.modelChanged();
-        this.recipeModel.notifySubscribers();
-        this.recipeInteractiveModel.clearRecipeIModel();
+        this.startupMVC.getRecipeModel().notifySubscribers();
+        this.startupMVC.getRecipeInteractiveModel().clearRecipeIModel();
     }
     public void openMenuView(ActionEvent event){
         //So that the new display is shown
-        this.serverModel.setMenuItemList(menuItemModel.getMenuItemsList());
+        this.startupMVC.getServerModel().setMenuItemList(startupMVC.getMenuItemModel().getMenuItemsList());
         this.workerView.selectMenuView();
         this.workerView.modelChanged();
     }
@@ -111,6 +105,7 @@ public class ProgramController {
         this.workerView.modelChanged();
     }
     public void openMenuListView(ActionEvent event){
+        this.startupMVC.getMenuItemModel().notifySubscribers();
         this.managerMainView.selectMenuItemList();
         this.managerMainView.modelChanged();
     }
@@ -123,16 +118,15 @@ public class ProgramController {
     }
 
     public void setIModelCreating(ActionEvent event) {
-        recipeInteractiveModel.setCreating(true);
+        startupMVC.getRecipeInteractiveModel().setCreating(true);
     }
     public void setIModelNotCreating(ActionEvent event) {
-        recipeInteractiveModel.setCreating(false);
+        startupMVC.getRecipeInteractiveModel().setCreating(false);
     }
 
     /**
      * Here would be Inventory actions
      */
-    public void setInventoryModel(InventoryModel newModel){this.inventoryModel = newModel;}
     public void setInventoryView(InventoryView inventoryView){
         this.inventoryView = inventoryView;
     }
@@ -143,7 +137,7 @@ public class ProgramController {
         Ingredient.IngredientType type = inventoryView.getTypeComboBox().getValue();
         Ingredient.MeasurementUnit mUnit = inventoryView.getMeasurementUnitComboBox().getValue();
         Boolean commonAllergen = inventoryView.getCommonAllergenCheck().isSelected();
-        inventoryModel.addIngredient(ingredientName,quantity,type,mUnit,commonAllergen);
+        startupMVC.getInventoryModel().addIngredient(ingredientName,quantity,type,mUnit,commonAllergen);
         clearInventoryViewFields(actionEvent);
 
         if (ingredientName.isEmpty() || type == null || mUnit == null) {
@@ -162,7 +156,7 @@ public class ProgramController {
     public void loadIngredient(MouseEvent mouseEvent) {
         String ingredientName = inventoryView.getInventoryTable().getSelectionModel().getSelectedItem().getIngredient().getName();
         Ingredient loadedIngredient = searchIngredientByName(ingredientName);
-        inventoryModel.setLoadedIngredient(loadedIngredient);
+        startupMVC.getInventoryModel().setLoadedIngredient(loadedIngredient);
     }
 
     public void clearInventoryViewFields(ActionEvent actionEvent) {
@@ -183,7 +177,7 @@ public class ProgramController {
         Ingredient.IngredientType type = inventoryView.getTypeComboBox().getValue();
         Ingredient.MeasurementUnit mUnit = inventoryView.getMeasurementUnitComboBox().getValue();
         Boolean commonAllergen = inventoryView.getCommonAllergenCheck().isSelected();
-        inventoryModel.updateItem(ingredient,quantity,type,mUnit,commonAllergen);
+        startupMVC.getInventoryModel().updateItem(ingredient,quantity,type,mUnit,commonAllergen);
         clearInventoryViewFields(actionEvent);
     }
 
@@ -191,7 +185,7 @@ public class ProgramController {
 
         String ingredientName = inventoryView.getNameText().getText();
         Ingredient ingredient = searchIngredientByName(ingredientName);
-        inventoryModel.deleteItem(ingredient);
+        startupMVC.getInventoryModel().deleteItem(ingredient);
     }
 
     /**
@@ -208,12 +202,12 @@ public class ProgramController {
     public void loadRecipe(MouseEvent mouseEvent) {
 
         if( recipeListView.getRecipeTable().getSelectionModel().getSelectedItem() ==null){
-            recipeInteractiveModel.setLoadedRecipe(null);
+            startupMVC.getRecipeInteractiveModel().setLoadedRecipe(null);
             setStateNotLoaded(null);
         } else {
 
             Recipe recipeToLoad = recipeListView.getRecipeTable().getSelectionModel().getSelectedItem().getRecipe();
-            recipeInteractiveModel.setLoadedRecipe(recipeToLoad);
+            startupMVC.getRecipeInteractiveModel().setLoadedRecipe(recipeToLoad);
             setStateLoaded();
         }
         //cant figure out how to unselect a recipe lol
@@ -221,7 +215,7 @@ public class ProgramController {
     }
 
     public Recipe searchRecipeByName(String name){
-        for(Recipe recipe : recipeModel.getRecipeList()){
+        for(Recipe recipe : startupMVC.getRecipeModel().getRecipeList()){
             if(recipe.getName().equals(name)){
                 return recipe;
             }
@@ -236,28 +230,24 @@ public class ProgramController {
     /**
      * Here would be Recipe Maker actions
      */
-    public void setRecipeModel(RecipeModel newModel){this.recipeModel = newModel;}
 
     public void setRecipeMakerView(RecipeMakerView recipeMakerView) {
         this.recipeMakerView = recipeMakerView;
     }
 
-    public void setRecipeInteractiveModel(RecipeInteractiveModel recipeInteractiveModel) {
-        this.recipeInteractiveModel = recipeInteractiveModel;
-    }
     public void openRecipeMakerScreen(ActionEvent event){
         switch (interactionState){
             case RECIPE_LOADED -> {
                 this.managerMainView.selectRecipeMaker();
                 this.managerMainView.modelChanged();
-                this.inventoryModel.notifySubs();
+                this.startupMVC.getInventoryModel().notifySubs();
                 this.recipeMakerView.updateMenuHandlers(this);//and updates the handlers for every new menu item
             }
             case NOT_LOADED -> {
-                this.recipeInteractiveModel.clearRecipeIModel();
+                this.startupMVC.getRecipeInteractiveModel().clearRecipeIModel();
                 this.managerMainView.selectRecipeMaker();
                 this.managerMainView.modelChanged();
-                this.inventoryModel.notifySubs();
+                this.startupMVC.getInventoryModel().notifySubs();
                 this.recipeMakerView.updateMenuHandlers(this);//and updates the handlers for every new menu item
             }
         }
@@ -273,7 +263,7 @@ public class ProgramController {
     public void deleteIngredientFromRecipe(ActionEvent actionEvent) {
 
         Ingredient ingredientToRemove = searchIngredientByName(recipeMakerView.getSelectedIngredient().getText());
-        recipeInteractiveModel.removeFromTempMap(ingredientToRemove);
+        startupMVC.getRecipeInteractiveModel().removeFromTempMap(ingredientToRemove);
     }
 
 
@@ -297,7 +287,7 @@ public class ProgramController {
 
             HashMap<Ingredient, Double> ingredientMap = new HashMap<>();
 
-            for (Map.Entry<Ingredient, Double> entry : recipeInteractiveModel.getTemporaryIngredientMap().entrySet()) {
+            for (Map.Entry<Ingredient, Double> entry : startupMVC.getRecipeInteractiveModel().getTemporaryIngredientMap().entrySet()) {
                 Double ingredientQuantity;
                 if (entry.getKey().getMeasurementUnit() == Ingredient.MeasurementUnit.Pounds) {
                     ingredientQuantity = ozToPounds(entry.getValue());//convert the oz number inputted for the recipe to pounds
@@ -307,10 +297,10 @@ public class ProgramController {
                 ingredientMap.put(entry.getKey(), ingredientQuantity);
             }
 
-            recipeModel.addNewOrUpdateRecipe(recipeName, recipePrice, recipeDesc, recipeInstruction, recipePrepTime, ingredientMap);
+            startupMVC.getRecipeModel().addNewOrUpdateRecipe(recipeName, recipePrice, recipeDesc, recipeInstruction, recipePrepTime, ingredientMap);
 
-            ArrayList<Recipe> newRecipeList = new ArrayList<>(recipeModel.getRecipeList());
-            menuItemModel.setRecipeArrayList(newRecipeList);
+            ArrayList<Recipe> newRecipeList = new ArrayList<>(startupMVC.getRecipeModel().getRecipeList());
+            startupMVC.getMenuItemModel().setRecipeArrayList(newRecipeList);
 
             //could be deleted if we wanted to leave the recipe on the scree
             //clear all the fields
@@ -336,9 +326,9 @@ public class ProgramController {
         try{
         String recipeName = recipeListView.getRecipeTable().getSelectionModel().getSelectedItem().getRecipe().getName();
         Recipe recipe = searchRecipeByName(recipeName);
-        recipeModel.deleteRecipe(recipe);
+        startupMVC.getRecipeModel().deleteRecipe(recipe);
         setStateNotLoaded(actionEvent);
-        recipeInteractiveModel.clearRecipeIModel();
+        startupMVC.getRecipeInteractiveModel().clearRecipeIModel();
         }catch (NullPointerException e){
             System.out.println("Error: " + "No recipe selected to delete");
         }
@@ -349,7 +339,7 @@ public class ProgramController {
         //TODO might need to use separate Models depending on who wants to view
         //for now this is fine
         try {
-            Recipe selectedRecipe = recipeInteractiveModel.getLoadedRecipe();
+            Recipe selectedRecipe = startupMVC.getRecipeInteractiveModel().getLoadedRecipe();
             new ShowRecipeInfoView(selectedRecipe);
         } catch (NullPointerException e){
             System.out.println("Error: " + "There is no recipeSelected");
@@ -410,14 +400,14 @@ public class ProgramController {
                 throw new IllegalArgumentException("No Ingredient to add");
             }
             if(!recipeMakerView.getRecipeName().getText().isEmpty()){
-                recipeInteractiveModel.setCreating(true);
+                startupMVC.getRecipeInteractiveModel().setCreating(true);
                 System.out.println("set creating true");
             }
             String ingredientName = recipeMakerView.getSelectedIngredient().getText();
             Ingredient ingredient = searchIngredientByName(ingredientName);
             Double recipeQuantity = Double.valueOf(recipeMakerView.getEnterMeasurementField().getText());
             //find the ingredient;
-            recipeInteractiveModel.addToTempMap(ingredient, recipeQuantity);
+            startupMVC.getRecipeInteractiveModel().addToTempMap(ingredient, recipeQuantity);
             //add ingredient to temp list of ingredients to be displayed
         }
         catch(NumberFormatException e){
@@ -434,7 +424,7 @@ public class ProgramController {
      * null if not found
      */
     public Ingredient searchIngredientByName(String name){
-        for(Ingredient key: inventoryModel.getIngredientMap().keySet()){
+        for(Ingredient key: this.startupMVC.getInventoryModel().getIngredientMap().keySet()){
             if(key.getName().equals(name)){
                 return key;
             }
@@ -450,28 +440,25 @@ public class ProgramController {
     /**
      * Kitchen Actions
      */
-    public void setKitchenModel(KitchenModel newModel){
-        this.kitchenModel = newModel;
-    }
     public void showKitchenAlerts(ActionEvent event){
-        KitchenAlertView alertView = new KitchenAlertView(this.kitchenModel);
-        this.kitchenModel.addSubscribers(alertView);
-        this.kitchenModel.notifySubscribers();
+        KitchenAlertView alertView = new KitchenAlertView(this.startupMVC.getKitchenModel());
+        this.startupMVC.getKitchenModel().addSubscribers(alertView);
+        this.startupMVC.getKitchenModel().notifySubscribers();
 
         Stage kitchenAlertStage = new Stage();
         kitchenAlertStage.setScene(new Scene(alertView));
         kitchenAlertStage.show();
     }
     public void alertSenderToServer(ActionEvent event){
-        ServerNoteMaker serverNoteMaker = new ServerNoteMaker(this, this.kitchenModel);
+        ServerNoteMaker serverNoteMaker = new ServerNoteMaker(this, this.startupMVC.getKitchenModel());
 
         Stage serverNoteStage = new Stage();
         serverNoteStage.setScene(new Scene(serverNoteMaker));
         serverNoteStage.show();
     }
     public void sendKitchenAlertToServer(ActionEvent event){
-        serverModel.addNote(kitchenModel.getSentAlert());
-        serverModel.notifySubscribers();
+        startupMVC.getServerModel().addNote(startupMVC.getKitchenModel().getSentAlert());
+        startupMVC.getServerModel().notifySubscribers();
     }
     /**
      * End of Kitchen Actions
@@ -480,74 +467,71 @@ public class ProgramController {
     /**
      * Menu Action
      */
-    public void setMenuItemModel(MenuItemModel newModel){
-        this.menuItemModel = newModel;
-    }
     public void setMenuItemMakerView(MenuItemMakerView newView){
         this.menuItemMakerView = newView;
     }
     public void openMenuMakerView(ActionEvent event){
         this.menuItemMakerView.setSave();
-        ArrayList<Recipe> newList = new ArrayList<>(recipeModel.getRecipeList());
+        ArrayList<Recipe> newList = new ArrayList<>(startupMVC.getRecipeModel().getRecipeList());
 
-        this.menuItemModel.setRecipeArrayList(newList);
+        this.startupMVC.getMenuItemModel().setRecipeArrayList(newList);
         this.managerMainView.selectMenuMakerView();
         this.managerMainView.modelChanged();
     }
     public void editMenuMakerView(ActionEvent event){
         this.menuItemMakerView.setEdit();
 
-        menuItemMakerView.setNameText(menuItemModel.getSelectedItem().getName());
-        menuItemMakerView.setDescText(menuItemModel.getSelectedItem().getDescription());
-        menuItemMakerView.setPriceText(String.valueOf(menuItemModel.getSelectedItem().getPrice()));
-        menuItemMakerView.setPrepText(String.valueOf(menuItemModel.getSelectedItem().getPrepTime()));
+        menuItemMakerView.setNameText(startupMVC.getMenuItemModel().getSelectedItem().getName());
+        menuItemMakerView.setDescText(startupMVC.getMenuItemModel().getSelectedItem().getDescription());
+        menuItemMakerView.setPriceText(String.valueOf(startupMVC.getMenuItemModel().getSelectedItem().getPrice()));
+        menuItemMakerView.setPrepText(String.valueOf(startupMVC.getMenuItemModel().getSelectedItem().getPrepTime()));
 
-        this.menuItemModel.setSelectedAddedRecipe(this.menuItemModel.getSelectedItem().getMenuItemRecipes());
-        this.menuItemModel.notifySubscribers();
+        this.startupMVC.getMenuItemModel().setSelectedAddedRecipe(this.startupMVC.getMenuItemModel().getSelectedItem().getMenuItemRecipes());
+        this.startupMVC.getMenuItemModel().notifySubscribers();
         this.managerMainView.selectMenuMakerView();
         this.managerMainView.modelChanged();
     }
     public void deleteMenuItem(ActionEvent event){
-        this.menuItemModel.deleteMenuItem(menuItemModel.getSelectedItem());
-        this.serverModel.setMenuItemList(menuItemModel.getMenuItemsList());
+        this.startupMVC.getMenuItemModel().deleteMenuItem(startupMVC.getMenuItemModel().getSelectedItem());
+        this.startupMVC.getServerModel().setMenuItemList(startupMVC.getMenuItemModel().getMenuItemsList());
     }
     public void addRecipeToItem(ActionEvent event){
-        if (this.menuItemModel.getSelectedRecipe() != null){
-            this.menuItemModel.addRecipesToItem(this.menuItemModel.getSelectedRecipe());}
+        if (this.startupMVC.getMenuItemModel().getSelectedRecipe() != null){
+            this.startupMVC.getMenuItemModel().addRecipesToItem(this.startupMVC.getMenuItemModel().getSelectedRecipe());}
     }
     public void removeRecipeFromItem(ActionEvent event){
-        if (this.menuItemModel.getSelectedAddedRecipe() != null) {
-            this.menuItemModel.removeRecipeFromItem(this.menuItemModel.getSelectedAddedRecipe());
+        if (this.startupMVC.getMenuItemModel().getSelectedAddedRecipe() != null) {
+            this.startupMVC.getMenuItemModel().removeRecipeFromItem(this.startupMVC.getMenuItemModel().getSelectedAddedRecipe());
         }
     }
     public void addItemToMenu(ActionEvent event){
         if (menuItemMakerView.getMenuItemName() != null && menuItemMakerView.getMenuItemDescription() != null) {
-            MenuFoodItem newItem = new MenuFoodItem(menuItemModel.getAddedRecipes(), menuItemMakerView.getMenuItemName(), menuItemMakerView.getMenuItemDescription());
+            MenuFoodItem newItem = new MenuFoodItem(startupMVC.getMenuItemModel().getAddedRecipes(), menuItemMakerView.getMenuItemName(), menuItemMakerView.getMenuItemDescription());
             if (!menuItemMakerView.getMenuPrice().isBlank()) {
                 newItem.setPrice(menuItemMakerView.setMenuPrice());
             }
             if (!menuItemMakerView.getMenuPrep().isBlank()) {
                 newItem.setPrepTime(menuItemMakerView.setMenuPrep());
             }
-            this.menuItemModel.addNewMenuItem(newItem);
+            this.startupMVC.getMenuItemModel().addNewMenuItem(newItem);
             menuItemMakerView.clearTextFields();
-            this.menuItemModel.resetAddedRecipes();
+            this.startupMVC.getMenuItemModel().resetAddedRecipes();
 
-            this.serverModel.setMenuItemList(menuItemModel.getMenuItemsList());
+            this.startupMVC.getServerModel().setMenuItemList(startupMVC.getMenuItemModel().getMenuItemsList());
         }
     }
     public void saveEditsToItem(ActionEvent event){
         if (menuItemMakerView.getMenuItemName() != null && menuItemMakerView.getMenuItemDescription() != null) {
-            menuItemModel.getSelectedItem().setName(menuItemMakerView.getMenuItemName());
-            menuItemModel.getSelectedItem().setDescription(menuItemMakerView.getMenuItemDescription());
+            startupMVC.getMenuItemModel().getSelectedItem().setName(menuItemMakerView.getMenuItemName());
+            startupMVC.getMenuItemModel().getSelectedItem().setDescription(menuItemMakerView.getMenuItemDescription());
             if (!menuItemMakerView.getMenuPrice().isBlank()) {
-                menuItemModel.getSelectedItem().setPrice(menuItemMakerView.setMenuPrice());
+                startupMVC.getMenuItemModel().getSelectedItem().setPrice(menuItemMakerView.setMenuPrice());
             }
             if (!menuItemMakerView.getMenuPrep().isBlank()) {
-                menuItemModel.getSelectedItem().setPrepTime(menuItemMakerView.setMenuPrep());
+                startupMVC.getMenuItemModel().getSelectedItem().setPrepTime(menuItemMakerView.setMenuPrep());
             }
             menuItemMakerView.clearTextFields();
-            this.menuItemModel.resetAddedRecipes();
+            this.startupMVC.getMenuItemModel().resetAddedRecipes();
 
             this.managerMainView.selectMenuItemList();
             this.managerMainView.modelChanged();
@@ -557,49 +541,46 @@ public class ProgramController {
      * Here would be the Server Actions
      */
     public void showServerAlerts(ActionEvent event){
-        ServerAlertView alertView = new ServerAlertView(this.serverModel);
-        this.serverModel.addSubscriber(alertView);
-        this.serverModel.notifySubscribers();
+        ServerAlertView alertView = new ServerAlertView(this.startupMVC.getServerModel());
+        this.startupMVC.getServerModel().addSubscriber(alertView);
+        this.startupMVC.getServerModel().notifySubscribers();
 
         Stage kitchenAlertStage = new Stage();
         kitchenAlertStage.setScene(new Scene(alertView));
         kitchenAlertStage.show();
     }
     public void sendNoteToKitchen(ActionEvent event){
-        this.serverModel.setNoteMessage();
-        this.kitchenModel.addNote(this.serverModel.getNoteMessage());
-    }
-    public void setServerModel(ServerModel newModel){
-        this.serverModel = newModel;
+        this.startupMVC.getServerModel().setNoteMessage();
+        this.startupMVC.getKitchenModel().addNote(this.startupMVC.getServerModel().getNoteMessage());
     }
     public void openNoteView(ActionEvent event){
-        this.serverModel.clearNoteAlert();
-        this.serverModel.notifySubscribers();
+        this.startupMVC.getServerModel().clearNoteAlert();
+        this.startupMVC.getServerModel().notifySubscribers();
         this.workerView.selectNoteView();
         this.workerView.modelChanged();
     }
     public void openCustomizeView(ActionEvent event){
-        this.serverModel.notifySubscribers();
+        this.startupMVC.getServerModel().notifySubscribers();
         this.workerView.selectCustomize();
         this.workerView.modelChanged();
     }
     public void discardSelection(ActionEvent event){
-        this.serverModel.unselectAll();
+        this.startupMVC.getServerModel().unselectAll();
     }
     public void saveCustomize(ActionEvent event){
-        this.serverModel.setCustomization();
-        this.serverModel.unselectAll();
+        this.startupMVC.getServerModel().setCustomization();
+        this.startupMVC.getServerModel().unselectAll();
     }
     public void sendToKitchen(ActionEvent event){
-        this.kitchenModel.addOrder(this.serverModel.sendOrderToKitchen());
+        this.startupMVC.getKitchenModel().addOrder(this.startupMVC.getServerModel().sendOrderToKitchen());
     }
     public void voidOrder(ActionEvent event){
-        this.serverModel.clearOrder();
+        this.startupMVC.serverModel.clearOrder();
     }
     public void refundDisplay(ActionEvent event){
-        RefundView refundView = new RefundView(kitchenModel);
-        this.kitchenModel.addSubscribers(refundView);
-        this.kitchenModel.notifySubscribers();
+        RefundView refundView = new RefundView(startupMVC.getKitchenModel());
+        this.startupMVC.getKitchenModel().addSubscribers(refundView);
+        this.startupMVC.getKitchenModel().notifySubscribers();
 
         Stage refundStage = new Stage();
         refundStage.setScene(new Scene(refundView));

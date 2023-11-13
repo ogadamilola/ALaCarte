@@ -165,6 +165,7 @@ public class MenuView extends StackPane implements ServerViewInterface {
         }
         if (serverModel.getMenuItemList() != null){
             serverModel.getMenuItemList().forEach((item -> {
+                item.getDisplay().setText(item.getName());
                 item.getDisplay().setOnAction((event -> {
                     serverModel.setSelectedMenuItem(item);
                     item.selectDisplay();

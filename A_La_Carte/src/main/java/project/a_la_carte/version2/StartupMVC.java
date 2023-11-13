@@ -47,7 +47,6 @@ public class StartupMVC extends StackPane {
         //---------INVENTORY MVC-------------------------------------
         inventoryModel = new InventoryModel();
 
-        programController.setInventoryModel(inventoryModel);
         //---------------------------------------------------------
 
         //-----------------------------------------------------------------
@@ -55,26 +54,21 @@ public class StartupMVC extends StackPane {
         recipeModel = new RecipeModel();
         recipeInteractiveModel = new RecipeInteractiveModel();
 
-        programController.setRecipeInteractiveModel(recipeInteractiveModel);
-        programController.setRecipeModel(recipeModel);
         //--------------------------------------------------------------
 
         //----------------------------------------------------
         //--------------SERVER SIDE---------------------------------
         serverModel = new ServerModel();
-        programController.setServerModel(serverModel);
         //-----------------------------------------------------
 
         //----------------------------------------------------
         //-----------KITCHEN SIDE----------------------------
         kitchenModel = new KitchenModel();
-        programController.setKitchenModel(kitchenModel);
         //----------------------------------------------------
 
         //------------------------------------------------------
         //-----------Menu Item------------------------
         menuItemModel = new MenuItemModel();
-        programController.setMenuItemModel(menuItemModel);
         //--------------------------------------------------------
 
         //------------------------------------------------
@@ -93,6 +87,7 @@ public class StartupMVC extends StackPane {
         HBox welcomeBox = new HBox(welcomeLabel);
         welcomeBox.setPrefWidth(1000);
         welcomeBox.setAlignment(Pos.CENTER);
+        welcomeBox.setStyle("-fx-border-color: black;\n");
 
         Label managerLabel = new Label("Manager Login");
         managerLabel.setFont(new Font(20));

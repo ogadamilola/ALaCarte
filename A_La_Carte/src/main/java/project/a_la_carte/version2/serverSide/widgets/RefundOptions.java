@@ -21,7 +21,7 @@ public class RefundOptions extends StackPane {
         order.getOrderList().forEach((menuFoodItem -> {
             total += menuFoodItem.getPrice();
         }));
-        Label totalPrice = new Label(String.valueOf(total));
+        Label totalPrice = new Label("$" + total);
 
         this.refundButton = new Button("Refund");
         this.viewItemsButton = new Button("Items");
