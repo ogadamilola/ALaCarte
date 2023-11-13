@@ -90,6 +90,10 @@ public class ProgramController {
         this.startupMVC.selectStartup();
         this.startupMVC.modelChanged();
     }
+    public void openSignUp(ActionEvent event){
+        this.startupMVC.selectSignUp();
+        this.startupMVC.modelChanged();
+    }
     public void openRecipeList(ActionEvent event){
         this.managerMainView.selectRecipeList();
         this.managerMainView.modelChanged();
