@@ -50,7 +50,9 @@ public class KitchenView extends StackPane implements KitchenViewsInterface {
 
         this.ordersVBox = new FlowPane();
         this.ordersVBox.setPrefSize(998,455);
-        this.ordersVBox.setPadding(new Insets(10,10,10,10));
+        this.ordersVBox.setPadding(new Insets(2,2,2,2));
+        ordersVBox.setHgap(3);
+        ordersVBox.setVgap(3);
         //Bordering it red just to show the area the orders take up
         this.ordersVBox.setStyle("-fx-border-color: red;\n");
 

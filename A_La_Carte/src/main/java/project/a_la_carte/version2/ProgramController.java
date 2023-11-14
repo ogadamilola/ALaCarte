@@ -101,6 +101,7 @@ public class ProgramController {
         this.workerView.modelChanged();
     }
     public void openKitchenView(ActionEvent event){
+        this.startupMVC.getKitchenModel().notifySubscribers();
         this.workerView.selectKitchenView();
         this.workerView.modelChanged();
     }
