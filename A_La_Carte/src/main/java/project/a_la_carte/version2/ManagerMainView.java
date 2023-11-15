@@ -62,6 +62,7 @@ public class ManagerMainView extends StackPane {
 
         startupMVC.getController().setRecipeMakerView(recipeMakerView);
         startupMVC.getController().setRecipeListView(recipeListView);
+        startupMVC.getController().setStaffInfoView(staffInfoView);
 
         this.menuItemListView = new MenuItemListView();
         this.menuItemMakerView = new MenuItemMakerView();

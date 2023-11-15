@@ -42,10 +42,6 @@ public class InventoryModel {
         this.loadedIngredient = loadedIngredient;
         notifySubs();
     }
-    public Ingredient getLoadedIngredient() {
-        return loadedIngredient;
-    }
-
     public Map<Ingredient, Double> getIngredientMap(){
         return ingredientInventory;
     }

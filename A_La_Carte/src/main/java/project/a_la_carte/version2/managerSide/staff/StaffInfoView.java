@@ -1,5 +1,7 @@
 package project.a_la_carte.version2.managerSide.staff;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
@@ -13,6 +15,7 @@ import project.a_la_carte.version2.classesObjects.StaffData;
 import project.a_la_carte.version2.interfaces.StaffModelSubscriber;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 /*This view pretty much mirrors Inventory View*/
 public class StaffInfoView extends StackPane implements StaffModelSubscriber {
@@ -121,10 +124,74 @@ public class StaffInfoView extends StackPane implements StaffModelSubscriber {
 
     public void setController(ProgramController controller){
         mainMenu.setOnAction(controller::openManagerMainView);
+        submit.setOnAction(controller::handleNewStaff);
+        clearButton.setOnAction(controller::clearStaffInfoFields);
+        staffTable.setOnMouseClicked(controller::loadStaff);
+        updateButton.setOnAction(controller::updateStaff);
+        deleteButton.setOnAction(controller::deleteStaff);
+
     }
 
     @Override
-    public void modelChanged(ArrayList<Staff> staffList) {
+    public void modelChanged(ArrayList<Staff> staffList,Staff loadedStaff) {
+        clearFields();
 
+        listVBox.getChildren().clear();//redraw list
+        listVBox.getChildren().add(staffTable);
+        ObservableList<StaffData> data = FXCollections.observableArrayList();
+        for(Staff staff : staffList){
+            StaffData theData = new StaffData(staff);
+            data.add(theData);
+        }
+
+        staffTable.setItems(data);
+        iDCol.setCellValueFactory(cellData -> cellData.getValue().idProperty());
+        fNameCol.setCellValueFactory(cellData -> cellData.getValue().firstNameProperty());
+        lNameCol.setCellValueFactory(cellData -> cellData.getValue().lastNameProperty());
+        sinCol.setCellValueFactory(cellData -> cellData.getValue().sinProperty().asObject());
+        positionCol.setCellValueFactory(cellData -> cellData.getValue().positionProperty());
+
+        if(loadedStaff == null){
+            clearFields();
+        }else{
+            fNameText.setText(loadedStaff.getFirstName());
+            lNameText.setText(loadedStaff.getLastName());
+            idText.setText(loadedStaff.getStaffID());
+            idText.setEditable(false);//don't allow for staff ID to be edited
+            positionComboBox.setValue(loadedStaff.getPosition());
+            sinText.setText(String.valueOf(loadedStaff.getSin()));
+
+
+        }
+
+    }
+
+    public void clearFields(){
+        fNameText.clear();
+        lNameText.clear();
+        positionComboBox.setValue(null);
+        sinText.clear();
+        idText.clear();
+        idText.setEditable(true);
+    }
+
+    public TextField getfNameText() {
+        return fNameText;
+    }
+    public TextField getlNameText() {
+        return lNameText;
+    }
+    public ComboBox<Staff.position> getPositionComboBox() {
+        return positionComboBox;
+    }
+    public TextField getSinText() {
+        return sinText;
+    }
+    public TextField getIdText() {
+        return idText;
+    }
+
+    public TableView<StaffData> getStaffTable() {
+        return staffTable;
     }
 }
