@@ -111,6 +111,12 @@ public class ProgramController {
         this.managerMainView.modelChanged();
     }
 
+    public void openStaffInfoView(ActionEvent event){
+        this.startupMVC.getStaffModel().notifySubscribers();
+        this.managerMainView.selectStaffInfoView();
+        this.managerMainView.modelChanged();
+    }
+
     public void setStateLoaded(){
         this.interactionState = INTERACTION_STATE.RECIPE_LOADED;
     }
