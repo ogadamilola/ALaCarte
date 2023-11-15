@@ -1,9 +1,7 @@
 package project.a_la_carte.prototype.server.side;
 
 import project.a_la_carte.prototype.menu.items.MenuFoodItem;
-import project.a_la_carte.prototype.recipe.maker.inventory.Recipe;
 
-import java.util.ArrayList;
 
 public class Bill {
     float total;

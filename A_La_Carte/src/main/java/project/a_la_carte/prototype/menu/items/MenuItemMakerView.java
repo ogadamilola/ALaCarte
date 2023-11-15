@@ -89,9 +89,13 @@ public class MenuItemMakerView extends StackPane implements MenuItemModelSubscri
         alignHBoxRemove.setPadding(new Insets(5,5,5,5));
 
         recipeVBOX = new VBox();
-        recipeVBOX.setPrefSize(300,500);
+        recipeVBOX.setPrefSize(270,500);
         recipeVBOX.setPadding(new Insets(2));
-        VBox selectBoxRemove = new VBox(recipeVBOX,alignHBoxRemove);
+
+        ScrollPane recipeScroll = new ScrollPane(recipeVBOX);
+        recipeScroll.setPrefSize(300,500);
+
+        VBox selectBoxRemove = new VBox(recipeScroll,alignHBoxRemove);
         selectBoxRemove.setPrefSize(300,500);
         selectBoxRemove.setStyle("-fx-border-color: black;\n");
 
@@ -108,11 +112,14 @@ public class MenuItemMakerView extends StackPane implements MenuItemModelSubscri
         alignHBoxAdd.setPadding(new Insets(5,5,5,5));
 
         selectRecipeVBox = new VBox();
-        selectRecipeVBox.setPrefSize(300,500);
+        selectRecipeVBox.setPrefSize(270,500);
         selectRecipeVBox.setPadding(new Insets(2));
+        ScrollPane selectScroll = new ScrollPane(selectRecipeVBox);
+        selectScroll.setPrefSize(300,500);
+
         Label recipeSelectLabel = new Label("Add New Recipe To Item");
 
-        VBox selectBox = new VBox(selectRecipeVBox,alignHBoxAdd);
+        VBox selectBox = new VBox(selectScroll,alignHBoxAdd);
         selectBox.setPrefSize(300,500);
         selectBox.setStyle("-fx-border-color: black;\n");
 

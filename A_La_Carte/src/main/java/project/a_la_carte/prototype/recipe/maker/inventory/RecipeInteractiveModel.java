@@ -12,11 +12,14 @@ public class RecipeInteractiveModel {
     Recipe loadedRecipe;
     Map<Ingredient, Double> loadedRecipeSavedIngredientsMap;
 
+    boolean isCreating;
+
     public RecipeInteractiveModel(){
 
         temporaryIngredientMap = new HashMap<Ingredient,Double>();
         subsciberList = new ArrayList<RecipeInteractiveModelSubsciber>();
         loadedRecipe = null;
+        isCreating = false;
 
     }
 
@@ -43,6 +46,13 @@ public class RecipeInteractiveModel {
         }
     }
 
+    public void setCreating(boolean creating) {
+        isCreating = creating;
+    }
+    public boolean isCreating(){
+        return isCreating;
+    }
+
     public Recipe getLoadedRecipe() {
         return loadedRecipe;
     }
@@ -52,7 +62,6 @@ public class RecipeInteractiveModel {
     }
 
     public void addToTempMap(Ingredient ingredient, Double recipeQuantity){
-
             temporaryIngredientMap.put(ingredient, recipeQuantity);
             notifySubscribers();
 
@@ -66,7 +75,7 @@ public class RecipeInteractiveModel {
     }
     public void notifySubscribers(){
         for(RecipeInteractiveModelSubsciber sub: subsciberList){
-            sub.iModelChanged(temporaryIngredientMap,loadedRecipe);
+            sub.iModelChanged(temporaryIngredientMap,loadedRecipe,isCreating);
         }
     }
 

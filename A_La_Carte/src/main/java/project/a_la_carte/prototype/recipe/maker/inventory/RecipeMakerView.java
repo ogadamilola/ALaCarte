@@ -202,7 +202,7 @@ public class RecipeMakerView extends StackPane implements InventorySubscriber, R
      * @param tempIngredientList
      */
 
-    public void iModelChanged(Map<Ingredient, Double> tempIngredientList,Recipe loadedRecipe) {
+    public void iModelChanged(Map<Ingredient, Double> tempIngredientList,Recipe loadedRecipe,boolean isCreating) {
         //make an ingredient widget and show it in the list
         ObservableList<IngredientData> data =  FXCollections.observableArrayList();
         ingredientTable.setItems(data);
@@ -219,12 +219,16 @@ public class RecipeMakerView extends StackPane implements InventorySubscriber, R
         allergenCol.setCellValueFactory(cellData -> cellData.getValue().allergenProperty());
 
         if(loadedRecipe == null){
+            if(!isCreating){
             getRecipeName().clear();
             getRecipePrice().clear();
             getRecipeDescription().clear();
             getRecipeInstruction().clear();
             getRecipePrep().clear();
+            }
+
         }
+
         else{
             getRecipeName().setText(loadedRecipe.getName());
             getRecipePrice().setText(String.valueOf(loadedRecipe.getPrice()));
@@ -248,7 +252,10 @@ public class RecipeMakerView extends StackPane implements InventorySubscriber, R
         mainMenu.setOnAction(controller::openStartUpMVC);
         recipeList.setOnAction(controller::openRecipeList);
         saveRecipe.setOnAction(controller::addRecipe);
-        addIngredient.setOnAction(controller::addIngredientToRecipe);
+        addIngredient.setOnAction(event -> {
+            controller.setIModelCreating(event);
+            controller.addIngredientToRecipe(event);
+        });
         ingredientTable.setOnMouseClicked(controller::selectIngredient);
         deleteIngredient.setOnAction(controller::deleteIngredientFromRecipe);
     }

@@ -4,6 +4,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
@@ -41,6 +42,9 @@ public class KitchenView extends StackPane implements KitchenViewsInterface{
         //Bordering it red just to show the area the orders take up
         this.ordersVBox.setStyle("-fx-border-color: red;\n");
 
+        ScrollPane ordersScroll = new ScrollPane(ordersVBox);
+        ordersScroll.setPrefSize(1000,350);
+
         this.notesBox = new HBox();
         this.notesBox.setPrefSize(1000,150);
         this.notesBox.setSpacing(5);
@@ -52,7 +56,7 @@ public class KitchenView extends StackPane implements KitchenViewsInterface{
             });
         }
 
-        VBox alignOrderNote = new VBox(ordersVBox,notesBox);
+        VBox alignOrderNote = new VBox(ordersScroll,notesBox);
         alignOrderNote.setPrefSize(1000,500);
 
         VBox align = new VBox(topHBox,alignOrderNote);
