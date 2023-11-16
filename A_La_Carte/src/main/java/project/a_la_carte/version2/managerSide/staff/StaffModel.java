@@ -1,12 +1,19 @@
 package project.a_la_carte.version2.managerSide.staff;
 
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import project.a_la_carte.version2.classesObjects.Staff;
-import project.a_la_carte.version2.interfaces.InventorySubscriber;
+import com.google.gson.Gson;
 import project.a_la_carte.version2.interfaces.StaffModelSubscriber;
 
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 public class StaffModel {
+    private static  final String FILE_PATH = "staffList.json";
     private ArrayList<Staff> staffList;
     private ArrayList<StaffModelSubscriber> subscriberList;
     private Staff loadedStaff;
@@ -55,6 +62,7 @@ public class StaffModel {
             }
             staffList.remove(getStaffById(id));
             notifySubscribers();
+            setLoadedStaff(null);
         }catch (IllegalArgumentException e){
             System.out.println("Staff does not exist, can not delete");
         }catch (NullPointerException e){
@@ -83,6 +91,31 @@ public class StaffModel {
 
         for(StaffModelSubscriber sub : subscriberList){
             sub.modelChanged(staffList,loadedStaff);
+        }
+    }
+
+    public void loadList(){
+        try (FileReader reader = new FileReader(FILE_PATH)) {
+            Gson gson = new Gson();
+            //dont know whats going on here, found a solution tho-> https://stackoverflow.com/questions/27253555/com-google-gson-internal-linkedtreemap-cannot-be-cast-to-my-class
+            Type arrayListType = new TypeToken<ArrayList<Staff>>(){}.getType();
+            ArrayList<Staff> dupe = gson.fromJson(reader, arrayListType);
+            staffList = dupe;
+            notifySubscribers();
+        } catch (IOException e) {
+            // File doesn't exist or other IO exception
+            System.out.println("FAIL");
+        }
+    }
+
+    public void saveList(){
+        try (FileWriter writer = new FileWriter(FILE_PATH)) {
+            Gson gson = new GsonBuilder()
+                    .setPrettyPrinting()
+                    .create();
+            gson.toJson(staffList, writer);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

@@ -31,13 +31,15 @@ public class StaffInfoView extends StackPane implements StaffModelSubscriber {
     Button updateButton;
     Button deleteButton;
 
+    Button load;
+    Button save;
+
     //FIXME change to staff data
     TableView<StaffData> staffTable;
     TableColumn<StaffData,String> iDCol;
     TableColumn<StaffData,String> fNameCol;
     TableColumn<StaffData,String> lNameCol;
     TableColumn<StaffData,String> positionCol;
-
     TableColumn<StaffData,Integer> sinCol;
 
     public StaffInfoView(){
@@ -90,7 +92,15 @@ public class StaffInfoView extends StackPane implements StaffModelSubscriber {
 
         addVBox.getChildren().addAll(mainMenu,addLabel, fNameHBox,lNameHBox,idHBox,sinHBox,postionHBox,updateButton,deleteButton,clearButton, submit);
         addVBox.setPadding(new Insets(5,5,5,5));
+
+        HBox temp = new HBox();
+        load = new Button("LOAD");
+        save = new Button("SAVE");
+        temp.getChildren().addAll(load,save);
+        addVBox.getChildren().add(temp);
         //done addVBox
+
+
 
         staffTable = new TableView<>();
 
@@ -129,7 +139,8 @@ public class StaffInfoView extends StackPane implements StaffModelSubscriber {
         staffTable.setOnMouseClicked(controller::loadStaff);
         updateButton.setOnAction(controller::updateStaff);
         deleteButton.setOnAction(controller::deleteStaff);
-
+        load.setOnAction(controller::loadList);
+        save.setOnAction(controller::saveList);
     }
 
     @Override

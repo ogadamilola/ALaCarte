@@ -7,20 +7,23 @@ public class Staff {
     private String lastName;
     private String staffID;
     private int sin;
-    public enum position{
+
+    public enum position {
         Manager("Manager"), Server("Server"), Cook("Cook");
         private String name;
-        position(String name){
+
+        position(String name) {
             this.name = name;
         }
-        public String getName(){
+
+        public String getName() {
             return name;
         }
     }
 
     private position position;
 
-    public Staff(String firstName, String lastName, int sin){
+    public Staff(String firstName, String lastName, int sin) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.sin = sin;
@@ -63,8 +66,9 @@ public class Staff {
     public void setSin(int sin) {
         this.sin = sin;
     }
+
     public void setStaffID(String staffID) {
-        this.staffID = "EMP"+staffID;
+        this.staffID = staffID;
     } //could also do different tags depending on position
 
     //intellJ generated
@@ -80,4 +84,17 @@ public class Staff {
     public int hashCode() {
         return Objects.hash(firstName, lastName, staffID, sin, position);
     }
+
+    @Override
+    public String toString() {
+        return "Staff{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", staffID='" + staffID + '\'' +
+                ", sin=" + sin +
+                ", position=" + position +
+                '}';
+    }
 }
+
+

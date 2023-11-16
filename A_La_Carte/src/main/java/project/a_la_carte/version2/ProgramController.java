@@ -17,6 +17,7 @@ import project.a_la_carte.version2.menuItems.*;
 import project.a_la_carte.version2.managerSide.recipe.*;
 import project.a_la_carte.version2.serverSide.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -644,5 +645,10 @@ public class ProgramController {
         startupMVC.getStaffModel().deleteStaff(id);
     }
 
-
+    public void loadList(ActionEvent actionEvent){
+        startupMVC.getStaffModel().loadList();
+    }
+    public void saveList(ActionEvent actionEvent) {
+        startupMVC.getStaffModel().saveList();
+    }
 }

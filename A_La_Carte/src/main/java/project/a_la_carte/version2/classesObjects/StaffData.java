@@ -26,7 +26,7 @@ public class StaffData {
         return new SimpleStringProperty(staff.getPosition().getName());
     }
     public StringProperty idProperty(){
-        return new SimpleStringProperty(staff.getStaffID());
+        return new SimpleStringProperty("EMP-" + staff.getStaffID());
     }
     public IntegerProperty sinProperty(){
         return new SimpleIntegerProperty(staff.getSin());
