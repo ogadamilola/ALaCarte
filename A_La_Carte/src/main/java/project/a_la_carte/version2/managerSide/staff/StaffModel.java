@@ -71,7 +71,7 @@ public class StaffModel {
     }
 
     public Staff getStaffById(String id ){
-        String actualID = ("EMP" + id);
+        String actualID = (id);
         for(Staff s : staffList){
             if(s.getStaffID().equals(actualID)){
                 return s;
