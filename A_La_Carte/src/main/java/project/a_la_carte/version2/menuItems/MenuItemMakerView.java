@@ -14,7 +14,6 @@ import project.a_la_carte.version2.interfaces.MenuItemModelSubscriber;
 
 import java.util.List;
 
-
 public class MenuItemMakerView extends StackPane implements MenuItemModelSubscriber {
 
     MenuItemModel menuItemModel;
@@ -33,33 +32,33 @@ public class MenuItemMakerView extends StackPane implements MenuItemModelSubscri
     Button mainMenu;
     Boolean edit;
 
-    public MenuItemMakerView(){
-        this.setMaxSize(1000,500);
+    public MenuItemMakerView() {
+        this.setMaxSize(1000, 500);
         this.edit = false;
-        //Left side of MenuItem Creator page
-        //----------------------------------------------------
+        // Left side of MenuItem Creator page
+        // ----------------------------------------------------
         VBox createVBox = new VBox();
-        createVBox.setPrefSize(400,500);
+        createVBox.setPrefSize(400, 500);
         Label title = new Label("Menu Item Creator");
         title.setFont(new Font(30));
 
         HBox nameHBox = new HBox();
         Label nameLabel = new Label("Enter Name");
         menuItemName = new TextField();
-        nameHBox.getChildren().addAll(nameLabel,menuItemName);
-        nameHBox.setPadding(new Insets(2,2,2,2));
+        nameHBox.getChildren().addAll(nameLabel, menuItemName);
+        nameHBox.setPadding(new Insets(2, 2, 2, 2));
         nameHBox.setSpacing(8);
         nameHBox.setPrefWidth(400);
 
         VBox descVBox = new VBox();
         Label descLabel = new Label("Enter Description");
         menuItemDescription = new TextArea();
-        menuItemDescription.setPrefSize(400,100);
+        menuItemDescription.setPrefSize(400, 100);
         menuItemDescription.setWrapText(true);
 
-        descVBox.getChildren().addAll(descLabel,menuItemDescription);
-        descVBox.setPadding(new Insets(2,2,2,2));
-        descVBox.setPrefSize(400,100);
+        descVBox.getChildren().addAll(descLabel, menuItemDescription);
+        descVBox.setPadding(new Insets(2, 2, 2, 2));
+        descVBox.setPrefSize(400, 100);
 
         this.menuItemPrice = new TextField();
         this.menuItemPrice.setPrefWidth(300);
@@ -71,7 +70,7 @@ public class MenuItemMakerView extends StackPane implements MenuItemModelSubscri
 
         this.menuItemPrep = new TextField();
         Label prepLabel = new Label("Prep Time ");
-        this.menuItemPrep.setPrefWidth(300);
+        this.menuItemPrep.setPrefWidth(270);
         HBox prepBox = new HBox(prepLabel, menuItemPrep);
         prepBox.setPrefWidth(500);
         prepBox.setPadding(new Insets(2));
@@ -79,32 +78,32 @@ public class MenuItemMakerView extends StackPane implements MenuItemModelSubscri
         addRecipe = new Button("Add Selected Recipe");
         mainMenu = new Button("Main Menu");
 
-        createVBox.getChildren().addAll(mainMenu,title, nameHBox,descVBox,priceBox,prepBox);
-        createVBox.setPadding(new Insets(5,5,5,5));
+        createVBox.getChildren().addAll(mainMenu, title, nameHBox, descVBox, priceBox, prepBox);
+        createVBox.setPadding(new Insets(5, 5, 5, 5));
 
-        //Right side, recipe list ---------------------------------------------
+        // Right side, recipe list ---------------------------------------------
         HBox alignHBoxRemove = new HBox();
         this.removeRecipe = new Button("Remove Selected Recipe");
 
         alignHBoxRemove.getChildren().add(removeRecipe);
         alignHBoxRemove.setAlignment(Pos.BOTTOM_CENTER);
         alignHBoxRemove.setPrefWidth(300);
-        alignHBoxRemove.setPadding(new Insets(5,5,5,5));
+        alignHBoxRemove.setPadding(new Insets(5, 5, 5, 5));
 
         recipeVBOX = new VBox();
-        recipeVBOX.setPrefSize(270,500);
+        recipeVBOX.setPrefSize(270, 500);
         recipeVBOX.setPadding(new Insets(2));
 
         ScrollPane recipeScroll = new ScrollPane(recipeVBOX);
-        recipeScroll.setPrefSize(300,500);
+        recipeScroll.setPrefSize(300, 500);
 
-        VBox selectBoxRemove = new VBox(recipeScroll,alignHBoxRemove);
-        selectBoxRemove.setPrefSize(300,500);
+        VBox selectBoxRemove = new VBox(recipeScroll, alignHBoxRemove);
+        selectBoxRemove.setPrefSize(300, 500);
         selectBoxRemove.setStyle("-fx-border-color: black;\n");
 
         Label recipeListLabel = new Label("Recipes in item");
-        VBox recipeAlign = new VBox(recipeListLabel,selectBoxRemove);
-        recipeAlign.setPrefSize(300,500);
+        VBox recipeAlign = new VBox(recipeListLabel, selectBoxRemove);
+        recipeAlign.setPrefSize(300, 500);
         recipeAlign.setPadding(new Insets(3));
 
         HBox alignHBoxAdd = new HBox();
@@ -112,26 +111,26 @@ public class MenuItemMakerView extends StackPane implements MenuItemModelSubscri
         alignHBoxAdd.getChildren().add(addRecipe);
         alignHBoxAdd.setAlignment(Pos.BOTTOM_CENTER);
         alignHBoxAdd.setPrefWidth(300);
-        alignHBoxAdd.setPadding(new Insets(5,5,5,5));
+        alignHBoxAdd.setPadding(new Insets(5, 5, 5, 5));
 
         selectRecipeVBox = new VBox();
-        selectRecipeVBox.setPrefSize(270,500);
+        selectRecipeVBox.setPrefSize(270, 500);
         selectRecipeVBox.setPadding(new Insets(2));
         ScrollPane selectScroll = new ScrollPane(selectRecipeVBox);
-        selectScroll.setPrefSize(300,500);
+        selectScroll.setPrefSize(300, 500);
 
         Label recipeSelectLabel = new Label("Add New Recipe To Item");
 
-        VBox selectBox = new VBox(selectScroll,alignHBoxAdd);
-        selectBox.setPrefSize(300,500);
+        VBox selectBox = new VBox(selectScroll, alignHBoxAdd);
+        selectBox.setPrefSize(300, 500);
         selectBox.setStyle("-fx-border-color: black;\n");
 
-        VBox recipeSelectAlign = new VBox(recipeSelectLabel,selectBox);
-        recipeSelectAlign.setPrefSize(300,500);
+        VBox recipeSelectAlign = new VBox(recipeSelectLabel, selectBox);
+        recipeSelectAlign.setPrefSize(300, 500);
         recipeSelectAlign.setPadding(new Insets(3));
 
-        HBox alignRecipe = new HBox(recipeAlign,recipeSelectAlign);
-        alignRecipe.setPrefSize(600,500);
+        HBox alignRecipe = new HBox(recipeAlign, recipeSelectAlign);
+        alignRecipe.setPrefSize(600, 500);
         alignRecipe.setPadding(new Insets(2));
 
         buttonsHBox = new HBox();
@@ -139,70 +138,84 @@ public class MenuItemMakerView extends StackPane implements MenuItemModelSubscri
         saveMenuItem = new Button("Save Menu Item");
         editMenuItem = new Button("Save Edits to Item");
 
-        buttonsHBox.getChildren().addAll(menuItemList,saveMenuItem);
+        buttonsHBox.getChildren().addAll(menuItemList, saveMenuItem);
         buttonsHBox.setPrefWidth(600);
         buttonsHBox.setSpacing(10);
         buttonsHBox.setAlignment(Pos.BASELINE_RIGHT);
 
         VBox alignRight = new VBox();
-        alignRight.getChildren().addAll(alignRecipe,buttonsHBox);
-        alignRight.setPadding(new Insets(5,5,5,5));
+        alignRight.getChildren().addAll(alignRecipe, buttonsHBox);
+        alignRight.setPadding(new Insets(5, 5, 5, 5));
         alignRight.setAlignment(Pos.BASELINE_RIGHT);
 
         HBox connectAll = new HBox();
-        connectAll.getChildren().addAll(createVBox,alignRight);
-        connectAll.setPadding(new Insets(5,5,5,5));
+        connectAll.getChildren().addAll(createVBox, alignRight);
+        connectAll.setPadding(new Insets(5, 5, 5, 5));
 
         this.setStyle("-fx-border-color: black;\n");
         this.getChildren().add(connectAll);
     }
-    public String getMenuItemName(){
+
+    public String getMenuItemName() {
         return this.menuItemName.getText();
     }
-    public void setNameText(String name){
+
+    public void setNameText(String name) {
         this.menuItemName.setText(name);
     }
-    public String getMenuItemDescription(){
+
+    public String getMenuItemDescription() {
         return this.menuItemDescription.getText();
     }
-    public void setDescText(String descText){
+
+    public void setDescText(String descText) {
         this.menuItemDescription.setText(descText);
     }
-    public String getMenuPrice(){
+
+    public String getMenuPrice() {
         return this.menuItemPrice.getText();
     }
-    public void setPriceText(String priceText){
+
+    public void setPriceText(String priceText) {
         this.menuItemPrice.setText(priceText);
     }
-    public String getMenuPrep(){
+
+    public String getMenuPrep() {
         return this.menuItemPrep.getText();
     }
-    public void setPrepText(String prepText){
+
+    public void setPrepText(String prepText) {
         this.menuItemPrep.setText(prepText);
     }
-    public float setMenuPrice(){
+
+    public float setMenuPrice() {
         return Float.parseFloat(this.menuItemPrice.getText());
     }
-    public float setMenuPrep(){
+
+    public float setMenuPrep() {
         return Float.parseFloat(this.menuItemPrep.getText());
     }
-    public void clearTextFields(){
+
+    public void clearTextFields() {
         this.menuItemName.clear();
         this.menuItemDescription.clear();
         this.menuItemPrice.clear();
         this.menuItemPrep.clear();
     }
-    public void setSave(){
+
+    public void setSave() {
         this.edit = false;
     }
-    public void setEdit(){
+
+    public void setEdit() {
         this.edit = true;
     }
+
     public void setMenuItemModel(MenuItemModel newModel) {
         this.menuItemModel = newModel;
     }
 
-    public void setController(ProgramController controller){
+    public void setController(ProgramController controller) {
         mainMenu.setOnAction(controller::openManagerMainView);
         menuItemList.setOnAction(controller::openMenuListView);
         saveMenuItem.setOnAction(controller::addItemToMenu);
@@ -214,18 +227,18 @@ public class MenuItemMakerView extends StackPane implements MenuItemModelSubscri
     @Override
     public void MenuItemModelChanged(List<MenuFoodItem> menuItemList) {
         this.selectRecipeVBox.getChildren().clear();
-        if (menuItemModel.getRecipeArrayList() != null){
+        if (menuItemModel.getRecipeArrayList() != null) {
             menuItemModel.getRecipeArrayList().forEach((recipe -> {
                 recipe.getButton().setOnAction((event -> {
                     menuItemModel.selectRecipe(recipe);
                 }));
-                recipe.getButton().setPrefSize(300,25);
+                recipe.getButton().setPrefSize(300, 25);
                 selectRecipeVBox.getChildren().add(recipe.getButton());
             }));
         }
 
         this.recipeVBOX.getChildren().clear();
-        if (menuItemModel.getAddedRecipes() != null){
+        if (menuItemModel.getAddedRecipes() != null) {
             menuItemModel.getAddedRecipes().forEach((recipe -> {
                 recipe.getButton().setOnAction((event -> {
                     menuItemModel.selectAddedRecipe(recipe);
@@ -235,11 +248,10 @@ public class MenuItemMakerView extends StackPane implements MenuItemModelSubscri
         }
 
         this.buttonsHBox.getChildren().clear();
-        if (edit){
-            this.buttonsHBox.getChildren().addAll(this.menuItemList,this.editMenuItem);
-        }
-        else {
-            this.buttonsHBox.getChildren().addAll(this.menuItemList,this.saveMenuItem);
+        if (edit) {
+            this.buttonsHBox.getChildren().addAll(this.menuItemList, this.editMenuItem);
+        } else {
+            this.buttonsHBox.getChildren().addAll(this.menuItemList, this.saveMenuItem);
         }
     }
 }
