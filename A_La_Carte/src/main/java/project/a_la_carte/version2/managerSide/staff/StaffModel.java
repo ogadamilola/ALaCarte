@@ -99,8 +99,7 @@ public class StaffModel {
             Gson gson = new Gson();
             //dont know whats going on here, found a solution tho-> https://stackoverflow.com/questions/27253555/com-google-gson-internal-linkedtreemap-cannot-be-cast-to-my-class
             Type arrayListType = new TypeToken<ArrayList<Staff>>(){}.getType();
-            ArrayList<Staff> dupe = gson.fromJson(reader, arrayListType);
-            staffList = dupe;
+            staffList = gson.fromJson(reader, arrayListType);
             notifySubscribers();
         } catch (IOException e) {
             // File doesn't exist or other IO exception
