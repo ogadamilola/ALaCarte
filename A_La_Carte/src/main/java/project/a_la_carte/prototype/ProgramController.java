@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.Alert;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
@@ -366,6 +367,14 @@ public class ProgramController {
         return pounds;
     }
 
+    private void showAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
     /**
      * add ingredient in textbox to temp ingredient list in Recipe I model
      * @param actionEvent
@@ -388,9 +397,10 @@ public class ProgramController {
             //add ingredient to temp list of ingredients to be displayed
         }
         catch(NumberFormatException e){
-            System.out.println("Error: Enter valid quantity");
+            showAlert("Error", "Enter valid quantity" + e.getMessage());
+
         } catch(IllegalArgumentException e){
-            System.out.println("Error: " + e.getMessage());
+            showAlert("Error",  e.getMessage());
         }
     }
 
