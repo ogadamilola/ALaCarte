@@ -10,12 +10,12 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import javafx.scene.control.Alert;
 
-import project.a_la_carte.StartApplication;
+import project.a_la_carte.version2.*;
 import project.a_la_carte.version2.classesObjects.*;
 import project.a_la_carte.version2.kitchen.*;
-import project.a_la_carte.version2.kitchen.widgets.ServerNoteMaker;
+import project.a_la_carte.version2.kitchen.widgets.*;
 import project.a_la_carte.version2.managerSide.inventory.*;
-import project.a_la_carte.version2.managerSide.staff.StaffInfoView;
+import project.a_la_carte.version2.managerSide.staff.*;
 import project.a_la_carte.version2.menuItems.*;
 import project.a_la_carte.version2.managerSide.recipe.*;
 import project.a_la_carte.version2.serverSide.*;

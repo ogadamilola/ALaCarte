@@ -7,10 +7,9 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import project.a_la_carte.version2.kitchen.KitchenModel;
-import project.a_la_carte.version2.kitchen.widgets.OrderItems;
+import project.a_la_carte.version2.kitchen.*;
 import project.a_la_carte.version2.classesObjects.Order;
-import project.a_la_carte.version2.interfaces.OrderClassesInterface;
+import project.a_la_carte.version2.interfaces.*;
 
 public class OrderKitchenTab extends StackPane implements OrderClassesInterface {
     Label orderLabel;

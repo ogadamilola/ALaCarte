@@ -6,7 +6,7 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import project.a_la_carte.version2.interfaces.AlertButtonInterface;
+import project.a_la_carte.version2.interfaces.*;
 
 public class AlertButton extends Button implements AlertButtonInterface {
     Background alertBG;

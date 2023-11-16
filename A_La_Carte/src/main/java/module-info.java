@@ -5,6 +5,7 @@ module project.a_la_carte {
     requires org.controlsfx.controls;
     requires org.kordamp.bootstrapfx.core;
     requires com.google.gson;
+    requires javafx.graphics;
 
     opens project.a_la_carte to javafx.fxml;
     exports project.a_la_carte;
