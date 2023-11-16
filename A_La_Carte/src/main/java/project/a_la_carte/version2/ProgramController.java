@@ -15,10 +15,12 @@ import project.a_la_carte.version2.classesObjects.*;
 import project.a_la_carte.version2.kitchen.*;
 import project.a_la_carte.version2.kitchen.widgets.ServerNoteMaker;
 import project.a_la_carte.version2.managerSide.inventory.*;
+import project.a_la_carte.version2.managerSide.staff.StaffInfoView;
 import project.a_la_carte.version2.menuItems.*;
 import project.a_la_carte.version2.managerSide.recipe.*;
 import project.a_la_carte.version2.serverSide.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -31,6 +33,8 @@ public class ProgramController {
     RecipeListView recipeListView;
     RecipeMakerView recipeMakerView;
     MenuItemMakerView menuItemMakerView;
+
+    StaffInfoView staffInfoView;
 
     private enum INTERACTION_STATE{
         RECIPE_LOADED,
@@ -52,6 +56,7 @@ public class ProgramController {
     public void setWorkerView(WorkerView view){
         this.workerView = view;
     }
+
     public void openManagerMainView(ActionEvent event){
         this.managerMainView.selectManagerMenu();
         this.managerMainView.modelChanged();
@@ -118,6 +123,12 @@ public class ProgramController {
         this.managerMainView.modelChanged();
     }
 
+    public void openStaffInfoView(ActionEvent event){
+        this.startupMVC.getStaffModel().notifySubscribers();
+        this.managerMainView.selectStaffInfoView();
+        this.managerMainView.modelChanged();
+    }
+
     public void setStateLoaded(){
         this.interactionState = INTERACTION_STATE.RECIPE_LOADED;
     }
@@ -163,9 +174,12 @@ public class ProgramController {
 
     }
     public void loadIngredient(MouseEvent mouseEvent) {
-        String ingredientName = inventoryView.getInventoryTable().getSelectionModel().getSelectedItem().getIngredient().getName();
-        Ingredient loadedIngredient = searchIngredientByName(ingredientName);
-        startupMVC.getInventoryModel().setLoadedIngredient(loadedIngredient);
+        IngredientData iData = inventoryView.getInventoryTable().getSelectionModel().getSelectedItem();
+
+        if(iData != null) {
+            Ingredient loadedIngredient = iData.getIngredient();
+            startupMVC.getInventoryModel().setLoadedIngredient(loadedIngredient);
+        }
     }
 
     public void clearInventoryViewFields(ActionEvent actionEvent) {
@@ -613,5 +627,54 @@ public class ProgramController {
         refundStage.setScene(new Scene(refundView));
         refundStage.show();
     }
+    /*Start of staff Acitons*/
 
+    public void setStaffInfoView(StaffInfoView staffInfoView) {
+        this.staffInfoView = staffInfoView;
+    }
+
+    public void handleNewStaff(ActionEvent actionEvent) {
+        String fName = staffInfoView.getfNameText().getText();
+        String lName = staffInfoView.getlNameText().getText();
+        String id = staffInfoView.getIdText().getText();
+        Staff.position position = staffInfoView.getPositionComboBox().getValue();
+        int sin = Integer.parseInt(staffInfoView.getSinText().getText());
+
+        startupMVC.getStaffModel().addStaff(fName,lName,id,position,sin);
+    }
+
+    public void clearStaffInfoFields(ActionEvent event){
+        staffInfoView.clearFields();
+    }
+
+    public void loadStaff(MouseEvent mouseEvent){
+        StaffData sData = staffInfoView.getStaffTable().getSelectionModel().getSelectedItem();
+
+        if(sData != null){
+            Staff loadedStaff = sData.getStaff();
+            startupMVC.getStaffModel().setLoadedStaff(loadedStaff);
+        }
+    }
+
+    public void updateStaff(ActionEvent actionEvent){
+        String fName = staffInfoView.getfNameText().getText();
+        String lName = staffInfoView.getlNameText().getText();
+        String id = staffInfoView.getIdText().getText();
+        Staff.position position = staffInfoView.getPositionComboBox().getValue();
+        int sin = Integer.parseInt(staffInfoView.getSinText().getText());
+
+        startupMVC.getStaffModel().updateStaff(fName,lName,id,position,sin);
+
+    }
+    public void deleteStaff(ActionEvent actionEvent){
+        String id = staffInfoView.getIdText().getText();
+        startupMVC.getStaffModel().deleteStaff(id);
+    }
+
+    public void loadList(ActionEvent actionEvent){
+        startupMVC.getStaffModel().loadList();
+    }
+    public void saveList(ActionEvent actionEvent) {
+        startupMVC.getStaffModel().saveList();
+    }
 }

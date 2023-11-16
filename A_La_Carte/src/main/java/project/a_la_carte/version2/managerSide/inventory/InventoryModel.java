@@ -16,10 +16,10 @@ public class InventoryModel {
     private InventoryView inventoryView;
 
     //ingredientInventory is now a hashmap,
-    Map<Ingredient, Double> ingredientInventory;
+    private Map<Ingredient, Double> ingredientInventory;
 
-    List<InventorySubscriber> subscriberList;
-    Ingredient loadedIngredient;
+    private List<InventorySubscriber> subscriberList;
+    private Ingredient loadedIngredient;
     public InventoryModel(){
 
         ingredientInventory = new HashMap<>();
@@ -42,10 +42,6 @@ public class InventoryModel {
         this.loadedIngredient = loadedIngredient;
         notifySubs();
     }
-    public Ingredient getLoadedIngredient() {
-        return loadedIngredient;
-    }
-
     public Map<Ingredient, Double> getIngredientMap(){
         return ingredientInventory;
     }

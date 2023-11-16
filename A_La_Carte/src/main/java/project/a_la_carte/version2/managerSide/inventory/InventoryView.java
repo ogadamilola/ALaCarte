@@ -116,7 +116,6 @@ public class InventoryView extends StackPane implements InventorySubscriber {
         quantityCol.setMaxWidth(70);
         quantityCol.setMinWidth(70);
 
-
         measurementUnitCol = new TableColumn<>("Unit");
         measurementUnitCol.setMinWidth(50);
         measurementUnitCol.setMaxWidth(50);
@@ -128,8 +127,6 @@ public class InventoryView extends StackPane implements InventorySubscriber {
         inventoryTable.getColumns().addAll(nameCol,quantityCol,measurementUnitCol,typeCol,statusCol);
         inventoryTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
-
-        //use tableview here to show
         inventoryTable.setPrefSize(700,700);
         listVBox.setPrefSize(700,500);
         listVBox.setStyle("-fx-border-color: black;\n");

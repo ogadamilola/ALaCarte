@@ -65,7 +65,6 @@ public class InventoryModel {
         notifySubs();
 
     }
-
     /**
      * subtract the quantity from inventory
      * @param ingredient    the key ingredient
@@ -126,7 +125,4 @@ public class InventoryModel {
     }
 
     //setView not needed with subscribers
-
-
-
 }
