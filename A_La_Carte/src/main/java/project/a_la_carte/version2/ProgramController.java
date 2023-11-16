@@ -147,11 +147,12 @@ public class ProgramController {
         }
 
         } catch(NumberFormatException e){
-            System.out.println("ERROR: Quantity must be a valid number");
+            showAlert("Error", "Quantity must be a valid number");
         } catch(IllegalArgumentException e){
-            System.out.println("ERROR:" + e.getMessage());
+            showAlert("Error", e.getMessage());
+
         } catch (Exception e){
-            System.out.println("An unexpected error occurred: " + e.getMessage());
+            showAlert("Error", e.getMessage());
         }
 
     }
@@ -172,15 +173,18 @@ public class ProgramController {
     }
 
     public void updateItem(ActionEvent actionEvent){
-
+    try {
         String ingredientName = inventoryView.getNameText().getText();
         Ingredient ingredient = searchIngredientByName(ingredientName);
         Double quantity = Double.valueOf(inventoryView.getQuantityText().getText());
         Ingredient.IngredientType type = inventoryView.getTypeComboBox().getValue();
         Ingredient.MeasurementUnit mUnit = inventoryView.getMeasurementUnitComboBox().getValue();
         Boolean commonAllergen = inventoryView.getCommonAllergenCheck().isSelected();
-        startupMVC.getInventoryModel().updateItem(ingredient,quantity,type,mUnit,commonAllergen);
+        startupMVC.getInventoryModel().updateItem(ingredient, quantity, type, mUnit, commonAllergen);
         clearInventoryViewFields(actionEvent);
+    } catch (Exception e) {
+        showAlert("Error", e.getMessage());
+    }
     }
 
     public void deleteItem(ActionEvent actionEvent) {
