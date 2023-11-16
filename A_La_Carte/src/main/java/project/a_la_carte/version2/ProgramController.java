@@ -8,6 +8,7 @@ import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
+import javafx.scene.control.Alert;
 
 import project.a_la_carte.StartApplication;
 import project.a_la_carte.version2.classesObjects.*;
@@ -139,24 +140,25 @@ public class ProgramController {
     }
     public void handleNewIngredient(ActionEvent actionEvent) {
         try{
-        String ingredientName = inventoryView.getNameText().getText();
-        Double quantity = Double.valueOf(inventoryView.getQuantityText().getText());
-        Ingredient.IngredientType type = inventoryView.getTypeComboBox().getValue();
-        Ingredient.MeasurementUnit mUnit = inventoryView.getMeasurementUnitComboBox().getValue();
-        Boolean commonAllergen = inventoryView.getCommonAllergenCheck().isSelected();
-        startupMVC.getInventoryModel().addIngredient(ingredientName,quantity,type,mUnit,commonAllergen);
-        clearInventoryViewFields(actionEvent);
+            String ingredientName = inventoryView.getNameText().getText();
+            Double quantity = Double.valueOf(inventoryView.getQuantityText().getText());
+            Ingredient.IngredientType type = inventoryView.getTypeComboBox().getValue();
+            Ingredient.MeasurementUnit mUnit = inventoryView.getMeasurementUnitComboBox().getValue();
+            Boolean commonAllergen = inventoryView.getCommonAllergenCheck().isSelected();
+            startupMVC.getInventoryModel().addIngredient(ingredientName,quantity,type,mUnit,commonAllergen);
+            clearInventoryViewFields(actionEvent);
 
-        if (ingredientName.isEmpty() || type == null || mUnit == null) {
-            throw new IllegalArgumentException("Please fill in all the required fields.");
-        }
+            if (ingredientName.isEmpty() || type == null || mUnit == null) {
+                throw new IllegalArgumentException("Please fill in all the required fields.");
+            }
 
         } catch(NumberFormatException e){
-            System.out.println("ERROR: Quantity must be a valid number");
+            showAlert("Error", "Quantity must be a valid number");
         } catch(IllegalArgumentException e){
-            System.out.println("ERROR:" + e.getMessage());
+            showAlert("Error", e.getMessage());
+
         } catch (Exception e){
-            System.out.println("An unexpected error occurred: " + e.getMessage());
+            showAlert("Error", e.getMessage());
         }
 
     }
@@ -177,15 +179,18 @@ public class ProgramController {
     }
 
     public void updateItem(ActionEvent actionEvent){
-
-        String ingredientName = inventoryView.getNameText().getText();
-        Ingredient ingredient = searchIngredientByName(ingredientName);
-        Double quantity = Double.valueOf(inventoryView.getQuantityText().getText());
-        Ingredient.IngredientType type = inventoryView.getTypeComboBox().getValue();
-        Ingredient.MeasurementUnit mUnit = inventoryView.getMeasurementUnitComboBox().getValue();
-        Boolean commonAllergen = inventoryView.getCommonAllergenCheck().isSelected();
-        startupMVC.getInventoryModel().updateItem(ingredient,quantity,type,mUnit,commonAllergen);
-        clearInventoryViewFields(actionEvent);
+        try {
+            String ingredientName = inventoryView.getNameText().getText();
+            Ingredient ingredient = searchIngredientByName(ingredientName);
+            Double quantity = Double.valueOf(inventoryView.getQuantityText().getText());
+            Ingredient.IngredientType type = inventoryView.getTypeComboBox().getValue();
+            Ingredient.MeasurementUnit mUnit = inventoryView.getMeasurementUnitComboBox().getValue();
+            Boolean commonAllergen = inventoryView.getCommonAllergenCheck().isSelected();
+            startupMVC.getInventoryModel().updateItem(ingredient, quantity, type, mUnit, commonAllergen);
+            clearInventoryViewFields(actionEvent);
+        } catch (Exception e) {
+            showAlert("Error", e.getMessage());
+        }
     }
 
     public void deleteItem(ActionEvent actionEvent) {
@@ -283,7 +288,7 @@ public class ProgramController {
 
         try {
             if(recipeMakerView.getRecipeName().getText().isBlank() || recipeMakerView.getRecipeDescription().getText().isEmpty() || recipeMakerView.getRecipeInstruction().getText().isEmpty()) {
-            throw new IllegalArgumentException("Please fill out all fields");
+                throw new IllegalArgumentException("Please fill out all fields");
             }
 
             String recipeName = recipeMakerView.getRecipeName().getText();
@@ -322,22 +327,24 @@ public class ProgramController {
 
 
         }catch(NumberFormatException e){
-            System.out.println("Error: " + "Fill out all the fields");
+            showAlert("Error", "Fill out all the fields");
         } catch (IllegalArgumentException e){
-            System.out.println("Error: " + e.getMessage());
+            showAlert("Error", e.getMessage());
         }
 
     }
 
     public void deleteRecipe(ActionEvent actionEvent) {
         try{
-        String recipeName = recipeListView.getRecipeTable().getSelectionModel().getSelectedItem().getRecipe().getName();
-        Recipe recipe = searchRecipeByName(recipeName);
-        startupMVC.getRecipeModel().deleteRecipe(recipe);
-        setStateNotLoaded(actionEvent);
-        startupMVC.getRecipeInteractiveModel().clearRecipeIModel();
+            String recipeName = recipeListView.getRecipeTable().getSelectionModel().getSelectedItem().getRecipe().getName();
+            Recipe recipe = searchRecipeByName(recipeName);
+            startupMVC.getRecipeModel().deleteRecipe(recipe);
+            setStateNotLoaded(actionEvent);
+            startupMVC.getRecipeInteractiveModel().clearRecipeIModel();
         }catch (NullPointerException e){
-            System.out.println("Error: " + "No recipe selected to delete");
+            showAlert("Error", "No recipe selected to delete");
+
+
         }
 
     }
@@ -349,7 +356,7 @@ public class ProgramController {
             Recipe selectedRecipe = startupMVC.getRecipeInteractiveModel().getLoadedRecipe();
             new ShowRecipeInfoView(selectedRecipe);
         } catch (NullPointerException e){
-            System.out.println("Error: " + "There is no recipeSelected");
+            showAlert("Error","There is no recipeSelected" );
         }
     }
 
@@ -420,7 +427,7 @@ public class ProgramController {
         catch(NumberFormatException e){
             System.out.println("Error: Enter valid quantity");
         } catch(IllegalArgumentException e){
-            System.out.println("Error: " + e.getMessage());
+            showAlert("Error", e.getMessage());
         }
     }
 
@@ -512,20 +519,33 @@ public class ProgramController {
         }
     }
     public void addItemToMenu(ActionEvent event){
-        if (menuItemMakerView.getMenuItemName() != null && menuItemMakerView.getMenuItemDescription() != null) {
-            MenuFoodItem newItem = new MenuFoodItem(startupMVC.getMenuItemModel().getAddedRecipes(), menuItemMakerView.getMenuItemName(), menuItemMakerView.getMenuItemDescription());
-            if (!menuItemMakerView.getMenuPrice().isBlank()) {
-                newItem.setPrice(menuItemMakerView.setMenuPrice());
-            }
-            if (!menuItemMakerView.getMenuPrep().isBlank()) {
-                newItem.setPrepTime(menuItemMakerView.setMenuPrep());
-            }
-            this.startupMVC.getMenuItemModel().addNewMenuItem(newItem);
-            menuItemMakerView.clearTextFields();
-            this.startupMVC.getMenuItemModel().resetAddedRecipes();
+        try {
+            if (menuItemMakerView.getMenuItemName() != null && menuItemMakerView.getMenuItemDescription() != null) {
+                MenuFoodItem newItem = new MenuFoodItem(startupMVC.getMenuItemModel().getAddedRecipes(), menuItemMakerView.getMenuItemName(), menuItemMakerView.getMenuItemDescription());
+                if (!menuItemMakerView.getMenuPrice().isBlank()) {
+                    newItem.setPrice(menuItemMakerView.setMenuPrice());
+                }
+                if (!menuItemMakerView.getMenuPrep().isBlank()) {
+                    newItem.setPrepTime(menuItemMakerView.setMenuPrep());
+                }
+                this.startupMVC.getMenuItemModel().addNewMenuItem(newItem);
+                menuItemMakerView.clearTextFields();
+                this.startupMVC.getMenuItemModel().resetAddedRecipes();
 
-            this.startupMVC.getServerModel().setMenuItemList(startupMVC.getMenuItemModel().getMenuItemsList());
+                this.startupMVC.getServerModel().setMenuItemList(startupMVC.getMenuItemModel().getMenuItemsList());
+            }
+        } catch (Exception e) {
+            showAlert("Error", "An error occurred while saving the menu item: " + e.getMessage());
+
         }
+
+    }
+    private void showAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
     public void saveEditsToItem(ActionEvent event){
         if (menuItemMakerView.getMenuItemName() != null && menuItemMakerView.getMenuItemDescription() != null) {
