@@ -4,10 +4,12 @@ import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
+import project.a_la_carte.StartApplication;
 import project.a_la_carte.version2.classesObjects.*;
 import project.a_la_carte.version2.kitchen.*;
 import project.a_la_carte.version2.kitchen.widgets.ServerNoteMaker;
@@ -66,6 +68,8 @@ public class ProgramController {
         ManagerMainView newView = new ManagerMainView(this.startupMVC);
 
         Stage managerStage = new Stage();
+        managerStage.setTitle("Manager");
+        managerStage.getIcons().add(new Image(ProgramController.class.getResourceAsStream("/images/icon.png")));
         managerStage.setScene(new Scene(newView));
         managerStage.show();
 
@@ -74,6 +78,8 @@ public class ProgramController {
         WorkerView newView = new WorkerView(this.startupMVC);
 
         Stage workerStage = new Stage();
+        workerStage.setTitle("Worker");
+        workerStage.getIcons().add(new Image(ProgramController.class.getResourceAsStream("/images/icon.png")));
         workerStage.setScene(new Scene(newView));
         workerStage.show();
     }
