@@ -9,9 +9,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import project.a_la_carte.version2.ProgramController;
-import project.a_la_carte.version2.classesObjects.IngredientData;
-import project.a_la_carte.version2.classesObjects.Staff;
-import project.a_la_carte.version2.classesObjects.StaffData;
+import project.a_la_carte.version2.classesObjects.*;
 import project.a_la_carte.version2.interfaces.StaffModelSubscriber;
 
 import java.util.ArrayList;

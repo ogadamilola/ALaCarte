@@ -1,6 +1,6 @@
 package project.a_la_carte.version2.classesObjects;
 
-import project.a_la_carte.version2.interfaces.OrderClassesInterface;
+import project.a_la_carte.version2.interfaces.*;
 
 import java.util.ArrayList;
 

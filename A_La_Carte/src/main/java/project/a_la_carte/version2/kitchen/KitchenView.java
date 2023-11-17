@@ -12,7 +12,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import project.a_la_carte.version2.ProgramController;
 import project.a_la_carte.version2.classesObjects.AlertButton;
-import project.a_la_carte.version2.interfaces.KitchenViewsInterface;
+import project.a_la_carte.version2.interfaces.*;
 import project.a_la_carte.version2.kitchen.widgets.OrderKitchenTab;
 
 public class KitchenView extends StackPane implements KitchenViewsInterface {

@@ -2,7 +2,7 @@ package project.a_la_carte.version2.managerSide.inventory.widgets;
 
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
-import project.a_la_carte.version2.classesObjects.Ingredient;
+import project.a_la_carte.version2.classesObjects.*;
 
 public class IngredientWidget {
     private HBox widget;

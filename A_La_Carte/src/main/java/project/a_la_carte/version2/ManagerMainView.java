@@ -8,11 +8,9 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import project.a_la_carte.version2.managerSide.inventory.InventoryView;
-import project.a_la_carte.version2.managerSide.recipe.RecipeListView;
-import project.a_la_carte.version2.managerSide.recipe.RecipeMakerView;
-import project.a_la_carte.version2.managerSide.staff.StaffInfoView;
-import project.a_la_carte.version2.menuItems.MenuItemListView;
-import project.a_la_carte.version2.menuItems.MenuItemMakerView;
+import project.a_la_carte.version2.managerSide.recipe.*;
+import project.a_la_carte.version2.managerSide.staff.*;
+import project.a_la_carte.version2.menuItems.*;
 
 public class ManagerMainView extends StackPane {
     InventoryView inventoryView;

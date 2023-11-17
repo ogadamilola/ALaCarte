@@ -2,7 +2,7 @@ package project.a_la_carte.version2.managerSide.staff;
 
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-import project.a_la_carte.version2.classesObjects.Staff;
+import project.a_la_carte.version2.classesObjects.*;
 import com.google.gson.Gson;
 import project.a_la_carte.version2.interfaces.StaffModelSubscriber;
 

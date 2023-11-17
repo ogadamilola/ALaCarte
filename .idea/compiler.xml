@@ -9,8 +9,5 @@
         <module name="A_La_Carte" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="A_La_Carte" target="18" />
-    </bytecodeTargetLevel>
   </component>
 </project>

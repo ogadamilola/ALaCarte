@@ -10,7 +10,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import project.a_la_carte.version2.ProgramController;
-import project.a_la_carte.version2.kitchen.KitchenModel;
+import project.a_la_carte.version2.kitchen.*;
 
 public class ServerNoteMaker extends StackPane{
     public ServerNoteMaker(ProgramController controller, KitchenModel model){

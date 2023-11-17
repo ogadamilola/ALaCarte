@@ -9,7 +9,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
-import project.a_la_carte.version2.interfaces.KitchenViewsInterface;
+import project.a_la_carte.version2.interfaces.*;
 
 public class KitchenAlertView extends StackPane implements KitchenViewsInterface {
     KitchenModel kitchenModel;

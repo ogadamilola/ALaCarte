@@ -1,6 +1,6 @@
 package project.a_la_carte.version2.managerSide.inventory;
 
-import project.a_la_carte.version2.classesObjects.Ingredient;
+import project.a_la_carte.version2.classesObjects.*;
 import project.a_la_carte.version2.interfaces.InventorySubscriber;
 
 import java.lang.reflect.Array;
