@@ -20,6 +20,8 @@ public class WorkerView extends StackPane {
     CustomizeView customizeView;
     MenuView menuView;
     NoteView noteView;
+
+    TableView tableView;
     KitchenView kitchenView;
     StackPane workerView;
     Button serverButton;
@@ -48,6 +50,13 @@ public class WorkerView extends StackPane {
         noteView.setServerModel(startupMVC.getServerModel());
 
         startupMVC.getServerModel().setNoteView(noteView);
+
+        tableView = new TableView();
+        tableView.setController(startupMVC.getController());
+        tableView.setServerModel(startupMVC.getServerModel());
+
+        startupMVC.getServerModel().setTableView(tableView);
+
 
         this.kitchenView = new KitchenView();
         startupMVC.getKitchenModel().setKitchenView(kitchenView);
@@ -101,6 +110,7 @@ public class WorkerView extends StackPane {
     public void selectMenuView(){
         this.selectedScreen = "menu";
     }
+    public void selectTableView(){this.selectedScreen = "tables";}
     public void selectCustomize(){this.selectedScreen ="customize";}
     public void selectNoteView(){this.selectedScreen = "note";}
     public void modelChanged() {
@@ -111,6 +121,7 @@ public class WorkerView extends StackPane {
             case "menu" -> this.getChildren().add(menuView);
             case "customize" -> this.getChildren().add(customizeView);
             case "note" -> this.getChildren().add(noteView);
+            case "tables" -> this.getChildren().add(tableView);
         }
     }
 }

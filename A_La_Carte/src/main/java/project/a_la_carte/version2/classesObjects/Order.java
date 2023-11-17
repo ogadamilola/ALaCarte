@@ -54,4 +54,7 @@ public class Order {
         return this.orderNum;
     }
     public int getTotalItems(){return this.totalItems;}
+
+    public void updateOrderFromString(String text) {
+    }
 }

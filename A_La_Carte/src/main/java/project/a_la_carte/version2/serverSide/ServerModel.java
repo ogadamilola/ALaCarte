@@ -10,6 +10,7 @@ import java.util.List;
 public class ServerModel {
     MenuView menuView;
     NoteView noteView;
+    TableView tableView;
     CustomizeView customizeView;
     List<ServerViewInterface> subscribers;
     String noteMessage = "";
@@ -175,6 +176,10 @@ public class ServerModel {
     public void setNoteView(NoteView newView){
         this.noteView = newView;
         this.addSubscriber(this.noteView);
+    }
+    public void setTableView(TableView newView){
+        this.tableView = newView;
+        this.addSubscriber(this.tableView);
     }
     public void addSubscriber(ServerViewInterface view){
         this.subscribers.add(view);

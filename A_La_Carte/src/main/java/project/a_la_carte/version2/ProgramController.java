@@ -600,6 +600,13 @@ public class ProgramController {
         this.workerView.selectNoteView();
         this.workerView.modelChanged();
     }
+
+    public void openTablesView(ActionEvent event){
+        this.startupMVC.getServerModel().notifySubscribers();
+        this.workerView.selectTableView();
+        this.workerView.modelChanged();
+    }
+
     public void openCustomizeView(ActionEvent event){
         this.startupMVC.getServerModel().notifySubscribers();
         this.workerView.selectCustomize();
