@@ -132,7 +132,7 @@ public class ServerModel {
     }
     public void addToOrder(MenuFoodItem item){
         if (this.currentOrder == null){
-            currentOrder = new Order();
+            currentOrder = new Order(new ArrayList<>(),this.orderNumber);
         }
         currentOrder.addItem(item);
     }
