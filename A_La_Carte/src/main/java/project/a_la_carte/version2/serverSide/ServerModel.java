@@ -2,6 +2,7 @@ package project.a_la_carte.version2.serverSide;
 
 import project.a_la_carte.version2.interfaces.ServerViewInterface;
 import project.a_la_carte.version2.classesObjects.*;
+import project.a_la_carte.version2.serverSide.tableSystem.Table;
 import project.a_la_carte.version2.serverSide.widgets.*;
 
 import java.util.ArrayList;
@@ -113,6 +114,10 @@ public class ServerModel {
 
         notifySubscribers();
         return sendOrder;
+    }
+    public Table sendOrderToTable(){
+
+        return new Table(currentOrder);
     }
     public void clearOrder(){
         this.currentOrder = null;

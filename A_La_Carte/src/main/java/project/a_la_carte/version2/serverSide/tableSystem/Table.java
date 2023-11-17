@@ -8,15 +8,14 @@ public class Table {
     int occupants;
     Order order;
     Bill bill;
-
     private static int lastTableNumber = 0;
     int number;
 
-    public Table(){
+    public Table(Order newOrder){
         this.status = false; // true indicates occupancy, false indicates vacancy
         this.occupants = 0;
         this.number = ++lastTableNumber;
-        this.order = new Order();
+        this.order = newOrder;
     }
 
     public boolean getStatus(){

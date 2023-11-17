@@ -69,7 +69,7 @@ public class TableView extends StackPane implements ServerViewInterface {
 
 
         addButton = new Button("Add Table");
-        addButton.setOnAction(e -> addTable(new Table()));
+        addButton.setOnAction(e -> addTable(serverModel.sendOrderToTable()));
 
         removeButton = new Button("Remove Table");
         removeButton.setOnAction(e -> removeLastTable());

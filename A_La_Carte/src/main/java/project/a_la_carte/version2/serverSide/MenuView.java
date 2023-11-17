@@ -45,7 +45,7 @@ public class MenuView extends StackPane implements ServerViewInterface {
         tablesHBox.setPrefWidth(100);
 
         HBox titleHBox = new HBox(menuTitle);
-        titleHBox.setPrefWidth(400);
+        titleHBox.setPrefWidth(350);
         titleHBox.setAlignment(Pos.TOP_CENTER);
 
         this.alertButton = new AlertButton("!");
