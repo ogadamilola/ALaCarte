@@ -9,18 +9,22 @@ public class Bill {
     float tip;
     float netTotal;
     float misc;
+    private Order order;
 
-    public Bill(){
+    public Bill(float finalTotalPrice){
         this.total = 0.0F;
         this.tip = 0.0F;
         this.netTotal = 0.0F;
         this.misc = 0.0F;
+
     }
 
-    public float getTotal(Order order){
+    public float getTotal() {
         float total = 0.0F;
-        for(MenuFoodItem i : order.getOrderList()){
-            total += i.getPrice();
+        if (this.order != null) {
+            for(MenuFoodItem i : this.order.getOrderList()){
+                total += i.getPrice();
+            }
         }
         this.total = total;
         return total;

@@ -10,9 +10,7 @@ public class Order {
     int orderNum;
     int totalItems;
     Boolean completed = false;
-    public Order(ArrayList<MenuFoodItem> items, int i){
-        this.menuItems = items;
-        this.orderNum = i;
+    public Order(){
         this.totalItems = 0;
         this.subscriber = new ArrayList<>();
     }
@@ -54,4 +52,7 @@ public class Order {
         return this.orderNum;
     }
     public int getTotalItems(){return this.totalItems;}
+
+    public void updateOrderFromString(String text) {
+    }
 }
