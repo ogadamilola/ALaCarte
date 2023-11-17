@@ -10,7 +10,9 @@ public class Order {
     int orderNum;
     int totalItems;
     Boolean completed = false;
-    public Order(){
+    public Order(ArrayList<MenuFoodItem> items, int i){
+        this.menuItems = items;
+        this.orderNum = i;
         this.totalItems = 0;
         this.subscriber = new ArrayList<>();
     }
