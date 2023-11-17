@@ -1,6 +1,6 @@
 package project.a_la_carte.version2.classesObjects;
 
-import project.a_la_carte.version2.menuItems.widgets.MenuItemRecipeButton;
+import project.a_la_carte.version2.menuItems.widgets.*;
 
 import java.util.HashMap;
 import java.util.Map;

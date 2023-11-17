@@ -1,7 +1,7 @@
 package project.a_la_carte.version2.managerSide.recipe;
 
 import project.a_la_carte.version2.classesObjects.*;
-import project.a_la_carte.version2.interfaces.RecipeModelSubscriber;
+import project.a_la_carte.version2.interfaces.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;

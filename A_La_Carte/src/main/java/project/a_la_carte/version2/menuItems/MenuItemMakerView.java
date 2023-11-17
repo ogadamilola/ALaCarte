@@ -70,8 +70,8 @@ public class MenuItemMakerView extends StackPane implements MenuItemModelSubscri
         priceBox.setPadding(new Insets(2));
 
         this.menuItemPrep = new TextField();
-        Label prepLabel = new Label("Prep: ");
-        this.menuItemPrep.setPrefWidth(300);
+        Label prepLabel = new Label("Prep. Time: ");
+        this.menuItemPrep.setPrefWidth(270);
         HBox prepBox = new HBox(prepLabel, menuItemPrep);
         prepBox.setPrefWidth(500);
         prepBox.setPadding(new Insets(2));

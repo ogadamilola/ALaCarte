@@ -6,7 +6,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import project.a_la_carte.version2.kitchen.KitchenModel;
+import project.a_la_carte.version2.kitchen.*;
 
 public class KitchenNotes extends StackPane {
     Label note;

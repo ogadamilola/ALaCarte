@@ -1,7 +1,7 @@
 package project.a_la_carte.version2.kitchen;
 
 import project.a_la_carte.version2.kitchen.widgets.KitchenNotes;
-import project.a_la_carte.version2.interfaces.KitchenViewsInterface;
+import project.a_la_carte.version2.interfaces.*;
 import project.a_la_carte.version2.classesObjects.Order;
 
 import java.util.ArrayList;

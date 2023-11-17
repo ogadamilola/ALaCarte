@@ -1,7 +1,7 @@
 package project.a_la_carte.version2.classesObjects;
 
-import project.a_la_carte.version2.menuItems.widgets.MenuItemListButton;
-import project.a_la_carte.version2.serverSide.widgets.MenuItemMainDisplay;
+import project.a_la_carte.version2.menuItems.widgets.*;
+import project.a_la_carte.version2.serverSide.widgets.*;
 
 import java.util.ArrayList;
 
