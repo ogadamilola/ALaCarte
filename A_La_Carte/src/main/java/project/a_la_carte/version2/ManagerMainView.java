@@ -40,6 +40,7 @@ public class ManagerMainView extends StackPane {
 
         recipeMakerView = new RecipeMakerView();
         recipeMakerView.setRecipeModel(startupMVC.getRecipeModel());
+        recipeMakerView.setInventoryModel(startupMVC.getInventoryModel());
         recipeMakerView.setRecipeMakerController(startupMVC.getController());
 
         recipeListView = new RecipeListView();

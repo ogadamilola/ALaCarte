@@ -13,6 +13,7 @@ import project.a_la_carte.version2.ProgramController;
 import project.a_la_carte.version2.classesObjects.*;
 import project.a_la_carte.version2.interfaces.InventorySubscriber;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 public class InventoryView extends StackPane implements InventorySubscriber {
@@ -154,7 +155,7 @@ public class InventoryView extends StackPane implements InventorySubscriber {
         deleteButton.setOnAction(controller::deleteItem);
     }
 
-    public void modelChanged(Map<Ingredient, Double> ingredientInventory, Ingredient loadedIngredient){
+    public void modelChanged(Map<String, Double> ingredientInventory, Ingredient loadedIngredient, ArrayList<Ingredient> ingredientsList){
         //clear text fields
         nameText.clear();
         quantityText.clear();
@@ -172,8 +173,10 @@ public class InventoryView extends StackPane implements InventorySubscriber {
         //new way to display inventory
 
         ObservableList<IngredientData> data = FXCollections.observableArrayList();
-        for (Map.Entry<Ingredient, Double> entry : ingredientInventory.entrySet()) {
-            Ingredient ingredient = entry.getKey();
+
+        for (Map.Entry<String, Double> entry : ingredientInventory.entrySet()) {
+
+            Ingredient ingredient = inventoryModel.getIngredientFromList(entry.getKey());
             Double quantity = entry.getValue();
             IngredientData theData = new IngredientData(ingredient,quantity);
             data.add(theData);
@@ -196,7 +199,7 @@ public class InventoryView extends StackPane implements InventorySubscriber {
         } else{
             getNameText().setText(loadedIngredient.getName());
             getNameText().setEditable(false);
-            Double currentQuantity = ingredientInventory.get(loadedIngredient);
+            Double currentQuantity = ingredientInventory.get(loadedIngredient.getName());
             getQuantityText().setText(String.valueOf(currentQuantity));
             getTypeComboBox().setValue(loadedIngredient.getIngredientType());
             getMeasurementUnitComboBox().setValue(loadedIngredient.getMeasurementUnit());
