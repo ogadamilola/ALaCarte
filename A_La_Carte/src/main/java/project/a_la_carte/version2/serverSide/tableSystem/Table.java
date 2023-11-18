@@ -3,6 +3,8 @@ package project.a_la_carte.version2.serverSide.tableSystem;
 
 import project.a_la_carte.version2.classesObjects.Order;
 
+import java.util.ArrayList;
+
 public class Table {
     boolean status;
     int occupants;
@@ -47,7 +49,10 @@ public class Table {
     }
 
     public Order getOrder() {
-        return order;
+        if (this.order == null) {
+            this.order = new Order(new ArrayList<>(), 0);
+        }
+        return this.order;
     }
 
     public void setOrder(Order order) {
