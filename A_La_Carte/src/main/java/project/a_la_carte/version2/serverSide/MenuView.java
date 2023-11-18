@@ -22,6 +22,7 @@ public class MenuView extends StackPane implements ServerViewInterface {
     Button customize;
     Button refund;
     Button mainMenu;
+    Button Tables;
     AlertButton alertButton;
     //View Order Variables
     VBox ordersVBox;
@@ -39,8 +40,12 @@ public class MenuView extends StackPane implements ServerViewInterface {
         HBox menuHBox = new HBox(mainMenu);
         menuHBox.setPrefWidth(100);
 
+        this.Tables = new Button("Tables");
+        HBox tablesHBox = new HBox(Tables);
+        tablesHBox.setPrefWidth(100);
+
         HBox titleHBox = new HBox(menuTitle);
-        titleHBox.setPrefWidth(400);
+        titleHBox.setPrefWidth(350);
         titleHBox.setAlignment(Pos.TOP_CENTER);
 
         this.alertButton = new AlertButton("!");
@@ -48,7 +53,7 @@ public class MenuView extends StackPane implements ServerViewInterface {
         alertBox.setPrefWidth(100);
         alertBox.setAlignment(Pos.BASELINE_RIGHT);
 
-        HBox topHBox = new HBox(menuHBox, titleHBox, alertBox);
+        HBox topHBox = new HBox(menuHBox, titleHBox, alertBox, tablesHBox);
         topHBox.setPrefWidth(600);
         topHBox.setPadding(new Insets(5,5,5,5));
         topHBox.setStyle("-fx-border-color: black;\n");
@@ -152,6 +157,8 @@ public class MenuView extends StackPane implements ServerViewInterface {
         this.alertButton.setOnAction(controller::showServerAlerts);
         this.voidOrderButton.setOnAction(controller::voidOrder);
         this.refund.setOnAction(controller::refundDisplay);
+        this.Tables.setOnAction(controller::openTablesView);
+
     }
 
     @Override

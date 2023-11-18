@@ -323,8 +323,6 @@ public class ProgramController {
         }
     }
 
-
-
     public void recipieAddedPopUp(String recipieName){//this is just for some user feedback we can remove it tbh
 
         Stage secondStage = new Stage();
@@ -414,6 +412,7 @@ public class ProgramController {
     /**
      * End of Recipe Actions
      */
+
     /**
      * Kitchen Actions
      */

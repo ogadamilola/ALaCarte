@@ -1,6 +1,6 @@
 package project.a_la_carte.version2.classesObjects;
 
-import project.a_la_carte.version2.interfaces.OrderClassesInterface;
+import project.a_la_carte.version2.interfaces.*;
 
 import java.util.ArrayList;
 
@@ -54,4 +54,7 @@ public class Order {
         return this.orderNum;
     }
     public int getTotalItems(){return this.totalItems;}
+
+    public void updateOrderFromString(String text) {
+    }
 }

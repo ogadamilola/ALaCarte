@@ -8,10 +8,9 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import project.a_la_carte.version2.managerSide.inventory.InventoryView;
-import project.a_la_carte.version2.managerSide.recipe.RecipeListView;
-import project.a_la_carte.version2.managerSide.recipe.RecipeMakerView;
-import project.a_la_carte.version2.menuItems.MenuItemListView;
-import project.a_la_carte.version2.menuItems.MenuItemMakerView;
+import project.a_la_carte.version2.managerSide.recipe.*;
+import project.a_la_carte.version2.managerSide.staff.*;
+import project.a_la_carte.version2.menuItems.*;
 
 public class ManagerMainView extends StackPane {
     InventoryView inventoryView;
@@ -19,10 +18,12 @@ public class ManagerMainView extends StackPane {
     RecipeListView recipeListView;
     MenuItemListView menuItemListView;
     MenuItemMakerView menuItemMakerView;
+    StaffInfoView staffInfoView;
     StackPane managerMainScreen;
     Button inventoryButton;
     Button recipeButton;
     Button menuItemButton;
+    Button staffInfoButton;
     String selectedScreen = "";
     public ManagerMainView(StartupMVC startupMVC){
         this.setPrefSize(1000,500);
@@ -39,11 +40,16 @@ public class ManagerMainView extends StackPane {
 
         recipeMakerView = new RecipeMakerView();
         recipeMakerView.setRecipeModel(startupMVC.getRecipeModel());
+        recipeMakerView.setInventoryModel(startupMVC.getInventoryModel());
         recipeMakerView.setRecipeMakerController(startupMVC.getController());
 
         recipeListView = new RecipeListView();
         recipeListView.setController(startupMVC.getController());
         recipeListView.setRecipeListModel(startupMVC.getRecipeModel());
+
+        staffInfoView = new StaffInfoView();
+        staffInfoView.setController(startupMVC.getController());
+
 
         startupMVC.getRecipeModel().addSubscriber(recipeListView);
         startupMVC.getRecipeModel().setRecipeListView(recipeListView);
@@ -51,9 +57,11 @@ public class ManagerMainView extends StackPane {
         startupMVC.getRecipeInteractiveModel().addSubscriber(recipeMakerView);
         startupMVC.getRecipeInteractiveModel().addSubscriber(recipeListView);
         startupMVC.getInventoryModel().addSub(recipeMakerView);
+        startupMVC.getStaffModel().addSub(staffInfoView);
 
         startupMVC.getController().setRecipeMakerView(recipeMakerView);
         startupMVC.getController().setRecipeListView(recipeListView);
+        startupMVC.getController().setStaffInfoView(staffInfoView);
 
         this.menuItemListView = new MenuItemListView();
         this.menuItemMakerView = new MenuItemMakerView();
@@ -98,9 +106,19 @@ public class ManagerMainView extends StackPane {
         }));
         menuItemButton.setPrefSize(300,30);
 
+        staffInfoButton = new Button("Staff Information");
+        staffInfoButton.setFont(new Font(30));
+        staffInfoButton.setOnMouseEntered((event -> {
+            staffInfoButton.setStyle("-fx-text-fill: blue;-fx-underline: true;\n");
+        }));
+        staffInfoButton.setOnMouseExited((event -> {
+            staffInfoButton.setStyle("-fx-text-fill: black;-fx-underline: false;\n");
+        }));
+        staffInfoButton.setPrefSize(300,30);
+
         managerMainScreen = new StackPane();
         managerMainScreen.setMaxSize(1000,500);
-        VBox managerViewAlign = new VBox(welcomeLabel,inventoryButton,recipeButton,menuItemButton);
+        VBox managerViewAlign = new VBox(welcomeLabel,inventoryButton,recipeButton,menuItemButton,staffInfoButton);
         managerViewAlign.setPrefSize(1000,500);
         managerViewAlign.setPadding(new Insets(20,20,20,20));
         managerViewAlign.setAlignment(Pos.CENTER);
@@ -115,6 +133,7 @@ public class ManagerMainView extends StackPane {
         inventoryButton.setOnAction(controller::openInventoryScreen);
         recipeButton.setOnAction(controller::openRecipeList);
         menuItemButton.setOnAction(controller::openMenuListView);
+        staffInfoButton.setOnAction(controller::openStaffInfoView);
     }
     public void selectManagerMenu(){this.selectedScreen = "managerView";}
     public void selectInventory(){
@@ -128,6 +147,7 @@ public class ManagerMainView extends StackPane {
     }
     public void selectMenuItemList(){this.selectedScreen ="menuList";}
     public void selectMenuMakerView(){this.selectedScreen = "menuMaker";}
+    public void selectStaffInfoView(){this.selectedScreen = "staffInfo";}
     public void modelChanged() {
         this.getChildren().clear();
         switch (this.selectedScreen) {
@@ -137,6 +157,7 @@ public class ManagerMainView extends StackPane {
             case "recipeList" -> this.getChildren().add(recipeListView);
             case "menuList" -> this.getChildren().add(menuItemListView);
             case "menuMaker" -> this.getChildren().add(menuItemMakerView);
+            case "staffInfo" -> this.getChildren().add(staffInfoView);
         }
     }
 }

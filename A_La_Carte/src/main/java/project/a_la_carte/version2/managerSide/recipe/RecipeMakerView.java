@@ -12,11 +12,14 @@ import javafx.scene.text.Font;
 import project.a_la_carte.version2.ProgramController;
 import project.a_la_carte.version2.classesObjects.*;
 import project.a_la_carte.version2.interfaces.*;
+import project.a_la_carte.version2.managerSide.inventory.InventoryModel;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 public class RecipeMakerView extends StackPane implements InventorySubscriber, RecipeInteractiveModelSubsciber {
     RecipeModel recipeModel;
+    InventoryModel inventoryModel;
     RecipeInteractiveModel iModel;
     VBox ingredientVBox;
     TextField recipeName;
@@ -181,19 +184,22 @@ public class RecipeMakerView extends StackPane implements InventorySubscriber, R
      * new ingredient added to InventoryModel
      * @param ingredientInventory
      */
-    public void modelChanged(Map<Ingredient, Double> ingredientInventory,Ingredient loadedIngredient) {
+    public void modelChanged(Map<String, Double> ingredientInventory, Ingredient loadedIngredient, ArrayList<Ingredient> list) {
         ingredientMenuBar.getMenus().clear();
         for(Ingredient.IngredientType type : Ingredient.IngredientType.values()){
 
             Menu typeMenu = new Menu(type.getName());
             //for each ingredient with the same type make it a menu item
-            for(Map.Entry<Ingredient, Double> entry :ingredientInventory.entrySet() ){
-                if(entry.getKey().getIngredientType().getName().equals(type.getName())){
-                    MenuItem menuItem = new MenuItem(entry.getKey().getName());
+            for(Map.Entry<String, Double> entry :ingredientInventory.entrySet() ){
+                Ingredient ingredient = inventoryModel.getIngredientFromList(entry.getKey());
+
+                if(ingredient.getIngredientType().getName().equals(type.getName())){
+                    MenuItem menuItem = new MenuItem(ingredient.getName());
                     typeMenu.getItems().add(menuItem);
 
                     //System.out.println("Added: " + entry.getKey().getName() + " to " + type.getName() + " menu");
                 }
+
             }
             ingredientMenuBar.getMenus().add(typeMenu);
 
@@ -250,6 +256,11 @@ public class RecipeMakerView extends StackPane implements InventorySubscriber, R
     public void setRecipeMakerIModel(RecipeInteractiveModel iModel){
         this.iModel = iModel;
     }
+
+    public void setInventoryModel(InventoryModel inventoryModel) {
+        this.inventoryModel = inventoryModel;
+    }
+
     public void setRecipeMakerController(ProgramController controller){
         mainMenu.setOnAction(controller::openManagerMainView);
         recipeList.setOnAction(controller::openRecipeList);

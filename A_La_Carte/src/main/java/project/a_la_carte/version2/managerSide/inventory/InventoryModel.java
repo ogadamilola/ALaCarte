@@ -1,8 +1,9 @@
 package project.a_la_carte.version2.managerSide.inventory;
 
-import project.a_la_carte.version2.classesObjects.Ingredient;
+import project.a_la_carte.version2.classesObjects.*;
 import project.a_la_carte.version2.interfaces.InventorySubscriber;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,13 +17,15 @@ public class InventoryModel {
     private InventoryView inventoryView;
 
     //ingredientInventory is now a hashmap,
-    Map<Ingredient, Double> ingredientInventory;
+    private Map<String, Double> ingredientInventory;
+    private ArrayList<Ingredient> ingredientList;
 
-    List<InventorySubscriber> subscriberList;
-    Ingredient loadedIngredient;
+    private List<InventorySubscriber> subscriberList;
+    private Ingredient loadedIngredient;
     public InventoryModel(){
 
         ingredientInventory = new HashMap<>();
+        ingredientList = new ArrayList<>();
         subscriberList = new ArrayList<>();
         loadedIngredient = null;
 
@@ -42,11 +45,7 @@ public class InventoryModel {
         this.loadedIngredient = loadedIngredient;
         notifySubs();
     }
-    public Ingredient getLoadedIngredient() {
-        return loadedIngredient;
-    }
-
-    public Map<Ingredient, Double> getIngredientMap(){
+    public Map<String, Double> getIngredientMap(){
         return ingredientInventory;
     }
 
@@ -57,13 +56,14 @@ public class InventoryModel {
         theIngredient.setMeasurementUnit(unit);
         theIngredient.setCommonAllergen(allergen);
 
+        ingredientList.add(theIngredient);
         //TODO need a more obvious way to add quantity, maybe a update ingredient button
         //if they key already exists
-        if(ingredientInventory.containsKey(theIngredient)) {
+        if(ingredientInventory.containsKey(theIngredient.getName())) {
             throw new IllegalArgumentException("Item already exists, can't add a duplicate");
         }
         else{
-            ingredientInventory.put(theIngredient, quantity);
+            ingredientInventory.put(theIngredient.getName(), quantity);
         }
         notifySubs();
 
@@ -77,10 +77,22 @@ public class InventoryModel {
     public void removeQuantity(Ingredient ingredient, double quantity){
 
         double currentStock = ingredientInventory.get(ingredient);
-        ingredientInventory.put(ingredient,currentStock -quantity);
+        ingredientInventory.put(ingredient.getName(),currentStock -quantity);
         notifySubs();
     }
 
+    public Ingredient getIngredientFromList(String ingredientName){
+        try{
+            for (Ingredient i : ingredientList) {
+                if(i.getName().equals(ingredientName)){
+                    return i;
+                }
+            }
+        } catch (RuntimeException e){
+            System.out.println("Ingredient not found");
+        }
+        return null;
+    }
 
     /**
      * Update the item with the new values put in the fields, if the item doesnt exist throw exception
@@ -95,14 +107,12 @@ public class InventoryModel {
             ingredient.setIngredientType(type);
             ingredient.setMeasurementUnit(unit);
             ingredient.setCommonAllergen(allergen);
-            ingredientInventory.put(ingredient,quantity);
+            ingredientInventory.put(ingredient.getName(),quantity);
             notifySubs();
         }
         catch (IllegalArgumentException e){
             System.out.println("Ingredient does not exist, can not update");
         }
-
-
     }
 
     public void deleteItem(Ingredient ingredient){
@@ -124,7 +134,7 @@ public class InventoryModel {
 
     public void notifySubs(){
         for(InventorySubscriber sub : subscriberList){
-            sub.modelChanged(ingredientInventory,loadedIngredient);
+            sub.modelChanged(ingredientInventory,loadedIngredient,ingredientList);
         }
     }
 

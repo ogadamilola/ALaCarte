@@ -13,6 +13,7 @@ import javafx.scene.text.Font;
 import project.a_la_carte.version2.kitchen.*;
 import project.a_la_carte.version2.managerSide.inventory.*;
 import project.a_la_carte.version2.managerSide.recipe.*;
+import project.a_la_carte.version2.managerSide.staff.StaffModel;
 import project.a_la_carte.version2.menuItems.*;
 import project.a_la_carte.version2.serverSide.*;
 
@@ -30,6 +31,7 @@ public class StartupMVC extends StackPane {
     ServerModel serverModel;
     KitchenModel kitchenModel;
     MenuItemModel menuItemModel;
+    StaffModel staffModel;
     Button managerButton;
     Button createAccButton;
     Button signUpButton;
@@ -69,6 +71,10 @@ public class StartupMVC extends StackPane {
         //------------------------------------------------------
         //-----------Menu Item------------------------
         menuItemModel = new MenuItemModel();
+        //--------------------------------------------------------
+
+        //-----------Staff Model------------------------
+        staffModel = new StaffModel();
         //--------------------------------------------------------
 
         //------------------------------------------------
@@ -175,6 +181,10 @@ public class StartupMVC extends StackPane {
     public MenuItemModel getMenuItemModel(){
         return this.menuItemModel;
     }
+    public StaffModel getStaffModel() {
+        return this.staffModel;
+    }
+
     public void setController(ProgramController controller){
         managerButton.setOnAction(controller::startManagerMainView);
         workerButton.setOnAction(controller::startWorkerView);

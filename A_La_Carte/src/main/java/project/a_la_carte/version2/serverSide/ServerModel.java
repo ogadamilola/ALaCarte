@@ -2,6 +2,7 @@ package project.a_la_carte.version2.serverSide;
 
 import project.a_la_carte.version2.interfaces.ServerViewInterface;
 import project.a_la_carte.version2.classesObjects.*;
+import project.a_la_carte.version2.serverSide.tableSystem.Table;
 import project.a_la_carte.version2.serverSide.widgets.*;
 
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ import java.util.List;
 public class ServerModel {
     MenuView menuView;
     NoteView noteView;
+    TableView tableView;
     CustomizeView customizeView;
     List<ServerViewInterface> subscribers;
     String noteMessage = "";
@@ -113,6 +115,10 @@ public class ServerModel {
         notifySubscribers();
         return sendOrder;
     }
+    public Table sendOrderToTable(){
+
+        return new Table(currentOrder);
+    }
     public void clearOrder(){
         this.currentOrder = null;
         notifySubscribers();
@@ -175,6 +181,10 @@ public class ServerModel {
     public void setNoteView(NoteView newView){
         this.noteView = newView;
         this.addSubscriber(this.noteView);
+    }
+    public void setTableView(TableView newView){
+        this.tableView = newView;
+        this.addSubscriber(this.tableView);
     }
     public void addSubscriber(ServerViewInterface view){
         this.subscribers.add(view);
