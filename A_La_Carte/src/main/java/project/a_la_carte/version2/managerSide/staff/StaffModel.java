@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
-public class StaffModel {
+public class StaffModel { //TODO LOGIN INFORMATION, REFULAR STAFF = PIN, MANAGERS = username & password
     private static  final String FILE_PATH = "staffList.json";
     private ArrayList<Staff> staffList;
     private ArrayList<StaffModelSubscriber> subscriberList;

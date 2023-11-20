@@ -1,9 +1,10 @@
-package project.a_la_carte.version2.managerSide.staff;
+package project.a_la_carte.version2.serverSide;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
+import javafx.scene.control.TableView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -33,7 +34,7 @@ public class StaffInfoView extends StackPane implements StaffModelSubscriber {
     Button save;
 
     //FIXME change to staff data
-    TableView<StaffData> staffTable;
+    javafx.scene.control.TableView<StaffData> staffTable;
     TableColumn<StaffData,String> iDCol;
     TableColumn<StaffData,String> fNameCol;
     TableColumn<StaffData,String> lNameCol;
@@ -100,7 +101,7 @@ public class StaffInfoView extends StackPane implements StaffModelSubscriber {
 
 
 
-        staffTable = new TableView<>();
+        staffTable = new javafx.scene.control.TableView<>();
 
         iDCol = new TableColumn<>("Staff ID");
 
@@ -113,7 +114,7 @@ public class StaffInfoView extends StackPane implements StaffModelSubscriber {
         sinCol = new TableColumn<>("SIN");
 
         staffTable.getColumns().addAll(iDCol,lNameCol,fNameCol,positionCol,sinCol);
-        staffTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        staffTable.setColumnResizePolicy(javafx.scene.control.TableView.CONSTRAINED_RESIZE_POLICY);
         staffTable.setPrefSize(700,500);
 
 

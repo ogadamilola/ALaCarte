@@ -10,17 +10,14 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import javafx.scene.control.Alert;
 
-import project.a_la_carte.version2.*;
 import project.a_la_carte.version2.classesObjects.*;
 import project.a_la_carte.version2.kitchen.*;
 import project.a_la_carte.version2.kitchen.widgets.*;
 import project.a_la_carte.version2.managerSide.inventory.*;
-import project.a_la_carte.version2.managerSide.staff.*;
 import project.a_la_carte.version2.menuItems.*;
 import project.a_la_carte.version2.managerSide.recipe.*;
 import project.a_la_carte.version2.serverSide.*;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -35,6 +32,7 @@ public class ProgramController {
     MenuItemMakerView menuItemMakerView;
 
     StaffInfoView staffInfoView;
+
 
     private enum INTERACTION_STATE{
         RECIPE_LOADED,
@@ -582,6 +580,15 @@ public class ProgramController {
     /**
      * Here would be the Server Actions
      */
+    public void showStockAlerts(ActionEvent actionEvent) {
+        ServerStockAlertView stockView = new ServerStockAlertView(this.startupMVC.getInventoryModel());
+        this.startupMVC.getInventoryModel().addSub(stockView);
+        this.startupMVC.getInventoryModel().notifySubs();
+
+        Stage inventoryAlertStage = new Stage();
+        inventoryAlertStage.setScene(new Scene(stockView));
+        inventoryAlertStage.show();
+    }
     public void showServerAlerts(ActionEvent event){
         ServerAlertView alertView = new ServerAlertView(this.startupMVC.getServerModel());
         this.startupMVC.getServerModel().addSubscriber(alertView);
