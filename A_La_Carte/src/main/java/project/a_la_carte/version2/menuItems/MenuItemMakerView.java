@@ -16,7 +16,7 @@ import java.util.List;
 
 
 public class MenuItemMakerView extends StackPane implements MenuItemModelSubscriber {
-
+    //TODO should make these private for the sake of good code practice
     MenuItemModel menuItemModel;
     VBox recipeVBOX;
     VBox selectRecipeVBox;

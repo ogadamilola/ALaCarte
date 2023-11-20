@@ -24,6 +24,7 @@ public class MenuView extends StackPane implements ServerViewInterface {
     Button mainMenu;
     Button Tables;
     AlertButton alertButton;
+    AlertButton stockButton;
     //View Order Variables
     VBox ordersVBox;
     Button sendToKitchen;
@@ -40,6 +41,11 @@ public class MenuView extends StackPane implements ServerViewInterface {
         HBox menuHBox = new HBox(mainMenu);
         menuHBox.setPrefWidth(100);
 
+        this.stockButton = new AlertButton("Stock");
+        HBox stockButtonBox = new HBox(stockButton);
+        stockButtonBox.setPrefWidth(100);
+        stockButtonBox.setAlignment(Pos.BASELINE_RIGHT);
+
         this.Tables = new Button("Tables");
         HBox tablesHBox = new HBox(Tables);
         tablesHBox.setPrefWidth(100);
@@ -48,12 +54,12 @@ public class MenuView extends StackPane implements ServerViewInterface {
         titleHBox.setPrefWidth(350);
         titleHBox.setAlignment(Pos.TOP_CENTER);
 
-        this.alertButton = new AlertButton("!");
+        this.alertButton = new AlertButton("Alerts!");
         HBox alertBox = new HBox(alertButton);
         alertBox.setPrefWidth(100);
         alertBox.setAlignment(Pos.BASELINE_RIGHT);
 
-        HBox topHBox = new HBox(menuHBox, titleHBox, alertBox, tablesHBox);
+        HBox topHBox = new HBox(menuHBox, titleHBox, stockButtonBox,alertBox, tablesHBox);
         topHBox.setPrefWidth(600);
         topHBox.setPadding(new Insets(5,5,5,5));
         topHBox.setStyle("-fx-border-color: black;\n");
@@ -154,6 +160,7 @@ public class MenuView extends StackPane implements ServerViewInterface {
         this.addNote.setOnAction(controller::openNoteView);
         this.customize.setOnAction(controller::openCustomizeView);
         this.sendToKitchen.setOnAction(controller::sendToKitchen);
+        this.stockButton.setOnAction(controller::showStockAlerts);
         this.alertButton.setOnAction(controller::showServerAlerts);
         this.voidOrderButton.setOnAction(controller::voidOrder);
         this.refund.setOnAction(controller::refundDisplay);

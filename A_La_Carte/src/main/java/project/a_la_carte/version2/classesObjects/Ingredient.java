@@ -2,7 +2,7 @@ package project.a_la_carte.version2.classesObjects;
 
 import java.util.Objects;
 
-public class Ingredient {
+public class Ingredient{
     private String name;
 
     private IngredientType ingredientType;
