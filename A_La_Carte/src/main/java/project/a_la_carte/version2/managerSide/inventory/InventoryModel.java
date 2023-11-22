@@ -1,9 +1,15 @@
 package project.a_la_carte.version2.managerSide.inventory;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import project.a_la_carte.version2.classesObjects.*;
 import project.a_la_carte.version2.interfaces.InventorySubscriber;
 
-import java.lang.reflect.Array;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -19,24 +25,34 @@ public class InventoryModel {
     //ingredientInventory is now a hashmap,
     private Map<String, Double> ingredientInventory;
     private ArrayList<Ingredient> ingredientList;
+    private static final String ING_FILE_PATH = "ingredients.json";
+    private static final String INV_FILE_PATH = "inventory.json";
 
     private List<InventorySubscriber> subscriberList;
     private Ingredient loadedIngredient;
-    public InventoryModel(){
+    public InventoryModel() {
+        //reading in json files
+        Gson gson = new Gson();
+        try {
+            FileReader ingReader = new FileReader(ING_FILE_PATH);
+            FileReader invReader = new FileReader(INV_FILE_PATH);
+            //setting up types for reading in json files
+            Type arrayListType = new TypeToken<ArrayList<Ingredient>>(){}.getType();
+            Type mapType = new TypeToken<Map<String, Double>>(){}.getType();
 
-        ingredientInventory = new HashMap<>();
-        ingredientList = new ArrayList<>();
+            ingredientList = gson.fromJson(ingReader, arrayListType);
+            ingredientInventory = gson.fromJson(invReader, mapType);
+            //catching case where files empty
+            if (ingredientList == null || ingredientInventory == null)
+                throw new IOException();
+        } catch (IOException e) {
+            ingredientInventory = new HashMap<>();
+            ingredientList = new ArrayList<>();
+        }
+
         subscriberList = new ArrayList<>();
         loadedIngredient = null;
 
-        //this is temporary
-        addIngredient("Burger Patty", 30, Ingredient.IngredientType.Proteins, Ingredient.MeasurementUnit.Count,false);
-        addIngredient("Burger Bun", 50, Ingredient.IngredientType.Grains, Ingredient.MeasurementUnit.Count,false);
-        addIngredient("Cheese", 60, Ingredient.IngredientType.Dairy, Ingredient.MeasurementUnit.Count,false);
-        addIngredient("Lettuce", 10, Ingredient.IngredientType.Vegetable, Ingredient.MeasurementUnit.Pounds,false);
-        addIngredient("Mayo", 10, Ingredient.IngredientType.Sauce, Ingredient.MeasurementUnit.Pounds,false);
-        addIngredient("Pepsi", 10, Ingredient.IngredientType.Other, Ingredient.MeasurementUnit.Pounds,false);
-        addIngredient("Shrimp", 50, Ingredient.IngredientType.Proteins, Ingredient.MeasurementUnit.Pounds, true);
         notifySubs();
 
     }
@@ -66,7 +82,7 @@ public class InventoryModel {
             ingredientInventory.put(theIngredient.getName(), quantity);
         }
         notifySubs();
-
+        saveData();
     }
 
     /**
@@ -76,9 +92,10 @@ public class InventoryModel {
      */
     public void removeQuantity(Ingredient ingredient, double quantity){
 
-        double currentStock = ingredientInventory.get(ingredient);
-        ingredientInventory.put(ingredient.getName(),currentStock -quantity);
+        double currentStock = ingredientInventory.get(ingredient.getName());
+        ingredientInventory.put(ingredient.getName(),currentStock - quantity);
         notifySubs();
+        saveData();
     }
 
     public Ingredient getIngredientFromList(String ingredientName){
@@ -113,20 +130,36 @@ public class InventoryModel {
         catch (IllegalArgumentException e){
             System.out.println("Ingredient does not exist, can not update");
         }
+        saveData();
     }
 
     public void deleteItem(Ingredient ingredient){
         try {
-            ingredientInventory.remove(ingredient);
+            ingredientInventory.remove(ingredient.getName());
+            ingredientList.remove(ingredient);
             notifySubs();
         }
         catch (IllegalArgumentException e){
             System.out.println("Ingredient does not exist, can not delete");
         }
+        saveData();
     }
 
 
-    //TODO loadDatabase() or save() method of some sort
+    public void saveData() {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        try {
+            FileWriter ingWriter = new FileWriter(ING_FILE_PATH);
+            FileWriter invWriter = new FileWriter(INV_FILE_PATH);
+            gson.toJson(ingredientList, ingWriter);
+            gson.toJson(ingredientInventory, invWriter);
+            ingWriter.flush();
+            invWriter.flush();
+        } catch (IOException e) {
+            System.err.println("Error saving menu items list");
+            throw new RuntimeException(e);
+        }
+    }
 
     public void addSub(InventorySubscriber sub){
         subscriberList.add(sub);
