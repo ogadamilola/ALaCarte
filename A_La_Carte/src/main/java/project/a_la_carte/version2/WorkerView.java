@@ -77,18 +77,26 @@ public class WorkerView extends StackPane {
 
         HBox pinHBox = new HBox(pinLabel,pinText);
         logInButton = new Button("Log In");
+        logInButton.setOnMouseEntered((event -> {
+            logInButton.setStyle("-fx-text-fill: blue;-fx-underline: true;\n");
+        }));
+        logInButton.setOnMouseExited((event -> {
+            logInButton.setStyle("-fx-text-fill: black;-fx-underline: false;\n");
+        }));
+        logInButton.setPrefSize(300,30);
+
         VBox loginVBox = new VBox(pinHBox,logInButton);
 
         serverButton = new Button("Skip Log In");
-        serverButton.setFont(new Font(30));
         serverButton.setOnMouseEntered((event -> {
             serverButton.setStyle("-fx-text-fill: blue;-fx-underline: true;\n");
         }));
         serverButton.setOnMouseExited((event -> {
             serverButton.setStyle("-fx-text-fill: black;-fx-underline: false;\n");
         }));
-        serverButton.setPrefSize(300,30);
-        HBox serverLogInHBox = new HBox(loginVBox,serverButton);
+        serverButton.setPrefSize(250,30);
+        VBox serverLogInVBox = new VBox(loginVBox,serverButton);
+
 
         kitchenButton = new Button("Kitchen Side");
         kitchenButton.setFont(new Font(30));
@@ -102,7 +110,9 @@ public class WorkerView extends StackPane {
 
         workerView = new StackPane();
         workerView.setMaxSize(1000,500);
-        VBox workerViewAlign = new VBox(welcomeLabel,serverLogInHBox,kitchenButton);
+
+        //TODO someone please center this lol
+        VBox workerViewAlign = new VBox(welcomeLabel,serverLogInVBox,kitchenButton);
         workerViewAlign.setPrefSize(1000,500);
         workerViewAlign.setPadding(new Insets(20,20,20,20));
         workerViewAlign.setAlignment(Pos.CENTER);
