@@ -10,10 +10,12 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import javafx.scene.control.Alert;
 
+
 import project.a_la_carte.version2.classesObjects.*;
 import project.a_la_carte.version2.kitchen.*;
 import project.a_la_carte.version2.kitchen.widgets.*;
 import project.a_la_carte.version2.managerSide.inventory.*;
+import project.a_la_carte.version2.managerSide.staff.StaffInfoView;
 import project.a_la_carte.version2.menuItems.*;
 import project.a_la_carte.version2.managerSide.recipe.*;
 import project.a_la_carte.version2.serverSide.*;
@@ -30,9 +32,9 @@ public class ProgramController {
     RecipeListView recipeListView;
     RecipeMakerView recipeMakerView;
     MenuItemMakerView menuItemMakerView;
-
     StaffInfoView staffInfoView;
-
+    SignUpView signUpView;
+    SignInView signInView;
 
     private enum INTERACTION_STATE{
         RECIPE_LOADED,
@@ -141,6 +143,33 @@ public class ProgramController {
         startupMVC.getRecipeInteractiveModel().setCreating(false);
     }
 
+
+    /**
+     * Start of log in actions
+     */
+    public void setSignUpView(SignUpView signUpView) {
+        this.signUpView = signUpView;
+    }
+
+    public void setSignInView(SignInView signInView) {
+        this.signInView = signInView;
+    }
+
+    public void newManager(ActionEvent actionEvent) {
+        String fName = signUpView.getfNameText().getText();
+        String lName = signUpView.getlNameText().getText();
+        String id = signUpView.getIdText().getText();
+        int sin = Integer.parseInt(signUpView.getSinText().getText());
+
+        String username = signUpView.getUsernameText().getText();
+        String password = signUpView.getPasswordText().getText();
+
+        startupMVC.getStaffModel().addManager(fName,lName,id,sin,username,password);
+    }
+
+    /**
+     * End of log in actions
+     */
     /**
      * Here would be Inventory actions
      */
@@ -629,6 +658,7 @@ public class ProgramController {
     }
     public void sendToKitchen(ActionEvent event){
         this.startupMVC.getKitchenModel().addOrder(this.startupMVC.getServerModel().sendOrderToKitchen());
+        Order order = this.startupMVC.getServerModel().getCurrentOrder();
     }
     public void voidOrder(ActionEvent event){
         this.startupMVC.serverModel.clearOrder();
@@ -642,7 +672,7 @@ public class ProgramController {
         refundStage.setScene(new Scene(refundView));
         refundStage.show();
     }
-    /*Start of staff Acitons*/
+    /*Start of staff Actions*/
 
     public void setStaffInfoView(StaffInfoView staffInfoView) {
         this.staffInfoView = staffInfoView;

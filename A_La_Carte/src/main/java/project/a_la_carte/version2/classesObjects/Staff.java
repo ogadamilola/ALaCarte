@@ -23,12 +23,12 @@ public class Staff {
 
     private position position;
 
-    public Staff(String firstName, String lastName, int sin) {
+    public Staff(String firstName, String lastName, int sin,String id) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.sin = sin;
         position = null;
-        staffID = null;
+        staffID = id;
     }
 
     public String getFirstName() {

@@ -1,4 +1,4 @@
-package project.a_la_carte.version2.serverSide;
+package project.a_la_carte.version2.managerSide.staff;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -33,7 +33,6 @@ public class StaffInfoView extends StackPane implements StaffModelSubscriber {
     Button load;
     Button save;
 
-    //FIXME change to staff data
     javafx.scene.control.TableView<StaffData> staffTable;
     TableColumn<StaffData,String> iDCol;
     TableColumn<StaffData,String> fNameCol;
@@ -78,9 +77,10 @@ public class StaffInfoView extends StackPane implements StaffModelSubscriber {
         Label postionLabel = new Label("Staff Position: ");
         positionComboBox = new ComboBox<>();
         positionComboBox.getEditor().setId("Position...");
-        for(Staff.position p: Staff.position.values()){
-            positionComboBox.getItems().add(p);
-        }
+
+        positionComboBox.getItems().add(Staff.position.Cook);
+        positionComboBox.getItems().add(Staff.position.Server);
+
         postionHBox.getChildren().addAll(postionLabel,positionComboBox);
 
         submit = new Button("Submit");
