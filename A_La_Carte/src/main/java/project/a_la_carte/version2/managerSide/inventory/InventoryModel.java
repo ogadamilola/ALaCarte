@@ -73,7 +73,7 @@ public class InventoryModel {
         theIngredient.setCommonAllergen(allergen);
 
         ingredientList.add(theIngredient);
-        //TODO need a more obvious way to add quantity, maybe a update ingredient button
+
         //if they key already exists
         if(ingredientInventory.containsKey(theIngredient.getName())) {
             throw new IllegalArgumentException("Item already exists, can't add a duplicate");

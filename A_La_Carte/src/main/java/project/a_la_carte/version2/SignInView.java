@@ -13,6 +13,7 @@ public class SignInView extends StackPane {
     TextField passwordText;
     Button logIn;
     Button signUpButton;
+    Button temp;
 
     SignInView(){
         VBox container = new VBox();
@@ -34,6 +35,9 @@ public class SignInView extends StackPane {
         logIn.setFont(new Font(20));
         logIn.setPrefSize(200,20);
 
+        //TODO REMOVE THIS  BUTTON WHEN DONE
+        temp = new Button("Skip log in");
+
         signUpButton = new Button("Sign-up");
         signUpButton.setStyle("-fx-underline: true;-fx-border-color: transparent;-fx-background-color: transparent;-fx-text-fill: black;\n");
         signUpButton.setOnMouseEntered((event -> {
@@ -43,12 +47,24 @@ public class SignInView extends StackPane {
             signUpButton.setStyle("-fx-underline: true;-fx-border-color: transparent;-fx-background-color: transparent;-fx-text-fill: black;\n");
         }));
 
-        container.getChildren().addAll(managerLabel,userHBox,passHBox,logIn,signUpButton);
+        container.getChildren().addAll(managerLabel,userHBox,passHBox,logIn,signUpButton,temp);
         this.getChildren().add(container);
     }
 
     public void setController(ProgramController controller){
-        logIn.setOnAction(controller::startManagerMainView);
+        logIn.setOnAction(controller::handleLogIn);
         signUpButton.setOnAction(controller::openSignUp);
+        temp.setOnAction(controller::startManagerMainView);
+    }
+    public void clearFields(){
+        usernameText.clear();
+        passwordText.clear();
+    }
+    public TextField getUsernameText() {
+        return usernameText;
+    }
+
+    public TextField getPasswordText() {
+        return passwordText;
     }
 }

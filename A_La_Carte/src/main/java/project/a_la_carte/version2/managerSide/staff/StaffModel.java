@@ -11,6 +11,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.List;
 
 public class StaffModel { //TODO LOGIN INFORMATION, REFULAR STAFF = PIN, MANAGERS = username & password
     private static  final String FILE_PATH = "staffList.json";
@@ -19,53 +20,77 @@ public class StaffModel { //TODO LOGIN INFORMATION, REFULAR STAFF = PIN, MANAGER
     private Staff loadedStaff;
 
     public StaffModel(){
-        staffList = new ArrayList<>();
+        try (FileReader reader = new FileReader(FILE_PATH)) {
+            Gson gson = new Gson();
+            //dont know whats going on here, found a solution tho-> https://stackoverflow.com/questions/27253555/com-google-gson-internal-linkedtreemap-cannot-be-cast-to-my-class
+            Type arrayListType = new TypeToken<ArrayList<Staff>>(){}.getType();
+            staffList = gson.fromJson(reader, arrayListType);
+
+            if(staffList == null){
+                throw new IOException();
+            }
+        } catch (IOException e) {
+            staffList = new ArrayList<>();
+        }
+
         subscriberList = new ArrayList<>();
         loadedStaff = null;
+        notifySubscribers();
     }
 
     public void addStaff(String fName, String lName, String id, Staff.position position, int sin ){
-        try {
+
             if(getStaffById(id) != null){//staff already exists with this id
                 throw new IllegalArgumentException();
             }
-            if (position == Staff.position.Server) {
-                Server staff = new Server(fName,lName,sin,id);
+            if(position != Staff.position.Manager) {
+                Staff staff = new Staff();
+                staff.setFirstName(fName);
+                staff.setLastName(lName);
                 staff.setStaffID(id);
+                staff.setPosition(position);
+                staff.setSin(sin);
                 staffList.add(staff);
-            } else{
-            Cook staff = new Cook(fName, lName, sin,id);
-                staff.setStaffID(id);
-                staffList.add(staff);
+                staff.setUsername(null);//not manager
+                staff.setPassword(null);//not manager
             }
 
-
-
+            saveList();
             notifySubscribers();
-        } catch (IllegalArgumentException e){
-            System.out.println("Staff ID already exists, use a different id");
-        }
+
     }
 
-    public void addManager(String fName, String lName, String id, int sin,String username, String password){
-        Manager staff = new Manager(fName, lName, sin,id);
-        staff.setUserName(username);
-        staff.setPassword(password);
+    public void addManager(String fName, String lName, String id, Staff.position position,int sin,String username, String password){
+        //TODO possible exception handling here
+            Staff staff = new Staff();
+            staff.setFirstName(fName);
+            staff.setLastName(lName);
+            staff.setStaffID(id);
+            staff.setPosition(position);
+            staff.setSin(sin);
+            staff.setUsername(username);
+            staff.setPassword(password);
+
+            staffList.add(staff);
+
+            saveList();
+            notifySubscribers();
     }
 
-    public void updateStaff(String fName, String lName, String id, Staff.position position, int sin ){
-        try{
+    public void updateStaff(String fName, String lName, String id, Staff.position position, int sin,String username,String password){
+        //TODO possible exception handling here
             Staff staff = getStaffById(id);
             staff.setFirstName(fName);
             staff.setLastName(lName);
             staff.setPosition(position);
             staff.setSin(sin);
+
+            if(position == Staff.position.Manager){
+                staff.setPassword(password);
+                staff.setUsername(username);
+            }
             notifySubscribers();
-        }catch (IllegalArgumentException e){
-            System.out.println("Staff does not exist, can not update");
-        }catch (NullPointerException e){
-            System.out.println("Staff does not exist, can not update");
-        }
+            saveList();
     }
 
     public void deleteStaff(String id){
@@ -81,6 +106,29 @@ public class StaffModel { //TODO LOGIN INFORMATION, REFULAR STAFF = PIN, MANAGER
         }catch (NullPointerException e){
             System.out.println("Staff does not exist, can not delete");
         }
+    }
+
+
+    public boolean verifyLogIn(String username, String password){
+        for(Staff staff: staffList){
+            if(staff.getPosition() == Staff.position.Manager){
+                if (staff.getUsername().equals(username) && staff.getPassword().equals(password)){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean verifyServerLogIn(String pin){
+        for (Staff staff : staffList){
+            if(staff.getPosition() == Staff.position.Server){
+                if(staff.getStaffID().equals(pin)){
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     public Staff getStaffById(String id ){
@@ -108,16 +156,7 @@ public class StaffModel { //TODO LOGIN INFORMATION, REFULAR STAFF = PIN, MANAGER
     }
 
     public void loadList(){
-        try (FileReader reader = new FileReader(FILE_PATH)) {
-            Gson gson = new Gson();
-            //dont know whats going on here, found a solution tho-> https://stackoverflow.com/questions/27253555/com-google-gson-internal-linkedtreemap-cannot-be-cast-to-my-class
-            Type arrayListType = new TypeToken<ArrayList<Staff>>(){}.getType();
-            staffList = gson.fromJson(reader, arrayListType);
-            notifySubscribers();
-        } catch (IOException e) {
-            // File doesn't exist or other IO exception
-            System.out.println("FAIL");
-        }
+
     }
 
     public void saveList(){
