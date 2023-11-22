@@ -45,11 +45,21 @@ public class SignUpView extends StackPane {
         HBox idHBox = new HBox();
         Label idLabel = new Label("Staff ID: ");
         idText = new TextField();
+        idText.textProperty().addListener((observable,oldValue,newValue) -> {
+            if(newValue.length() > 4) {
+                idText.setText(oldValue);
+            }
+        } );
         idHBox.getChildren().addAll(idLabel,idText);
 
         HBox sinHBox = new HBox();
         Label sinLabel = new Label("SIN: ");
         sinText = new TextField();
+        sinText.textProperty().addListener((observable,oldValue,newValue) -> {
+            if(newValue.length() > 9) {
+                sinText.setText(oldValue);
+            }
+        } );
         sinHBox.getChildren().addAll(sinLabel,sinText);
 
 
@@ -79,6 +89,16 @@ public class SignUpView extends StackPane {
     public void setController(ProgramController controller){
         createAccButton.setOnAction(controller::newManager);
         backButton.setOnAction(controller::openStartUpMVC);
+    }
+
+    public void clearFields(){
+        fNameText.clear();
+        lNameText.clear();
+        sinText.clear();
+        idText.clear();
+        passwordText.clear();
+        usernameText.clear();
+
     }
 
     public TextField getfNameText() {return fNameText;}

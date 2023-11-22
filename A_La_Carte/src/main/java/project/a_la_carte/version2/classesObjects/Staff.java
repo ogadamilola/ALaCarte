@@ -7,6 +7,8 @@ public class Staff {
     private String lastName;
     private String staffID;
     private int sin;
+    private String username;
+    private String password;
 
     public enum position {
         Manager("Manager"), Server("Server"), Cook("Cook");
@@ -23,12 +25,11 @@ public class Staff {
 
     private position position;
 
-    public Staff(String firstName, String lastName, int sin,String id) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.sin = sin;
-        position = null;
-        staffID = id;
+    /**
+     * Staff class no params because apparently gson works better like that
+     */
+    public Staff() {
+
     }
 
     public String getFirstName() {
@@ -50,7 +51,6 @@ public class Staff {
     public position getPosition() {
         return position;
     }
-
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
@@ -70,6 +70,22 @@ public class Staff {
     public void setStaffID(String staffID) {
         this.staffID = staffID;
     } //could also do different tags depending on position
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
     //intellJ generated
     @Override

@@ -14,7 +14,7 @@ import project.a_la_carte.version2.classesObjects.*;
 import project.a_la_carte.version2.interfaces.StaffModelSubscriber;
 
 import java.util.ArrayList;
-import java.util.Map;
+import java.util.List;
 
 /*This view pretty much mirrors Inventory View*/
 public class StaffInfoView extends StackPane implements StaffModelSubscriber {
@@ -22,16 +22,20 @@ public class StaffInfoView extends StackPane implements StaffModelSubscriber {
     TextField lNameText;
     TextField idText;
     TextField sinText;
+    TextField userText;
+    TextField passwordText;
     ComboBox<Staff.position> positionComboBox;
     VBox listVBox;
+    VBox addVBox;
     Button submit;
     Button mainMenu;
     Button clearButton;
     Button updateButton;
     Button deleteButton;
 
-    Button load;
-    Button save;
+    HBox userHBox;
+    HBox passwordHBox;
+
 
     javafx.scene.control.TableView<StaffData> staffTable;
     TableColumn<StaffData,String> iDCol;
@@ -42,7 +46,7 @@ public class StaffInfoView extends StackPane implements StaffModelSubscriber {
 
     public StaffInfoView(){
         this.setMaxSize(1000,500);
-        VBox addVBox = new VBox();
+        addVBox = new VBox();
         listVBox = new VBox();
 
         addVBox.setPrefSize(300,500);
@@ -66,11 +70,23 @@ public class StaffInfoView extends StackPane implements StaffModelSubscriber {
         HBox idHBox = new HBox();
         Label idLabel = new Label("Staff ID: ");
         idText = new TextField();
+        //listener to keep id to max of 4 digits
+        idText.textProperty().addListener((observable,oldValue,newValue) -> {
+            if(newValue.length() > 4) {
+                idText.setText(oldValue);
+            }
+        } );
         idHBox.getChildren().addAll(idLabel,idText);
 
         HBox sinHBox = new HBox();
         Label sinLabel = new Label("SIN: ");
         sinText = new TextField();
+        //listener to keep sin to max of 9 digits
+        sinText.textProperty().addListener((observable,oldValue,newValue) -> {
+            if(newValue.length() > 9) {
+                sinText.setText(oldValue);
+            }
+        } );
         sinHBox.getChildren().addAll(sinLabel,sinText);
 
         HBox postionHBox = new HBox();
@@ -92,12 +108,15 @@ public class StaffInfoView extends StackPane implements StaffModelSubscriber {
         addVBox.getChildren().addAll(mainMenu,addLabel, fNameHBox,lNameHBox,idHBox,sinHBox,postionHBox,updateButton,deleteButton,clearButton, submit);
         addVBox.setPadding(new Insets(5,5,5,5));
 
-        HBox temp = new HBox();
-        load = new Button("LOAD");
-        save = new Button("SAVE");
-        temp.getChildren().addAll(load,save);
-        addVBox.getChildren().add(temp);
         //done addVBox
+        Label userLabel = new Label("Change username: ");
+        userText = new TextField();
+        userHBox = new HBox(userLabel,userText);
+
+        Label passLabel = new Label("Change password: ");
+        passwordText = new TextField();
+        passwordHBox = new HBox(passLabel,passwordText);
+
 
 
 
@@ -138,14 +157,14 @@ public class StaffInfoView extends StackPane implements StaffModelSubscriber {
         staffTable.setOnMouseClicked(controller::loadStaff);
         updateButton.setOnAction(controller::updateStaff);
         deleteButton.setOnAction(controller::deleteStaff);
-        load.setOnAction(controller::loadList);
-        save.setOnAction(controller::saveList);
+
     }
 
     @Override
-    public void modelChanged(ArrayList<Staff> staffList,Staff loadedStaff) {
+    public void modelChanged(ArrayList<Staff> staffList, Staff loadedStaff) {
         clearFields();
-
+        addVBox.getChildren().remove(userHBox);
+        addVBox.getChildren().remove(passwordHBox);
         listVBox.getChildren().clear();//redraw list
         listVBox.getChildren().add(staffTable);
         ObservableList<StaffData> data = FXCollections.observableArrayList();
@@ -163,17 +182,25 @@ public class StaffInfoView extends StackPane implements StaffModelSubscriber {
 
         if(loadedStaff == null){
             clearFields();
-        }else{
+        } else {
             fNameText.setText(loadedStaff.getFirstName());
             lNameText.setText(loadedStaff.getLastName());
             idText.setText(loadedStaff.getStaffID());
             idText.setEditable(false);//don't allow for staff ID to be edited
             positionComboBox.setValue(loadedStaff.getPosition());
             sinText.setText(String.valueOf(loadedStaff.getSin()));
+            //clear these incase they were previously filled
+            userText.clear();
+            passwordText.clear();
 
-
+            //if the staff is a manager load the log in
+            if (loadedStaff.getPosition() == Staff.position.Manager) {
+                positionComboBox.setEditable(false);
+                addVBox.getChildren().addAll(userHBox, passwordHBox);
+                userText.setText(loadedStaff.getUsername());
+                passwordText.setText(loadedStaff.getPassword());
+            }
         }
-
     }
 
     public void clearFields(){
@@ -203,5 +230,13 @@ public class StaffInfoView extends StackPane implements StaffModelSubscriber {
 
     public TableView<StaffData> getStaffTable() {
         return staffTable;
+    }
+
+    public TextField getPasswordText() {
+        return passwordText;
+    }
+
+    public TextField getUserText() {
+        return userText;
     }
 }
