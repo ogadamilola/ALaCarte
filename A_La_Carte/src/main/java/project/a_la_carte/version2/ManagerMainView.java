@@ -10,7 +10,7 @@ import javafx.scene.text.Font;
 import project.a_la_carte.version2.managerSide.inventory.InventoryView;
 import project.a_la_carte.version2.managerSide.recipe.*;
 import project.a_la_carte.version2.menuItems.*;
-import project.a_la_carte.version2.serverSide.StaffInfoView;
+import project.a_la_carte.version2.managerSide.staff.StaffInfoView;
 
 public class ManagerMainView extends StackPane {
     InventoryView inventoryView;

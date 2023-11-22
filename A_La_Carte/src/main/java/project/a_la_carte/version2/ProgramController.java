@@ -6,14 +6,17 @@ import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import javafx.scene.control.Alert;
+
 
 import project.a_la_carte.version2.classesObjects.*;
 import project.a_la_carte.version2.kitchen.*;
 import project.a_la_carte.version2.kitchen.widgets.*;
 import project.a_la_carte.version2.managerSide.inventory.*;
+import project.a_la_carte.version2.managerSide.staff.StaffInfoView;
 import project.a_la_carte.version2.menuItems.*;
 import project.a_la_carte.version2.managerSide.recipe.*;
 import project.a_la_carte.version2.serverSide.*;
@@ -30,8 +33,11 @@ public class ProgramController {
     RecipeListView recipeListView;
     RecipeMakerView recipeMakerView;
     MenuItemMakerView menuItemMakerView;
-
     StaffInfoView staffInfoView;
+    SignUpView signUpView;
+    SignInView signInView;
+
+
 
 
     private enum INTERACTION_STATE{
@@ -141,6 +147,67 @@ public class ProgramController {
         startupMVC.getRecipeInteractiveModel().setCreating(false);
     }
 
+
+    /**
+     * Start of log in actions
+     */
+    public void setSignUpView(SignUpView signUpView) {
+        this.signUpView = signUpView;
+    }
+
+    public void setSignInView(SignInView signInView) {
+        this.signInView = signInView;
+    }
+
+    public void handleLogIn(ActionEvent actionEvent){
+        String username = signInView.getUsernameText().getText();
+        String password = signInView.getPasswordText().getText();
+
+        boolean valid = this.startupMVC.getStaffModel().verifyLogIn(username,password);
+        if(valid){
+           this.startManagerMainView(actionEvent);
+           signInView.clearFields();
+        }else {
+            showErrorAlert("No Matching Credentials","Double check username and password");
+        }
+    }
+
+    public void handleServerLogIn(ActionEvent actionEvent) {
+
+        String pin = workerView.getPinText().getText();
+        boolean valid = this.startupMVC.getStaffModel().verifyServerLogIn(pin);
+        if(valid){
+            this.openMenuView(actionEvent);
+        } else {
+            showErrorAlert("No Matching Credentials","Double check username and password");
+        }
+    }
+
+    public void newManager(ActionEvent actionEvent) {
+        //try {
+            String fName = signUpView.getfNameText().getText();
+            String lName = signUpView.getlNameText().getText();
+            String id = signUpView.getIdText().getText();
+            int sin = Integer.parseInt(signUpView.getSinText().getText());
+
+            String username = signUpView.getUsernameText().getText();
+            String password = signUpView.getPasswordText().getText();
+
+            startupMVC.getStaffModel().addManager(fName, lName, id, Staff.position.Manager,sin, username, password);
+            signUpView.clearFields();
+            showConfirmationAlert("New Manager: ",fName + lName + " successfully added.");
+//        } catch (NullPointerException e){
+//            System.out.println(e.getStackTrace());
+//            //showAlert("ERROR:","Illegal input, please check all fields are filled correctly");
+//        } catch (IllegalArgumentException e){
+//            System.out.println(e.getStackTrace());
+//            //showAlert("ERROR:","Illegal input, please check all fields are filled correctly");
+//        }
+    }
+
+    /**
+     * End of log in actions
+     */
     /**
      * Here would be Inventory actions
      */
@@ -162,12 +229,12 @@ public class ProgramController {
             }
 
         } catch(NumberFormatException e){
-            showAlert("Error", "Quantity must be a valid number");
+            showErrorAlert("Error", "Quantity must be a valid number");
         } catch(IllegalArgumentException e){
-            showAlert("Error", e.getMessage());
+            showErrorAlert("Error", e.getMessage());
 
         } catch (Exception e){
-            showAlert("Error", e.getMessage());
+            showErrorAlert("Error", e.getMessage());
         }
 
     }
@@ -201,7 +268,7 @@ public class ProgramController {
             startupMVC.getInventoryModel().updateItem(ingredient, quantity, type, mUnit, commonAllergen);
             clearInventoryViewFields(actionEvent);
         } catch (Exception e) {
-            showAlert("Error", e.getMessage());
+            showErrorAlert("Error", e.getMessage());
         }
     }
 
@@ -339,9 +406,9 @@ public class ProgramController {
 
 
         }catch(NumberFormatException e){
-            showAlert("Error", "Fill out all the fields");
+            showErrorAlert("Error", "Fill out all the fields");
         } catch (IllegalArgumentException e){
-            showAlert("Error", e.getMessage());
+            showErrorAlert("Error", e.getMessage());
         }
 
     }
@@ -354,7 +421,7 @@ public class ProgramController {
             setStateNotLoaded(actionEvent);
             startupMVC.getRecipeInteractiveModel().clearRecipeIModel();
         }catch (NullPointerException e){
-            showAlert("Error", "No recipe selected to delete");
+            showErrorAlert("Error", "No recipe selected to delete");
 
 
         }
@@ -368,7 +435,7 @@ public class ProgramController {
             Recipe selectedRecipe = startupMVC.getRecipeInteractiveModel().getLoadedRecipe();
             new ShowRecipeInfoView(selectedRecipe);
         } catch (NullPointerException e){
-            showAlert("Error","There is no recipeSelected" );
+            showErrorAlert("Error","There is no recipeSelected" );
         }
     }
 
@@ -439,7 +506,7 @@ public class ProgramController {
         catch(NumberFormatException e){
             System.out.println("Error: Enter valid quantity");
         } catch(IllegalArgumentException e){
-            showAlert("Error", e.getMessage());
+            showErrorAlert("Error", e.getMessage());
         }
     }
 
@@ -548,18 +615,12 @@ public class ProgramController {
                 this.startupMVC.getServerModel().setMenuItemList(startupMVC.getMenuItemModel().getMenuItemsList());
             }
         } catch (Exception e) {
-            showAlert("Error", "An error occurred while saving the menu item: " + e.getMessage());
+            showErrorAlert("Error", "An error occurred while saving the menu item: " + e.getMessage());
 
         }
 
     }
-    private void showAlert(String title, String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
+
     public void saveEditsToItem(ActionEvent event){
         if (menuItemMakerView.getMenuItemName() != null && menuItemMakerView.getMenuItemDescription() != null) {
             startupMVC.getMenuItemModel().getSelectedItem().setName(menuItemMakerView.getMenuItemName());
@@ -629,6 +690,7 @@ public class ProgramController {
     }
     public void sendToKitchen(ActionEvent event){
         this.startupMVC.getKitchenModel().addOrder(this.startupMVC.getServerModel().sendOrderToKitchen());
+        Order order = this.startupMVC.getServerModel().getCurrentOrder();
     }
     public void voidOrder(ActionEvent event){
         this.startupMVC.serverModel.clearOrder();
@@ -642,20 +704,27 @@ public class ProgramController {
         refundStage.setScene(new Scene(refundView));
         refundStage.show();
     }
-    /*Start of staff Acitons*/
+    /*Start of staff Actions*/
 
     public void setStaffInfoView(StaffInfoView staffInfoView) {
         this.staffInfoView = staffInfoView;
     }
 
     public void handleNewStaff(ActionEvent actionEvent) {
-        String fName = staffInfoView.getfNameText().getText();
-        String lName = staffInfoView.getlNameText().getText();
-        String id = staffInfoView.getIdText().getText();
-        Staff.position position = staffInfoView.getPositionComboBox().getValue();
-        int sin = Integer.parseInt(staffInfoView.getSinText().getText());
+        try {
+            String fName = staffInfoView.getfNameText().getText();
+            String lName = staffInfoView.getlNameText().getText();
+            String id = staffInfoView.getIdText().getText();
+            Staff.position position = staffInfoView.getPositionComboBox().getValue();
+            int sin = Integer.parseInt(staffInfoView.getSinText().getText());
 
-        startupMVC.getStaffModel().addStaff(fName,lName,id,position,sin);
+            startupMVC.getStaffModel().addStaff(fName, lName, id, position, sin);
+
+        } catch (IllegalArgumentException e){
+            showErrorAlert("Illegal input, please check all fields are filled correctly", e.getMessage());
+        } catch (NullPointerException e){
+            showErrorAlert("Illegal input, please check all fields are filled correctly", e.getMessage());
+        }
     }
 
     public void clearStaffInfoFields(ActionEvent event){
@@ -672,24 +741,57 @@ public class ProgramController {
     }
 
     public void updateStaff(ActionEvent actionEvent){
-        String fName = staffInfoView.getfNameText().getText();
-        String lName = staffInfoView.getlNameText().getText();
-        String id = staffInfoView.getIdText().getText();
-        Staff.position position = staffInfoView.getPositionComboBox().getValue();
-        int sin = Integer.parseInt(staffInfoView.getSinText().getText());
+        try {
+            String fName = staffInfoView.getfNameText().getText();
+            String lName = staffInfoView.getlNameText().getText();
+            String id = staffInfoView.getIdText().getText();
+            Staff.position position = staffInfoView.getPositionComboBox().getValue();
+            int sin = Integer.parseInt(staffInfoView.getSinText().getText());
+            String username;
+            String password;
 
-        startupMVC.getStaffModel().updateStaff(fName,lName,id,position,sin);
+
+            if(!staffInfoView.getUserText().getText().isEmpty()){
+                username = staffInfoView.getUserText().getText();
+            } else{
+                username = null;
+            }
+            if(!staffInfoView.getPasswordText().getText().isEmpty()){
+                password = staffInfoView.getPasswordText().getText();
+            } else{
+                password = null;
+            }
+            startupMVC.getStaffModel().updateStaff(fName, lName, id, position, sin,username,password);
+            showConfirmationAlert("Staff Updated","Staff: " + id + " successfully updated");
+        } /*catch (IllegalArgumentException e){
+            showAlert("ERROR:", "Staff does not exist, can not update");
+        }*/ catch (NullPointerException e){
+            showErrorAlert("ERROR:","Illegal input, please check all fields are filled correctly");
+        }
 
     }
     public void deleteStaff(ActionEvent actionEvent){
         String id = staffInfoView.getIdText().getText();
         startupMVC.getStaffModel().deleteStaff(id);
     }
-
-    public void loadList(ActionEvent actionEvent){
-        startupMVC.getStaffModel().loadList();
-    }
     public void saveList(ActionEvent actionEvent) {
         startupMVC.getStaffModel().saveList();
+    }
+
+    /*ALERTS*/
+    private void showErrorAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+
+    }
+    private void showConfirmationAlert(String title,String message){
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }
