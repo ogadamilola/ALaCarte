@@ -1,0 +1,68 @@
+[
+  {
+    "name": "Chicken Breast",
+    "ingredientType": "Proteins",
+    "measurementUnit": "Pounds",
+    "commonAllergen": false
+  },
+  {
+    "name": "Burger Patty",
+    "ingredientType": "Proteins",
+    "measurementUnit": "Count",
+    "commonAllergen": false
+  },
+  {
+    "name": "Burger Bun",
+    "ingredientType": "Grains",
+    "measurementUnit": "Count",
+    "commonAllergen": false
+  },
+  {
+    "name": "Cheddar Cheese",
+    "ingredientType": "Dairy",
+    "measurementUnit": "Count",
+    "commonAllergen": false
+  },
+  {
+    "name": "Lettuce",
+    "ingredientType": "Vegetable",
+    "measurementUnit": "Pounds",
+    "commonAllergen": false
+  },
+  {
+    "name": "Mayo",
+    "ingredientType": "Sauce",
+    "measurementUnit": "Pounds",
+    "commonAllergen": false
+  },
+  {
+    "name": "Pepsi",
+    "ingredientType": "Other",
+    "measurementUnit": "Count",
+    "commonAllergen": false
+  },
+  {
+    "name": "Spaghetti",
+    "ingredientType": "Grains",
+    "measurementUnit": "Pounds",
+    "commonAllergen": false
+  },
+  {
+    "name": "Tomato Sauce",
+    "ingredientType": "Sauce",
+    "measurementUnit": "Pounds",
+    "commonAllergen": false
+  },
+  {
+    "name": "Pork Ribs",
+    "ingredientType": "Proteins",
+    "measurementUnit": "Pounds",
+    "commonAllergen": false
+  },
+  {
+    "name": "Meatballs",
+    "ingredientType": "Proteins",
+    "measurementUnit": "Pounds",
+    "commonAllergen": false
+  }
+]
