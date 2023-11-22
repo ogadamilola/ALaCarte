@@ -29,15 +29,28 @@ public class StaffModel { //TODO LOGIN INFORMATION, REFULAR STAFF = PIN, MANAGER
             if(getStaffById(id) != null){//staff already exists with this id
                 throw new IllegalArgumentException();
             }
-            Staff staff = new Staff(fName, lName, sin);
-            staff.setStaffID(id);
-            staff.setPosition(position);
+            if (position == Staff.position.Server) {
+                Server staff = new Server(fName,lName,sin,id);
+                staff.setStaffID(id);
+                staffList.add(staff);
+            } else{
+            Cook staff = new Cook(fName, lName, sin,id);
+                staff.setStaffID(id);
+                staffList.add(staff);
+            }
 
-            staffList.add(staff);
+
+
             notifySubscribers();
         } catch (IllegalArgumentException e){
             System.out.println("Staff ID already exists, use a different id");
         }
+    }
+
+    public void addManager(String fName, String lName, String id, int sin,String username, String password){
+        Manager staff = new Manager(fName, lName, sin,id);
+        staff.setUserName(username);
+        staff.setPassword(password);
     }
 
     public void updateStaff(String fName, String lName, String id, Staff.position position, int sin ){
