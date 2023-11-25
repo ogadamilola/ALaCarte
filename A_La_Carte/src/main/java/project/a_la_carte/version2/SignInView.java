@@ -1,5 +1,6 @@
 package project.a_la_carte.version2;
 
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -25,11 +26,15 @@ public class SignInView extends StackPane {
         usernameText = new TextField();
         usernameText.setPrefWidth(400);
         HBox userHBox = new HBox(userLabel,usernameText);
+        userHBox.setPrefWidth(600);
+        userHBox.setAlignment(Pos.CENTER);
 
         Label passLabel = new Label("Password: ");
         passwordText = new TextField();
         passwordText.setPrefWidth(400);
         HBox passHBox = new HBox(passLabel,passwordText);
+        passHBox.setPrefWidth(600);
+        passHBox.setAlignment(Pos.CENTER);
 
         logIn = new Button("Log In");
         logIn.setFont(new Font(20));
@@ -47,6 +52,8 @@ public class SignInView extends StackPane {
             signUpButton.setStyle("-fx-underline: true;-fx-border-color: transparent;-fx-background-color: transparent;-fx-text-fill: black;\n");
         }));
 
+        container.setAlignment(Pos.CENTER);
+        container.setSpacing(5);
         container.getChildren().addAll(managerLabel,userHBox,passHBox,logIn,signUpButton,temp);
         this.getChildren().add(container);
     }
