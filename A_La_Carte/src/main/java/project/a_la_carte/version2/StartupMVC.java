@@ -11,6 +11,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
 import project.a_la_carte.version2.kitchen.*;
+import project.a_la_carte.version2.managerSide.RestaurantInfo.RestaurantModel;
 import project.a_la_carte.version2.managerSide.inventory.*;
 import project.a_la_carte.version2.managerSide.recipe.*;
 import project.a_la_carte.version2.managerSide.staff.StaffModel;
@@ -32,6 +33,7 @@ public class StartupMVC extends StackPane {
     KitchenModel kitchenModel;
     MenuItemModel menuItemModel;
     StaffModel staffModel;
+    RestaurantModel restaurantModel;
     Button workerButton;
     String selectedScreen = "startUp";
     ProgramController programController;
@@ -71,6 +73,10 @@ public class StartupMVC extends StackPane {
 
         //-----------Staff Model------------------------
         staffModel = new StaffModel();
+        //--------------------------------------------------------
+
+        //-----------Restaurant Model------------------------
+        restaurantModel = new RestaurantModel();
         //--------------------------------------------------------
 
         //------------------------------------------------
@@ -153,6 +159,7 @@ public class StartupMVC extends StackPane {
     public StaffModel getStaffModel() {
         return this.staffModel;
     }
+    public RestaurantModel getRestaurantModel(){return this.restaurantModel;}
 
     public void setController(ProgramController controller){
         workerButton.setOnAction(controller::startWorkerView);

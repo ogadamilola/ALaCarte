@@ -4,11 +4,11 @@ import java.util.Objects;
 
 public class Ingredient{
     private String name;
-
     private IngredientType ingredientType;
     private MeasurementUnit measurementUnit;
     private boolean commonAllergen;
 
+    private float pricePerUnit;
 
     public enum IngredientType{
         Proteins("Proteins"),Dairy("Dairy"),Grains("Grains"),Vegetable("Vegetables"),Sauce("Sauce"),Other("Other");
@@ -69,11 +69,14 @@ public class Ingredient{
     public void setMeasurementUnit(MeasurementUnit measurementUnit) {
         this.measurementUnit = measurementUnit;
     }
-    //deleted unnecessary method
 
+    public void setPricePerUnit(float pricePerUnit) {
+        this.pricePerUnit = pricePerUnit;
+    }
 
-    //property stuff for table
-
+    public float getPricePerUnit() {
+        return pricePerUnit;
+    }
 
     @Override
     public boolean equals(Object o) { //needed for the hashtable handling duplicates
