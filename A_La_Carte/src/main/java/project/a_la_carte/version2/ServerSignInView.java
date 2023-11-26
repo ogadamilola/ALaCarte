@@ -30,10 +30,10 @@ public class ServerSignInView extends StackPane {
 
     }
 
-    public void setController(ProgramController controller){
-        logInButton.setOnAction(controller::handleServerLogIn);
+    //public void setController(ProgramController controller){
+    //    logInButton.setOnAction(controller::handleServerLogIn);
 
-    }
+    //}
 
     public TextField getPinText() {
         return pinText;

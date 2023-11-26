@@ -1,5 +1,6 @@
 package project.a_la_carte.version2;
 
+import javafx.concurrent.Worker;
 import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -61,9 +62,9 @@ public class ProgramController {
         this.managerMainView.selectManagerMenu();
         this.managerMainView.modelChanged();
     }
-    public void openWorkerView(ActionEvent event){
-        this.workerView.selectWorkerView();
-        this.workerView.modelChanged();
+    public void openWorkerView(WorkerView view){
+        view.selectWorkerView();
+        view.modelChanged();
     }
     public void startManagerMainView(ActionEvent event){
         ManagerMainView newView = new ManagerMainView(this.startupMVC);
@@ -82,10 +83,16 @@ public class ProgramController {
         workerStage.setTitle("Worker");
         workerStage.getIcons().add(new Image(ProgramController.class.getResourceAsStream("/images/icon.png")));
         workerStage.setScene(new Scene(newView));
+        newView.setStage(workerStage);
         workerStage.show();
     }
     public void setStartupMVC(StartupMVC newModel){
         this.startupMVC = newModel;
+        //This is just for testing
+        MenuFoodItem newItem = new MenuFoodItem((ArrayList<Recipe>) startupMVC.getRecipeModel().getRecipeList(), "Test Item", "Test Description");
+        startupMVC.getMenuItemModel().addNewMenuItem(newItem);
+        this.startupMVC.getMenuItemModel().resetAddedRecipes();
+        //----------------------------------------------
     }
     public void openInventoryScreen(ActionEvent event){
         this.managerMainView.selectInventory();
@@ -106,16 +113,19 @@ public class ProgramController {
         this.startupMVC.getRecipeModel().notifySubscribers();
         this.startupMVC.getRecipeInteractiveModel().clearRecipeIModel();
     }
-    public void openMenuView(ActionEvent event){
+    public void openMenuView(WorkerView view){
         //So that the new display is shown
+        this.startupMVC.getServerModel().notifySubscribers();
         this.startupMVC.getServerModel().setMenuItemList(startupMVC.getMenuItemModel().getMenuItemsList());
-        this.workerView.selectMenuView();
-        this.workerView.modelChanged();
+
+        view.selectMenuView();
+        view.modelChanged();
     }
-    public void openKitchenView(ActionEvent event){
+    public void openKitchenView(WorkerView view){
         this.startupMVC.getKitchenModel().notifySubscribers();
-        this.workerView.selectKitchenView();
-        this.workerView.modelChanged();
+
+        view.selectKitchenView();
+        view.modelChanged();
     }
     public void openMenuListView(ActionEvent event){
         this.startupMVC.getMenuItemModel().notifySubscribers();
@@ -174,12 +184,11 @@ public class ProgramController {
         }
     }
 
-    public void handleServerLogIn(ActionEvent actionEvent) {
-
+    public void handleServerLogIn(WorkerView workerView) {
         String pin = workerView.getPinText().getText();
         boolean valid = this.startupMVC.getStaffModel().verifyServerLogIn(pin);
         if(valid){
-            this.openMenuView(actionEvent);
+            this.openMenuView(workerView);
         } else {
             showErrorAlert("No Matching Credentials","Double check username and password");
         }
@@ -663,41 +672,47 @@ public class ProgramController {
         kitchenAlertStage.setScene(new Scene(alertView));
         kitchenAlertStage.show();
     }
-    public void sendNoteToKitchen(ActionEvent event){
-        this.startupMVC.getServerModel().setNoteMessage();
-        this.startupMVC.getKitchenModel().addNote(this.startupMVC.getServerModel().getNoteMessage());
+    public void sendNoteToKitchen(WorkerView view){
+        this.startupMVC.getKitchenModel().addNote(view.getNoteView().getNote());
+        this.startupMVC.getServerModel().setNoteMessage(view);
     }
-    public void openNoteView(ActionEvent event){
-        this.startupMVC.getServerModel().clearNoteAlert();
+    public void openNoteView(WorkerView view){
+        this.startupMVC.getServerModel().clearNoteAlert(view.getNoteView());
         this.startupMVC.getServerModel().notifySubscribers();
-        this.workerView.selectNoteView();
-        this.workerView.modelChanged();
+        view.selectNoteView();
+        view.modelChanged();
     }
 
-    public void openTablesView(ActionEvent event){
+    public void openTablesView(WorkerView view){
         this.startupMVC.getServerModel().notifySubscribers();
-        this.workerView.selectTableView();
-        this.workerView.modelChanged();
+        view.selectTableView();
+        view.modelChanged();
     }
 
-    public void openCustomizeView(ActionEvent event){
+    public void openCustomizeView(WorkerView view){
         this.startupMVC.getServerModel().notifySubscribers();
-        this.workerView.selectCustomize();
-        this.workerView.modelChanged();
+        view.selectCustomize();
+        view.modelChanged();
     }
-    public void discardSelection(ActionEvent event){
-        this.startupMVC.getServerModel().unselectAll();
+    public void discardSelection(WorkerView view){
+        this.startupMVC.getServerModel().unselectAll(view);
     }
-    public void saveCustomize(ActionEvent event){
-        this.startupMVC.getServerModel().setCustomization();
-        this.startupMVC.getServerModel().unselectAll();
+    public void saveCustomize(WorkerView view){
+        this.startupMVC.getServerModel().setCustomization(view);
+        this.startupMVC.getServerModel().unselectAll(view);
     }
-    public void sendToKitchen(ActionEvent event){
-        this.startupMVC.getKitchenModel().addOrder(this.startupMVC.getServerModel().sendOrderToKitchen());
-        Order order = this.startupMVC.getServerModel().getCurrentOrder();
+    public void sendToKitchen(WorkerView view){
+        try {
+            this.startupMVC.getKitchenModel().addOrder(view.getMenuView().getCurrentOrder());
+            this.startupMVC.getServerModel().sendOrderToKitchen();
+            view.getMenuView().clearOrder();
+        }
+        catch (Exception e){
+            System.out.println("Error in sending order to Kitchen");
+        }
     }
-    public void voidOrder(ActionEvent event){
-        this.startupMVC.serverModel.clearOrder();
+    public void voidOrder(WorkerView view){
+        view.getMenuView().clearOrder();
     }
     public void refundDisplay(ActionEvent event){
         RefundView refundView = new RefundView(startupMVC.getKitchenModel());
