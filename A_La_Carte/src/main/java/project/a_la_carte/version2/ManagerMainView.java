@@ -57,6 +57,7 @@ public class ManagerMainView extends StackPane {
 
         restaurantInfoView = new RestaurantInfoView();
         restaurantInfoView.setController(startupMVC.getController());
+        startupMVC.getRestaurantModel().addSubscriber(restaurantInfoView);
 
 
         startupMVC.getRecipeModel().addSubscriber(recipeListView);
