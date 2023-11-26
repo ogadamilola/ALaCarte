@@ -14,6 +14,7 @@ import javafx.scene.text.Font;
 
 
 import project.a_la_carte.version2.ProgramController;
+import project.a_la_carte.version2.WorkerView;
 import project.a_la_carte.version2.classesObjects.MenuFoodItem;
 import project.a_la_carte.version2.classesObjects.Order;
 import project.a_la_carte.version2.interfaces.ServerViewInterface;
@@ -33,10 +34,11 @@ public class TableView extends StackPane implements ServerViewInterface {
     private Button addButton;
     private Button removeButton;
 
-
+    WorkerView workerView;
     ServerModel serverModel;
 
-    public TableView() {
+    public TableView(WorkerView view) {
+        workerView = view;
         this.setPrefSize(1000,500);
 
         Label title = new Label("TABLES");
@@ -69,7 +71,7 @@ public class TableView extends StackPane implements ServerViewInterface {
 
 
         addButton = new Button("Add Table");
-        addButton.setOnAction(e -> addTable(serverModel.sendOrderToTable()));
+        addButton.setOnAction(e -> addTable(serverModel.sendOrderToTable(this.workerView)));
 
         removeButton = new Button("Remove Table");
         removeButton.setOnAction(e -> removeLastTable());
@@ -170,7 +172,9 @@ public class TableView extends StackPane implements ServerViewInterface {
         });
     }
     public void setController(ProgramController controller){
-        this.back.setOnAction(controller::openMenuView);
+        this.back.setOnAction(event -> {
+            controller.openMenuView(this.workerView);
+        });
 
     }
     @Override
