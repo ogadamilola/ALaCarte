@@ -705,6 +705,9 @@ public class ProgramController {
         try {
             this.startupMVC.getKitchenModel().addOrder(view.getMenuView().getCurrentOrder());
             this.startupMVC.getServerModel().sendOrderToKitchen();
+
+            //process order in restaurant model
+            this.startupMVC.getRestaurantModel().handleOrderPunched(view.getMenuView().getCurrentOrder());
             view.getMenuView().clearOrder();
         }
         catch (Exception e){

@@ -1,10 +1,9 @@
 package project.a_la_carte.version2.managerSide.RestaurantInfo;
 
 
-import project.a_la_carte.version2.classesObjects.Ingredient;
-import project.a_la_carte.version2.classesObjects.MenuFoodItem;
-import project.a_la_carte.version2.classesObjects.Order;
-import project.a_la_carte.version2.classesObjects.Recipe;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import project.a_la_carte.version2.classesObjects.*;
 import project.a_la_carte.version2.interfaces.RestaurantModelSubscriber;
 import project.a_la_carte.version2.menuItems.MenuItemModel;
 
@@ -55,25 +54,34 @@ public class RestaurantModel {
     public void handleOrderPunched(Order order){
         totalOrders += 1;
         if(order.getOrderList() != null){
+            incomeToday += order.getTotalPrice();
+
             for (MenuFoodItem item : order.getOrderList()){
                 if(menuItemMap.containsKey(item.getName())){
                     menuItemMap.compute(item.getName(),(k,v) -> v +1);
+                    System.out.println("1");
                 } else{
                     menuItemMap.put(item.getName(),1);
+                    System.out.println("2");
                 }
                 handleIngredientUsage(item);
             }
         } //TODO handle case where order list is null;
+        System.out.println(menuItemMap);
+        notifySubs();
     }
 
     public void handleIngredientUsage(MenuFoodItem item){
         if(item.getMenuItemRecipes() !=  null){
             for(Recipe recipe : item.getMenuItemRecipes()){
-                //TODO wait for justin
-                /*for(Map.Entry<String,Double> entry : recipe.get){
+                if(recipe.getRecipeIngredients() != null){
 
-                }*/
+                } else {
+                    System.out.println(recipe.getName() + " Ingredient map is empty");
+                }
             }
+        } else {
+            System.out.println(item.getName() + " recipe list is empty");
         }
     }
 
@@ -85,5 +93,16 @@ public class RestaurantModel {
             sub.restaurantModelChanged(menuItemMap,ingredientUsageMap,totalOrders,incomeToday);
         }
 
+    }
+
+    public ObservableList<MenuFoodItemData> getMenuObservableList(){
+        ObservableList<MenuFoodItemData> data = FXCollections.observableArrayList();
+        for(Map.Entry<String, Integer> entry : menuItemMap.entrySet()){
+            MenuFoodItemData theData = new MenuFoodItemData(entry.getKey(), entry.getValue());
+            data.add(theData);
+
+        }
+
+        return data;
     }
 }

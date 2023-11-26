@@ -187,9 +187,10 @@ public class InventoryView extends StackPane implements InventorySubscriber {
             IngredientData theData = new IngredientData(ingredient,quantity);
             data.add(theData);
         }
+
         inventoryTable.setItems(data);
         nameCol.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
-        //temp map takes the input, which the user puts in ounces
+
         quantityCol.setCellValueFactory(cellData -> cellData.getValue().inventoryQuantityProperty().asObject());
         measurementUnitCol.setCellValueFactory(cellData -> cellData.getValue().inventoryMeasurementProperty());
         typeCol.setCellValueFactory(cellData -> cellData.getValue().typeProperty());
