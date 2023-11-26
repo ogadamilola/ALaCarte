@@ -25,6 +25,7 @@ public class InventoryView extends StackPane implements InventorySubscriber {
     VBox listVBox;
     TextField nameText;
     TextField quantityText;
+    TextField priceText;
     Button submit;
     Button mainMenu;
     ComboBox<Ingredient.IngredientType> typeComboBox;
@@ -38,6 +39,7 @@ public class InventoryView extends StackPane implements InventorySubscriber {
     TableColumn<IngredientData,Double> quantityCol;
     TableColumn<IngredientData,String> typeCol;
     TableColumn<IngredientData,String> statusCol;
+    TableColumn<IngredientData,String> priceCol;
     TableColumn<IngredientData,String> measurementUnitCol;
 
     public InventoryView(){
@@ -93,6 +95,9 @@ public class InventoryView extends StackPane implements InventorySubscriber {
         }
         typeHBox.getChildren().addAll(typeSelectLabel,typeComboBox);
 
+        Label priceLabel = new Label("Price Per Unit: $");
+        priceText = new TextField();
+        HBox priceBox = new HBox(priceLabel,priceText);
 
         commonAllergenCheck = new CheckBox("    Common Allergen");
 
@@ -105,10 +110,9 @@ public class InventoryView extends StackPane implements InventorySubscriber {
         mainMenu = new Button("Main Menu");
         clearButton = new Button("Clear");
 
-        addVBox.getChildren().addAll(mainMenu, addLabel,addNameHBox, addQuantityHBox,measureHBox,typeHBox,commonAllergenCheck,updateButton,deleteButton,clearButton, submit);
+        addVBox.getChildren().addAll(mainMenu, addLabel,addNameHBox, addQuantityHBox,measureHBox,typeHBox,priceBox,commonAllergenCheck,updateButton,deleteButton,clearButton, submit);
         addVBox.setPadding(new Insets(5,5,5,5));
 
-        //tables are so weird to work with but looks so much better
         inventoryTable = new TableView<>();
         nameCol = new TableColumn<>("Ingredient Name");
         nameCol.setMinWidth(120);
@@ -125,7 +129,9 @@ public class InventoryView extends StackPane implements InventorySubscriber {
 
         statusCol = new TableColumn<>("Status");
 
-        inventoryTable.getColumns().addAll(nameCol,quantityCol,measurementUnitCol,typeCol,statusCol);
+        priceCol = new TableColumn<>("Price $");
+
+        inventoryTable.getColumns().addAll(nameCol,quantityCol,measurementUnitCol,typeCol,statusCol,priceCol);
         inventoryTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
         inventoryTable.setPrefSize(700,700);
@@ -188,6 +194,7 @@ public class InventoryView extends StackPane implements InventorySubscriber {
         measurementUnitCol.setCellValueFactory(cellData -> cellData.getValue().inventoryMeasurementProperty());
         typeCol.setCellValueFactory(cellData -> cellData.getValue().typeProperty());
         statusCol.setCellValueFactory(cellData -> cellData.getValue().statusProperty());
+        priceCol.setCellValueFactory(cellData -> cellData.getValue().priceProperty().asString());
 
         if(loadedIngredient == null){
             getNameText().clear();
@@ -230,6 +237,10 @@ public class InventoryView extends StackPane implements InventorySubscriber {
 
     public CheckBox getCommonAllergenCheck() {
         return commonAllergenCheck;
+    }
+
+    public TextField getPriceText() {
+        return priceText;
     }
 }
 

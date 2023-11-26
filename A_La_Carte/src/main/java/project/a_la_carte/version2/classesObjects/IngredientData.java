@@ -67,6 +67,9 @@ public class IngredientData {
         return new SimpleBooleanProperty(ingredient.isCommonAllergen());
     }
 
+    public FloatProperty priceProperty(){
+        return new SimpleFloatProperty(ingredient.getPricePerUnit());
+    }
     //TODO is this a good way for reorderpoints?
     public StringProperty statusProperty(){
         StringProperty status;

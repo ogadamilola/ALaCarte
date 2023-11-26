@@ -6,7 +6,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import javafx.scene.control.Alert;
@@ -36,9 +35,6 @@ public class ProgramController {
     StaffInfoView staffInfoView;
     SignUpView signUpView;
     SignInView signInView;
-
-
-
 
     private enum INTERACTION_STATE{
         RECIPE_LOADED,
@@ -133,6 +129,12 @@ public class ProgramController {
         this.managerMainView.modelChanged();
     }
 
+    public void openRestaurantInfoView(ActionEvent event){
+        this.startupMVC.getRestaurantModel().notifySubs();
+        this.managerMainView.selectRestaurantInfoView();
+        this.managerMainView.modelChanged();
+    }
+
     public void setStateLoaded(){
         this.interactionState = INTERACTION_STATE.RECIPE_LOADED;
     }
@@ -221,7 +223,8 @@ public class ProgramController {
             Ingredient.IngredientType type = inventoryView.getTypeComboBox().getValue();
             Ingredient.MeasurementUnit mUnit = inventoryView.getMeasurementUnitComboBox().getValue();
             Boolean commonAllergen = inventoryView.getCommonAllergenCheck().isSelected();
-            startupMVC.getInventoryModel().addIngredient(ingredientName,quantity,type,mUnit,commonAllergen);
+            float pricePerUnit = Float.parseFloat(inventoryView.getPriceText().getText());
+            startupMVC.getInventoryModel().addIngredient(ingredientName,quantity,type,mUnit,commonAllergen,pricePerUnit);
             clearInventoryViewFields(actionEvent);
 
             if (ingredientName.isEmpty() || type == null || mUnit == null) {
@@ -265,7 +268,8 @@ public class ProgramController {
             Ingredient.IngredientType type = inventoryView.getTypeComboBox().getValue();
             Ingredient.MeasurementUnit mUnit = inventoryView.getMeasurementUnitComboBox().getValue();
             Boolean commonAllergen = inventoryView.getCommonAllergenCheck().isSelected();
-            startupMVC.getInventoryModel().updateItem(ingredient, quantity, type, mUnit, commonAllergen);
+            float pricePerUnit = Float.parseFloat(inventoryView.getPriceText().getText());
+            startupMVC.getInventoryModel().updateItem(ingredient, quantity, type, mUnit, commonAllergen,pricePerUnit);
             clearInventoryViewFields(actionEvent);
         } catch (Exception e) {
             showErrorAlert("Error", e.getMessage());
