@@ -11,11 +11,18 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import project.a_la_carte.version2.ProgramController;
+import project.a_la_carte.version2.WorkerView;
 import project.a_la_carte.version2.classesObjects.AlertButton;
+import project.a_la_carte.version2.classesObjects.MenuFoodItem;
+import project.a_la_carte.version2.classesObjects.Order;
 import project.a_la_carte.version2.serverSide.widgets.OrderListView;
 import project.a_la_carte.version2.interfaces.ServerViewInterface;
 
+import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicReference;
+
 public class MenuView extends StackPane implements ServerViewInterface {
+    WorkerView workerView;
     ServerModel serverModel;
     FlowPane menuDisplay;
     Button addNote;
@@ -31,8 +38,13 @@ public class MenuView extends StackPane implements ServerViewInterface {
     Button voidOrderButton;
     Label title;
     Label total;
+    ArrayList<MenuFoodItem> menuFoodDisplayList;
+    MenuFoodItem selectedItem;
+    Order currentOrder;
     float price = 0;
-    public MenuView(){
+    public MenuView(WorkerView view){
+        menuFoodDisplayList = new ArrayList<>();
+        this.workerView = view;
         this.setPrefSize(1000,500);
         Label menuTitle = new Label("MENU ITEMS");
         menuTitle.setFont(new Font(20));
@@ -156,21 +168,59 @@ public class MenuView extends StackPane implements ServerViewInterface {
         this.serverModel = newModel;
     }
     public void setController(ProgramController controller){
-        this.mainMenu.setOnAction(controller::openWorkerView);
-        this.addNote.setOnAction(controller::openNoteView);
-        this.customize.setOnAction(controller::openCustomizeView);
-        this.sendToKitchen.setOnAction(controller::sendToKitchen);
+        this.mainMenu.setOnAction((event -> {
+            controller.openWorkerView(this.workerView);
+        }));
+        this.addNote.setOnAction(event -> {
+            controller.openNoteView(this.workerView);
+        });
+        this.customize.setOnAction(event -> {
+            controller.openCustomizeView(this.workerView);
+        });
+        this.sendToKitchen.setOnAction(event -> {
+            controller.sendToKitchen(this.workerView);
+        });
         this.stockButton.setOnAction(controller::showStockAlerts);
         this.alertButton.setOnAction(controller::showServerAlerts);
-        this.voidOrderButton.setOnAction(controller::voidOrder);
+        this.voidOrderButton.setOnAction(event -> {
+            controller.voidOrder(this.workerView);
+        });
         this.refund.setOnAction(controller::refundDisplay);
-        this.Tables.setOnAction(controller::openTablesView);
+        this.Tables.setOnAction(event -> {
+            controller.openTablesView(this.workerView);
+        });
 
     }
-
+    public void addMenuDisplay(MenuFoodItem foodItem){
+        this.menuFoodDisplayList.add(foodItem);
+    }
+    public Boolean containsMenuDisplay(String foodName){
+        AtomicReference<Boolean> check = new AtomicReference<>(false);
+        menuFoodDisplayList.forEach(foodItem -> {
+            if (foodItem.getName().equals(foodName)) {
+                check.set(true);
+            }
+        });
+        return check.get();
+    }
+    public void addToOrder(MenuFoodItem item){
+        if (this.currentOrder == null){
+            currentOrder = new Order(new ArrayList<>(),serverModel.orderNumber);
+        }
+        currentOrder.addItem(item);
+    }
+    public MenuFoodItem getSelectedItem(){
+        return this.selectedItem;
+    }
+    public Order getCurrentOrder(){
+        return this.currentOrder;
+    }
+    public void clearOrder(){
+        this.currentOrder = null;
+        modelChanged();
+    }
     @Override
     public void modelChanged() {
-        menuDisplay.getChildren().clear();
         if (!serverModel.getNoteList().isEmpty()){
             alertButton.notificationYes();
         }
@@ -179,25 +229,35 @@ public class MenuView extends StackPane implements ServerViewInterface {
         }
         if (serverModel.getMenuItemList() != null){
             serverModel.getMenuItemList().forEach((item -> {
-                item.getDisplay().setText(item.getName());
-                item.getDisplay().setOnAction((event -> {
-                    serverModel.setSelectedMenuItem(item);
-                    item.selectDisplay();
+                MenuFoodItem newItem = new MenuFoodItem(item.getMenuItemRecipes(), item.getName(), item.getDescription());
+                newItem.getDisplay().setText(newItem.getName());
+                newItem.getDisplay().setOnAction((event -> {
+                    this.serverModel.setSelectedMenuItem(newItem, this.menuFoodDisplayList);
+                    newItem.selectDisplay();
+                    this.selectedItem = newItem;
                 }));
-                menuDisplay.getChildren().add(item.getDisplay());
+                if (!this.containsMenuDisplay(newItem.getName())) {
+                    this.addMenuDisplay(newItem);
+                    menuDisplay.getChildren().add(newItem.getDisplay());
+                }
             }));
         }
+        this.menuFoodDisplayList.forEach((foodItem -> {
+            if (foodItem.getSelectedStatus()){
+                foodItem.selectDisplay();
+            }
+        }));
 
         ordersVBox.getChildren().clear();
         this.price = 0;
-        if (serverModel.getCurrentOrder() != null){
-            title.setText("Order #"+ serverModel.getCurrentOrder().getOrderNum());
-            serverModel.getCurrentOrder().getOrderList().forEach((item ->{
+        if (this.currentOrder != null){
+            title.setText("Order #"+ serverModel.orderNumber);
+            currentOrder.getOrderList().forEach((item ->{
                 OrderListView newView = new OrderListView(item);
                 ordersVBox.getChildren().add(newView);
                 price += item.getPrice();
                 newView.getDeleteButton().setOnAction((event -> {
-                    serverModel.getCurrentOrder().deleteItem(newView.getMenuItem());
+                    currentOrder.deleteItem(newView.getMenuItem());
                     serverModel.notifySubscribers();
                     ordersVBox.getChildren().remove(newView);
                 }));

@@ -12,9 +12,11 @@ import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 
 import project.a_la_carte.version2.ProgramController;
+import project.a_la_carte.version2.WorkerView;
 import project.a_la_carte.version2.interfaces.ServerViewInterface;
 
 public class NoteView extends StackPane implements ServerViewInterface {
+    WorkerView workerView;
     ServerModel serverModel;
     TextArea noteText;
     //We can use this to send an alert if the Note is successfully saved or not
@@ -22,7 +24,8 @@ public class NoteView extends StackPane implements ServerViewInterface {
     Button save;
     Button discard;
     Button back;
-    public NoteView(){
+    public NoteView(WorkerView view){
+        this.workerView = view;
         this.setPrefSize(1000,500);
 
         Label title = new Label("ADD NOTE");
@@ -96,8 +99,12 @@ public class NoteView extends StackPane implements ServerViewInterface {
         this.serverModel = newModel;
     }
     public void setController(ProgramController controller){
-        this.back.setOnAction(controller::openMenuView);
-        this.save.setOnAction(controller::sendNoteToKitchen);
+        this.back.setOnAction((event -> {
+            controller.openMenuView(this.workerView);
+        }));
+        this.save.setOnAction(event -> {
+            controller.sendNoteToKitchen(this.workerView);
+        });
     }
 
     @Override

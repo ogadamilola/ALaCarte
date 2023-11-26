@@ -11,20 +11,31 @@ import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import project.a_la_carte.version2.ProgramController;
+import project.a_la_carte.version2.WorkerView;
 import project.a_la_carte.version2.interfaces.ServerViewInterface;
+import project.a_la_carte.version2.serverSide.widgets.CustomizeSelectionButton;
+import project.a_la_carte.version2.serverSide.widgets.IngredientsCustomize;
+
+import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class CustomizeView extends StackPane implements ServerViewInterface {
+    WorkerView workerView;
     ServerModel serverModel;
     FlowPane ingredients;
     VBox optionsVBox;
     Label title;
-    Button no;
-    Button extra;
-    Button just;
     Button discard;
     Button send;
     Button back;
-    public CustomizeView(){
+    ArrayList<CustomizeSelectionButton> customizeSelectionButtonArrayList;
+    ArrayList<IngredientsCustomize> ingredientsCustomizeArrayList;
+    String selectedIngredient = "";
+    String selectedOption="";
+    public CustomizeView(WorkerView view){
+        this.workerView = view;
+        customizeSelectionButtonArrayList = new ArrayList<>();
+        ingredientsCustomizeArrayList = new ArrayList<>();
         this.setPrefSize(1000,500);
 
         title = new Label("SELECT ITEM TO CUSTOMIZE");
@@ -48,19 +59,7 @@ public class CustomizeView extends StackPane implements ServerViewInterface {
         topHBox.setStyle("-fx-border-color: black;\n");
         topHBox.setPadding(new Insets(5));
 
-        this.no = new Button("NO");
-        this.no.setStyle("-fx-border-color: black;-fx-background-color: lightpink;\n");
-        this.no.setPrefSize(200,70);
-
-        this.extra = new Button("EXTRA");
-        this.extra.setStyle("-fx-border-color: black;-fx-background-color: lightpink;\n");
-        this.extra.setPrefSize(200,70);
-
-        this.just = new Button("JUST");
-        this.just.setStyle("-fx-border-color: black;-fx-background-color: lightpink;\n");
-        this.just.setPrefSize(200,70);
-
-        optionsVBox = new VBox(no,extra,just);
+        optionsVBox = new VBox();
         optionsVBox.setPrefSize(200,500);
         optionsVBox.setPadding(new Insets(5));
         optionsVBox.setSpacing(10);
@@ -100,29 +99,92 @@ public class CustomizeView extends StackPane implements ServerViewInterface {
         this.serverModel = newModel;
     }
     public void setController(ProgramController controller){
-        this.back.setOnAction(controller::openMenuView);
-        this.discard.setOnAction(controller::discardSelection);
-        this.send.setOnAction(controller::saveCustomize);
+        this.back.setOnAction((event -> {
+            controller.openMenuView(this.workerView);
+        }));
+        this.discard.setOnAction(event -> {
+            controller.discardSelection(this.workerView);
+        });
+        this.send.setOnAction(event -> {
+            controller.saveCustomize(this.workerView);
+        });
+    }
+    public Boolean containsIngredientCustomize(String foodName){
+        AtomicReference<Boolean> check = new AtomicReference<>(false);
+        ingredientsCustomizeArrayList.forEach(ingredient -> {
+            if (ingredient.getIngredientName().equals(foodName)) {
+                check.set(true);
+            }
+        });
+        return check.get();
+    }
+    public Boolean containsButtonCustomize(String foodName){
+        AtomicReference<Boolean> check = new AtomicReference<>(false);
+        customizeSelectionButtonArrayList.forEach(button -> {
+            if (button.getOptionName().equals(foodName)) {
+                check.set(true);
+            }
+        });
+        return check.get();
+    }
+    public String getSelectedIngredient(){
+        return this.selectedIngredient;
+    }
+    public void selectIngredient(String name) {
+        this.selectedIngredient = name;
+
+        ingredientsCustomizeArrayList.forEach((ingredient -> {
+            if (ingredient.getIngredientName().equals(this.selectedIngredient)) {
+                ingredient.select();
+            } else {
+                ingredient.unselect();
+            }
+        }));
+        modelChanged();
+    }
+    public String getSelectedOption(){
+        return this.selectedOption;
+    }
+    public void selectOption(String name){
+        this.selectedOption = name;
+        customizeSelectionButtonArrayList.forEach((option -> {
+            if (option.getOptionName().equals(this.selectedOption)){
+                option.select();
+            }
+            else{
+                option.unselect();
+            }
+        }));
+        modelChanged();
     }
 
     @Override
     public void modelChanged() {
-        ingredients.getChildren().clear();
-        optionsVBox.getChildren().clear();
+        //ingredients.getChildren().clear();
+        //optionsVBox.getChildren().clear();
 
-        serverModel.getCustomizeButtons().forEach((button ->{
-            button.setOnAction((event -> {
-                serverModel.selectOption(button.getOptionName());
-            }));
-            optionsVBox.getChildren().add(button);
-        }));
-        if (serverModel.getSelectedItem() != null){
-            title.setText("Selected Menu Item: "+ serverModel.getSelectedItem().getName());
+        if (this.workerView.getMenuView().getSelectedItem() != null){
+            title.setText("Selected Menu Item: "+ workerView.getMenuView().getSelectedItem().getName());
             serverModel.getIngredientList().forEach((recipe ->{
-                recipe.setOnAction((event -> {
-                    serverModel.selectIngredient(recipe.getIngredientName());
+                IngredientsCustomize newCustomize = new IngredientsCustomize(recipe.getIngredientName());
+                newCustomize.setOnAction((event -> {
+                    this.selectIngredient(newCustomize.getIngredientName());
                 }));
-                ingredients.getChildren().add(recipe);
+                if (!this.containsIngredientCustomize(newCustomize.getIngredientName())) {
+                    this.ingredientsCustomizeArrayList.add(newCustomize);
+
+                    ingredients.getChildren().add(newCustomize);
+                }
+            }));
+            serverModel.getCustomizeButtons().forEach((button ->{
+                CustomizeSelectionButton newButton = new CustomizeSelectionButton(button.getOptionName());
+                newButton.setOnAction((event -> {
+                    this.selectOption(button.getOptionName());
+                }));
+                if (!this.containsButtonCustomize(newButton.getOptionName())) {
+                    this.customizeSelectionButtonArrayList.add(newButton);
+                    optionsVBox.getChildren().add(newButton);
+                }
             }));
         }
     }

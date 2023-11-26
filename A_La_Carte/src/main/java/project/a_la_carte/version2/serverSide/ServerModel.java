@@ -1,5 +1,6 @@
 package project.a_la_carte.version2.serverSide;
 
+import project.a_la_carte.version2.WorkerView;
 import project.a_la_carte.version2.interfaces.ServerViewInterface;
 import project.a_la_carte.version2.classesObjects.*;
 import project.a_la_carte.version2.serverSide.tableSystem.Table;
@@ -9,21 +10,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ServerModel {
-    MenuView menuView;
-    NoteView noteView;
-    TableView tableView;
-    CustomizeView customizeView;
     List<ServerViewInterface> subscribers;
-    String noteMessage = "";
     int orderNumber;
     ArrayList<IngredientsCustomize> ingredientList;
     ArrayList<CustomizeSelectionButton> customizeButtons;
     ArrayList<MenuFoodItem> menuItemList;
     ArrayList<ServerNotes> notesArrayList;
     MenuFoodItem selectedMenuItem;
-    String selectedIngredient = "";
-    String selectedOption = "";
-    Order currentOrder;
     public ServerModel(){
         //Used when creating order and assigning their number
         this.orderNumber = 1;
@@ -78,89 +71,48 @@ public class ServerModel {
         CustomizeSelectionButton newB = new CustomizeSelectionButton(name);
         customizeButtons.add(newB);
     }
-    public void selectIngredient(String name){
-        this.selectedIngredient = name;
 
-        ingredientList.forEach((ingredient ->{
-            if (ingredient.getIngredientName().equals(this.selectedIngredient)){
-                ingredient.select();
-            }
-            else{
-                ingredient.unselect();
-            }
-        }));
-        notifySubscribers();
-    }
-    public void selectOption(String name){
-        this.selectedOption = name;
-        customizeButtons.forEach((option -> {
-            if (option.getOptionName().equals(this.selectedOption)){
-                option.select();
-            }
-            else{
-                option.unselect();
-            }
-        }));
-        notifySubscribers();
-    }
-
-    public Order getCurrentOrder() {
-        return currentOrder;
-    }
-    public Order sendOrderToKitchen(){
-        Order sendOrder = currentOrder;
+    public void sendOrderToKitchen(){
         this.orderNumber += 1;
-        currentOrder = null;
 
         notifySubscribers();
-        return sendOrder;
     }
-    public Table sendOrderToTable(){
-
-        return new Table(currentOrder);
+    public Table sendOrderToTable(WorkerView view){
+        return new Table(view.getMenuView().getCurrentOrder());
     }
-    public void clearOrder(){
-        this.currentOrder = null;
-        notifySubscribers();
-    }
-    public void setCustomization(){
+    public void setCustomization(WorkerView view){
         MenuFoodItem copy = new MenuFoodItem(this.getSelectedItem().getMenuItemRecipes()
                 , this.getSelectedItem().getName(),this.getSelectedItem().getDescription());
-        copy.setPrice(this.selectedMenuItem.getPrice());
-        copy.setPrepTime(this.selectedMenuItem.getPrepTime());
-        if (!selectedOption.equals("") && !selectedIngredient.equals("")) {
-            copy.setCustomizeOption(this.selectedOption + " " + this.selectedIngredient);
+        copy.setPrice(view.getMenuView().getSelectedItem().getPrice());
+        copy.setPrepTime(view.getMenuView().getSelectedItem().getPrepTime());
+        if (!view.getCustomizeView().getSelectedOption().equals("") && !view.getCustomizeView().getSelectedIngredient().equals("")) {
+            copy.setCustomizeOption(view.getCustomizeView().getSelectedOption() + " " + view.getCustomizeView().getSelectedIngredient());
         }
 
-        this.addToOrder(copy);
+        view.getMenuView().addToOrder(copy);
         notifySubscribers();
     }
-    public void addToOrder(MenuFoodItem item){
-        if (this.currentOrder == null){
-            currentOrder = new Order(new ArrayList<>(),this.orderNumber);
-        }
-        currentOrder.addItem(item);
+
+    public void unselectAll(WorkerView view){
+        view.getCustomizeView().customizeSelectionButtonArrayList.forEach((CustomizeSelectionButton::unselect));
+        view.getCustomizeView().ingredientsCustomizeArrayList.forEach((IngredientsCustomize::unselect));
+        view.getCustomizeView().selectedIngredient = "";
+        view.getCustomizeView().selectedOption = "";
     }
-    public void unselectAll(){
-        this.customizeButtons.forEach((CustomizeSelectionButton::unselect));
-        this.ingredientList.forEach((IngredientsCustomize::unselect));
-        this.selectedIngredient = "";
-        this.selectedOption = "";
+    public void setNoteMessage(WorkerView view){
+        view.getNoteView().noteText.clear();
+        view.getNoteView().savedAlert.setText("SENT!");
     }
-    public void setNoteMessage(){
-        this.noteMessage = this.noteView.getNote();
-        this.noteView.noteText.clear();
-        this.noteView.savedAlert.setText("SENT!");
+    public void clearNoteAlert(NoteView view){
+        view.savedAlert.setText("");
     }
-    public void clearNoteAlert(){
-        this.noteView.savedAlert.setText("");
-    }
-    public void setSelectedMenuItem(MenuFoodItem item){
-        this.getMenuItemList().forEach((MenuFoodItem::unselectDisplay));
+    public void setSelectedMenuItem(MenuFoodItem item, ArrayList<MenuFoodItem> list){
+        list.forEach((MenuFoodItem::unselectDisplay));
 
         selectedMenuItem = item;
         notifySubscribers();
     }
+
     public MenuFoodItem getSelectedItem(){
         return this.selectedMenuItem;
     }
@@ -171,28 +123,21 @@ public class ServerModel {
         this.menuItemList = newList;
         notifySubscribers();
     }
-    public String getNoteMessage(){
-        return this.noteMessage;
-    }
     public void setMenuView(MenuView newView){
-        this.menuView = newView;
-        this.addSubscriber(this.menuView);
+        this.addSubscriber(newView);
     }
     public void setNoteView(NoteView newView){
-        this.noteView = newView;
-        this.addSubscriber(this.noteView);
+        this.addSubscriber(newView);
     }
     public void setTableView(TableView newView){
-        this.tableView = newView;
-        this.addSubscriber(this.tableView);
+        this.addSubscriber(newView);
     }
     public void addSubscriber(ServerViewInterface view){
         this.subscribers.add(view);
     }
 
     public void setCustomizeView(CustomizeView customizeView) {
-        this.customizeView = customizeView;
-        this.addSubscriber(this.customizeView);
+        this.addSubscriber(customizeView);
     }
     public void notifySubscribers(){
         this.subscribers.forEach((ServerViewInterface::modelChanged));
