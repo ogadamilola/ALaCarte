@@ -88,6 +88,11 @@ public class ProgramController {
     }
     public void setStartupMVC(StartupMVC newModel){
         this.startupMVC = newModel;
+        //This is just for testing
+        MenuFoodItem newItem = new MenuFoodItem((ArrayList<Recipe>) startupMVC.getRecipeModel().getRecipeList(), "Test Item", "Test Description");
+        startupMVC.getMenuItemModel().addNewMenuItem(newItem);
+        this.startupMVC.getMenuItemModel().resetAddedRecipes();
+        //----------------------------------------------
     }
     public void openInventoryScreen(ActionEvent event){
         this.managerMainView.selectInventory();
@@ -698,9 +703,14 @@ public class ProgramController {
         this.startupMVC.getServerModel().unselectAll(view);
     }
     public void sendToKitchen(WorkerView view){
-        this.startupMVC.getServerModel().sendOrderToKitchen();
-        this.startupMVC.getKitchenModel().addOrder(view.getMenuView().getCurrentOrder());
-        view.getMenuView().clearOrder();
+        try {
+            this.startupMVC.getKitchenModel().addOrder(view.getMenuView().getCurrentOrder());
+            this.startupMVC.getServerModel().sendOrderToKitchen();
+            view.getMenuView().clearOrder();
+        }
+        catch (Exception e){
+            System.out.println("Error in sending order to Kitchen");
+        }
     }
     public void voidOrder(WorkerView view){
         view.getMenuView().clearOrder();
