@@ -36,6 +36,7 @@ public class MenuView extends StackPane implements ServerViewInterface {
     VBox ordersVBox;
     Button sendToKitchen;
     Button voidOrderButton;
+    Button autoSend;
     Label title;
     Label total;
     ArrayList<MenuFoodItem> menuFoodDisplayList;
@@ -79,6 +80,7 @@ public class MenuView extends StackPane implements ServerViewInterface {
         this.addNote = new Button("ADD NOTE");
         this.customize = new Button("CUSTOMIZE");
         this.refund = new Button("REFUND ORDER");
+        this.autoSend = new Button("ADD TO ORDER");
 
         HBox customizeHBox = new HBox(customize);
         customizeHBox.setPrefWidth(295);
@@ -93,10 +95,18 @@ public class MenuView extends StackPane implements ServerViewInterface {
         botButtonsBox.setPrefWidth(600);
 
         HBox addNoteBox = new HBox(addNote);
-        addNoteBox.setPrefWidth(600);
+        addNoteBox.setPrefWidth(295);
         addNoteBox.setPadding(new Insets(5));
 
-        VBox buttons = new VBox(addNoteBox,botButtonsBox);
+        HBox autoHBox = new HBox(autoSend);
+        autoHBox.setPrefWidth(300);
+        autoHBox.setPadding(new Insets(5));
+        autoHBox.setAlignment(Pos.BASELINE_RIGHT);
+
+        HBox topButtonsBox = new HBox(addNoteBox,autoHBox);
+        topButtonsBox.setPrefWidth(600);
+
+        VBox buttons = new VBox(topButtonsBox,botButtonsBox);
         buttons.setPrefSize(600,100);
         buttons.setPadding(new Insets(5,5,5,5));
         buttons.setAlignment(Pos.BOTTOM_LEFT);
@@ -188,6 +198,9 @@ public class MenuView extends StackPane implements ServerViewInterface {
         this.refund.setOnAction(controller::refundDisplay);
         this.Tables.setOnAction(event -> {
             controller.openTablesView(this.workerView);
+        });
+        this.autoSend.setOnAction(event -> {
+            controller.saveCustomize(this.workerView);
         });
 
     }
