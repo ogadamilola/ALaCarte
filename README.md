@@ -1,5 +1,5 @@
 # 370_Project
-# Team #1
+# Team # 1
 
 ## Group Name: A La Carte
 ### Team Members
