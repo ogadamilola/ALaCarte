@@ -1,5 +1,6 @@
 package project.a_la_carte.version2.classesObjects;
 
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
@@ -10,9 +11,9 @@ public class MenuFoodItemData {
      */
 
     private String menuItemName;
-    private Integer quantity;
+    private Double quantity;
 
-    public MenuFoodItemData(String name, Integer quantity){
+    public MenuFoodItemData(String name, Double quantity){
         this.menuItemName = name;
         this.quantity = quantity;
     }
@@ -20,7 +21,7 @@ public class MenuFoodItemData {
     public SimpleStringProperty nameProperty(){
         return new SimpleStringProperty(menuItemName);
     }
-    public SimpleIntegerProperty quantityProperty(){
-        return new SimpleIntegerProperty(quantity);
+    public SimpleDoubleProperty quantityProperty(){
+        return new SimpleDoubleProperty(quantity);
     }
 }

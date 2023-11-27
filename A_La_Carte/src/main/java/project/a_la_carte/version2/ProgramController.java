@@ -1,6 +1,5 @@
 package project.a_la_carte.version2;
 
-import javafx.concurrent.Worker;
 import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -233,7 +232,11 @@ public class ProgramController {
             Ingredient.MeasurementUnit mUnit = inventoryView.getMeasurementUnitComboBox().getValue();
             Boolean commonAllergen = inventoryView.getCommonAllergenCheck().isSelected();
             float pricePerUnit = Float.parseFloat(inventoryView.getPriceText().getText());
-            startupMVC.getInventoryModel().addIngredient(ingredientName,quantity,type,mUnit,commonAllergen,pricePerUnit);
+            double reorderPoint = 0.0;
+            if(!inventoryView.getReorderText().getText().isEmpty()){
+                reorderPoint = Double.parseDouble(inventoryView.getReorderText().getText());
+            }
+            startupMVC.getInventoryModel().addIngredient(ingredientName,quantity,type,mUnit,commonAllergen,pricePerUnit,reorderPoint);
             clearInventoryViewFields(actionEvent);
 
             if (ingredientName.isEmpty() || type == null || mUnit == null) {
@@ -267,6 +270,8 @@ public class ProgramController {
         inventoryView.getMeasurementUnitComboBox().setValue(null);
         inventoryView.getTypeComboBox().setValue(null);
         inventoryView.getCommonAllergenCheck().setSelected(false);
+        inventoryView.getReorderText().clear();
+        inventoryView.getPriceText().clear();
     }
 
     public void updateItem(ActionEvent actionEvent){
@@ -278,7 +283,11 @@ public class ProgramController {
             Ingredient.MeasurementUnit mUnit = inventoryView.getMeasurementUnitComboBox().getValue();
             Boolean commonAllergen = inventoryView.getCommonAllergenCheck().isSelected();
             float pricePerUnit = Float.parseFloat(inventoryView.getPriceText().getText());
-            startupMVC.getInventoryModel().updateItem(ingredient, quantity, type, mUnit, commonAllergen,pricePerUnit);
+            double reorderPoint = 0.0;
+            if(!inventoryView.getReorderText().getText().isEmpty()){
+                reorderPoint = Double.parseDouble(inventoryView.getReorderText().getText());
+            }
+            startupMVC.getInventoryModel().updateItem(ingredient, quantity, type, mUnit, commonAllergen,pricePerUnit,reorderPoint);
             clearInventoryViewFields(actionEvent);
         } catch (Exception e) {
             showErrorAlert("Error", e.getMessage());
@@ -507,7 +516,6 @@ public class ProgramController {
             }
             if(!recipeMakerView.getRecipeName().getText().isEmpty()){
                 startupMVC.getRecipeInteractiveModel().setCreating(true);
-                System.out.println("set creating true");
             }
             String ingredientName = recipeMakerView.getSelectedIngredient().getText();
             Ingredient ingredient = searchIngredientByName(ingredientName);

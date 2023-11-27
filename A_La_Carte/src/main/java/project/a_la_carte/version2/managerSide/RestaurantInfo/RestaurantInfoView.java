@@ -14,6 +14,8 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import project.a_la_carte.version2.ProgramController;
+import project.a_la_carte.version2.classesObjects.Ingredient;
+import project.a_la_carte.version2.classesObjects.IngredientData;
 import project.a_la_carte.version2.classesObjects.MenuFoodItemData;
 import project.a_la_carte.version2.interfaces.RestaurantModelSubscriber;
 
@@ -26,15 +28,16 @@ public class RestaurantInfoView extends BorderPane implements RestaurantModelSub
     Button mainMenu;
     Button startDay;
     Button endDay;
-
     TableView<MenuFoodItemData> menuTable;
     TableColumn<MenuFoodItemData, String> menuItemNameCol;
-    TableColumn<MenuFoodItemData, Integer> menuItemQuantityCol;
-
+    TableColumn<MenuFoodItemData, Double> menuItemQuantityCol;
     Label orderNumber;
     Label incomeNumber;
-
     VBox menuItemVBox;
+
+    TableView<MenuFoodItemData> ingredientTable; //using MenuFoodItem data to display ingredients
+    TableColumn<MenuFoodItemData, String> ingredientNameCol;
+    TableColumn<MenuFoodItemData, Double> ingredientQuantityCol;
     public RestaurantInfoView(){
 
         Label title = new Label("Manage Restaurant");
@@ -69,6 +72,7 @@ public class RestaurantInfoView extends BorderPane implements RestaurantModelSub
         menuItemNameCol = new TableColumn<>("Menu Item");
         menuItemQuantityCol = new TableColumn<>("Times Ordered");
         menuTable.getColumns().addAll(menuItemNameCol,menuItemQuantityCol);
+        menuTable.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
 
         menuItemVBox = new VBox(menuTable);
 
@@ -84,7 +88,12 @@ public class RestaurantInfoView extends BorderPane implements RestaurantModelSub
 
         //TODO show inventory usage
 
-        VBox inventoryVBox = new VBox();
+        ingredientTable = new TableView<>();
+        ingredientNameCol = new TableColumn<>("Ingredient");
+        ingredientQuantityCol = new TableColumn<>("Quantity Used");
+        ingredientTable.getColumns().addAll(ingredientNameCol,ingredientQuantityCol);
+
+        VBox inventoryVBox = new VBox(ingredientTable);
 
         HBox centerBox = new HBox(orderVBox,menuItemVBox,incomeVBox,inventoryVBox); // display inventory usage
 
@@ -109,27 +118,19 @@ public class RestaurantInfoView extends BorderPane implements RestaurantModelSub
     }
 
     @Override
-    public void restaurantModelChanged(HashMap<String,Integer> menuItemMap, HashMap<String, Double> ingredientUsageMap, int totalOrders, float incomeToday) {
-        menuItemVBox.getChildren().clear();
-        menuItemVBox.getChildren().add(menuTable);
+    public void restaurantModelChanged(ObservableList<MenuFoodItemData> menuItemData, ObservableList<MenuFoodItemData> ingredientUsagedata, int totalOrders, float incomeToday) {
 
-
-        ObservableList<MenuFoodItemData> data = FXCollections.observableArrayList();
-        for(Map.Entry<String, Integer> entry : menuItemMap.entrySet()){
-            MenuFoodItemData theData = new MenuFoodItemData(entry.getKey(), entry.getValue());
-            data.add(theData);
-        }
-
-        menuTable.setItems(data);
+        menuTable.setItems(menuItemData);
         menuItemNameCol.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
         menuItemQuantityCol.setCellValueFactory(cellData -> cellData.getValue().quantityProperty().asObject());
+
+        ingredientTable.setItems(ingredientUsagedata);
+        ingredientNameCol.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
+        ingredientQuantityCol.setCellValueFactory(cellData -> cellData.getValue().quantityProperty().asObject());
+
 
         orderNumber.setText(String.valueOf(totalOrders));
         incomeNumber.setText(String.valueOf(incomeToday));
     }
 
-    /*public ObservableList<MenuFoodItemData> getMenuObservableList(HashMap<String,Integer> menuItemMap){
-
-        return data;
-    }*/
 }
