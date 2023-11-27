@@ -1,0 +1,16 @@
+{
+  "2023-11-28": {
+    "date": "2023-11-28",
+    "menuItemMap": {},
+    "ingredientUsageMap": {},
+    "totalOrders": 0,
+    "incomeToday": 0.0
+  },
+  "2023-11-27": {
+    "date": "2023-11-27",
+    "menuItemMap": {"123123123123":2.0,"teeeeeeeeest12":4.0,"Test Item":11.0},
+    "ingredientUsageMap": {"Lettuce":1.6,"Meatballs":4.0,"Spaghetti":4.0,"Pork Ribs":39.0,"Chicken Breast":1.6,"Cheddar Cheese":0.2},
+    "totalOrders": 9,
+    "incomeToday": 663.0
+  }
+}

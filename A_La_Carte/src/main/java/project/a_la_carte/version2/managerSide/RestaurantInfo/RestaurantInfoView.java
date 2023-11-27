@@ -1,26 +1,21 @@
 package project.a_la_carte.version2.managerSide.RestaurantInfo;
 
-import javafx.collections.FXCollections;
+
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
+
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import project.a_la_carte.version2.ProgramController;
-import project.a_la_carte.version2.classesObjects.Ingredient;
-import project.a_la_carte.version2.classesObjects.IngredientData;
+
 import project.a_la_carte.version2.classesObjects.MenuFoodItemData;
 import project.a_la_carte.version2.interfaces.RestaurantModelSubscriber;
 
-import java.util.HashMap;
-import java.util.Map;
+
 
 public class RestaurantInfoView extends BorderPane implements RestaurantModelSubscriber {
 
@@ -34,15 +29,20 @@ public class RestaurantInfoView extends BorderPane implements RestaurantModelSub
     Label orderNumber;
     Label incomeNumber;
     VBox menuItemVBox;
+    Label date;
+    DatePicker datePicker;
 
+    Button reportButton;
     TableView<MenuFoodItemData> ingredientTable; //using MenuFoodItem data to display ingredients
     TableColumn<MenuFoodItemData, String> ingredientNameCol;
     TableColumn<MenuFoodItemData, Double> ingredientQuantityCol;
     public RestaurantInfoView(){
 
         Label title = new Label("Manage Restaurant");
+        date = new Label("Day not started!");
         title.setFont(new Font(20));
-        HBox titleHBox = new HBox(title);
+        HBox titleHBox = new HBox(title,date);
+        titleHBox.setSpacing(60);
         titleHBox.setPrefWidth(600);
         titleHBox.setAlignment(Pos.TOP_CENTER);
 
@@ -102,7 +102,17 @@ public class RestaurantInfoView extends BorderPane implements RestaurantModelSub
         HBox bottomBox = new HBox(startDay,endDay);
 
 
+        Label reportLabel = new Label("Pick a date to view report");
+        datePicker = new DatePicker();
+        reportButton = new Button("Show Date Report ");
+
+
+        VBox rightBox = new VBox(reportLabel,datePicker,reportButton);
+        rightBox.setAlignment(Pos.CENTER);
+
+
         this.setTop(topBox);
+        this.setRight(rightBox);
         this.setCenter(centerBox);
         this.setBottom(bottomBox);
 
@@ -114,11 +124,14 @@ public class RestaurantInfoView extends BorderPane implements RestaurantModelSub
     }
 
     public void setController(ProgramController controller){
+
         mainMenu.setOnAction(controller::openManagerMainView);
+        reportButton.setOnAction(controller::generateReport);
+
     }
 
     @Override
-    public void restaurantModelChanged(ObservableList<MenuFoodItemData> menuItemData, ObservableList<MenuFoodItemData> ingredientUsagedata, int totalOrders, float incomeToday) {
+    public void restaurantModelChanged(ObservableList<MenuFoodItemData> menuItemData, ObservableList<MenuFoodItemData> ingredientUsagedata, RestaurantDay today) {
 
         menuTable.setItems(menuItemData);
         menuItemNameCol.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
@@ -128,9 +141,12 @@ public class RestaurantInfoView extends BorderPane implements RestaurantModelSub
         ingredientNameCol.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
         ingredientQuantityCol.setCellValueFactory(cellData -> cellData.getValue().quantityProperty().asObject());
 
-
-        orderNumber.setText(String.valueOf(totalOrders));
-        incomeNumber.setText(String.valueOf(incomeToday));
+        date.setText(today.getDate());
+        orderNumber.setText(String.valueOf(today.getTotalOrders()));
+        incomeNumber.setText(String.valueOf(today.getIncomeToday()));
     }
 
+    public DatePicker getDatePicker() {
+        return datePicker;
+    }
 }
