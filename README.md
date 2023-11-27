@@ -56,7 +56,8 @@ Server Side Features
     - Communication with the Kitchen side possible from the Server side
 Kitchen Side Features
     - Will be able to display the orders sent from the Server Side
-        - The user is able to view the item's recipe or to complete the item, the user will also be given the option to cancel the full order
+        - The user is able to view the item's recipe or to complete the item, 
+        the user will also be given the option to cancel the full order
     - Each order will contain a timer next to it, this will show the order's current time and the expected preparation time
         - The timer display will update depending on the current time of the order
     - Communication with the Server side possible from the Kitchen
