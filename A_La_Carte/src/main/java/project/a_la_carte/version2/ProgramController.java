@@ -14,6 +14,9 @@ import javafx.scene.control.Alert;
 import project.a_la_carte.version2.classesObjects.*;
 import project.a_la_carte.version2.kitchen.*;
 import project.a_la_carte.version2.kitchen.widgets.*;
+import project.a_la_carte.version2.managerSide.RestaurantInfo.ReportView;
+import project.a_la_carte.version2.managerSide.RestaurantInfo.RestaurantDay;
+import project.a_la_carte.version2.managerSide.RestaurantInfo.RestaurantInfoView;
 import project.a_la_carte.version2.managerSide.inventory.*;
 import project.a_la_carte.version2.managerSide.staff.StaffInfoView;
 import project.a_la_carte.version2.menuItems.*;
@@ -33,6 +36,7 @@ public class ProgramController {
     RecipeMakerView recipeMakerView;
     MenuItemMakerView menuItemMakerView;
     StaffInfoView staffInfoView;
+    RestaurantInfoView restaurantInfoView;
     SignUpView signUpView;
     SignInView signInView;
 
@@ -55,6 +59,10 @@ public class ProgramController {
     }
     public void setWorkerView(WorkerView view){
         this.workerView = view;
+    }
+
+    public void setRestaurantInfoView(RestaurantInfoView restaurantInfoView) {
+        this.restaurantInfoView = restaurantInfoView;
     }
 
     public void openManagerMainView(ActionEvent event){
@@ -804,6 +812,31 @@ public class ProgramController {
     public void saveList(ActionEvent actionEvent) {
         startupMVC.getStaffModel().saveList();
     }
+
+
+    /*Restaurant information stuff*/
+
+   public void generateReport(ActionEvent event){
+       if(this.restaurantInfoView.getDatePicker().getValue()!= null) {
+           String reportDate = this.restaurantInfoView.getDatePicker().getValue().toString();
+           if(this.startupMVC.getRestaurantModel().getRestaurantDayMap().containsKey(reportDate)) {
+               RestaurantDay dayToReport = this.startupMVC.getRestaurantModel().getRestaurantDayMap().get(reportDate);
+               ReportView reportView = new ReportView(dayToReport);
+               Stage reportStage = new Stage();
+               reportStage.setScene(new Scene(reportView));
+               reportStage.show();
+           } else {
+               showErrorAlert("ERROR:","No Report for this day");
+           }
+       } else{
+           showErrorAlert("ERROR:","No date picked");
+       }
+
+   }
+
+
+    /*End of restaurant information*/
+
 
     /*ALERTS*/
     private void showErrorAlert(String title, String message) {
