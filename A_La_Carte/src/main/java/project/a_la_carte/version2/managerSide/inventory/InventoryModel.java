@@ -65,12 +65,14 @@ public class InventoryModel {
         return ingredientInventory;
     }
 
-    public void addIngredient(String name, double quantity, Ingredient.IngredientType type, Ingredient.MeasurementUnit unit, boolean allergen){
+    public void addIngredient(String name, double quantity, Ingredient.IngredientType type, Ingredient.MeasurementUnit unit, boolean allergen,float pricePerUnit,double reorderPoint){
 
         Ingredient theIngredient =  new Ingredient(name);
         theIngredient.setIngredientType(type);
         theIngredient.setMeasurementUnit(unit);
         theIngredient.setCommonAllergen(allergen);
+        theIngredient.setPricePerUnit(pricePerUnit);
+        theIngredient.setReorderPoint(reorderPoint);
 
         ingredientList.add(theIngredient);
 
@@ -118,12 +120,14 @@ public class InventoryModel {
      * @param unit
      * @param allergen
      */
-    public void updateItem(Ingredient ingredient, double quantity, Ingredient.IngredientType type, Ingredient.MeasurementUnit unit, boolean allergen){
+    public void updateItem(Ingredient ingredient, double quantity, Ingredient.IngredientType type, Ingredient.MeasurementUnit unit, boolean allergen,float pricePerUnit,double reorderPoint){
         try{
 
             ingredient.setIngredientType(type);
             ingredient.setMeasurementUnit(unit);
             ingredient.setCommonAllergen(allergen);
+            ingredient.setPricePerUnit(pricePerUnit);
+            ingredient.setReorderPoint(reorderPoint);
             ingredientInventory.put(ingredient.getName(),quantity);
             notifySubs();
         }
@@ -171,6 +175,9 @@ public class InventoryModel {
         }
     }
 
+    public ArrayList<Ingredient> getIngredientList() {
+        return ingredientList;
+    }
     //setView not needed with subscribers
 
 

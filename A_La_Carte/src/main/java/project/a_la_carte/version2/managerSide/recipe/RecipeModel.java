@@ -2,6 +2,7 @@ package project.a_la_carte.version2.managerSide.recipe;
 
 import project.a_la_carte.version2.classesObjects.*;
 import project.a_la_carte.version2.interfaces.*;
+import project.a_la_carte.version2.managerSide.inventory.InventoryModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,18 +11,19 @@ import java.util.List;
 public class RecipeModel {
     RecipeListView recipeListView;
     RecipeMakerView recipeMakerView;
-
     List<Recipe> recipeList;
-
     List<RecipeModelSubscriber> subscriberList;
 
-    public RecipeModel(){
 
+    public RecipeModel(){
+        InventoryModel model = new InventoryModel();
         recipeList = new ArrayList<>();
         subscriberList = new ArrayList<>();
+        ArrayList<Ingredient> ingredients = model.getIngredientList();
 
         HashMap<Ingredient,Double> spagMap = new HashMap<>();
         addNewOrUpdateRecipe("Spaghetti Meatball",15.00,"Spaghetti with meatballs and sauce","Put spag on plate",10,spagMap);
+
 
         HashMap<Ingredient,Double> burgMap = new HashMap<>();
         addNewOrUpdateRecipe("Cheese burger",24.00,"Burger with cheese and lettuce","Assemble burger",12,burgMap);

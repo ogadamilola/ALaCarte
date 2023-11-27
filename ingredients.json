@@ -3,66 +3,96 @@
     "name": "Chicken Breast",
     "ingredientType": "Proteins",
     "measurementUnit": "Pounds",
-    "commonAllergen": false
+    "commonAllergen": false,
+    "pricePerUnit": 1.5,
+    "reorderPoint": 30.0
   },
   {
     "name": "Burger Patty",
     "ingredientType": "Proteins",
     "measurementUnit": "Count",
-    "commonAllergen": false
+    "commonAllergen": false,
+    "pricePerUnit": 1.0,
+    "reorderPoint": 30.0
   },
   {
     "name": "Burger Bun",
     "ingredientType": "Grains",
     "measurementUnit": "Count",
-    "commonAllergen": false
+    "commonAllergen": false,
+    "pricePerUnit": 0.6,
+    "reorderPoint": 0.0
   },
   {
     "name": "Cheddar Cheese",
     "ingredientType": "Dairy",
-    "measurementUnit": "Count",
-    "commonAllergen": false
+    "measurementUnit": "Pounds",
+    "commonAllergen": false,
+    "pricePerUnit": 5.6,
+    "reorderPoint": 0.0
   },
   {
     "name": "Lettuce",
     "ingredientType": "Vegetable",
     "measurementUnit": "Pounds",
-    "commonAllergen": false
+    "commonAllergen": false,
+    "pricePerUnit": 0.5,
+    "reorderPoint": 30.0
   },
   {
     "name": "Mayo",
     "ingredientType": "Sauce",
     "measurementUnit": "Pounds",
-    "commonAllergen": false
+    "commonAllergen": false,
+    "pricePerUnit": 4.0,
+    "reorderPoint": 0.0
   },
   {
     "name": "Pepsi",
     "ingredientType": "Other",
     "measurementUnit": "Count",
-    "commonAllergen": false
+    "commonAllergen": false,
+    "pricePerUnit": 1.75,
+    "reorderPoint": 0.0
   },
   {
     "name": "Spaghetti",
     "ingredientType": "Grains",
     "measurementUnit": "Pounds",
-    "commonAllergen": false
+    "commonAllergen": false,
+    "pricePerUnit": 2.1,
+    "reorderPoint": 0.0
   },
   {
     "name": "Tomato Sauce",
     "ingredientType": "Sauce",
     "measurementUnit": "Pounds",
-    "commonAllergen": false
+    "commonAllergen": false,
+    "pricePerUnit": 2.3,
+    "reorderPoint": 0.0
   },
   {
     "name": "Pork Ribs",
     "ingredientType": "Proteins",
     "measurementUnit": "Pounds",
-    "commonAllergen": false
+    "commonAllergen": false,
+    "pricePerUnit": 10.5,
+    "reorderPoint": 0.0
   },
   {
     "name": "Meatballs",
     "ingredientType": "Proteins",
     "measurementUnit": "Pounds",
-    "commonAllergen": false
+    "commonAllergen": false,
+    "pricePerUnit": 10.0,
+    "reorderPoint": 0.0
+  },
+  {
+    "name": "Lettuce",
+    "ingredientType": "Vegetable",
+    "measurementUnit": "Pounds",
+    "commonAllergen": false,
+    "pricePerUnit": 0.5,
+    "reorderPoint": 30.0
   }
 ]

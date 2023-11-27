@@ -67,36 +67,31 @@ public class IngredientData {
         return new SimpleBooleanProperty(ingredient.isCommonAllergen());
     }
 
-    //TODO is this a good way for reorderpoints?
+    public FloatProperty priceProperty(){
+        return new SimpleFloatProperty(ingredient.getPricePerUnit());
+    }
+
     public StringProperty statusProperty(){
         StringProperty status;
-        switch (this.ingredient.getMeasurementUnit()){
-            case Pounds:
-                if(quantity<5){
-                    status = new SimpleStringProperty("RUNNING OUT");
+        int range;
 
-                } else if (quantity >6 && quantity < 10) {
-                    status = new SimpleStringProperty("LIMITED QUANTITY");
-
-                } else {
-                    status = new SimpleStringProperty("PLENTIFUL");
-                }
-
-                return status;
-            case Count:
-                if(quantity < 40){
-                    status = new SimpleStringProperty("RUNNING OUT");
-                } else if (quantity > 41 && quantity < 70) {
-                    status = new SimpleStringProperty("LIMITED QUANTITY");
-                } else {
-                    status = new SimpleStringProperty("PLENTIFUL");
-                }
-                return status;
-
-            default:
-                status = new SimpleStringProperty("ERROR");
-                return status;
+        if (ingredient.getMeasurementUnit() == Ingredient.MeasurementUnit.Pounds) {
+            range = 5;
+        } else {
+            range = 15;
         }
 
+
+        if(Math.abs(quantity - ingredient.getReorderPoint()) <= range){
+            //if quantity is within range
+            status = new SimpleStringProperty("Limited Quantity");
+        } else if(quantity > (ingredient.getReorderPoint()) + range){
+            //if quantity is greater than reoderpoint + range
+            status = new SimpleStringProperty("Plentiful");
+        } else {
+            //if quantity is less than reorderPoint - range
+            status = new SimpleStringProperty("Running Low");
+        }
+        return status;
     }
 }
