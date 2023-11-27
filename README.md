@@ -45,14 +45,14 @@ Staff Information Features
     - (Fill In)
 Server Side Features
     - Will display all of the Menu Items in the database to the Server Screen
-        - The user will be able to select these items to either add the item to the order or customize the item before adding to the order
+        - The user will be able to select these items to either add the item to the order 
+        or customize the item before adding to the order
     - The user is able to open and recieve a Stock Report
     - The user is able to open and see the status of Tables
         - Possible to add/remove Tables on the system depending on the Restaurant layout
-    - The use is able to refund orders 
+    - The user is able to refund orders 
     - There will be a display of the Menu Items that is included in the current order
         - The user will be able to either void the current order or send the order to the Kitchen
-        - The total price of the order will be clearly displayed
     - Communication with the Kitchen side possible from the Server side
 Kitchen Side Features
     - Will be able to display the orders sent from the Server Side
