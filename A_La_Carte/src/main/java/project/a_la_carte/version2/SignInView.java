@@ -18,7 +18,8 @@ public class SignInView extends StackPane {
 
     SignInView(){
         VBox container = new VBox();
-        container.setPrefSize(600,300);
+        container.setMaxSize(2000,1500);
+        container.setMinSize(600,300);
         Label managerLabel = new Label("Manager Login");
         managerLabel.setFont(new Font(20));
 
@@ -26,14 +27,16 @@ public class SignInView extends StackPane {
         usernameText = new TextField();
         usernameText.setPrefWidth(400);
         HBox userHBox = new HBox(userLabel,usernameText);
-        userHBox.setPrefWidth(600);
+        userHBox.setMinWidth(600);
+        userHBox.setMaxWidth(1800);
         userHBox.setAlignment(Pos.CENTER);
 
         Label passLabel = new Label("Password: ");
         passwordText = new TextField();
         passwordText.setPrefWidth(400);
         HBox passHBox = new HBox(passLabel,passwordText);
-        passHBox.setPrefWidth(600);
+        passHBox.setMinWidth(600);
+        passHBox.setMaxWidth(1800);
         passHBox.setAlignment(Pos.CENTER);
 
         logIn = new Button("Log In");
