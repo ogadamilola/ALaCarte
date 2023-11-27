@@ -1,14 +1,12 @@
 package project.a_la_carte.version2.kitchen;
 
+import javafx.beans.binding.Bindings;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import project.a_la_carte.version2.ProgramController;
 import project.a_la_carte.version2.WorkerView;
@@ -25,6 +23,7 @@ public class KitchenView extends StackPane implements KitchenViewsInterface {
     FlowPane ordersVBox;
     public KitchenView(WorkerView view){
         this.workerView = view;
+        this.setMaxSize(5000,2500);
         this.setPrefSize(1000,500);
 
         Label menuTitle = new Label("ORDERS");
@@ -39,12 +38,14 @@ public class KitchenView extends StackPane implements KitchenViewsInterface {
         HBox titleHBox = new HBox(menuTitle);
         titleHBox.setPrefWidth(600);
         titleHBox.setAlignment(Pos.TOP_CENTER);
+        HBox.setHgrow(titleHBox, Priority.ALWAYS);
 
         this.alertButton = new AlertButton("!");
         HBox alertBox = new HBox(sendNoteButton,alertButton);
         alertBox.setSpacing(10);
         alertBox.setPrefWidth(200);
         alertBox.setAlignment(Pos.BASELINE_RIGHT);
+        HBox.setHgrow(alertBox,Priority.ALWAYS);
 
         HBox topHBox = new HBox(menuHBox, titleHBox, alertBox);
         topHBox.setPrefWidth(1000);
@@ -58,12 +59,16 @@ public class KitchenView extends StackPane implements KitchenViewsInterface {
         ordersVBox.setVgap(3);
         //Bordering it red just to show the area the orders take up
         this.ordersVBox.setStyle("-fx-border-color: red;\n");
+        ordersVBox.prefWidthProperty().bind(Bindings.add(-2,this.widthProperty()));
+        ordersVBox.prefHeightProperty().bind(Bindings.add(-47,this.heightProperty()));
 
         ScrollPane ordersScroll = new ScrollPane(ordersVBox);
         ordersScroll.setPrefSize(1000,500);
 
         VBox align = new VBox(topHBox,ordersScroll);
         align.setPrefSize(1000,500);
+        HBox.setHgrow(topHBox,Priority.ALWAYS);
+        VBox.setVgrow(ordersScroll, Priority.ALWAYS);
 
         this.getChildren().addAll(align);
     }
