@@ -7,8 +7,8 @@ public class Ingredient{
     private IngredientType ingredientType;
     private MeasurementUnit measurementUnit;
     private boolean commonAllergen;
-
     private float pricePerUnit;
+    private double reorderPoint;
 
     public enum IngredientType{
         Proteins("Proteins"),Dairy("Dairy"),Grains("Grains"),Vegetable("Vegetables"),Sauce("Sauce"),Other("Other");
@@ -42,6 +42,7 @@ public class Ingredient{
         this.measurementUnit = MeasurementUnit.Count;
         //default to not allergen
         this.commonAllergen = false;
+        //deafault orderPoint
     }
     public String getName() {
         return name;
@@ -76,6 +77,14 @@ public class Ingredient{
 
     public float getPricePerUnit() {
         return pricePerUnit;
+    }
+
+    public void setReorderPoint(double reorderPoint) {
+        this.reorderPoint = reorderPoint;
+    }
+
+    public double getReorderPoint() {
+        return reorderPoint;
     }
 
     @Override

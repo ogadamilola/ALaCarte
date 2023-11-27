@@ -15,7 +15,7 @@ import java.util.Map;
  * Class for storing total orders for the day, ingredient usage, orders placed
  */
 public class RestaurantModel {
-    HashMap<String, Integer> menuItemMap; //track the amount of times a menu item is ordered
+    HashMap<String, Double> menuItemMap; //track the amount of times a menu item is ordered
     ArrayList<MenuItemModel> menuItemList;//store the whole menu to view
     HashMap<String, Double> ingredientUsageMap;//track ingredient usage
     ArrayList<Ingredient> ingredientList;//list of ingredients to track usage
@@ -42,7 +42,7 @@ public class RestaurantModel {
     public ArrayList<MenuItemModel> getMenuItemList() {
         return menuItemList;
     }
-    public HashMap<String, Integer> getMenuItemMap() {
+    public HashMap<String, Double> getMenuItemMap() {
         return menuItemMap;
     }
     public HashMap<String, Double> getIngredientUsageMap() {
@@ -59,10 +59,8 @@ public class RestaurantModel {
             for (MenuFoodItem item : order.getOrderList()){
                 if(menuItemMap.containsKey(item.getName())){
                     menuItemMap.compute(item.getName(),(k,v) -> v +1);
-                    System.out.println("1");
                 } else{
-                    menuItemMap.put(item.getName(),1);
-                    System.out.println("2");
+                    menuItemMap.put(item.getName(),1.0);
                 }
                 handleIngredientUsage(item);
             }
@@ -74,15 +72,23 @@ public class RestaurantModel {
     public void handleIngredientUsage(MenuFoodItem item){
         if(item.getMenuItemRecipes() !=  null){
             for(Recipe recipe : item.getMenuItemRecipes()){
-                if(recipe.getRecipeIngredients() != null){
+                //TODO will have to change to string
 
-                } else {
-                    System.out.println(recipe.getName() + " Ingredient map is empty");
+                System.out.println(recipe.getRecipeIngredients().toString());
+                for (Map.Entry<Ingredient,Double> entry : recipe.getRecipeIngredients().entrySet()){
+                    System.out.println(entry.getKey().getName() + " being added");
+                    if(ingredientUsageMap.containsKey(entry.getKey().getName())){
+                        ingredientUsageMap.compute(entry.getKey().getName(),(k,v) -> v +entry.getValue());
+                    } else{
+                        ingredientUsageMap.put(entry.getKey().getName(),entry.getValue());
+                    }
                 }
+
             }
         } else {
             System.out.println(item.getName() + " recipe list is empty");
         }
+        System.out.println(ingredientUsageMap.toString());
     }
 
     public void addSubscriber(RestaurantModelSubscriber sub){
@@ -90,14 +96,25 @@ public class RestaurantModel {
     }
     public void notifySubs(){
         for(RestaurantModelSubscriber sub : subscribers){
-            sub.restaurantModelChanged(menuItemMap,ingredientUsageMap,totalOrders,incomeToday);
+            sub.restaurantModelChanged(getMenuObservableList(),getIngredientObservableList(),totalOrders,incomeToday);
         }
 
     }
 
     public ObservableList<MenuFoodItemData> getMenuObservableList(){
         ObservableList<MenuFoodItemData> data = FXCollections.observableArrayList();
-        for(Map.Entry<String, Integer> entry : menuItemMap.entrySet()){
+        for(Map.Entry<String, Double> entry : menuItemMap.entrySet()){
+            MenuFoodItemData theData = new MenuFoodItemData(entry.getKey(), entry.getValue());
+            data.add(theData);
+
+        }
+
+        return data;
+    }
+
+    public ObservableList<MenuFoodItemData> getIngredientObservableList(){
+        ObservableList<MenuFoodItemData> data = FXCollections.observableArrayList();
+        for(Map.Entry<String, Double> entry :ingredientUsageMap.entrySet()){
             MenuFoodItemData theData = new MenuFoodItemData(entry.getKey(), entry.getValue());
             data.add(theData);
 

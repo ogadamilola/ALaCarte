@@ -7,5 +7,5 @@ import java.util.HashMap;
 
 public interface RestaurantModelSubscriber {
 
-    public void restaurantModelChanged(HashMap<String,Integer> menuItemMap, HashMap<String, Double> ingredientUsageMap, int totalOrders, float incomeToday);
+    public void restaurantModelChanged(ObservableList<MenuFoodItemData> menuItemData, ObservableList<MenuFoodItemData> ingredientUsagedata, int totalOrders, float incomeToday);
 }

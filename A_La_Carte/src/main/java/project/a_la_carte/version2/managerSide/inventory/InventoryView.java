@@ -6,6 +6,7 @@ import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -34,6 +35,10 @@ public class InventoryView extends StackPane implements InventorySubscriber {
     Button clearButton;
     Button updateButton;
     Button deleteButton;
+
+    TextField reorderText;
+
+
     TableView<IngredientData> inventoryTable;
     TableColumn<IngredientData,String> nameCol;
     TableColumn<IngredientData,Double> quantityCol;
@@ -101,6 +106,10 @@ public class InventoryView extends StackPane implements InventorySubscriber {
 
         commonAllergenCheck = new CheckBox("    Common Allergen");
 
+        reorderText = new TextField();
+        Label lowPointLabel = new Label("Reorder Point:");
+        HBox lowPointHBox = new HBox(lowPointLabel, reorderText);
+        lowPointHBox.setPadding(new Insets(30,30,30,5));
 
         //Will probably have to be a variable as well to connect with controller class
 
@@ -110,8 +119,15 @@ public class InventoryView extends StackPane implements InventorySubscriber {
         mainMenu = new Button("Main Menu");
         clearButton = new Button("Clear");
 
-        addVBox.getChildren().addAll(mainMenu, addLabel,addNameHBox, addQuantityHBox,measureHBox,typeHBox,priceBox,commonAllergenCheck,updateButton,deleteButton,clearButton, submit);
-        addVBox.setPadding(new Insets(5,5,5,5));
+        VBox rightBox = new VBox(updateButton,submit);
+        VBox leftBox = new VBox(clearButton,deleteButton);
+        HBox buttonHBox = new HBox(40);
+        buttonHBox.setPadding(new Insets(30,30,30,5));
+        buttonHBox.getChildren().addAll(leftBox,rightBox);
+
+        addVBox.getChildren().addAll(mainMenu, addLabel,addNameHBox, addQuantityHBox,measureHBox,typeHBox,priceBox,commonAllergenCheck,buttonHBox, lowPointHBox);
+        addVBox.setPadding(new Insets(5,30,5,5));
+        addVBox.setSpacing(5);
 
         inventoryTable = new TableView<>();
         nameCol = new TableColumn<>("Ingredient Name");
@@ -131,7 +147,7 @@ public class InventoryView extends StackPane implements InventorySubscriber {
 
         priceCol = new TableColumn<>("Price $");
 
-        inventoryTable.getColumns().addAll(nameCol,quantityCol,measurementUnitCol,typeCol,statusCol,priceCol);
+        inventoryTable.getColumns().addAll(nameCol,quantityCol,measurementUnitCol,statusCol,typeCol,priceCol);
         inventoryTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
         inventoryTable.setPrefSize(700,700);
@@ -204,6 +220,10 @@ public class InventoryView extends StackPane implements InventorySubscriber {
             getTypeComboBox().setValue(null);
             getMeasurementUnitComboBox().setValue(null);
             getCommonAllergenCheck().setSelected(false);
+            getPriceText().clear();
+            getReorderText().clear();
+
+
         } else{
             getNameText().setText(loadedIngredient.getName());
             getNameText().setEditable(false);
@@ -212,6 +232,8 @@ public class InventoryView extends StackPane implements InventorySubscriber {
             getTypeComboBox().setValue(loadedIngredient.getIngredientType());
             getMeasurementUnitComboBox().setValue(loadedIngredient.getMeasurementUnit());
             getCommonAllergenCheck().setSelected(loadedIngredient.isCommonAllergen());
+            getReorderText().setText(String.valueOf(loadedIngredient.getReorderPoint()));
+            getPriceText().setText(String.valueOf(loadedIngredient.getPricePerUnit()));
         }
     }
 
@@ -243,6 +265,11 @@ public class InventoryView extends StackPane implements InventorySubscriber {
     public TextField getPriceText() {
         return priceText;
     }
+
+    public TextField getReorderText() {
+        return reorderText;
+    }
+
 }
 
 
