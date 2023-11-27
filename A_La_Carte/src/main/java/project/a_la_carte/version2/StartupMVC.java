@@ -6,6 +6,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -38,7 +39,8 @@ public class StartupMVC extends StackPane {
     String selectedScreen = "startUp";
     ProgramController programController;
     public StartupMVC(){
-        this.setMaxSize(1000,500);
+        this.setMaxSize(5000,2500);
+        this.setPrefSize(1000,500);
         programController = new ProgramController();
 
         //---------------------------------------------------------
@@ -83,20 +85,20 @@ public class StartupMVC extends StackPane {
         //----------START UP MVC--------------------------
 
         signUpView = new SignUpView();
-        //signUpView.setPrefSize(600,300);
+        signUpView.setPrefSize(600,300);
         signUpView.setController(programController);
 
         programController.setSignUpView(signUpView);
 
         signInView = new SignInView();
         signInView.setPrefSize(600,300);
+        signInView.setMaxSize(2000,1500);
         signInView.setController(programController);
         programController.setSignInView(signInView);
 
 
         startUpView = new StackPane();
-        startUpView.setMaxSize(600,300);
-
+        startUpView.setPrefSize(2000,1500);
 
 
         Label welcomeLabel = new Label("A La Carte Program Main Menu");
@@ -114,6 +116,7 @@ public class StartupMVC extends StackPane {
         startUpView.getChildren().add(signInView);
 
         VBox managerSideVBox = new VBox(startUpView);
+        //managerSideVBox.setPrefSize(600,500);
         managerSideVBox.setPrefSize(600,500);
         managerSideVBox.setStyle("-fx-border-color: black;\n");
 
@@ -126,10 +129,13 @@ public class StartupMVC extends StackPane {
         workerBox.setStyle("-fx-border-color: black;\n");
 
         HBox alignBody = new HBox(managerSideVBox,workerBox);
-        alignBody.setPrefSize(1000,500);
+        alignBody.setMaxSize(5000,2500);
+        HBox.setHgrow(managerSideVBox, Priority.ALWAYS);
+        HBox.setHgrow(workerBox, Priority.ALWAYS);
 
         VBox startUpAlign = new VBox(welcomeBox,alignBody);
-        startUpAlign.setPrefSize(1000,500);
+        startUpAlign.setMaxSize(5000,5000);
+        VBox.setVgrow(alignBody, Priority.ALWAYS);
 
         programController.setStartupMVC(this);
         this.setController(programController);
