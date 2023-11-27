@@ -64,5 +64,29 @@
     "ingredientType": "Proteins",
     "measurementUnit": "Pounds",
     "commonAllergen": false
+  },
+  {
+    "name": "Ketchup",
+    "ingredientType": "Sauce",
+    "measurementUnit": "Pounds",
+    "commonAllergen": false
+  },
+  {
+    "name": "Mustard",
+    "ingredientType": "Sauce",
+    "measurementUnit": "Pounds",
+    "commonAllergen": false
+  },
+  {
+    "name": "Sliced Pickles",
+    "ingredientType": "Vegetable",
+    "measurementUnit": "Pounds",
+    "commonAllergen": false
+  },
+  {
+    "name": "Sliced Onions",
+    "ingredientType": "Vegetable",
+    "measurementUnit": "Pounds",
+    "commonAllergen": false
   }
 ]

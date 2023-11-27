@@ -309,11 +309,12 @@ public class ProgramController {
             String recipeInstruction = recipeMakerView.getRecipeInstruction().getText();
             double recipePrepTime = Double.parseDouble(recipeMakerView.getRecipePrep().getText());
 
-            HashMap<Ingredient, Double> ingredientMap = new HashMap<>();
+            HashMap<String, Double> ingredientMap = new HashMap<>();
 
-            for (Map.Entry<Ingredient, Double> entry : startupMVC.getRecipeInteractiveModel().getTemporaryIngredientMap().entrySet()) {
+            for (Map.Entry<String, Double> entry : startupMVC.getRecipeInteractiveModel().getTemporaryIngredientMap().entrySet()) {
                 Double ingredientQuantity;
-                if (entry.getKey().getMeasurementUnit() == Ingredient.MeasurementUnit.Pounds) {
+
+                if (searchIngredientByName(entry.getKey()).getMeasurementUnit() == Ingredient.MeasurementUnit.Pounds) {
                     ingredientQuantity = ozToPounds(entry.getValue());//convert the oz number inputted for the recipe to pounds
                 } else {
                     ingredientQuantity = entry.getValue();
@@ -433,7 +434,7 @@ public class ProgramController {
             Ingredient ingredient = searchIngredientByName(ingredientName);
             Double recipeQuantity = Double.valueOf(recipeMakerView.getEnterMeasurementField().getText());
             //find the ingredient;
-            startupMVC.getRecipeInteractiveModel().addToTempMap(ingredient, recipeQuantity);
+            startupMVC.getRecipeInteractiveModel().addToTempMap(ingredient.getName(), recipeQuantity);
             //add ingredient to temp list of ingredients to be displayed
         }
         catch(NumberFormatException e){
