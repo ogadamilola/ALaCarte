@@ -38,11 +38,13 @@ public class MenuView extends StackPane implements ServerViewInterface {
     Label title;
     Label total;
     ArrayList<MenuFoodItem> menuFoodDisplayList;
+    ArrayList<MenuFoodItem> itemsToBeRemoved;
     MenuFoodItem selectedItem;
     Order currentOrder;
     float price = 0;
     public MenuView(WorkerView view){
         menuFoodDisplayList = new ArrayList<>();
+        itemsToBeRemoved = new ArrayList<>();
         this.workerView = view;
         this.setMaxSize(5000,2500);
         this.setPrefSize(1000,500);
@@ -223,10 +225,11 @@ public class MenuView extends StackPane implements ServerViewInterface {
     public void addMenuDisplay(MenuFoodItem foodItem){
         this.menuFoodDisplayList.add(foodItem);
     }
-    public Boolean containsMenuDisplay(String foodName){
+    public Boolean containsMenuDisplay(MenuFoodItem foodName){
         AtomicReference<Boolean> check = new AtomicReference<>(false);
         menuFoodDisplayList.forEach(foodItem -> {
-            if (foodItem.getName().equals(foodName)) {
+            if ((foodItem.getName().equals(foodName.getName())) && (foodItem.getDescription().equals(foodName.getDescription()))
+            && (foodItem.getPrice() == foodName.getPrice()) && (foodItem.getPrepTime() == foodName.getPrepTime())) {
                 check.set(true);
             }
         });
@@ -250,6 +253,7 @@ public class MenuView extends StackPane implements ServerViewInterface {
     }
     @Override
     public void modelChanged() {
+        itemsToBeRemoved.clear();
         if (!serverModel.getNoteList().isEmpty()){
             alertButton.notificationYes();
         }
@@ -259,17 +263,32 @@ public class MenuView extends StackPane implements ServerViewInterface {
         if (serverModel.getMenuItemList() != null){
             serverModel.getMenuItemList().forEach((item -> {
                 MenuFoodItem newItem = new MenuFoodItem(item.getMenuItemRecipes(), item.getName(), item.getDescription());
+                newItem.setPrice(item.getPrice());
+                newItem.setPrepTime(item.getPrepTime());
                 newItem.getDisplay().setText(newItem.getName());
                 newItem.getDisplay().setOnAction((event -> {
                     this.serverModel.setSelectedMenuItem(newItem, this.menuFoodDisplayList);
                     newItem.selectDisplay();
                     this.selectedItem = newItem;
                 }));
-                if (!this.containsMenuDisplay(newItem.getName())) {
+                if (!this.containsMenuDisplay(newItem)) {
                     this.addMenuDisplay(newItem);
-                    menuDisplay.getChildren().add(newItem.getDisplay());
                 }
             }));
+        }
+        menuDisplay.getChildren().clear();
+        this.menuFoodDisplayList.forEach(foodItem -> {
+            if (serverModel.containsMenuItem(foodItem)) {
+                menuDisplay.getChildren().add(foodItem.getDisplay());
+            }
+            else{
+                itemsToBeRemoved.add(foodItem);
+            }
+        });
+        if (!itemsToBeRemoved.isEmpty()){
+            itemsToBeRemoved.forEach(remove -> {
+                menuFoodDisplayList.remove(remove);
+            });
         }
         this.menuFoodDisplayList.forEach((foodItem -> {
             if (foodItem.getSelectedStatus()){

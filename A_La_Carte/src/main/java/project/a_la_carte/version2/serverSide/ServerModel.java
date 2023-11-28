@@ -8,6 +8,7 @@ import project.a_la_carte.version2.serverSide.widgets.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class ServerModel {
     List<ServerViewInterface> subscribers;
@@ -113,6 +114,16 @@ public class ServerModel {
         notifySubscribers();
     }
 
+    public boolean containsMenuItem(MenuFoodItem item){
+        AtomicReference<Boolean> check = new AtomicReference<>(false);
+        this.menuItemList.forEach(foodItem -> {
+            if (foodItem.getName().equals(item.getName()) && foodItem.getDescription().equals(item.getDescription())
+            && foodItem.getPrice() == item.getPrice() && foodItem.getPrepTime() == item.getPrepTime()){
+                check.set(true);
+            }
+        });
+        return check.get();
+    }
     public MenuFoodItem getSelectedItem(){
         return this.selectedMenuItem;
     }
