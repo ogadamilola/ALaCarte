@@ -549,9 +549,7 @@ public class ProgramController {
      * null if not found
      */
     public Ingredient searchIngredientByName(String name){
-
         return this.startupMVC.getInventoryModel().getIngredientMap().get(name);
-
     }
 
 
@@ -630,7 +628,7 @@ public class ProgramController {
             if (menuItemMakerView.getMenuItemName() != null && menuItemMakerView.getMenuItemDescription() != null) {
                 MenuFoodItem newItem = new MenuFoodItem(startupMVC.getMenuItemModel().getAddedRecipes(), menuItemMakerView.getMenuItemName(), menuItemMakerView.getMenuItemDescription());
                 if (!menuItemMakerView.getMenuPrice().isBlank()) {
-                    newItem.setPrice(menuItemMakerView.setMenuPrice());
+                    newItem.setPrice(Float.parseFloat(menuItemMakerView.getMenuPrice()));
                 }
                 if (!menuItemMakerView.getMenuPrep().isBlank()) {
                     newItem.setPrepTime(menuItemMakerView.setMenuPrep());

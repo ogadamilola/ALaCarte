@@ -219,6 +219,7 @@ public class MenuView extends StackPane implements ServerViewInterface {
             controller.saveCustomize(this.workerView);
         });
 
+
     }
     public void addMenuDisplay(MenuFoodItem foodItem){
         this.menuFoodDisplayList.add(foodItem);
