@@ -14,7 +14,6 @@ import project.a_la_carte.version2.classesObjects.*;
 import project.a_la_carte.version2.interfaces.StaffModelSubscriber;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /*This view pretty much mirrors Inventory View*/
 public class StaffInfoView extends StackPane implements StaffModelSubscriber {
@@ -24,7 +23,7 @@ public class StaffInfoView extends StackPane implements StaffModelSubscriber {
     TextField sinText;
     TextField userText;
     TextField passwordText;
-    ComboBox<Staff.position> positionComboBox;
+    ComboBox<project.a_la_carte.version2.classesObjects.Staff.position> positionComboBox;
     VBox listVBox;
     VBox addVBox;
     Button submit;
@@ -32,17 +31,17 @@ public class StaffInfoView extends StackPane implements StaffModelSubscriber {
     Button clearButton;
     Button updateButton;
     Button deleteButton;
-
+    Button dashboardButton;
     HBox userHBox;
     HBox passwordHBox;
 
 
-    javafx.scene.control.TableView<StaffData> staffTable;
-    TableColumn<StaffData,String> iDCol;
-    TableColumn<StaffData,String> fNameCol;
-    TableColumn<StaffData,String> lNameCol;
-    TableColumn<StaffData,String> positionCol;
-    TableColumn<StaffData,Integer> sinCol;
+    javafx.scene.control.TableView<project.a_la_carte.version2.classesObjects.StaffData> staffTable;
+    TableColumn<project.a_la_carte.version2.classesObjects.StaffData,String> iDCol;
+    TableColumn<project.a_la_carte.version2.classesObjects.StaffData,String> fNameCol;
+    TableColumn<project.a_la_carte.version2.classesObjects.StaffData,String> lNameCol;
+    TableColumn<project.a_la_carte.version2.classesObjects.StaffData,String> positionCol;
+    TableColumn<project.a_la_carte.version2.classesObjects.StaffData,Integer> sinCol;
 
     public StaffInfoView(){
         this.setMaxSize(1000,500);
@@ -94,8 +93,8 @@ public class StaffInfoView extends StackPane implements StaffModelSubscriber {
         positionComboBox = new ComboBox<>();
         positionComboBox.getEditor().setId("Position...");
 
-        positionComboBox.getItems().add(Staff.position.Cook);
-        positionComboBox.getItems().add(Staff.position.Server);
+        positionComboBox.getItems().add(project.a_la_carte.version2.classesObjects.Staff.position.Cook);
+        positionComboBox.getItems().add(project.a_la_carte.version2.classesObjects.Staff.position.Server);
 
         postionHBox.getChildren().addAll(postionLabel,positionComboBox);
 
@@ -104,6 +103,7 @@ public class StaffInfoView extends StackPane implements StaffModelSubscriber {
         deleteButton = new Button("Delete Item");
         mainMenu = new Button("Main Menu");
         clearButton = new Button("Clear");
+        dashboardButton = new Button("Dashboard");
 
         addVBox.getChildren().addAll(mainMenu,addLabel, fNameHBox,lNameHBox,idHBox,sinHBox,postionHBox,updateButton,deleteButton,clearButton, submit);
         addVBox.setPadding(new Insets(5,5,5,5));
@@ -116,8 +116,6 @@ public class StaffInfoView extends StackPane implements StaffModelSubscriber {
         Label passLabel = new Label("Change password: ");
         passwordText = new TextField();
         passwordHBox = new HBox(passLabel,passwordText);
-
-
 
 
         staffTable = new javafx.scene.control.TableView<>();
@@ -136,11 +134,9 @@ public class StaffInfoView extends StackPane implements StaffModelSubscriber {
         staffTable.setColumnResizePolicy(javafx.scene.control.TableView.CONSTRAINED_RESIZE_POLICY);
         staffTable.setPrefSize(700,500);
 
-
-
-
         listVBox.setPrefSize(700,500);
         listVBox.setStyle("-fx-border-color: black;\n");
+        listVBox.getChildren().add(dashboardButton);
         listVBox.getChildren().add(staffTable);
         listVBox.setPadding(new Insets(5,5,5,5));
 
@@ -157,19 +153,20 @@ public class StaffInfoView extends StackPane implements StaffModelSubscriber {
         staffTable.setOnMouseClicked(controller::loadStaff);
         updateButton.setOnAction(controller::updateStaff);
         deleteButton.setOnAction(controller::deleteStaff);
-
+        dashboardButton.setOnAction(controller::openDashboardView);
     }
 
     @Override
-    public void modelChanged(ArrayList<Staff> staffList, Staff loadedStaff) {
+    public void modelChanged(ArrayList<project.a_la_carte.version2.classesObjects.Staff> staffList, project.a_la_carte.version2.classesObjects.Staff loadedStaff) {
         clearFields();
         addVBox.getChildren().remove(userHBox);
         addVBox.getChildren().remove(passwordHBox);
         listVBox.getChildren().clear();//redraw list
+        listVBox.getChildren().add(dashboardButton);
         listVBox.getChildren().add(staffTable);
-        ObservableList<StaffData> data = FXCollections.observableArrayList();
-        for(Staff staff : staffList){
-            StaffData theData = new StaffData(staff);
+        ObservableList<project.a_la_carte.version2.classesObjects.StaffData> data = FXCollections.observableArrayList();
+        for(project.a_la_carte.version2.classesObjects.Staff staff : staffList){
+            project.a_la_carte.version2.classesObjects.StaffData theData = new project.a_la_carte.version2.classesObjects.StaffData(staff);
             data.add(theData);
         }
 
@@ -194,7 +191,7 @@ public class StaffInfoView extends StackPane implements StaffModelSubscriber {
             passwordText.clear();
 
             //if the staff is a manager load the log in
-            if (loadedStaff.getPosition() == Staff.position.Manager) {
+            if (loadedStaff.getPosition() == project.a_la_carte.version2.classesObjects.Staff.position.Manager) {
                 positionComboBox.setEditable(false);
                 addVBox.getChildren().addAll(userHBox, passwordHBox);
                 userText.setText(loadedStaff.getUsername());
@@ -218,7 +215,7 @@ public class StaffInfoView extends StackPane implements StaffModelSubscriber {
     public TextField getlNameText() {
         return lNameText;
     }
-    public ComboBox<Staff.position> getPositionComboBox() {
+    public ComboBox<project.a_la_carte.version2.classesObjects.Staff.position> getPositionComboBox() {
         return positionComboBox;
     }
     public TextField getSinText() {
@@ -228,7 +225,7 @@ public class StaffInfoView extends StackPane implements StaffModelSubscriber {
         return idText;
     }
 
-    public TableView<StaffData> getStaffTable() {
+    public TableView<project.a_la_carte.version2.classesObjects.StaffData> getStaffTable() {
         return staffTable;
     }
 
