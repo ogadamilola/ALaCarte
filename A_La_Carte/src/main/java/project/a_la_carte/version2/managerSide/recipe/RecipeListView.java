@@ -12,12 +12,14 @@ import javafx.scene.text.Font;
 import project.a_la_carte.version2.ProgramController;
 import project.a_la_carte.version2.classesObjects.*;
 import project.a_la_carte.version2.interfaces.*;
+import project.a_la_carte.version2.managerSide.inventory.InventoryModel;
 
 import java.util.List;
 import java.util.Map;
 
 public class RecipeListView extends StackPane implements RecipeModelSubscriber, RecipeInteractiveModelSubsciber {
     RecipeModel recipeModel;
+    InventoryModel inventoryModel;
 
     //Recipe Table
     TableView<RecipeData> recipeTable;
@@ -251,10 +253,11 @@ public class RecipeListView extends StackPane implements RecipeModelSubscriber, 
      * update the recipe imodel and use it to display selected recipe ingredients
      * @param tempIngredientList
      */
-    public void iModelChanged(Map<Ingredient, Double> tempIngredientList,Recipe loadedRecipe,boolean isCreating) {
+    public void iModelChanged(Map<String, Double> tempIngredientList,Recipe loadedRecipe,boolean isCreating) {
 
 
         ObservableList<IngredientData> ingredientData = FXCollections.observableArrayList();
+
 
         if(loadedRecipe == null){
             getRecipeNameText().clear();
@@ -270,9 +273,13 @@ public class RecipeListView extends StackPane implements RecipeModelSubscriber, 
             getRecipePrepIText().setText(loadedRecipe.getPrepInstruction());
             getRecipePrepTimeText().setText(String.valueOf(loadedRecipe.getPrepTime()));
 
-            for(Map.Entry<Ingredient, Double> entry : loadedRecipe.getRecipeIngredients().entrySet()){
+            //getting inv model to search for ingredient by name from passed string in map
+            InventoryModel tempInvModel = new InventoryModel();
+
+            for(Map.Entry<String, Double> entry : loadedRecipe.getRecipeIngredients().entrySet()){
                 Double ingredientQuantity = entry.getValue();
-                Ingredient ingredient = entry.getKey();
+                Ingredient ingredient = tempInvModel.getIngredientFromList(entry.getKey());
+
                 IngredientData iData = new IngredientData(ingredient,ingredientQuantity);
                 ingredientData.add(iData);
             }

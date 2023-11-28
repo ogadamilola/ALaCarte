@@ -12,6 +12,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import project.a_la_carte.version2.classesObjects.*;
+import project.a_la_carte.version2.managerSide.inventory.InventoryModel;
 
 import java.util.Map;
 
@@ -32,9 +33,11 @@ public class ShowRecipeInfoView {
         //same code from IModel changed, could be refactored in the future to clean up
         ObservableList<IngredientData> ingredientData = FXCollections.observableArrayList();
 
-        for(Map.Entry<Ingredient, Double> entry : recipe.getRecipeIngredients().entrySet()){
+        InventoryModel tempInvModel = new InventoryModel();
+
+        for(Map.Entry<String, Double> entry : recipe.getRecipeIngredients().entrySet()){
             Double ingredientQuantity = entry.getValue();
-            Ingredient ingredient = entry.getKey();
+            Ingredient ingredient = tempInvModel.getIngredientFromList(entry.getKey());
             IngredientData iData = new IngredientData(ingredient,ingredientQuantity);
             ingredientData.add(iData);
         }

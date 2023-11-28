@@ -1,0 +1,60 @@
+[
+  {
+    "ingredientMap": {
+      "Meatballs": 0.2,
+      "Spaghetti": 0.4,
+      "Tomato Sauce": 0.3
+    },
+    "ingredientList": [],
+    "name": "Spaghetti Meatball",
+    "description": "Spaghetti with meatballs and sauce",
+    "prepInstruction": "Put spag on plate",
+    "price": 15.0,
+    "prepTime": 10.0,
+    "selectedStatus": false
+  },
+  {
+    "ingredientMap": {
+      "Burger Patty": 1.0,
+      "Lettuce": 0.0,
+      "Ketchup": 0.0,
+      "Sliced Onions": 0.0,
+      "Meatballs": 0.0,
+      "Spaghetti": 0.0,
+      "Sliced Pickles": 0.0,
+      "Mustard": 0.0,
+      "Burger Bun": 1.0,
+      "Mayo": 0.0,
+      "Tomato Sauce": 0.0
+    },
+    "ingredientList": [],
+    "name": "Cheese burger",
+    "description": "Burger with cheese and lettuce",
+    "prepInstruction": "Toast bun.\nMelt cheese on top of patty.\nPut mustard, ketchup, onions \u0026 patty with cheese on bottom bun.\nPut mayo \u0026 lettuce on top bun.\nCut in half.",
+    "price": 24.0,
+    "prepTime": 12.0,
+    "selectedStatus": false
+  },
+  {
+    "ingredientMap": {
+      "Burger Patty": 1.0,
+      "Lettuce": 0.0,
+      "Meatballs": 0.0,
+      "Ketchup": 0.0,
+      "Sliced Onions": 0.0,
+      "Spaghetti": 0.0,
+      "Sliced Pickles": 0.0,
+      "Mustard": 0.0,
+      "Burger Bun": 1.0,
+      "Tomato Sauce": 0.0,
+      "Mayo": 0.0
+    },
+    "ingredientList": [],
+    "name": "Hamburger",
+    "description": "Burger with mustard, ketchup, pickles, onions and mayonnaise",
+    "prepInstruction": "Put mustard, ketchup, pickles, onions \u0026 burger patty on toasted bottom bun.\nPut mayo on top bun.\nCut in half.",
+    "price": 17.0,
+    "prepTime": 8.0,
+    "selectedStatus": false
+  }
+]

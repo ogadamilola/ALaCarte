@@ -10,17 +10,17 @@ import java.util.List;
 import java.util.Map;
 
 public class RecipeInteractiveModel {
-    Map<Ingredient, Double> temporaryIngredientMap;
+    Map<String, Double> temporaryIngredientMap;
     List<RecipeInteractiveModelSubsciber> subsciberList;
 
     Recipe loadedRecipe;
-    Map<Ingredient, Double> loadedRecipeSavedIngredientsMap;
+    Map<String, Double> loadedRecipeSavedIngredientsMap;
 
     boolean isCreating;
 
     public RecipeInteractiveModel(){
 
-        temporaryIngredientMap = new HashMap<Ingredient,Double>();
+        temporaryIngredientMap = new HashMap<String,Double>();
         subsciberList = new ArrayList<RecipeInteractiveModelSubsciber>();
         loadedRecipe = null;
         isCreating = false;
@@ -45,7 +45,7 @@ public class RecipeInteractiveModel {
         notifySubscribers();
     }
     public void updateTempMap(){
-        for(Map.Entry<Ingredient,Double> entry : loadedRecipeSavedIngredientsMap.entrySet()){
+        for(Map.Entry<String,Double> entry : loadedRecipeSavedIngredientsMap.entrySet()){
             temporaryIngredientMap.put(entry.getKey(),entry.getValue());
         }
     }
@@ -61,12 +61,12 @@ public class RecipeInteractiveModel {
         return loadedRecipe;
     }
 
-    public void setLoadedRecipeSavedIngredientsMap(Map<Ingredient, Double> loadedRecipeSavedIngredientsMap) {
+    public void setLoadedRecipeSavedIngredientsMap(Map<String, Double> loadedRecipeSavedIngredientsMap) {
         this.loadedRecipeSavedIngredientsMap = loadedRecipeSavedIngredientsMap;
     }
 
-    public void addToTempMap(Ingredient ingredient, Double recipeQuantity){
-            temporaryIngredientMap.put(ingredient, recipeQuantity);
+    public void addToTempMap(String ingredientName, Double recipeQuantity){
+            temporaryIngredientMap.put(ingredientName, recipeQuantity);
             notifySubscribers();
 
     }
@@ -87,7 +87,7 @@ public class RecipeInteractiveModel {
         subsciberList.add(sub);
     }
 
-    public Map<Ingredient, Double> getTemporaryIngredientMap() {
+    public Map<String, Double> getTemporaryIngredientMap() {
         return temporaryIngredientMap;
     }
 
