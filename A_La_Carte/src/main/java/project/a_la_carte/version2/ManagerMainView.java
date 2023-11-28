@@ -12,6 +12,7 @@ import javafx.scene.text.Font;
 import project.a_la_carte.version2.managerSide.RestaurantInfo.RestaurantInfoView;
 import project.a_la_carte.version2.managerSide.inventory.InventoryView;
 import project.a_la_carte.version2.managerSide.recipe.*;
+import project.a_la_carte.version2.managerSide.staff.DashboardView;
 import project.a_la_carte.version2.menuItems.*;
 import project.a_la_carte.version2.managerSide.staff.StaffInfoView;
 
@@ -23,6 +24,7 @@ public class ManagerMainView extends StackPane {
     MenuItemMakerView menuItemMakerView;
     RestaurantInfoView restaurantInfoView;
     StaffInfoView staffInfoView;
+    DashboardView dashboardView;
     StackPane managerMainScreen;
     Button inventoryButton;
     Button recipeButton;
@@ -54,6 +56,9 @@ public class ManagerMainView extends StackPane {
 
         staffInfoView = new StaffInfoView();
         staffInfoView.setController(startupMVC.getController());
+
+        dashboardView = new DashboardView();
+        dashboardView.setController(startupMVC.getController());
 
         restaurantInfoView = new RestaurantInfoView();
         restaurantInfoView.setController(startupMVC.getController());
@@ -182,6 +187,7 @@ public class ManagerMainView extends StackPane {
     public void selectMenuMakerView(){this.selectedScreen = "menuMaker";}
     public void selectStaffInfoView(){this.selectedScreen = "staffInfo";}
     public void selectRestaurantInfoView(){this.selectedScreen = "restaurantInfo";}
+    public void selectDashboardView() {this.selectedScreen = "dashboard";}
     public void modelChanged() {
         this.getChildren().clear();
         switch (this.selectedScreen) {
@@ -193,8 +199,8 @@ public class ManagerMainView extends StackPane {
             case "menuMaker" -> this.getChildren().add(menuItemMakerView);
             case "staffInfo" -> this.getChildren().add(staffInfoView);
             case "restaurantInfo" -> this.getChildren().add(restaurantInfoView);
+            case "dashboard" -> this.getChildren().add(dashboardView);
         }
     }
-
 
 }
