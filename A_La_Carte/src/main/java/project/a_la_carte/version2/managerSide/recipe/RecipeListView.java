@@ -47,8 +47,6 @@ public class RecipeListView extends StackPane implements RecipeModelSubscriber, 
     //-------------------------
     Button mainMenu;
     Button createNewButton;
-    //Don't know if save changes will still be needed
-    Button saveChangesButton;
     Button deleteButton;
     Button editIngredients;
     Button showRecipe;
@@ -276,9 +274,10 @@ public class RecipeListView extends StackPane implements RecipeModelSubscriber, 
             //getting inv model to search for ingredient by name from passed string in map
             InventoryModel tempInvModel = new InventoryModel();
 
+
             for(Map.Entry<String, Double> entry : loadedRecipe.getRecipeIngredients().entrySet()){
                 Double ingredientQuantity = entry.getValue();
-                Ingredient ingredient = tempInvModel.getIngredientFromList(entry.getKey());
+                Ingredient ingredient = tempInvModel.getIngredientMap().get(entry.getKey());
 
                 IngredientData iData = new IngredientData(ingredient,ingredientQuantity);
                 ingredientData.add(iData);

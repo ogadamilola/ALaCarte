@@ -184,20 +184,20 @@ public class RecipeMakerView extends StackPane implements InventorySubscriber, R
      * new ingredient added to InventoryModel
      * @param ingredientInventory
      */
-    public void modelChanged(Map<String, Double> ingredientInventory, Ingredient loadedIngredient, ArrayList<Ingredient> list) {
+    public void modelChanged(Map<String, Double> ingredientInventory, Ingredient loadedIngredient, Map<String,Ingredient> ingredientMap) {
         ingredientMenuBar.getMenus().clear();
-        for(Ingredient.IngredientType type : Ingredient.IngredientType.values()){
+
+        for (Ingredient.IngredientType type : Ingredient.IngredientType.values()) {
 
             Menu typeMenu = new Menu(type.getName());
             //for each ingredient with the same type make it a menu item
-            for(Map.Entry<String, Double> entry :ingredientInventory.entrySet() ){
-                Ingredient ingredient = inventoryModel.getIngredientFromList(entry.getKey());
+            for (Map.Entry<String, Double> entry : ingredientInventory.entrySet()) {
+                Ingredient ingredient = ingredientMap.get(entry.getKey());
 
-                if(ingredient.getIngredientType().getName().equals(type.getName())){
+                if (ingredient.getIngredientType().getName().equals(type.getName())) {
                     MenuItem menuItem = new MenuItem(ingredient.getName());
                     typeMenu.getItems().add(menuItem);
 
-                    //System.out.println("Added: " + entry.getKey().getName() + " to " + type.getName() + " menu");
                 }
 
             }
@@ -215,7 +215,7 @@ public class RecipeMakerView extends StackPane implements InventorySubscriber, R
         ObservableList<IngredientData> data =  FXCollections.observableArrayList();
         ingredientTable.setItems(data);
         for (Map.Entry<String, Double> entry : tempIngredientList.entrySet()) {
-            Ingredient ingredient = inventoryModel.getIngredientFromList(entry.getKey());
+            Ingredient ingredient = inventoryModel.getIngredientMap().get(entry.getKey());
             Double quantity = entry.getValue();
             IngredientData theData = new IngredientData(ingredient,quantity);
             data.add(theData);

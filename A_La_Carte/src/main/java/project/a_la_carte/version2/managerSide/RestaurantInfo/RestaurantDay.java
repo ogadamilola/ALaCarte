@@ -47,12 +47,12 @@ public class RestaurantDay {
             for(Recipe recipe : item.getMenuItemRecipes()){
                 //FIXME will have to change to string
 
-                for (Map.Entry<Ingredient,Double> entry : recipe.getRecipeIngredients().entrySet()){
+                for (Map.Entry<String,Double> entry : recipe.getRecipeIngredients().entrySet()){
 
-                    if(ingredientUsageMap.containsKey(entry.getKey().getName())){
-                        ingredientUsageMap.compute(entry.getKey().getName(),(k,v) -> v +entry.getValue());
+                    if(ingredientUsageMap.containsKey(entry.getKey())){
+                        ingredientUsageMap.compute(entry.getKey(),(k,v) -> v +entry.getValue());
                     } else{
-                        ingredientUsageMap.put(entry.getKey().getName(),entry.getValue());
+                        ingredientUsageMap.put(entry.getKey(),entry.getValue());
                     }
                 }
 

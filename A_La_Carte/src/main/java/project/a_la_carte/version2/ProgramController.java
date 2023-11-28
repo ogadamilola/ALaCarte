@@ -547,14 +547,9 @@ public class ProgramController {
      * null if not found
      */
     public Ingredient searchIngredientByName(String name){
-        for(String key: this.startupMVC.getInventoryModel().getIngredientMap().keySet()){
-            if(key.equals(name)){
 
-                return this.startupMVC.getInventoryModel().getIngredientFromList(name);
-            }
-        }
-        //handle error better
-        return null;
+        return this.startupMVC.getInventoryModel().getIngredientMap().get(name);
+
     }
 
 

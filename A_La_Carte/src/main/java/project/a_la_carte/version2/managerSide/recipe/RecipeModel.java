@@ -8,6 +8,7 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import project.a_la_carte.version2.classesObjects.*;
 import project.a_la_carte.version2.interfaces.*;
+import project.a_la_carte.version2.managerSide.inventory.InventoryModel;
 import project.a_la_carte.version2.menuItems.widgets.MenuItemRecipeButton;
 
 import java.io.File;
@@ -18,6 +19,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class RecipeModel {
     RecipeListView recipeListView;
@@ -26,6 +28,9 @@ public class RecipeModel {
     List<RecipeModelSubscriber> subscriberList;
     private static final String FILE_PATH = "recipes.json";
 
+    public RecipeModel(){
+        InventoryModel model = new InventoryModel();
+        recipeList = new ArrayList<>();
 
         //reading in json file
         Gson gson = new GsonBuilder()
@@ -43,7 +48,8 @@ public class RecipeModel {
         }
 
         subscriberList = new ArrayList<>();
-        ArrayList<Ingredient> ingredients = model.getIngredientList();
+        Map<String,Ingredient> ingredients = model.getIngredientMap();
+
 
         //setting buttons for all recipes loaded in
         for (Recipe r : recipeList) {

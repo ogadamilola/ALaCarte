@@ -6,5 +6,5 @@ import java.util.ArrayList;
 import java.util.Map;
 
 public interface InventorySubscriber {
-    public void modelChanged(Map<String, Double> ingredientInventory, Ingredient loadedIngredient, ArrayList<Ingredient> ingredientList);
+    public void modelChanged(Map<String, Double> ingredientInventory, Ingredient loadedIngredient, Map<String,Ingredient> ingredientMap);
 }

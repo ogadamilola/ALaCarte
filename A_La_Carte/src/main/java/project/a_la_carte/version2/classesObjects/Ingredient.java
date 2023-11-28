@@ -31,11 +31,9 @@ public class Ingredient{
             return name;
         }
     }
-    /**
-     * @param name of ingredient
-     */
-    public Ingredient(String name){
-        this.name = name;
+
+    public Ingredient(){
+        this.name = "";
         //default to other
         this.ingredientType = IngredientType.Other;
         //default to count
@@ -101,8 +99,16 @@ public class Ingredient{
     }
 
 
-
-
-
+    @Override
+    public String toString() {
+        return "Ingredient{" +
+                "name='" + name + '\'' +
+                ", ingredientType=" + ingredientType +
+                ", measurementUnit=" + measurementUnit +
+                ", commonAllergen=" + commonAllergen +
+                ", pricePerUnit=" + pricePerUnit +
+                ", reorderPoint=" + reorderPoint +
+                '}';
+    }
 }
 
