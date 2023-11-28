@@ -22,13 +22,10 @@ import java.util.List;
 public class RecipeModel {
     RecipeListView recipeListView;
     RecipeMakerView recipeMakerView;
-
     List<Recipe> recipeList;
-
     List<RecipeModelSubscriber> subscriberList;
     private static final String FILE_PATH = "recipes.json";
 
-    public RecipeModel(){
 
         //reading in json file
         Gson gson = new GsonBuilder()
@@ -46,6 +43,7 @@ public class RecipeModel {
         }
 
         subscriberList = new ArrayList<>();
+        ArrayList<Ingredient> ingredients = model.getIngredientList();
 
         //setting buttons for all recipes loaded in
         for (Recipe r : recipeList) {

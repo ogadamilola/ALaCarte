@@ -6,11 +6,13 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
 import project.a_la_carte.version2.kitchen.*;
+import project.a_la_carte.version2.managerSide.RestaurantInfo.RestaurantModel;
 import project.a_la_carte.version2.managerSide.inventory.*;
 import project.a_la_carte.version2.managerSide.recipe.*;
 import project.a_la_carte.version2.managerSide.staff.StaffModel;
@@ -23,8 +25,8 @@ import project.a_la_carte.version2.serverSide.*;
  */
 public class StartupMVC extends StackPane {
     StackPane startUpView;
-    VBox signUpView;
-    VBox signInView;
+    SignUpView signUpView;
+    SignInView signInView;
     InventoryModel inventoryModel;
     RecipeModel recipeModel;
     RecipeInteractiveModel recipeInteractiveModel;
@@ -32,18 +34,16 @@ public class StartupMVC extends StackPane {
     KitchenModel kitchenModel;
     MenuItemModel menuItemModel;
     StaffModel staffModel;
-    Button managerButton;
-    Button createAccButton;
-    Button signUpButton;
+    RestaurantModel restaurantModel;
     Button workerButton;
-    Button backButton;
-    TextField usernameText;
-    TextField passwordText;
     String selectedScreen = "startUp";
     ProgramController programController;
     public StartupMVC(){
-        this.setMaxSize(1000,500);
+        this.setMaxSize(5000,2500);
+        this.setPrefSize(1000,500);
         programController = new ProgramController();
+
+        //---------------------------------------------------------
 
         //------------------------------------------
         //---------INVENTORY MVC-------------------------------------
@@ -77,16 +77,29 @@ public class StartupMVC extends StackPane {
         staffModel = new StaffModel();
         //--------------------------------------------------------
 
+        //-----------Restaurant Model------------------------
+        restaurantModel = new RestaurantModel();
+        //--------------------------------------------------------
+
         //------------------------------------------------
         //----------START UP MVC--------------------------
-        startUpView = new StackPane();
-        startUpView.setMaxSize(600,300);
 
-        signUpView = new VBox();
+        signUpView = new SignUpView();
         signUpView.setPrefSize(600,300);
+        signUpView.setController(programController);
 
-        signInView = new VBox();
+        programController.setSignUpView(signUpView);
+
+        signInView = new SignInView();
         signInView.setPrefSize(600,300);
+        signInView.setMaxSize(2000,1500);
+        signInView.setController(programController);
+        programController.setSignInView(signInView);
+
+
+        startUpView = new StackPane();
+        startUpView.setPrefSize(2000,1500);
+
 
         Label welcomeLabel = new Label("A La Carte Program Main Menu");
         welcomeLabel.setFont(new Font(40));
@@ -95,50 +108,15 @@ public class StartupMVC extends StackPane {
         welcomeBox.setAlignment(Pos.CENTER);
         welcomeBox.setStyle("-fx-border-color: black;\n");
 
-        Label managerLabel = new Label("Manager Login");
-        managerLabel.setFont(new Font(20));
-        Label userLabel = new Label("Username: ");
-        usernameText = new TextField();
-        usernameText.setPrefWidth(400);
-
-        Label passLabel = new Label("Password: ");
-        passwordText = new TextField();
-        passwordText.setPrefWidth(400);
-
-        VBox textBox = new VBox(managerLabel, userLabel,usernameText,passLabel,passwordText);
-        textBox.setPadding(new Insets(5));
-        textBox.setPrefSize(600,200);
-
-        managerButton = new Button("LogIn");
-        managerButton.setFont(new Font(20));
-        managerButton.setPrefSize(200,20);
-        createAccButton = new Button("Sign-up");
-        createAccButton.setFont(new Font(20));
-        createAccButton.setPrefSize(200,20);
-        backButton = new Button("Back");
-        backButton.setFont(new Font(20));
-        backButton.setPrefSize(200,20);
         workerButton = new Button("Worker");
         workerButton.setFont(new Font(30));
         workerButton.setPrefSize(300,30);
 
-        signUpButton = new Button("Sign-up");
-        signUpButton.setStyle("-fx-underline: true;-fx-border-color: transparent;-fx-background-color: transparent;-fx-text-fill: black;\n");
-        signUpButton.setOnMouseEntered((event -> {
-            signUpButton.setStyle("-fx-underline: true;-fx-border-color: transparent;-fx-background-color: transparent;-fx-text-fill: blue;\n");
-        }));
-        signUpButton.setOnMouseExited((event -> {
-            signUpButton.setStyle("-fx-underline: true;-fx-border-color: transparent;-fx-background-color: transparent;-fx-text-fill: black;\n");
-        }));
-        signUpView.getChildren().addAll(createAccButton,backButton);
-        signUpView.setAlignment(Pos.TOP_CENTER);
-        signUpView.setSpacing(5);
-        signInView.getChildren().addAll(managerButton,signUpButton);
-        signInView.setAlignment(Pos.TOP_CENTER);
 
         startUpView.getChildren().add(signInView);
 
-        VBox managerSideVBox = new VBox(textBox,startUpView);
+        VBox managerSideVBox = new VBox(startUpView);
+        //managerSideVBox.setPrefSize(600,500);
         managerSideVBox.setPrefSize(600,500);
         managerSideVBox.setStyle("-fx-border-color: black;\n");
 
@@ -151,10 +129,13 @@ public class StartupMVC extends StackPane {
         workerBox.setStyle("-fx-border-color: black;\n");
 
         HBox alignBody = new HBox(managerSideVBox,workerBox);
-        alignBody.setPrefSize(1000,500);
+        alignBody.setMaxSize(5000,2500);
+        HBox.setHgrow(managerSideVBox, Priority.ALWAYS);
+        HBox.setHgrow(workerBox, Priority.ALWAYS);
 
         VBox startUpAlign = new VBox(welcomeBox,alignBody);
-        startUpAlign.setPrefSize(1000,500);
+        startUpAlign.setMaxSize(5000,5000);
+        VBox.setVgrow(alignBody, Priority.ALWAYS);
 
         programController.setStartupMVC(this);
         this.setController(programController);
@@ -184,12 +165,11 @@ public class StartupMVC extends StackPane {
     public StaffModel getStaffModel() {
         return this.staffModel;
     }
+    public RestaurantModel getRestaurantModel(){return this.restaurantModel;}
 
     public void setController(ProgramController controller){
-        managerButton.setOnAction(controller::startManagerMainView);
         workerButton.setOnAction(controller::startWorkerView);
-        backButton.setOnAction(controller::openStartUpMVC);
-        signUpButton.setOnAction(controller::openSignUp);
+
     }
     public void selectStartup(){
         this.selectedScreen ="startUp";
@@ -200,7 +180,12 @@ public class StartupMVC extends StackPane {
         this.startUpView.getChildren().clear();
         switch (this.selectedScreen) {
             case "startUp" -> this.startUpView.getChildren().add(signInView);
-            case "signUp" -> this.startUpView.getChildren().add(signUpView);
+            case "signUp" -> {
+                this.startUpView.getChildren().add(signUpView);
+                System.out.println("Pressed");
+            }
+
+
         }
     }
 }

@@ -20,6 +20,7 @@ public class Bill {
     }
 
     public float getTotal() {
+
         float total = 0.0F;
         if (this.order != null) {
             for(MenuFoodItem i : this.order.getOrderList()){

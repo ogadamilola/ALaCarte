@@ -1,51 +1,71 @@
 [
   {
+    "firstName": "Dami",
+    "lastName": "Adetula",
+    "staffID": "7467",
+    "sin": 123123423,
+    "username": "dami",
+    "password": "password",
+    "position": "Manager"
+  },
+  {
     "firstName": "Kristian",
     "lastName": "Manaloto",
-    "staffID": "34565",
-    "sin": 56343564,
-    "position": "Cook"
-  },
-  {
-    "firstName": "Dami",
-    "lastName": "Atedula",
-    "staffID": "34213",
-    "sin": 123412,
-    "position": "Server"
-  },
-  {
-    "firstName": "Justin",
-    "lastName": "Nahirney",
-    "staffID": "5423",
-    "sin": 543234,
-    "position": "Manager"
-  },
-  {
-    "firstName": "Randall",
-    "lastName": "Sungcang",
-    "staffID": "6534234",
-    "sin": 12323,
-    "position": "Cook"
-  },
-  {
-    "firstName": "Vidhi",
-    "lastName": "Tursharbhai",
-    "staffID": "234",
-    "sin": 42352564,
-    "position": "Manager"
-  },
-  {
-    "firstName": "Tomi",
-    "lastName": "Bamimore",
-    "staffID": "23434",
-    "sin": 341265,
+    "staffID": "6622",
+    "sin": 867356735,
     "position": "Server"
   },
   {
     "firstName": "Evan",
     "lastName": "James",
-    "staffID": "65789",
-    "sin": 9778,
+    "staffID": "8741",
+    "sin": 123476754,
+    "position": "Cook"
+  },
+  {
+    "firstName": "Randall",
+    "lastName": "Sungcang",
+    "staffID": "0630",
+    "sin": 895767587,
+    "position": "Server"
+  },
+  {
+    "firstName": "Vidhi",
+    "lastName": "Dhorajia",
+    "staffID": "1622",
+    "sin": 432234432,
+    "position": "Server"
+  },
+  {
+    "firstName": "Justin",
+    "lastName": "Nahirney",
+    "staffID": "5566",
+    "sin": 134564365,
+    "position": "Cook"
+  },
+  {
+    "firstName": "Tomi",
+    "lastName": "Bamimore",
+    "staffID": "652",
+    "sin": 763534564,
+    "username": "tomi",
+    "password": "password",
+    "position": "Manager"
+  },
+  {
+    "firstName": "test",
+    "lastName": "test",
+    "staffID": "test",
+    "sin": 111111111,
+    "username": "test",
+    "password": "test",
+    "position": "Manager"
+  },
+  {
+    "firstName": "server",
+    "lastName": "server",
+    "staffID": "1111",
+    "sin": 675674456,
     "position": "Server"
   }
 ]

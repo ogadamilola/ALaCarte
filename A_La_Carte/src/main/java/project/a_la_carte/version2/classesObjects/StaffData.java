@@ -23,6 +23,9 @@ public class StaffData {
         return new SimpleStringProperty(staff.getLastName());
     }
     public StringProperty positionProperty(){
+        if(staff.getPosition() == null){
+            return new SimpleStringProperty("Unknown");
+        }
         return new SimpleStringProperty(staff.getPosition().getName());
     }
     public StringProperty idProperty(){

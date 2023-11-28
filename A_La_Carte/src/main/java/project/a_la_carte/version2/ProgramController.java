@@ -10,10 +10,15 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import javafx.scene.control.Alert;
 
+
 import project.a_la_carte.version2.classesObjects.*;
 import project.a_la_carte.version2.kitchen.*;
 import project.a_la_carte.version2.kitchen.widgets.*;
+import project.a_la_carte.version2.managerSide.RestaurantInfo.ReportView;
+import project.a_la_carte.version2.managerSide.RestaurantInfo.RestaurantDay;
+import project.a_la_carte.version2.managerSide.RestaurantInfo.RestaurantInfoView;
 import project.a_la_carte.version2.managerSide.inventory.*;
+import project.a_la_carte.version2.managerSide.staff.StaffInfoView;
 import project.a_la_carte.version2.menuItems.*;
 import project.a_la_carte.version2.managerSide.recipe.*;
 import project.a_la_carte.version2.serverSide.*;
@@ -30,9 +35,10 @@ public class ProgramController {
     RecipeListView recipeListView;
     RecipeMakerView recipeMakerView;
     MenuItemMakerView menuItemMakerView;
-
     StaffInfoView staffInfoView;
-
+    RestaurantInfoView restaurantInfoView;
+    SignUpView signUpView;
+    SignInView signInView;
 
     private enum INTERACTION_STATE{
         RECIPE_LOADED,
@@ -55,13 +61,17 @@ public class ProgramController {
         this.workerView = view;
     }
 
+    public void setRestaurantInfoView(RestaurantInfoView restaurantInfoView) {
+        this.restaurantInfoView = restaurantInfoView;
+    }
+
     public void openManagerMainView(ActionEvent event){
         this.managerMainView.selectManagerMenu();
         this.managerMainView.modelChanged();
     }
-    public void openWorkerView(ActionEvent event){
-        this.workerView.selectWorkerView();
-        this.workerView.modelChanged();
+    public void openWorkerView(WorkerView view){
+        view.selectWorkerView();
+        view.modelChanged();
     }
     public void startManagerMainView(ActionEvent event){
         ManagerMainView newView = new ManagerMainView(this.startupMVC);
@@ -80,10 +90,16 @@ public class ProgramController {
         workerStage.setTitle("Worker");
         workerStage.getIcons().add(new Image(ProgramController.class.getResourceAsStream("/images/icon.png")));
         workerStage.setScene(new Scene(newView));
+        newView.setStage(workerStage);
         workerStage.show();
     }
     public void setStartupMVC(StartupMVC newModel){
         this.startupMVC = newModel;
+        //This is just for testing
+        MenuFoodItem newItem = new MenuFoodItem((ArrayList<Recipe>) startupMVC.getRecipeModel().getRecipeList(), "Test Item", "Test Description");
+        startupMVC.getMenuItemModel().addNewMenuItem(newItem);
+        this.startupMVC.getMenuItemModel().resetAddedRecipes();
+        //----------------------------------------------
     }
     public void openInventoryScreen(ActionEvent event){
         this.managerMainView.selectInventory();
@@ -104,16 +120,19 @@ public class ProgramController {
         this.startupMVC.getRecipeModel().notifySubscribers();
         this.startupMVC.getRecipeInteractiveModel().clearRecipeIModel();
     }
-    public void openMenuView(ActionEvent event){
+    public void openMenuView(WorkerView view){
         //So that the new display is shown
+        this.startupMVC.getServerModel().notifySubscribers();
         this.startupMVC.getServerModel().setMenuItemList(startupMVC.getMenuItemModel().getMenuItemsList());
-        this.workerView.selectMenuView();
-        this.workerView.modelChanged();
+
+        view.selectMenuView();
+        view.modelChanged();
     }
-    public void openKitchenView(ActionEvent event){
+    public void openKitchenView(WorkerView view){
         this.startupMVC.getKitchenModel().notifySubscribers();
-        this.workerView.selectKitchenView();
-        this.workerView.modelChanged();
+
+        view.selectKitchenView();
+        view.modelChanged();
     }
     public void openMenuListView(ActionEvent event){
         this.startupMVC.getMenuItemModel().notifySubscribers();
@@ -124,6 +143,12 @@ public class ProgramController {
     public void openStaffInfoView(ActionEvent event){
         this.startupMVC.getStaffModel().notifySubscribers();
         this.managerMainView.selectStaffInfoView();
+        this.managerMainView.modelChanged();
+    }
+
+    public void openRestaurantInfoView(ActionEvent event){
+        this.startupMVC.getRestaurantModel().notifySubs();
+        this.managerMainView.selectRestaurantInfoView();
         this.managerMainView.modelChanged();
     }
 
@@ -141,6 +166,66 @@ public class ProgramController {
         startupMVC.getRecipeInteractiveModel().setCreating(false);
     }
 
+
+    /**
+     * Start of log in actions
+     */
+    public void setSignUpView(SignUpView signUpView) {
+        this.signUpView = signUpView;
+    }
+
+    public void setSignInView(SignInView signInView) {
+        this.signInView = signInView;
+    }
+
+    public void handleLogIn(ActionEvent actionEvent){
+        String username = signInView.getUsernameText().getText();
+        String password = signInView.getPasswordText().getText();
+
+        boolean valid = this.startupMVC.getStaffModel().verifyLogIn(username,password);
+        if(valid){
+           this.startManagerMainView(actionEvent);
+           signInView.clearFields();
+        }else {
+            showErrorAlert("No Matching Credentials","Double check username and password");
+        }
+    }
+
+    public void handleServerLogIn(WorkerView workerView) {
+        String pin = workerView.getPinText().getText();
+        boolean valid = this.startupMVC.getStaffModel().verifyServerLogIn(pin);
+        if(valid){
+            this.openMenuView(workerView);
+        } else {
+            showErrorAlert("No Matching Credentials","Double check username and password");
+        }
+    }
+
+    public void newManager(ActionEvent actionEvent) {
+        //try {
+            String fName = signUpView.getfNameText().getText();
+            String lName = signUpView.getlNameText().getText();
+            String id = signUpView.getIdText().getText();
+            int sin = Integer.parseInt(signUpView.getSinText().getText());
+
+            String username = signUpView.getUsernameText().getText();
+            String password = signUpView.getPasswordText().getText();
+
+            startupMVC.getStaffModel().addManager(fName, lName, id, Staff.position.Manager,sin, username, password);
+            signUpView.clearFields();
+            showConfirmationAlert("New Manager: ",fName + lName + " successfully added.");
+//        } catch (NullPointerException e){
+//            System.out.println(e.getStackTrace());
+//            //showAlert("ERROR:","Illegal input, please check all fields are filled correctly");
+//        } catch (IllegalArgumentException e){
+//            System.out.println(e.getStackTrace());
+//            //showAlert("ERROR:","Illegal input, please check all fields are filled correctly");
+//        }
+    }
+
+    /**
+     * End of log in actions
+     */
     /**
      * Here would be Inventory actions
      */
@@ -154,7 +239,12 @@ public class ProgramController {
             Ingredient.IngredientType type = inventoryView.getTypeComboBox().getValue();
             Ingredient.MeasurementUnit mUnit = inventoryView.getMeasurementUnitComboBox().getValue();
             Boolean commonAllergen = inventoryView.getCommonAllergenCheck().isSelected();
-            startupMVC.getInventoryModel().addIngredient(ingredientName,quantity,type,mUnit,commonAllergen);
+            float pricePerUnit = Float.parseFloat(inventoryView.getPriceText().getText());
+            double reorderPoint = 0.0;
+            if(!inventoryView.getReorderText().getText().isEmpty()){
+                reorderPoint = Double.parseDouble(inventoryView.getReorderText().getText());
+            }
+            startupMVC.getInventoryModel().addIngredient(ingredientName,quantity,type,mUnit,commonAllergen,pricePerUnit,reorderPoint);
             clearInventoryViewFields(actionEvent);
 
             if (ingredientName.isEmpty() || type == null || mUnit == null) {
@@ -162,12 +252,12 @@ public class ProgramController {
             }
 
         } catch(NumberFormatException e){
-            showAlert("Error", "Quantity must be a valid number");
+            showErrorAlert("Error", "Quantity must be a valid number");
         } catch(IllegalArgumentException e){
-            showAlert("Error", e.getMessage());
+            showErrorAlert("Error", e.getMessage());
 
         } catch (Exception e){
-            showAlert("Error", e.getMessage());
+            showErrorAlert("Error", e.getMessage());
         }
 
     }
@@ -188,6 +278,8 @@ public class ProgramController {
         inventoryView.getMeasurementUnitComboBox().setValue(null);
         inventoryView.getTypeComboBox().setValue(null);
         inventoryView.getCommonAllergenCheck().setSelected(false);
+        inventoryView.getReorderText().clear();
+        inventoryView.getPriceText().clear();
     }
 
     public void updateItem(ActionEvent actionEvent){
@@ -198,10 +290,15 @@ public class ProgramController {
             Ingredient.IngredientType type = inventoryView.getTypeComboBox().getValue();
             Ingredient.MeasurementUnit mUnit = inventoryView.getMeasurementUnitComboBox().getValue();
             Boolean commonAllergen = inventoryView.getCommonAllergenCheck().isSelected();
-            startupMVC.getInventoryModel().updateItem(ingredient, quantity, type, mUnit, commonAllergen);
+            float pricePerUnit = Float.parseFloat(inventoryView.getPriceText().getText());
+            double reorderPoint = 0.0;
+            if(!inventoryView.getReorderText().getText().isEmpty()){
+                reorderPoint = Double.parseDouble(inventoryView.getReorderText().getText());
+            }
+            startupMVC.getInventoryModel().updateItem(ingredient, quantity, type, mUnit, commonAllergen,pricePerUnit,reorderPoint);
             clearInventoryViewFields(actionEvent);
         } catch (Exception e) {
-            showAlert("Error", e.getMessage());
+            showErrorAlert("Error", e.getMessage());
         }
     }
 
@@ -340,9 +437,9 @@ public class ProgramController {
 
 
         }catch(NumberFormatException e){
-            showAlert("Error", "Fill out all the fields");
+            showErrorAlert("Error", "Fill out all the fields");
         } catch (IllegalArgumentException e){
-            showAlert("Error", e.getMessage());
+            showErrorAlert("Error", e.getMessage());
         }
 
     }
@@ -355,7 +452,7 @@ public class ProgramController {
             setStateNotLoaded(actionEvent);
             startupMVC.getRecipeInteractiveModel().clearRecipeIModel();
         }catch (NullPointerException e){
-            showAlert("Error", "No recipe selected to delete");
+            showErrorAlert("Error", "No recipe selected to delete");
 
 
         }
@@ -369,7 +466,7 @@ public class ProgramController {
             Recipe selectedRecipe = startupMVC.getRecipeInteractiveModel().getLoadedRecipe();
             new ShowRecipeInfoView(selectedRecipe);
         } catch (NullPointerException e){
-            showAlert("Error","There is no recipeSelected" );
+            showErrorAlert("Error","There is no recipeSelected" );
         }
     }
 
@@ -428,7 +525,6 @@ public class ProgramController {
             }
             if(!recipeMakerView.getRecipeName().getText().isEmpty()){
                 startupMVC.getRecipeInteractiveModel().setCreating(true);
-                System.out.println("set creating true");
             }
             String ingredientName = recipeMakerView.getSelectedIngredient().getText();
             Ingredient ingredient = searchIngredientByName(ingredientName);
@@ -440,7 +536,7 @@ public class ProgramController {
         catch(NumberFormatException e){
             System.out.println("Error: Enter valid quantity");
         } catch(IllegalArgumentException e){
-            showAlert("Error", e.getMessage());
+            showErrorAlert("Error", e.getMessage());
         }
     }
 
@@ -549,18 +645,12 @@ public class ProgramController {
                 this.startupMVC.getServerModel().setMenuItemList(startupMVC.getMenuItemModel().getMenuItemsList());
             }
         } catch (Exception e) {
-            showAlert("Error", "An error occurred while saving the menu item: " + e.getMessage());
+            showErrorAlert("Error", "An error occurred while saving the menu item: " + e.getMessage());
 
         }
 
     }
-    private void showAlert(String title, String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
+
     public void saveEditsToItem(ActionEvent event){
         if (menuItemMakerView.getMenuItemName() != null && menuItemMakerView.getMenuItemDescription() != null) {
             startupMVC.getMenuItemModel().getSelectedItem().setName(menuItemMakerView.getMenuItemName());
@@ -599,40 +689,47 @@ public class ProgramController {
         kitchenAlertStage.setScene(new Scene(alertView));
         kitchenAlertStage.show();
     }
-    public void sendNoteToKitchen(ActionEvent event){
-        this.startupMVC.getServerModel().setNoteMessage();
-        this.startupMVC.getKitchenModel().addNote(this.startupMVC.getServerModel().getNoteMessage());
+    public void sendNoteToKitchen(WorkerView view){
+        this.startupMVC.getKitchenModel().addNote(view.getNoteView().getNote());
+        this.startupMVC.getServerModel().setNoteMessage(view);
     }
-    public void openNoteView(ActionEvent event){
-        this.startupMVC.getServerModel().clearNoteAlert();
+    public void openNoteView(WorkerView view){
+        this.startupMVC.getServerModel().clearNoteAlert(view.getNoteView());
         this.startupMVC.getServerModel().notifySubscribers();
-        this.workerView.selectNoteView();
-        this.workerView.modelChanged();
+        view.selectNoteView();
+        view.modelChanged();
     }
 
-    public void openTablesView(ActionEvent event){
+    public void openTablesView(WorkerView view){
         this.startupMVC.getServerModel().notifySubscribers();
-        this.workerView.selectTableView();
-        this.workerView.modelChanged();
+        view.selectTableView();
+        view.modelChanged();
     }
 
-    public void openCustomizeView(ActionEvent event){
+    public void openCustomizeView(WorkerView view){
         this.startupMVC.getServerModel().notifySubscribers();
-        this.workerView.selectCustomize();
-        this.workerView.modelChanged();
+        view.selectCustomize();
+        view.modelChanged();
     }
-    public void discardSelection(ActionEvent event){
-        this.startupMVC.getServerModel().unselectAll();
+    public void discardSelection(WorkerView view){
+        this.startupMVC.getServerModel().unselectAll(view);
     }
-    public void saveCustomize(ActionEvent event){
-        this.startupMVC.getServerModel().setCustomization();
-        this.startupMVC.getServerModel().unselectAll();
+    public void saveCustomize(WorkerView view){
+        this.startupMVC.getServerModel().setCustomization(view);
+        this.startupMVC.getServerModel().unselectAll(view);
     }
-    public void sendToKitchen(ActionEvent event){
-        this.startupMVC.getKitchenModel().addOrder(this.startupMVC.getServerModel().sendOrderToKitchen());
+    public void sendToKitchen(WorkerView view){
+        if (view.getMenuView().getCurrentOrder() != null){
+            this.startupMVC.getKitchenModel().addOrder(view.getMenuView().getCurrentOrder());
+            this.startupMVC.getServerModel().sendOrderToKitchen();
+
+            //process order in restaurant model
+            this.startupMVC.getRestaurantModel().handleOrderPunched(view.getMenuView().getCurrentOrder());
+            view.getMenuView().clearOrder();
+        }
     }
-    public void voidOrder(ActionEvent event){
-        this.startupMVC.serverModel.clearOrder();
+    public void voidOrder(WorkerView view){
+        view.getMenuView().clearOrder();
     }
     public void refundDisplay(ActionEvent event){
         RefundView refundView = new RefundView(startupMVC.getKitchenModel());
@@ -643,20 +740,27 @@ public class ProgramController {
         refundStage.setScene(new Scene(refundView));
         refundStage.show();
     }
-    /*Start of staff Acitons*/
+    /*Start of staff Actions*/
 
     public void setStaffInfoView(StaffInfoView staffInfoView) {
         this.staffInfoView = staffInfoView;
     }
 
     public void handleNewStaff(ActionEvent actionEvent) {
-        String fName = staffInfoView.getfNameText().getText();
-        String lName = staffInfoView.getlNameText().getText();
-        String id = staffInfoView.getIdText().getText();
-        Staff.position position = staffInfoView.getPositionComboBox().getValue();
-        int sin = Integer.parseInt(staffInfoView.getSinText().getText());
+        try {
+            String fName = staffInfoView.getfNameText().getText();
+            String lName = staffInfoView.getlNameText().getText();
+            String id = staffInfoView.getIdText().getText();
+            Staff.position position = staffInfoView.getPositionComboBox().getValue();
+            int sin = Integer.parseInt(staffInfoView.getSinText().getText());
 
-        startupMVC.getStaffModel().addStaff(fName,lName,id,position,sin);
+            startupMVC.getStaffModel().addStaff(fName, lName, id, position, sin);
+
+        } catch (IllegalArgumentException e){
+            showErrorAlert("Illegal input, please check all fields are filled correctly", e.getMessage());
+        } catch (NullPointerException e){
+            showErrorAlert("Illegal input, please check all fields are filled correctly", e.getMessage());
+        }
     }
 
     public void clearStaffInfoFields(ActionEvent event){
@@ -673,24 +777,82 @@ public class ProgramController {
     }
 
     public void updateStaff(ActionEvent actionEvent){
-        String fName = staffInfoView.getfNameText().getText();
-        String lName = staffInfoView.getlNameText().getText();
-        String id = staffInfoView.getIdText().getText();
-        Staff.position position = staffInfoView.getPositionComboBox().getValue();
-        int sin = Integer.parseInt(staffInfoView.getSinText().getText());
+        try {
+            String fName = staffInfoView.getfNameText().getText();
+            String lName = staffInfoView.getlNameText().getText();
+            String id = staffInfoView.getIdText().getText();
+            Staff.position position = staffInfoView.getPositionComboBox().getValue();
+            int sin = Integer.parseInt(staffInfoView.getSinText().getText());
+            String username;
+            String password;
 
-        startupMVC.getStaffModel().updateStaff(fName,lName,id,position,sin);
+
+            if(!staffInfoView.getUserText().getText().isEmpty()){
+                username = staffInfoView.getUserText().getText();
+            } else{
+                username = null;
+            }
+            if(!staffInfoView.getPasswordText().getText().isEmpty()){
+                password = staffInfoView.getPasswordText().getText();
+            } else{
+                password = null;
+            }
+            startupMVC.getStaffModel().updateStaff(fName, lName, id, position, sin,username,password);
+            showConfirmationAlert("Staff Updated","Staff: " + id + " successfully updated");
+        } /*catch (IllegalArgumentException e){
+            showAlert("ERROR:", "Staff does not exist, can not update");
+        }*/ catch (NullPointerException e){
+            showErrorAlert("ERROR:","Illegal input, please check all fields are filled correctly");
+        }
 
     }
     public void deleteStaff(ActionEvent actionEvent){
         String id = staffInfoView.getIdText().getText();
         startupMVC.getStaffModel().deleteStaff(id);
     }
-
-    public void loadList(ActionEvent actionEvent){
-        startupMVC.getStaffModel().loadList();
-    }
     public void saveList(ActionEvent actionEvent) {
         startupMVC.getStaffModel().saveList();
+    }
+
+
+    /*Restaurant information stuff*/
+
+   public void generateReport(ActionEvent event){
+       if(this.restaurantInfoView.getDatePicker().getValue()!= null) {
+           String reportDate = this.restaurantInfoView.getDatePicker().getValue().toString();
+           if(this.startupMVC.getRestaurantModel().getRestaurantDayMap().containsKey(reportDate)) {
+               RestaurantDay dayToReport = this.startupMVC.getRestaurantModel().getRestaurantDayMap().get(reportDate);
+               ReportView reportView = new ReportView(dayToReport);
+               Stage reportStage = new Stage();
+               reportStage.setScene(new Scene(reportView));
+               reportStage.show();
+           } else {
+               showErrorAlert("ERROR:","No Report for this day");
+           }
+       } else{
+           showErrorAlert("ERROR:","No date picked");
+       }
+
+   }
+
+
+    /*End of restaurant information*/
+
+
+    /*ALERTS*/
+    private void showErrorAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+
+    }
+    private void showConfirmationAlert(String title,String message){
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }

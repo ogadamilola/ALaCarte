@@ -4,11 +4,11 @@ import java.util.Objects;
 
 public class Ingredient{
     private String name;
-
     private IngredientType ingredientType;
     private MeasurementUnit measurementUnit;
     private boolean commonAllergen;
-
+    private float pricePerUnit;
+    private double reorderPoint;
 
     public enum IngredientType{
         Proteins("Proteins"),Dairy("Dairy"),Grains("Grains"),Vegetable("Vegetables"),Sauce("Sauce"),Other("Other");
@@ -42,6 +42,7 @@ public class Ingredient{
         this.measurementUnit = MeasurementUnit.Count;
         //default to not allergen
         this.commonAllergen = false;
+        //deafault orderPoint
     }
     public String getName() {
         return name;
@@ -69,11 +70,22 @@ public class Ingredient{
     public void setMeasurementUnit(MeasurementUnit measurementUnit) {
         this.measurementUnit = measurementUnit;
     }
-    //deleted unnecessary method
 
+    public void setPricePerUnit(float pricePerUnit) {
+        this.pricePerUnit = pricePerUnit;
+    }
 
-    //property stuff for table
+    public float getPricePerUnit() {
+        return pricePerUnit;
+    }
 
+    public void setReorderPoint(double reorderPoint) {
+        this.reorderPoint = reorderPoint;
+    }
+
+    public double getReorderPoint() {
+        return reorderPoint;
+    }
 
     @Override
     public boolean equals(Object o) { //needed for the hashtable handling duplicates
