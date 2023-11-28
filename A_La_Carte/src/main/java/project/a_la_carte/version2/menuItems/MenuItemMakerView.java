@@ -25,6 +25,7 @@ public class MenuItemMakerView extends StackPane implements MenuItemModelSubscri
     TextArea menuItemDescription;
     TextField menuItemPrice;
     TextField menuItemPrep;
+    Label priceOfRecipesLabel;
     Button saveMenuItem;
     Button editMenuItem;
     Button addRecipe;
@@ -65,6 +66,7 @@ public class MenuItemMakerView extends StackPane implements MenuItemModelSubscri
         this.menuItemPrice.setPrefWidth(300);
 
         Label priceLabel = new Label("Price: ");
+        priceOfRecipesLabel = new Label("Cost of Recipes :$00.00" );
         HBox priceBox = new HBox(priceLabel, menuItemPrice);
         priceBox.setPrefWidth(500);
         priceBox.setPadding(new Insets(2));
@@ -79,7 +81,7 @@ public class MenuItemMakerView extends StackPane implements MenuItemModelSubscri
         addRecipe = new Button("Add Selected Recipe");
         mainMenu = new Button("Main Menu");
 
-        createVBox.getChildren().addAll(mainMenu,title, nameHBox,descVBox,priceBox,prepBox);
+        createVBox.getChildren().addAll(mainMenu,title, nameHBox,descVBox,priceBox,priceOfRecipesLabel,prepBox);
         createVBox.setPadding(new Insets(5,5,5,5));
 
         //Right side, recipe list ---------------------------------------------
@@ -223,7 +225,7 @@ public class MenuItemMakerView extends StackPane implements MenuItemModelSubscri
                 selectRecipeVBox.getChildren().add(recipe.getButton());
             }));
         }
-
+        float priceOfRecipes = 0;
         this.recipeVBOX.getChildren().clear();
         if (menuItemModel.getAddedRecipes() != null){
             menuItemModel.getAddedRecipes().forEach((recipe -> {
@@ -232,6 +234,10 @@ public class MenuItemMakerView extends StackPane implements MenuItemModelSubscri
                 }));
                 recipeVBOX.getChildren().add(recipe.getButton());
             }));
+            for(Recipe recipe : menuItemModel.getAddedRecipes()){
+                priceOfRecipes += recipe.getPrice();
+            }
+            priceOfRecipesLabel.setText("Cost of Recipes :$" + priceOfRecipes);
         }
 
         this.buttonsHBox.getChildren().clear();

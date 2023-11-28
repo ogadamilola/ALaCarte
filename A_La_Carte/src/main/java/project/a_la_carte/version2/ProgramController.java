@@ -376,14 +376,16 @@ public class ProgramController {
 
     public void selectIngredient(MouseEvent mouseEvent) {
 
-        Ingredient selectedIngredientName = recipeMakerView.getIngredientTable().getSelectionModel().getSelectedItem().getIngredient();
-        recipeMakerView.getSelectedIngredient().setText(selectedIngredientName.getName());
+        if(recipeMakerView.getIngredientTable().getSelectionModel().getSelectedItem() != null) {
+            Ingredient selectedIngredientName = recipeMakerView.getIngredientTable().getSelectionModel().getSelectedItem().getIngredient();
+            recipeMakerView.getSelectedIngredient().setText(selectedIngredientName.getName());
+        }
 
     }
 
     public void deleteIngredientFromRecipe(ActionEvent actionEvent) {
 
-        Ingredient ingredientToRemove = searchIngredientByName(recipeMakerView.getSelectedIngredient().getText());
+        String ingredientToRemove =recipeMakerView.getIngredientTable().getSelectionModel().getSelectedItem().getIngredient().getName();
         startupMVC.getRecipeInteractiveModel().removeFromTempMap(ingredientToRemove);
     }
 
@@ -547,9 +549,7 @@ public class ProgramController {
      * null if not found
      */
     public Ingredient searchIngredientByName(String name){
-
         return this.startupMVC.getInventoryModel().getIngredientMap().get(name);
-
     }
 
 
@@ -628,7 +628,7 @@ public class ProgramController {
             if (menuItemMakerView.getMenuItemName() != null && menuItemMakerView.getMenuItemDescription() != null) {
                 MenuFoodItem newItem = new MenuFoodItem(startupMVC.getMenuItemModel().getAddedRecipes(), menuItemMakerView.getMenuItemName(), menuItemMakerView.getMenuItemDescription());
                 if (!menuItemMakerView.getMenuPrice().isBlank()) {
-                    newItem.setPrice(menuItemMakerView.setMenuPrice());
+                    newItem.setPrice(Float.parseFloat(menuItemMakerView.getMenuPrice()));
                 }
                 if (!menuItemMakerView.getMenuPrep().isBlank()) {
                     newItem.setPrepTime(menuItemMakerView.setMenuPrep());

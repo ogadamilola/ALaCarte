@@ -85,6 +85,15 @@ public class Ingredient{
         return reorderPoint;
     }
 
+    //get the cost of ounces if pounds, else use pricePerUnit
+    public float pricePerOunce(){
+        if(this.measurementUnit == MeasurementUnit.Pounds){
+            return pricePerUnit/16;
+        } else{
+            return pricePerUnit;
+        }
+    }
+
     @Override
     public boolean equals(Object o) { //needed for the hashtable handling duplicates
         if (this == o) return true;

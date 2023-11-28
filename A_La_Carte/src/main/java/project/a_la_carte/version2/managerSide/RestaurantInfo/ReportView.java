@@ -38,17 +38,18 @@ public class ReportView extends BorderPane {
 
         VBox ingredientVBox = new VBox();
         VBox ingredientNumBox = new VBox();
-
+        double cost = 0;
         if(day.getIngredientUsageMap() != null){
             for (Map.Entry<String,Double> entry : day.getIngredientUsageMap().entrySet() ) {
 
                 Label ingredient = new Label(entry.getKey());
                 Label number = new Label("    x" + entry.getValue());
-
+                cost += entry.getValue();
                 ingredientVBox.getChildren().add(ingredient);
                 ingredientNumBox.getChildren().add(number);
             }
         }
+
         HBox alignBox = new HBox(ingredientVBox,ingredientNumBox);
         ScrollPane ingredientPane = new ScrollPane(alignBox);
 
@@ -56,7 +57,6 @@ public class ReportView extends BorderPane {
         HBox centerBox = new HBox(menuItemPane,ingredientPane);
         centerBox.setAlignment(Pos.CENTER);
         centerBox.setSpacing(30);
-
 
 
 
@@ -72,7 +72,16 @@ public class ReportView extends BorderPane {
         totalIncome.setStyle("-fx-border-color: black; -fx-border-width: 1px;");
         totalIncome.setAlignment(Pos.CENTER);
 
-        HBox bottomBox = new HBox(totalOrderBox,totalIncome);
+        Label costLabel = new Label("Total Cost :");
+        Label costNumberLabel = new Label(cost +"");
+        VBox costVBox = new VBox(costLabel,costNumberLabel);
+
+        Label totalProfit = new Label("Total Profit = income - cost");
+        Label profitLabel = new Label((day.getIncomeToday() - cost) + "");
+        VBox profitVBox = new VBox(totalProfit,profitLabel);
+
+
+        HBox bottomBox = new HBox(totalOrderBox,totalIncome, costVBox,profitVBox);
         bottomBox.setStyle("-fx-border-color: black; -fx-border-width: 2px;");
         bottomBox.setAlignment(Pos.CENTER);
         bottomBox.setSpacing(20);

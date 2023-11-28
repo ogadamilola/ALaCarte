@@ -71,7 +71,7 @@ public class RecipeInteractiveModel {
 
     }
 
-    public void removeFromTempMap(Ingredient ingredient){
+    public void removeFromTempMap(String ingredient){
         if(loadedRecipe != null){
             temporaryIngredientMap.remove(ingredient);
             notifySubscribers();
