@@ -96,8 +96,8 @@ public class ProgramController {
     public void setStartupMVC(StartupMVC newModel){
         this.startupMVC = newModel;
         //This is just for testing
-        MenuFoodItem newItem = new MenuFoodItem((ArrayList<Recipe>) startupMVC.getRecipeModel().getRecipeList(), "Test Item", "Test Description");
-        startupMVC.getMenuItemModel().addNewMenuItem(newItem);
+//        MenuFoodItem newItem = new MenuFoodItem((ArrayList<Recipe>) startupMVC.getRecipeModel().getRecipeList(), "Test Item", "Test Description");
+//        startupMVC.getMenuItemModel().addNewMenuItem(newItem);
         this.startupMVC.getMenuItemModel().resetAddedRecipes();
         //----------------------------------------------
     }

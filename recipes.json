@@ -29,5 +29,16 @@
     "price": 24.0,
     "prepTime": 12.0,
     "selectedStatus": false
+  },
+  {
+    "ingredientMap": {
+      "Potatoes": 0.3
+    },
+    "name": "Fries",
+    "description": "Deep fried potatoes",
+    "prepInstruction": "Slice potatoes.\nFry once at lower temp, rest, then fry again at higher temp.\nSalt and plate. ",
+    "price": 3.0,
+    "prepTime": 8.0,
+    "selectedStatus": false
   }
 ]
