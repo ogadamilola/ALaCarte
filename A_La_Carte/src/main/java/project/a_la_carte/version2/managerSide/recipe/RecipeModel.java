@@ -30,7 +30,6 @@ public class RecipeModel {
 
     public RecipeModel(){
         InventoryModel model = new InventoryModel();
-        recipeList = new ArrayList<>();
 
         //reading in json file
         Gson gson = new GsonBuilder()
@@ -127,7 +126,7 @@ public class RecipeModel {
     /**
      * Adapter class for button attribute so that Gson can serialize it
      */
-    private class ButtonAdapter extends TypeAdapter<MenuItemRecipeButton> {
+    public static class ButtonAdapter extends TypeAdapter<MenuItemRecipeButton> {
         @Override
         public void write(JsonWriter out, MenuItemRecipeButton button) throws IOException {out.nullValue();}
         @Override
