@@ -661,6 +661,7 @@ public class ProgramController {
 
             this.managerMainView.selectMenuItemList();
             this.managerMainView.modelChanged();
+            this.startupMVC.getServerModel().notifySubscribers();
         }
     }
     /**
