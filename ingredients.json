@@ -86,5 +86,13 @@
     "commonAllergen": false,
     "pricePerUnit": 10.0,
     "reorderPoint": 0.0
+  },
+  "Ketchup": {
+    "name": "Ketchup",
+    "ingredientType": "Sauce",
+    "measurementUnit": "Pounds",
+    "commonAllergen": false,
+    "pricePerUnit": 0.6,
+    "reorderPoint": 0.0
   }
 }

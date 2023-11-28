@@ -376,14 +376,16 @@ public class ProgramController {
 
     public void selectIngredient(MouseEvent mouseEvent) {
 
-        Ingredient selectedIngredientName = recipeMakerView.getIngredientTable().getSelectionModel().getSelectedItem().getIngredient();
-        recipeMakerView.getSelectedIngredient().setText(selectedIngredientName.getName());
+        if(recipeMakerView.getIngredientTable().getSelectionModel().getSelectedItem() != null) {
+            Ingredient selectedIngredientName = recipeMakerView.getIngredientTable().getSelectionModel().getSelectedItem().getIngredient();
+            recipeMakerView.getSelectedIngredient().setText(selectedIngredientName.getName());
+        }
 
     }
 
     public void deleteIngredientFromRecipe(ActionEvent actionEvent) {
 
-        Ingredient ingredientToRemove = searchIngredientByName(recipeMakerView.getSelectedIngredient().getText());
+        String ingredientToRemove =recipeMakerView.getIngredientTable().getSelectionModel().getSelectedItem().getIngredient().getName();
         startupMVC.getRecipeInteractiveModel().removeFromTempMap(ingredientToRemove);
     }
 

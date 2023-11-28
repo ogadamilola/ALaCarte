@@ -1,14 +1,18 @@
 [
   {
     "ingredientMap": {
-      "Meatballs": 0.2,
-      "Spaghetti": 0.4,
-      "Tomato Sauce": 0.3
+      "Burger Patty": 1.0,
+      "Lettuce": 0.0,
+      "Meatballs": 0.0,
+      "Spaghetti": 0.0,
+      "Burger Bun": 1.0,
+      "Tomato Sauce": 0.0,
+      "Mayo": 0.0
     },
     "name": "Spaghetti Meatball",
     "description": "Spaghetti with meatballs and sauce",
     "prepInstruction": "Put spag on plate",
-    "price": 15.0,
+    "price": 1.8206251,
     "prepTime": 10.0,
     "selectedStatus": false
   },
@@ -18,16 +22,52 @@
       "Lettuce": 0.0,
       "Meatballs": 0.0,
       "Spaghetti": 0.0,
-      "Pepsi": 123.0,
       "Burger Bun": 1.0,
       "Mayo": 0.0,
       "Tomato Sauce": 0.0
     },
     "name": "Cheese burger",
     "description": "Burger with cheese and lettuce",
-    "prepInstruction": "Toast bun.\nMelt cheese on top of patty.\nPut mustard, ketchup, onions \u0026 patty with cheese on bottom bun.\nPut mayo \u0026 lettuce on top bun.\nCut in half.",
-    "price": 24.0,
+    "prepInstruction": "Toast bun.\nMelt cheese on top of patty.\nPut mustard, ketchup, onions \u0026 patty with cheese on bottom bun.\nPut mayo \u0026 lettuce on top bun.\nCut in half.\nServe with pepsi",
+    "price": 1.700625,
     "prepTime": 12.0,
+    "selectedStatus": false
+  },
+  {
+    "ingredientMap": {
+      "Burger Patty": 2.0,
+      "Lettuce": 2.6,
+      "Ketchup": 0.1,
+      "Spaghetti": 0.0,
+      "Pepsi": 1.0,
+      "Pork Ribs": 1.0,
+      "Chicken Breast": 0.2,
+      "Burger Bun": 1.0,
+      "Cheddar Cheese": 0.1,
+      "Mayo": 0.0
+    },
+    "name": "testing123",
+    "description": "tttestaetsetasaetsetas",
+    "prepInstruction": "sdgfafsdasdfasdfasdfasdf",
+    "price": 17.038126,
+    "prepTime": 43.0,
+    "selectedStatus": false
+  },
+  {
+    "ingredientMap": {
+      "Burger Patty": 2.0,
+      "Lettuce": 0.3,
+      "Ketchup": 0.3,
+      "Pepsi": 1.0,
+      "Burger Bun": 1.0,
+      "Cheddar Cheese": 0.4,
+      "Mayo": 0.3
+    },
+    "name": "Cheese Burger Combo",
+    "description": "cheese burger with better price",
+    "prepInstruction": "1fadsdfasasfda",
+    "price": 4.0187497,
+    "prepTime": 213.0,
     "selectedStatus": false
   }
 ]
