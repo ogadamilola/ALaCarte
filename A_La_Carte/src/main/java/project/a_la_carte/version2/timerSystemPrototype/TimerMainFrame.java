@@ -117,9 +117,10 @@ public class TimerMainFrame extends JFrame {
                 startTimes[i] += 60000;
             }
             // update expectedOrderTime
-            if (prepTimes[targetRecipeIndex] >= expectedOrderTime) {
-                expectedOrderTime = prepTimes[targetRecipeIndex];
-            }
+            //if (prepTimes[targetRecipeIndex] >= expectedOrderTime) {
+            //    expectedOrderTime = prepTimes[targetRecipeIndex];
+            //}
+            expectedOrderTime += 1;
         }
     }
 

@@ -20,7 +20,7 @@ public class OrderKitchenTab extends StackPane implements OrderClassesInterface 
     Order orderItems;
     KitchenModel kModel;
     public OrderKitchenTab(KitchenModel model, Order order){
-        this.setPrefSize(230,70);
+        this.setPrefSize(900,250);
         kModel = model;
         this.cancelButton = new Button("Cancel Order");
         HBox cancelBox = new HBox(cancelButton);
