@@ -18,6 +18,7 @@ import project.a_la_carte.version2.managerSide.RestaurantInfo.ReportView;
 import project.a_la_carte.version2.managerSide.RestaurantInfo.RestaurantDay;
 import project.a_la_carte.version2.managerSide.RestaurantInfo.RestaurantInfoView;
 import project.a_la_carte.version2.managerSide.inventory.*;
+import project.a_la_carte.version2.managerSide.staff.DashboardView;
 import project.a_la_carte.version2.managerSide.staff.StaffInfoView;
 import project.a_la_carte.version2.menuItems.*;
 import project.a_la_carte.version2.managerSide.recipe.*;
@@ -39,10 +40,13 @@ public class ProgramController {
     RestaurantInfoView restaurantInfoView;
     SignUpView signUpView;
     SignInView signInView;
+    DashboardView dashboard;
 
     private enum INTERACTION_STATE{
         RECIPE_LOADED,
-        NOT_LOADED
+        NOT_LOADED,
+        DASHBOARD_LOADED,
+        DASHBOARD_NOT_LOADED
     }
     private INTERACTION_STATE interactionState = INTERACTION_STATE.NOT_LOADED;
 
@@ -184,8 +188,8 @@ public class ProgramController {
 
         boolean valid = this.startupMVC.getStaffModel().verifyLogIn(username,password);
         if(valid){
-           this.startManagerMainView(actionEvent);
-           signInView.clearFields();
+            this.startManagerMainView(actionEvent);
+            signInView.clearFields();
         }else {
             showErrorAlert("No Matching Credentials","Double check username and password");
         }
@@ -203,17 +207,17 @@ public class ProgramController {
 
     public void newManager(ActionEvent actionEvent) {
         //try {
-            String fName = signUpView.getfNameText().getText();
-            String lName = signUpView.getlNameText().getText();
-            String id = signUpView.getIdText().getText();
-            int sin = Integer.parseInt(signUpView.getSinText().getText());
+        String fName = signUpView.getfNameText().getText();
+        String lName = signUpView.getlNameText().getText();
+        String id = signUpView.getIdText().getText();
+        int sin = Integer.parseInt(signUpView.getSinText().getText());
 
-            String username = signUpView.getUsernameText().getText();
-            String password = signUpView.getPasswordText().getText();
+        String username = signUpView.getUsernameText().getText();
+        String password = signUpView.getPasswordText().getText();
 
-            startupMVC.getStaffModel().addManager(fName, lName, id, Staff.position.Manager,sin, username, password);
-            signUpView.clearFields();
-            showConfirmationAlert("New Manager: ",fName + lName + " successfully added.");
+        startupMVC.getStaffModel().addManager(fName, lName, id, Staff.position.Manager,sin, username, password);
+        signUpView.clearFields();
+        showConfirmationAlert("New Manager: ",fName + lName + " successfully added.");
 //        } catch (NullPointerException e){
 //            System.out.println(e.getStackTrace());
 //            //showAlert("ERROR:","Illegal input, please check all fields are filled correctly");
@@ -597,6 +601,11 @@ public class ProgramController {
         this.managerMainView.selectMenuMakerView();
         this.managerMainView.modelChanged();
     }
+
+    public void openDashboardView(ActionEvent event){
+        this.managerMainView.selectDashboardView();
+        this.managerMainView.modelChanged();
+    }
     public void editMenuMakerView(ActionEvent event){
         this.menuItemMakerView.setEdit();
 
@@ -813,23 +822,23 @@ public class ProgramController {
 
     /*Restaurant information stuff*/
 
-   public void generateReport(ActionEvent event){
-       if(this.restaurantInfoView.getDatePicker().getValue()!= null) {
-           String reportDate = this.restaurantInfoView.getDatePicker().getValue().toString();
-           if(this.startupMVC.getRestaurantModel().getRestaurantDayMap().containsKey(reportDate)) {
-               RestaurantDay dayToReport = this.startupMVC.getRestaurantModel().getRestaurantDayMap().get(reportDate);
-               ReportView reportView = new ReportView(dayToReport);
-               Stage reportStage = new Stage();
-               reportStage.setScene(new Scene(reportView));
-               reportStage.show();
-           } else {
-               showErrorAlert("ERROR:","No Report for this day");
-           }
-       } else{
-           showErrorAlert("ERROR:","No date picked");
-       }
+    public void generateReport(ActionEvent event){
+        if(this.restaurantInfoView.getDatePicker().getValue()!= null) {
+            String reportDate = this.restaurantInfoView.getDatePicker().getValue().toString();
+            if(this.startupMVC.getRestaurantModel().getRestaurantDayMap().containsKey(reportDate)) {
+                RestaurantDay dayToReport = this.startupMVC.getRestaurantModel().getRestaurantDayMap().get(reportDate);
+                ReportView reportView = new ReportView(dayToReport);
+                Stage reportStage = new Stage();
+                reportStage.setScene(new Scene(reportView));
+                reportStage.show();
+            } else {
+                showErrorAlert("ERROR:","No Report for this day");
+            }
+        } else{
+            showErrorAlert("ERROR:","No date picked");
+        }
 
-   }
+    }
 
 
     /*End of restaurant information*/
