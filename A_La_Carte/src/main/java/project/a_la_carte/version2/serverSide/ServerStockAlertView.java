@@ -58,7 +58,7 @@ public class ServerStockAlertView extends StackPane implements InventorySubscrib
     }
 
     @Override
-    public void modelChanged(Map<String, Double> ingredientInventory, Ingredient loadedIngredient, ArrayList<Ingredient> ingredientList) {
+    public void modelChanged(Map<String, Double> ingredientInventory, Ingredient loadedIngredient, Map<String,Ingredient> ingredientMap) {
         ObservableList<IngredientData> data = FXCollections.observableArrayList();
 
         for (Map.Entry<String, Double> entry : ingredientInventory.entrySet()) {

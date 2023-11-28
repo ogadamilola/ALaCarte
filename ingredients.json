@@ -1,5 +1,5 @@
-[
-  {
+{
+  "Chicken Breast": {
     "name": "Chicken Breast",
     "ingredientType": "Proteins",
     "measurementUnit": "Pounds",
@@ -7,7 +7,7 @@
     "pricePerUnit": 1.5,
     "reorderPoint": 30.0
   },
-  {
+  "Burger Patty": {
     "name": "Burger Patty",
     "ingredientType": "Proteins",
     "measurementUnit": "Count",
@@ -15,7 +15,7 @@
     "pricePerUnit": 1.0,
     "reorderPoint": 30.0
   },
-  {
+  "Burger Bun": {
     "name": "Burger Bun",
     "ingredientType": "Grains",
     "measurementUnit": "Count",
@@ -23,7 +23,7 @@
     "pricePerUnit": 0.6,
     "reorderPoint": 0.0
   },
-  {
+  "Cheddar Cheese": {
     "name": "Cheddar Cheese",
     "ingredientType": "Dairy",
     "measurementUnit": "Pounds",
@@ -31,7 +31,7 @@
     "pricePerUnit": 5.6,
     "reorderPoint": 0.0
   },
-  {
+  "Lettuce": {
     "name": "Lettuce",
     "ingredientType": "Vegetable",
     "measurementUnit": "Pounds",
@@ -39,7 +39,7 @@
     "pricePerUnit": 0.5,
     "reorderPoint": 30.0
   },
-  {
+  "Mayo": {
     "name": "Mayo",
     "ingredientType": "Sauce",
     "measurementUnit": "Pounds",
@@ -47,7 +47,7 @@
     "pricePerUnit": 4.0,
     "reorderPoint": 0.0
   },
-  {
+  "Pepsi": {
     "name": "Pepsi",
     "ingredientType": "Other",
     "measurementUnit": "Count",
@@ -55,7 +55,7 @@
     "pricePerUnit": 1.75,
     "reorderPoint": 0.0
   },
-  {
+  "Spaghetti": {
     "name": "Spaghetti",
     "ingredientType": "Grains",
     "measurementUnit": "Pounds",
@@ -63,7 +63,7 @@
     "pricePerUnit": 2.1,
     "reorderPoint": 0.0
   },
-  {
+  "Tomato Sauce": {
     "name": "Tomato Sauce",
     "ingredientType": "Sauce",
     "measurementUnit": "Pounds",
@@ -71,7 +71,7 @@
     "pricePerUnit": 2.3,
     "reorderPoint": 0.0
   },
-  {
+  "Pork Ribs": {
     "name": "Pork Ribs",
     "ingredientType": "Proteins",
     "measurementUnit": "Pounds",
@@ -79,20 +79,12 @@
     "pricePerUnit": 10.5,
     "reorderPoint": 0.0
   },
-  {
+  "Meatballs": {
     "name": "Meatballs",
     "ingredientType": "Proteins",
     "measurementUnit": "Pounds",
     "commonAllergen": false,
     "pricePerUnit": 10.0,
     "reorderPoint": 0.0
-  },
-  {
-    "name": "Lettuce",
-    "ingredientType": "Vegetable",
-    "measurementUnit": "Pounds",
-    "commonAllergen": false,
-    "pricePerUnit": 0.5,
-    "reorderPoint": 30.0
   }
-]
+}

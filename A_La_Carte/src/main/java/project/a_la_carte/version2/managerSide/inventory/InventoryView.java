@@ -15,6 +15,7 @@ import project.a_la_carte.version2.classesObjects.*;
 import project.a_la_carte.version2.interfaces.InventorySubscriber;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 public class InventoryView extends StackPane implements InventorySubscriber {
@@ -177,7 +178,7 @@ public class InventoryView extends StackPane implements InventorySubscriber {
         deleteButton.setOnAction(controller::deleteItem);
     }
 
-    public void modelChanged(Map<String, Double> ingredientInventory, Ingredient loadedIngredient, ArrayList<Ingredient> ingredientsList){
+    public void modelChanged(Map<String, Double> ingredientInventory, Ingredient loadedIngredient, Map<String,Ingredient> ingredientMap){
         //clear text fields
         nameText.clear();
         quantityText.clear();
@@ -185,20 +186,13 @@ public class InventoryView extends StackPane implements InventorySubscriber {
         listVBox.getChildren().clear();//redraw list
         listVBox.getChildren().add(inventoryTable);
 
-        //for debugging
-        /*for (Map.Entry<Ingredient, Double> entry : ingredientInventory.entrySet()) {
-            Ingredient ingredient = entry.getKey();
-            Double quantity = entry.getValue();
-            System.out.println(ingredient.getName() + " - Stock: " + quantity + " - " + ingredient.getMeasurementUnit().getName() + " - type " + ingredient.getIngredientType().getName());
-        }*/
-
         //new way to display inventory
 
         ObservableList<IngredientData> data = FXCollections.observableArrayList();
 
         for (Map.Entry<String, Double> entry : ingredientInventory.entrySet()) {
 
-            Ingredient ingredient = inventoryModel.getIngredientFromList(entry.getKey());
+            Ingredient ingredient = ingredientMap.get(entry.getKey());
             Double quantity = entry.getValue();
             IngredientData theData = new IngredientData(ingredient,quantity);
             data.add(theData);

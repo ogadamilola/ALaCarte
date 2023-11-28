@@ -42,8 +42,6 @@ public class RestaurantModel {
             restaurantDayMap = new HashMap<>();
         } catch (IOException e) {
             throw new RuntimeException(e);
-        } catch (NullPointerException e){
-            restaurantDayMap = new HashMap<>();
         }
 
         subscribers = new ArrayList<>();
