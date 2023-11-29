@@ -47,6 +47,8 @@ public class RecipeModel {
         }
 
         subscriberList = new ArrayList<>();
+        Map<String,Ingredient> ingredients = model.getIngredientMap();
+
 
 
         //setting buttons for all recipes loaded in
@@ -81,6 +83,8 @@ public class RecipeModel {
         System.out.println(newRecipe);
         saveData();
     }
+
+
 
     public void deleteRecipe(Recipe recipe) {
         recipeList.remove(recipe);
@@ -120,20 +124,18 @@ public class RecipeModel {
         this.recipeMakerView = newView;
     }
 
-    public List<Recipe> getRecipeList(){
+    public ArrayList<Recipe> getRecipeList(){
         return this.recipeList;
     }
 
     /**
      * Adapter class for button attribute so that Gson can serialize it
      */
-    private class ButtonAdapter extends TypeAdapter<MenuItemRecipeButton> {
+    public static class ButtonAdapter extends TypeAdapter<MenuItemRecipeButton> {
         @Override
         public void write(JsonWriter out, MenuItemRecipeButton button) throws IOException {out.nullValue();}
         @Override
         public MenuItemRecipeButton read(JsonReader in) {return null;}
     }
-
-
 
 }

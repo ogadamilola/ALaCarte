@@ -246,8 +246,38 @@ public class RecipeMakerView extends StackPane implements InventorySubscriber, R
         measurementUnitCol.setCellValueFactory(cellData -> cellData.getValue().recipeMeasurementProperty());
         allergenCol.setCellValueFactory(cellData -> cellData.getValue().allergenProperty());
 
+        if(loadedRecipe == null) {
+            if (!isCreating) {
+            getRecipeName().clear();
+            getRecipePrice().clear();
+            getRecipeDescription().clear();
+            getRecipeInstruction().clear();
+            getRecipePrep().clear();
+            }
+        }
+        else {
+            //checking for modification to text fields and empty text fields
+            boolean nameSame = getRecipeName().getText().equals(loadedRecipe.getName());
+            boolean priceSame = getRecipePrice().getText().equals(String.valueOf(loadedRecipe.getPrice()));
+            boolean descSame = getRecipeDescription().getText().equals(loadedRecipe.getDescription());
+            boolean instrSame = getRecipeInstruction().getText().equals(loadedRecipe.getPrepInstruction());
+            boolean timeSame = getRecipePrep().getText().equals(String.valueOf(loadedRecipe.getPrepTime()));
+            //checking for empty text fields
+            boolean nameEmpty = getRecipeName().getText().isEmpty();
+            boolean priceEmpty = getRecipePrice().getText().isEmpty();
+            boolean descEmpty = getRecipeDescription().getText().isEmpty();
+            boolean instrEmpty = getRecipeInstruction().getText().isEmpty();
+            boolean timeEmpty = getRecipePrep().getText().isEmpty();
 
-        getRecipePrice().setText(String.valueOf(priceOfIngredients));
+            //setting text fields to originals for first time loaded, avoiding resetting if changes made
+            if ((nameEmpty && priceEmpty && descEmpty && instrEmpty && timeEmpty) || (nameSame && priceSame && descSame && instrSame && timeSame)) {
+                getRecipeName().setText(loadedRecipe.getName());
+                getRecipePrice().setText(String.valueOf(loadedRecipe.getPrice()));
+                getRecipeDescription().setText(loadedRecipe.getDescription());
+                getRecipeInstruction().setText(loadedRecipe.getPrepInstruction());
+                getRecipePrep().setText(String.valueOf(loadedRecipe.getPrepTime()));
+            }
+        }
 
         getSelectedIngredient().clear();
         getMeasurementBox().setValue(null);

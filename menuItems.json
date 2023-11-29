@@ -1,0 +1,82 @@
+[
+  {
+    "menuItemRecipes": [
+      {
+        "ingredientMap": {
+          "Burger Patty": 1.0,
+          "Lettuce": 0.0,
+          "Meatballs": 0.0,
+          "Spaghetti": 0.0,
+          "Pepsi": 123.0,
+          "Burger Bun": 1.0,
+          "Mayo": 0.0,
+          "Tomato Sauce": 0.0
+        },
+        "name": "Cheese burger",
+        "description": "Burger with cheese and lettuce",
+        "prepInstruction": "Toast bun.\nMelt cheese on top of patty.\nPut mustard, ketchup, onions \u0026 patty with cheese on bottom bun.\nPut mayo \u0026 lettuce on top bun.\nCut in half.",
+        "price": 24.0,
+        "prepTime": 12.0,
+        "selectedStatus": false
+      },
+      {
+        "ingredientMap": {
+          "Potatoes": 0.3
+        },
+        "name": "Fries",
+        "description": "Deep fried potatoes",
+        "prepInstruction": "Slice potatoes.\nFry once at lower temp, rest, then fry again at higher temp.\nSalt and plate. ",
+        "price": 3.0,
+        "prepTime": 8.0,
+        "selectedStatus": true
+      }
+    ],
+    "name": "Test Item",
+    "description": "Test Description",
+    "price": 42.0,
+    "prepTime": 12.0,
+    "selectedStatus": false,
+    "customized": false,
+    "customizeOption": ""
+  },
+  {
+    "menuItemRecipes": [
+      {
+        "ingredientMap": {
+          "Burger Patty": 1.0,
+          "Lettuce": 0.0,
+          "Meatballs": 0.0,
+          "Spaghetti": 0.0,
+          "Pepsi": 123.0,
+          "Burger Bun": 1.0,
+          "Mayo": 0.0,
+          "Tomato Sauce": 0.0
+        },
+        "name": "Cheese burger",
+        "description": "Burger with cheese and lettuce",
+        "prepInstruction": "Toast bun.\nMelt cheese on top of patty.\nPut mustard, ketchup, onions \u0026 patty with cheese on bottom bun.\nPut mayo \u0026 lettuce on top bun.\nCut in half.",
+        "price": 24.0,
+        "prepTime": 12.0,
+        "selectedStatus": false
+      },
+      {
+        "ingredientMap": {
+          "Potatoes": 0.3
+        },
+        "name": "Fries",
+        "description": "Deep fried potatoes",
+        "prepInstruction": "Slice potatoes.\nFry once at lower temp, rest, then fry again at higher temp.\nSalt and plate. ",
+        "price": 3.0,
+        "prepTime": 8.0,
+        "selectedStatus": true
+      }
+    ],
+    "name": "Cheeseburger Combo",
+    "description": "Burger with fries",
+    "price": 26.0,
+    "prepTime": 10.0,
+    "selectedStatus": false,
+    "customized": false,
+    "customizeOption": ""
+  }
+]

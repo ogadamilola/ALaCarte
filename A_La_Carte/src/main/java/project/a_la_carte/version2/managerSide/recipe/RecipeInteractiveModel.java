@@ -11,7 +11,7 @@ import java.util.Map;
 
 public class RecipeInteractiveModel {
     Map<String, Double> temporaryIngredientMap;
-    List<RecipeInteractiveModelSubsciber> subsciberList;
+    List<RecipeInteractiveModelSubsciber> subscriberList;
 
     Recipe loadedRecipe;
     Map<String, Double> loadedRecipeSavedIngredientsMap;
@@ -22,7 +22,7 @@ public class RecipeInteractiveModel {
 
         loadedRecipeSavedIngredientsMap = new HashMap<>();
         temporaryIngredientMap = new HashMap<String,Double>();
-        subsciberList = new ArrayList<RecipeInteractiveModelSubsciber>();
+        subscriberList = new ArrayList<RecipeInteractiveModelSubsciber>();
         loadedRecipe = null;
         isCreating = false;
 
@@ -84,18 +84,18 @@ public class RecipeInteractiveModel {
 
     public void removeFromTempMap(String ingredient){
         if(loadedRecipe != null){
-            temporaryIngredientMap.remove(ingredient);
+            temporaryIngredientMap.remove(ingredient.getName());
             notifySubscribers();
         }
     }
     public void notifySubscribers(){
-        for(RecipeInteractiveModelSubsciber sub: subsciberList){
+        for(RecipeInteractiveModelSubsciber sub: subscriberList){
             sub.iModelChanged(temporaryIngredientMap,loadedRecipe,isCreating);
         }
     }
 
     public void addSubscriber(RecipeInteractiveModelSubsciber sub){
-        subsciberList.add(sub);
+        subscriberList.add(sub);
     }
 
     public Map<String, Double> getTemporaryIngredientMap() {
