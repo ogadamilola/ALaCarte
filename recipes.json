@@ -16,15 +16,15 @@
     "ingredientMap": {
       "Burger Patty": 1.0,
       "Lettuce": 0.0,
-      "Meatballs": 0.0,
-      "Spaghetti": 0.0,
-      "Pepsi": 123.0,
+      "Sliced Onion": 0.1,
+      "Ketchup": 0.0,
+      "Mustard": 0.0,
       "Burger Bun": 1.0,
-      "Mayo": 0.0,
-      "Tomato Sauce": 0.0
+      "Cheddar Cheese": 0.0,
+      "Mayo": 0.0
     },
     "name": "Cheese burger",
-    "description": "Burger with cheese and lettuce",
+    "description": "Burger with mustard, ketchup, onion, cheddar cheese, mayo \u0026 lettuce.",
     "prepInstruction": "Toast bun.\nMelt cheese on top of patty.\nPut mustard, ketchup, onions \u0026 patty with cheese on bottom bun.\nPut mayo \u0026 lettuce on top bun.\nCut in half.",
     "price": 24.0,
     "prepTime": 12.0,

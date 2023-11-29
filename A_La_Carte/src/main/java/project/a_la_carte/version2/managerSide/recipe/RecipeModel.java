@@ -24,7 +24,7 @@ import java.util.Map;
 public class RecipeModel {
     RecipeListView recipeListView;
     RecipeMakerView recipeMakerView;
-    List<Recipe> recipeList;
+    ArrayList<Recipe> recipeList;
     List<RecipeModelSubscriber> subscriberList;
     private static final String FILE_PATH = "recipes.json";
 
@@ -81,6 +81,8 @@ public class RecipeModel {
         saveData();
     }
 
+
+
     public void deleteRecipe(Recipe recipe) {
         recipeList.remove(recipe);
         saveData();
@@ -119,7 +121,7 @@ public class RecipeModel {
         this.recipeMakerView = newView;
     }
 
-    public List<Recipe> getRecipeList(){
+    public ArrayList<Recipe> getRecipeList(){
         return this.recipeList;
     }
 
@@ -132,7 +134,5 @@ public class RecipeModel {
         @Override
         public MenuItemRecipeButton read(JsonReader in) {return null;}
     }
-
-
 
 }

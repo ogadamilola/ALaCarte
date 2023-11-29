@@ -27,6 +27,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import static java.lang.Float.parseFloat;
+
 public class ProgramController {
     StartupMVC startupMVC;
     ManagerMainView managerMainView;
@@ -239,7 +241,7 @@ public class ProgramController {
             Ingredient.IngredientType type = inventoryView.getTypeComboBox().getValue();
             Ingredient.MeasurementUnit mUnit = inventoryView.getMeasurementUnitComboBox().getValue();
             Boolean commonAllergen = inventoryView.getCommonAllergenCheck().isSelected();
-            float pricePerUnit = Float.parseFloat(inventoryView.getPriceText().getText());
+            float pricePerUnit = parseFloat(inventoryView.getPriceText().getText());
             double reorderPoint = 0.0;
             if(!inventoryView.getReorderText().getText().isEmpty()){
                 reorderPoint = Double.parseDouble(inventoryView.getReorderText().getText());
@@ -290,7 +292,7 @@ public class ProgramController {
             Ingredient.IngredientType type = inventoryView.getTypeComboBox().getValue();
             Ingredient.MeasurementUnit mUnit = inventoryView.getMeasurementUnitComboBox().getValue();
             Boolean commonAllergen = inventoryView.getCommonAllergenCheck().isSelected();
-            float pricePerUnit = Float.parseFloat(inventoryView.getPriceText().getText());
+            float pricePerUnit = parseFloat(inventoryView.getPriceText().getText());
             double reorderPoint = 0.0;
             if(!inventoryView.getReorderText().getText().isEmpty()){
                 reorderPoint = Double.parseDouble(inventoryView.getReorderText().getText());
@@ -375,14 +377,14 @@ public class ProgramController {
     }
 
     public void selectIngredient(MouseEvent mouseEvent) {
-
-        Ingredient selectedIngredientName = recipeMakerView.getIngredientTable().getSelectionModel().getSelectedItem().getIngredient();
-        recipeMakerView.getSelectedIngredient().setText(selectedIngredientName.getName());
+        if (recipeMakerView.getIngredientTable().getSelectionModel().getSelectedItem() != null) {
+            Ingredient selectedIngredientName = recipeMakerView.getIngredientTable().getSelectionModel().getSelectedItem().getIngredient();
+            recipeMakerView.getSelectedIngredient().setText(selectedIngredientName.getName());
+        }
 
     }
 
     public void deleteIngredientFromRecipe(ActionEvent actionEvent) {
-
         Ingredient ingredientToRemove = searchIngredientByName(recipeMakerView.getSelectedIngredient().getText());
         startupMVC.getRecipeInteractiveModel().removeFromTempMap(ingredientToRemove);
     }
@@ -529,6 +531,14 @@ public class ProgramController {
             String ingredientName = recipeMakerView.getSelectedIngredient().getText();
             Ingredient ingredient = searchIngredientByName(ingredientName);
             Double recipeQuantity = Double.valueOf(recipeMakerView.getEnterMeasurementField().getText());
+
+            //preserving current edits to recipe details
+            String tempName = recipeMakerView.getRecipeName().getText();
+            String tempDesc = recipeMakerView.getRecipeDescription().getText();
+            String tempPrepInstr = recipeMakerView.getRecipeInstruction().getText();
+            float tempPrice = parseFloat(recipeMakerView.getRecipePrice().getText());
+            float tempPrepTime = parseFloat(recipeMakerView.getRecipePrep().getText());
+
             //find the ingredient;
             startupMVC.getRecipeInteractiveModel().addToTempMap(ingredient.getName(), recipeQuantity);
             //add ingredient to temp list of ingredients to be displayed

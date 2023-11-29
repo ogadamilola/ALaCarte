@@ -12,5 +12,12 @@
     "ingredientUsageMap": {"Lettuce":1.6,"Meatballs":4.0,"Spaghetti":4.0,"Pork Ribs":39.0,"Chicken Breast":1.6,"Cheddar Cheese":0.2},
     "totalOrders": 10,
     "incomeToday": 693.0
+  },
+  "2023-11-29": {
+    "date": "2023-11-29",
+    "menuItemMap": {},
+    "ingredientUsageMap": {},
+    "totalOrders": 0,
+    "incomeToday": 0.0
   }
 }
