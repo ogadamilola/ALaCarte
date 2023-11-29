@@ -27,6 +27,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import static java.lang.Float.parseFloat;
+
 public class ProgramController {
     StartupMVC startupMVC;
     ManagerMainView managerMainView;
@@ -96,8 +98,8 @@ public class ProgramController {
     public void setStartupMVC(StartupMVC newModel){
         this.startupMVC = newModel;
         //This is just for testing
-        MenuFoodItem newItem = new MenuFoodItem((ArrayList<Recipe>) startupMVC.getRecipeModel().getRecipeList(), "Test Item", "Test Description");
-        startupMVC.getMenuItemModel().addNewMenuItem(newItem);
+//        MenuFoodItem newItem = new MenuFoodItem((ArrayList<Recipe>) startupMVC.getRecipeModel().getRecipeList(), "Test Item", "Test Description");
+//        startupMVC.getMenuItemModel().addNewMenuItem(newItem);
         this.startupMVC.getMenuItemModel().resetAddedRecipes();
         //----------------------------------------------
     }
@@ -394,8 +396,7 @@ public class ProgramController {
     }
 
     public void selectIngredient(MouseEvent mouseEvent) {
-
-        if(recipeMakerView.getIngredientTable().getSelectionModel().getSelectedItem() != null) {
+        if (recipeMakerView.getIngredientTable().getSelectionModel().getSelectedItem() != null) {
             Ingredient selectedIngredientName = recipeMakerView.getIngredientTable().getSelectionModel().getSelectedItem().getIngredient();
             recipeMakerView.getSelectedIngredient().setText(selectedIngredientName.getName());
         }
@@ -403,8 +404,7 @@ public class ProgramController {
     }
 
     public void deleteIngredientFromRecipe(ActionEvent actionEvent) {
-
-        String ingredientToRemove =recipeMakerView.getIngredientTable().getSelectionModel().getSelectedItem().getIngredient().getName();
+        Ingredient ingredientToRemove = searchIngredientByName(recipeMakerView.getSelectedIngredient().getText());
         startupMVC.getRecipeInteractiveModel().removeFromTempMap(ingredientToRemove);
     }
 
@@ -549,6 +549,7 @@ public class ProgramController {
             String ingredientName = recipeMakerView.getSelectedIngredient().getText();
             Ingredient ingredient = searchIngredientByName(ingredientName);
             Double recipeQuantity = Double.valueOf(recipeMakerView.getEnterMeasurementField().getText());
+
             //find the ingredient;
             startupMVC.getRecipeInteractiveModel().addToTempMap(ingredient.getName(), recipeQuantity);
             //add ingredient to temp list of ingredients to be displayed
@@ -567,7 +568,9 @@ public class ProgramController {
      * null if not found
      */
     public Ingredient searchIngredientByName(String name){
+
         return this.startupMVC.getInventoryModel().getIngredientMap().get(name);
+
     }
 
 

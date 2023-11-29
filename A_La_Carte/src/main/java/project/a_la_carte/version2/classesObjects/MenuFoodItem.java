@@ -40,7 +40,11 @@ public class MenuFoodItem {
         return this.customized;
     }
     public MenuItemListButton getButton(){return this.menuItemListButton;}
+
+    public void setButton() {this.menuItemListButton = new MenuItemListButton(this.name);}
     public MenuItemMainDisplay getDisplay(){return this.menuItemMainDisplay;}
+
+    public void setDisplay() {this.menuItemMainDisplay = new MenuItemMainDisplay(this.name);}
     public void selectDisplay(){
         this.selectedStatus = true;
         this.getDisplay().select();

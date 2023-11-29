@@ -54,6 +54,14 @@ public class Order {
         return totalPrice;
     }
 
+    public float getTotalPrice(){
+        float totalPrice  = 0;
+        for(MenuFoodItem item : menuItems){
+            totalPrice += item.getPrice();
+        }
+        return totalPrice;
+    }
+
     public void updateOrderFromString(String text) {
     }
 }
