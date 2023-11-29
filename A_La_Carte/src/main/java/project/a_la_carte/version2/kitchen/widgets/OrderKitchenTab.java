@@ -7,12 +7,16 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import project.a_la_carte.version2.classesObjects.MenuFoodItem;
+import project.a_la_carte.version2.classesObjects.Recipe;
 import project.a_la_carte.version2.kitchen.*;
 import project.a_la_carte.version2.classesObjects.Order;
 import project.a_la_carte.version2.interfaces.*;
+import project.a_la_carte.version2.managerSide.recipe.ShowRecipeInfoView;
 
 public class OrderKitchenTab extends StackPane implements OrderClassesInterface {
     Label orderLabel;
+    ShowRecipeInfoView showRecipeInfoView;
     Label itemsRemain;
     //We can probably add a ScrollPane for the VBox so that its not cluttered and it scrolls
     VBox ordersVBox;
@@ -62,6 +66,7 @@ public class OrderKitchenTab extends StackPane implements OrderClassesInterface 
                     orderItems.completedSingleItem();
                 }));
                 ordersVBox.getChildren().add(newDisplay);
+                newDisplay.getViewRecipeButton().setOnAction(event -> showTheInfo(order));
             }));
         }
         else {
@@ -71,5 +76,12 @@ public class OrderKitchenTab extends StackPane implements OrderClassesInterface 
 
         orderLabel.setText("Order #"+ orderItems.getOrderNum());
         itemsRemain.setText("Remaining Items: "+ orderItems.getTotalItems());
+    }
+
+    public void showTheInfo(MenuFoodItem item){
+            for(Recipe recipe : item.getMenuItemRecipes()) {
+                showRecipeInfoView = new ShowRecipeInfoView(recipe);
+            }
+
     }
 }
