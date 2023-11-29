@@ -15,9 +15,9 @@
   },
   "2023-11-29": {
     "date": "2023-11-29",
-    "menuItemMap": {"Re":2.0,"Test Item":115.0},
-    "ingredientUsageMap": {"Burger Patty":118.0,"Lettuce":36.875,"Meatballs":66.375,"Onion":36.875,"Spaghetti":95.875,"Pepsi":118.0,"Burger Bun":118.0,"Cheddar Cheese":73.75,"Meat sauce":66.375,"Mayo":22.125},
-    "totalOrders": 75,
+    "menuItemMap": {"Re":2.0,"Test Item":155.0},
+    "ingredientUsageMap": {"Burger Patty":158.0,"Lettuce":49.375,"Meatballs":88.875,"Onion":49.375,"Spaghetti":128.375,"Pepsi":158.0,"Burger Bun":158.0,"Cheddar Cheese":98.75,"Meat sauce":88.875,"Mayo":29.625},
+    "totalOrders": 91,
     "incomeToday": 48.0
   }
 }

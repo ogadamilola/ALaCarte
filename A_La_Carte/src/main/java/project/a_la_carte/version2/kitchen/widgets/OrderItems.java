@@ -51,7 +51,7 @@ public class OrderItems extends HBox {
 
         // Starting a StopWatch for the whole order
         totalTimeElapsedStopWatch = new StopWatch();
-        totalTimeElapsedStopWatch.start();
+        //totalTimeElapsedStopWatch.start();
         totalTimeElapsedLabel = new Label("Total Time: " + totalTimeElapsedStopWatch.getElapsedTimeFormatted());
 
         // Creating an array of un-started StopWatches
@@ -60,7 +60,7 @@ public class OrderItems extends HBox {
             StopWatch newStop = new StopWatch();
             recipeStopWatches.add(newStop);
         }
-        recipeStopWatches.forEach(StopWatch::start);
+        recipeStopWatches.forEach(StopWatch::stop);
         Label nameLabel = new Label(menuFoodItem.getName());
         Label prepLabel = new Label(prepTimes.toString());
 
@@ -85,18 +85,21 @@ public class OrderItems extends HBox {
         stringDisplay.getChildren().add(prepLabel);
         stringDisplay.getChildren().add(totalTimeElapsedLabel);
 
+        totalTimeElapsedStopWatch.start();
+        recipeStopWatches.forEach(StopWatch::start);
+
         for (int i = 0; i < numberOfRecipes; i++) {
             Button complete = new Button("Complete Recipe");
             Button addOne = new Button("Add 1 Min.");
             Button viewButton = new Button("View Recipe");
 
-            HBox buttonsBox = new HBox(addOne, complete, viewButton);
+            HBox buttonsBox = new HBox(addOne,complete, viewButton);
             buttonsBox.setPrefWidth(300);
             buttonsBox.setSpacing(10);
-            buttonsBox.setAlignment(Pos.CENTER_RIGHT);
+            buttonsBox.setAlignment(Pos.BASELINE_RIGHT);
 
             HBox labelBox = new HBox(recipesTimeElapsedLabel.get(i));
-            labelBox.prefWidth(300);
+            labelBox.setPrefWidth(300);
 
             HBox addBox = new HBox(labelBox, buttonsBox);
             addBox.setPrefWidth(600);
@@ -108,6 +111,8 @@ public class OrderItems extends HBox {
                 menuFoodItem.getMenuItemRecipes().get(val).setFinished();
                 addBox.getChildren().remove(buttonsBox);
                 labelBox.getChildren().add(completeL);
+
+                recipeStopWatches.get(val).stop();
                 if (!isNotFinished()){
                     orderKitchenTab.orderItems.deleteItem(this.menuFoodItem);
                 }
@@ -126,11 +131,12 @@ public class OrderItems extends HBox {
                 Platform.runLater(new Runnable() {
                     @Override
                     public void run() {
-                        totalTimeElapsedLabel.setText("Total Time: " + totalTimeElapsedStopWatch.getElapsedTimeFormatted());
-
+                        if (totalTimeElapsedStopWatch.is_watch_Running()){
+                            totalTimeElapsedLabel.setText("Total Time: " + totalTimeElapsedStopWatch.getElapsedTimeFormatted());
+                        }
                         // Start StopWatch when correct time has passed
                         for (int i = 0; i < recipesTimeElapsedLabel.size(); i++) {
-                            if ((!recipeStopWatches.get(i).is_watch_Running()) && (!recipeStopWatches.get(i).is_watch_finished_Running())) {
+                            if ((recipeStopWatches.get(i).is_watch_Running()) && (recipeStopWatches.get(i).is_watch_finished_Running())) {
                                 recipeStopWatches.get(i).syncNewStopWatch(totalTimeElapsedStopWatch, startTimes.get(i));
                             }
                         }
@@ -142,9 +148,9 @@ public class OrderItems extends HBox {
                 // Change Text color to red if recipe is late
 //                // and yellow for a two-minute warning
                             if (recipeStopWatches.get(i).is_watch_Running()) {
-                                if (totalTimeElapsedStopWatch.getElapsedTime() >= ((prepTimes.get(i) + (prepTimes.get(i)/2)) * 60000L)) {
+                                if (recipeStopWatches.get(i).getElapsedTime() >= ((prepTimes.get(i) + (prepTimes.get(i)/2)) * 60000L)) {
                                     recipesTimeElapsedLabel.get(i).setStyle("-fx-text-fill: red;\n");
-                                } else if (totalTimeElapsedStopWatch.getElapsedTime() >= ((prepTimes.get(i)) * 60000L)) {
+                                } else if (recipeStopWatches.get(i).getElapsedTime() >= ((prepTimes.get(i)) * 60000L)) {
                                     recipesTimeElapsedLabel.get(i).setStyle("-fx-text-fill: orange;\n");
                                 }
                             }
