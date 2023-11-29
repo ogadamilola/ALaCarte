@@ -7,8 +7,11 @@ public class Staff {
     private String lastName;
     private String staffID;
     private int sin;
+    private int tips;
     private String username;
     private String password;
+
+
 
     public enum position {
         Manager("Manager"), Server("Server"), Cook("Cook");
@@ -47,6 +50,9 @@ public class Staff {
     public int getSin() {
         return sin;
     }
+    public int getTips() {
+        return tips;
+    }
 
     public position getPosition() {
         return position;
@@ -65,6 +71,10 @@ public class Staff {
 
     public void setSin(int sin) {
         this.sin = sin;
+    }
+
+    public void setTips(int tips) {
+        this.tips = tips;
     }
 
     public void setStaffID(String staffID) {
