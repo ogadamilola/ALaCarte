@@ -71,6 +71,7 @@ public class StartupMVC extends StackPane {
         //------------------------------------------------------
         //-----------Menu Item------------------------
         menuItemModel = new MenuItemModel();
+        menuItemModel.setRecipeArrayList(recipeModel.getRecipeList());
         //--------------------------------------------------------
 
         //-----------Staff Model------------------------

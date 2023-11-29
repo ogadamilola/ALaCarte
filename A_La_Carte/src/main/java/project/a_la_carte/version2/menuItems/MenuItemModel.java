@@ -41,7 +41,9 @@ public class MenuItemModel {
                 .create();
         try {
             FileReader reader = new FileReader(FILE_PATH);
+
             Type arrayListType = new TypeToken<ArrayList<MenuFoodItem>>(){}.getType();
+
             menuItemsList = gson.fromJson(reader, arrayListType);
             //catching case where file empty
             if (menuItemsList == null)
