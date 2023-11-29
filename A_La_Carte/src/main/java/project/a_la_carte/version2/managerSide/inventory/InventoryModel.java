@@ -90,16 +90,34 @@ public class InventoryModel {
 
     /**
      * subtract the quantity from inventory
-     * @param ingredient    the key ingredient
+     * @param ingredientName    the key ingredient
      * @param quantity      the quantity to subtract
      */
-    public void removeQuantity(Ingredient ingredient, double quantity){
+    public void removeQuantity(String ingredientName, double quantity){
 
-        double currentStock = inventoryMap.get(ingredient.getName());
-        inventoryMap.put(ingredient.getName(),currentStock - quantity);
+        double currentStock = inventoryMap.get(ingredientName);
+        inventoryMap.put(ingredientName,currentStock - quantity);
         notifySubs();
         saveData();
     }
+
+
+    public void handleOrderPunched(Order order) {//subtract the used ingredients from inventory
+
+        for (MenuFoodItem item : order.getOrderList()) {
+            if (item.getMenuItemRecipes() != null) {
+                for (Recipe recipe : item.getMenuItemRecipes()) {
+                    if(recipe.getRecipeIngredients() != null){
+                        for (Map.Entry<String, Double> entry : recipe.getRecipeIngredients().entrySet()) {
+                            removeQuantity(entry.getKey(), entry.getValue());
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+
 
     public Ingredient getIngredientFromList(String ingredientName){
         try{

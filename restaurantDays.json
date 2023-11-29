@@ -1,10 +1,10 @@
 {
   "2023-11-28": {
     "date": "2023-11-28",
-    "menuItemMap": {"beef menu item":2.0,"Test Item":10.0},
-    "ingredientUsageMap": {"Burger Patty":60.0,"Lettuce":29.00000000000001,"Meatballs":0.0,"Ketchup":3.9999999999999996,"Spaghetti":0.0,"Pepsi":20.0,"Pork Ribs":10.0,"Chicken Breast":1.9999999999999998,"Burger Bun":40.0,"Cheddar Cheese":5.0,"Tomato Sauce":0.0,"Mayo":2.9999999999999996},
-    "totalOrders": 6,
-    "incomeToday": 90.0
+    "menuItemMap": {"beef menu item":2.0,"Test Item":22.0},
+    "ingredientUsageMap": {"Burger Patty":77.0,"Meatballs":9.5625,"Ketchup":3.9999999999999996,"Onion":5.3125,"Pepsi":37.0,"Meat sauce":9.5625,"Tomato Sauce":0.0,"Mayo":6.1875,"Lettuce":34.312500000000014,"Spaghetti":13.8125,"Pork Ribs":10.0,"Chicken Breast":1.9999999999999998,"Burger Bun":57.0,"Cheddar Cheese":15.625},
+    "totalOrders": 10,
+    "incomeToday": 140.0
   },
   "2023-11-27": {
     "date": "2023-11-27",

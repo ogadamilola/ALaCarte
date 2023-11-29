@@ -1,5 +1,6 @@
 package project.a_la_carte.version2.kitchen;
 
+import project.a_la_carte.version2.ProgramController;
 import project.a_la_carte.version2.kitchen.widgets.KitchenNotes;
 import project.a_la_carte.version2.interfaces.*;
 import project.a_la_carte.version2.classesObjects.Order;
@@ -40,8 +41,10 @@ public class KitchenModel {
         if (!order.isFinished()){
             order.orderFinished();
         }
+
         notifySubscribers();
     }
+
     public ArrayList<Order> getTotalOrders(){return this.totalOrdersTracker;}
     public ArrayList<Order> getActiveOrders(){
         return this.activeOrders;

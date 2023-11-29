@@ -739,6 +739,7 @@ public class ProgramController {
 
             //process order in restaurant model
             this.startupMVC.getRestaurantModel().handleOrderPunched(view.getMenuView().getCurrentOrder());
+            this.startupMVC.getInventoryModel().handleOrderPunched(view.getMenuView().getCurrentOrder());
             view.getMenuView().clearOrder();
         }
     }
@@ -746,7 +747,7 @@ public class ProgramController {
         view.getMenuView().clearOrder();
     }
     public void refundDisplay(ActionEvent event){
-        RefundView refundView = new RefundView(startupMVC.getKitchenModel());
+        RefundView refundView = new RefundView(startupMVC.getKitchenModel(),startupMVC.getRestaurantModel());
         this.startupMVC.getKitchenModel().addSubscribers(refundView);
         this.startupMVC.getKitchenModel().notifySubscribers();
 

@@ -31,7 +31,6 @@ public class IngredientData {
     public DoubleProperty recipeQuantityProperty(){//use to display ounces in recipe tables
         switch(this.ingredient.getMeasurementUnit()){
             case Count -> {
-                System.out.println("lol");
                 return new SimpleDoubleProperty(quantity);
 
             }
