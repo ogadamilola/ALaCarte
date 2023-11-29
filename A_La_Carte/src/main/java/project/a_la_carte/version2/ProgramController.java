@@ -405,7 +405,7 @@ public class ProgramController {
 
     public void deleteIngredientFromRecipe(ActionEvent actionEvent) {
         Ingredient ingredientToRemove = searchIngredientByName(recipeMakerView.getSelectedIngredient().getText());
-        startupMVC.getRecipeInteractiveModel().removeFromTempMap(ingredientToRemove);
+        startupMVC.getRecipeInteractiveModel().removeFromTempMap(ingredientToRemove.getName());
     }
 
 
