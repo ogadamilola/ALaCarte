@@ -24,7 +24,6 @@ public class MenuItemMakerView extends StackPane implements MenuItemModelSubscri
     TextField menuItemName;
     TextArea menuItemDescription;
     TextField menuItemPrice;
-    TextField menuItemPrep;
     Label priceOfRecipesLabel;
     Button saveMenuItem;
     Button editMenuItem;
@@ -71,17 +70,10 @@ public class MenuItemMakerView extends StackPane implements MenuItemModelSubscri
         priceBox.setPrefWidth(500);
         priceBox.setPadding(new Insets(2));
 
-        this.menuItemPrep = new TextField();
-        Label prepLabel = new Label("Prep. Time: ");
-        this.menuItemPrep.setPrefWidth(270);
-        HBox prepBox = new HBox(prepLabel, menuItemPrep);
-        prepBox.setPrefWidth(500);
-        prepBox.setPadding(new Insets(2));
-
         addRecipe = new Button("Add Selected Recipe");
         mainMenu = new Button("Main Menu");
 
-        createVBox.getChildren().addAll(mainMenu,title, nameHBox,descVBox,priceBox,priceOfRecipesLabel,prepBox);
+        createVBox.getChildren().addAll(mainMenu,title, nameHBox,descVBox,priceBox,priceOfRecipesLabel);
         createVBox.setPadding(new Insets(5,5,5,5));
 
         //Right side, recipe list ---------------------------------------------
@@ -176,23 +168,13 @@ public class MenuItemMakerView extends StackPane implements MenuItemModelSubscri
     public void setPriceText(String priceText){
         this.menuItemPrice.setText(priceText);
     }
-    public String getMenuPrep(){
-        return this.menuItemPrep.getText();
-    }
-    public void setPrepText(String prepText){
-        this.menuItemPrep.setText(prepText);
-    }
     public float setMenuPrice(){
         return Float.parseFloat(this.menuItemPrice.getText());
-    }
-    public float setMenuPrep(){
-        return Float.parseFloat(this.menuItemPrep.getText());
     }
     public void clearTextFields(){
         this.menuItemName.clear();
         this.menuItemDescription.clear();
         this.menuItemPrice.clear();
-        this.menuItemPrep.clear();
     }
     public void setSave(){
         this.edit = false;
