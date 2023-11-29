@@ -60,7 +60,6 @@ public class OrderItems extends HBox {
             StopWatch newStop = new StopWatch();
             recipeStopWatches.add(newStop);
         }
-        recipeStopWatches.forEach(StopWatch::stop);
         Label nameLabel = new Label(menuFoodItem.getName());
         Label prepLabel = new Label(prepTimes.toString());
 
