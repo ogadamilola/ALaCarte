@@ -532,13 +532,6 @@ public class ProgramController {
             Ingredient ingredient = searchIngredientByName(ingredientName);
             Double recipeQuantity = Double.valueOf(recipeMakerView.getEnterMeasurementField().getText());
 
-            //preserving current edits to recipe details
-            String tempName = recipeMakerView.getRecipeName().getText();
-            String tempDesc = recipeMakerView.getRecipeDescription().getText();
-            String tempPrepInstr = recipeMakerView.getRecipeInstruction().getText();
-            float tempPrice = parseFloat(recipeMakerView.getRecipePrice().getText());
-            float tempPrepTime = parseFloat(recipeMakerView.getRecipePrep().getText());
-
             //find the ingredient;
             startupMVC.getRecipeInteractiveModel().addToTempMap(ingredient.getName(), recipeQuantity);
             //add ingredient to temp list of ingredients to be displayed
