@@ -29,7 +29,6 @@ public class RecipeModel {
     private static final String FILE_PATH = "recipes.json";
 
     public RecipeModel(){
-        InventoryModel model = new InventoryModel();
         recipeList = new ArrayList<>();
 
         //reading in json file
@@ -48,7 +47,6 @@ public class RecipeModel {
         }
 
         subscriberList = new ArrayList<>();
-        Map<String,Ingredient> ingredients = model.getIngredientMap();
 
 
         //setting buttons for all recipes loaded in
@@ -76,6 +74,8 @@ public class RecipeModel {
         newRecipe.setDescription(desc);
         newRecipe.setPrepInstruction(instruction);
         newRecipe.setPrepTime((float) prepTime);
+
+
         newRecipe.setRecipeIngredients(ingredientMap);
         recipeList.add(newRecipe);
         System.out.println(newRecipe);

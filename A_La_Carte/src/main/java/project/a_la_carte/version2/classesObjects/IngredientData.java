@@ -32,6 +32,7 @@ public class IngredientData {
         switch(this.ingredient.getMeasurementUnit()){
             case Count -> {
                 return new SimpleDoubleProperty(quantity);
+
             }
             case Pounds -> {return new SimpleDoubleProperty(quantity*16);}
 

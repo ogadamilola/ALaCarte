@@ -45,14 +45,11 @@ public class RestaurantDay {
     public void handleIngredientUsage(MenuFoodItem item){
         if(item.getMenuItemRecipes() !=  null){
             for(Recipe recipe : item.getMenuItemRecipes()){
-                //FIXME will have to change to string
-
                 for (Map.Entry<String,Double> entry : recipe.getRecipeIngredients().entrySet()){
-
-                    if(ingredientUsageMap.containsKey(entry.getKey())){
+                    if(ingredientUsageMap.containsKey(entry.getKey())){ // ingredient is already in, add value
                         ingredientUsageMap.compute(entry.getKey(),(k,v) -> v +entry.getValue());
                     } else{
-                        ingredientUsageMap.put(entry.getKey(),entry.getValue());
+                        ingredientUsageMap.put(entry.getKey(),entry.getValue());//if not create new
                     }
                 }
 
@@ -61,6 +58,21 @@ public class RestaurantDay {
             System.out.println(item.getName() + " recipe list is empty");
         }
     }
+
+    public void handleOrderRefund(Order order){
+        totalOrders -=1;
+        incomeToday -= order.getTotalPrice();
+
+        for(MenuFoodItem item : order.getOrderList()){
+            if(menuItemMap.containsKey(item.getName())){ //subtract from existing counter
+                menuItemMap.compute(item.getName(),(k,v) -> v -1);
+            } else{
+                menuItemMap.put(item.getName(),1.0);//it should never hit this but oh well
+            }
+        }
+        //If you refunded, you most likely still used the ingredients so dont update
+    }
+
 
     public float getIncomeToday() {
         return incomeToday;

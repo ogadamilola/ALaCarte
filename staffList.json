@@ -67,5 +67,37 @@
     "staffID": "1111",
     "sin": 675674456,
     "position": "Server"
+  },
+  {
+    "firstName": "lol",
+    "lastName": "lol",
+    "staffID": "9999",
+    "sin": 543543345,
+    "username": "lol",
+    "password": "lol",
+    "position": "Manager"
+  },
+  {
+    "firstName": "john",
+    "lastName": "doe",
+    "staffID": "8888",
+    "sin": 655646546,
+    "username": "johndoe",
+    "password": "123",
+    "position": "Manager"
+  },
+  {
+    "firstName": "assad6",
+    "lastName": "dsds6",
+    "staffID": "3333",
+    "sin": 42124325,
+    "position": "Cook"
+  },
+  {
+    "firstName": "server",
+    "lastName": "1233",
+    "staffID": "7777",
+    "sin": 543253242,
+    "position": "Server"
   }
 ]

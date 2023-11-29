@@ -1,16 +1,16 @@
 {
   "2023-11-28": {
     "date": "2023-11-28",
-    "menuItemMap": {"Test Item":2.0},
-    "ingredientUsageMap": {"Burger Patty":2.0,"Lettuce":0.0,"Meatballs":0.4,"Spaghetti":0.8,"Pepsi":246.0,"Burger Bun":2.0,"Tomato Sauce":0.6,"Mayo":0.0},
-    "totalOrders": 2,
-    "incomeToday": 78.0
+    "menuItemMap": {"beef menu item":2.0,"Test Item":22.0},
+    "ingredientUsageMap": {"Burger Patty":77.0,"Meatballs":9.5625,"Ketchup":3.9999999999999996,"Onion":5.3125,"Pepsi":37.0,"Meat sauce":9.5625,"Tomato Sauce":0.0,"Mayo":6.1875,"Lettuce":34.312500000000014,"Spaghetti":13.8125,"Pork Ribs":10.0,"Chicken Breast":1.9999999999999998,"Burger Bun":57.0,"Cheddar Cheese":15.625},
+    "totalOrders": 10,
+    "incomeToday": 140.0
   },
   "2023-11-27": {
     "date": "2023-11-27",
-    "menuItemMap": {"123123123123":2.0,"teeeeeeeeest12":4.0,"Try":1.0,"Test Item":11.0},
-    "ingredientUsageMap": {"Lettuce":1.6,"Meatballs":4.0,"Spaghetti":4.0,"Pork Ribs":39.0,"Chicken Breast":1.6,"Cheddar Cheese":0.2},
-    "totalOrders": 10,
-    "incomeToday": 693.0
+    "menuItemMap": {"123123123123":2.0,"teeeeeeeeest12":4.0,"New menu Item":1.0,"Test Item":14.0},
+    "ingredientUsageMap": {"Burger Patty":8.0,"Lettuce":86.3,"Meatballs":4.4,"Ketchup":4.6,"Spaghetti":5.0,"Pepsi":248.0,"Pork Ribs":40.0,"Chicken Breast":7.200000000000001,"Cheddar Cheese":3.5,"Burger Bun":6.0,"Tomato Sauce":0.6,"Mayo":0.3},
+    "totalOrders": 12,
+    "incomeToday": 867.5781
   }
 }

@@ -86,5 +86,45 @@
     "commonAllergen": false,
     "pricePerUnit": 10.0,
     "reorderPoint": 0.0
+  },
+  "Ketchup": {
+    "name": "Ketchup",
+    "ingredientType": "Sauce",
+    "measurementUnit": "Pounds",
+    "commonAllergen": false,
+    "pricePerUnit": 0.6,
+    "reorderPoint": 0.0
+  },
+  "Beef": {
+    "name": "Beef",
+    "ingredientType": "Proteins",
+    "measurementUnit": "Pounds",
+    "commonAllergen": false,
+    "pricePerUnit": 1.0,
+    "reorderPoint": 0.0
+  },
+  "Meat sauce": {
+    "name": "Meat sauce",
+    "ingredientType": "Sauce",
+    "measurementUnit": "Pounds",
+    "commonAllergen": false,
+    "pricePerUnit": 4.0,
+    "reorderPoint": 0.0
+  },
+  "Potatoe": {
+    "name": "Potatoe",
+    "ingredientType": "Vegetable",
+    "measurementUnit": "Pounds",
+    "commonAllergen": false,
+    "pricePerUnit": 0.5,
+    "reorderPoint": 0.0
+  },
+  "Onion": {
+    "name": "Onion",
+    "ingredientType": "Vegetable",
+    "measurementUnit": "Pounds",
+    "commonAllergen": false,
+    "pricePerUnit": 0.75,
+    "reorderPoint": 0.0
   }
 }

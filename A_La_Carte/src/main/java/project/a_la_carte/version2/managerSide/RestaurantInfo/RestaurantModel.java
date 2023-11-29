@@ -75,6 +75,14 @@ public class RestaurantModel {
         saveDayMap();
     }
 
+    public void handleOrderRefund(Order order) {
+        loadedDay.handleOrderRefund(order);
+        notifySubs();
+        saveDayMap();
+    }
+
+
+
 
     public void addSubscriber(RestaurantModelSubscriber sub){
         subscribers.add(sub);
@@ -138,4 +146,6 @@ public class RestaurantModel {
             throw new RuntimeException(e);
         }
     }
-}
+    }
+
+

@@ -62,7 +62,7 @@ public class RecipeMakerView extends StackPane implements InventorySubscriber, R
         nameHBox.setPrefWidth(600);
 
         HBox priceHBox = new HBox();
-        Label priceLabel = new Label("Enter Price");
+        Label priceLabel = new Label("Price of ingredients");
         recipePrice = new TextField();
         priceHBox.getChildren().addAll(priceLabel,recipePrice);
         priceHBox.setPadding(new Insets(2,2,2,2));
@@ -212,10 +212,30 @@ public class RecipeMakerView extends StackPane implements InventorySubscriber, R
 
     public void iModelChanged(Map<String, Double> tempIngredientList, Recipe loadedRecipe, boolean isCreating) {
         //make an ingredient widget and show it in the list
+        if(loadedRecipe == null){
+            if(!isCreating){
+                getRecipeName().clear();
+                getRecipePrice().clear();
+                getRecipeDescription().clear();
+                getRecipeInstruction().clear();
+                getRecipePrep().clear();
+            }
+
+        }
+        else{
+            getRecipeName().setText(loadedRecipe.getName());
+            getRecipePrice().setText(String.valueOf(loadedRecipe.getPrice()));
+            getRecipeDescription().setText(loadedRecipe.getDescription());
+            getRecipeInstruction().setText(loadedRecipe.getPrepInstruction());
+            getRecipePrep().setText(String.valueOf(loadedRecipe.getPrepTime()));
+        }
         ObservableList<IngredientData> data =  FXCollections.observableArrayList();
         ingredientTable.setItems(data);
+
+        float priceOfIngredients = 00.00f;
         for (Map.Entry<String, Double> entry : tempIngredientList.entrySet()) {
             Ingredient ingredient = inventoryModel.getIngredientMap().get(entry.getKey());
+            priceOfIngredients += (float) (ingredient.pricePerOunce() * entry.getValue());
             Double quantity = entry.getValue();
             IngredientData theData = new IngredientData(ingredient,quantity);
             data.add(theData);
@@ -226,24 +246,8 @@ public class RecipeMakerView extends StackPane implements InventorySubscriber, R
         measurementUnitCol.setCellValueFactory(cellData -> cellData.getValue().recipeMeasurementProperty());
         allergenCol.setCellValueFactory(cellData -> cellData.getValue().allergenProperty());
 
-        if(loadedRecipe == null){
-            if(!isCreating){
-            getRecipeName().clear();
-            getRecipePrice().clear();
-            getRecipeDescription().clear();
-            getRecipeInstruction().clear();
-            getRecipePrep().clear();
-            }
 
-        }
-
-        else{
-            getRecipeName().setText(loadedRecipe.getName());
-            getRecipePrice().setText(String.valueOf(loadedRecipe.getPrice()));
-            getRecipeDescription().setText(loadedRecipe.getDescription());
-            getRecipeInstruction().setText(loadedRecipe.getPrepInstruction());
-            getRecipePrep().setText(String.valueOf(loadedRecipe.getPrepTime()));
-        }
+        getRecipePrice().setText(String.valueOf(priceOfIngredients));
 
         getSelectedIngredient().clear();
         getMeasurementBox().setValue(null);

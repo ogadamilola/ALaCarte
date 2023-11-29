@@ -32,7 +32,7 @@ public class MenuFoodItem {
         selectedStatus = false;
         if (menuItemRecipes != null) {
             menuItemRecipes.forEach((recipe -> {
-                this.price += recipe.getPrice();
+                //this.price += recipe.getPrice();
                 this.prepTime = max(recipe.getPrepTime(), this.prepTime);
             }));
         }

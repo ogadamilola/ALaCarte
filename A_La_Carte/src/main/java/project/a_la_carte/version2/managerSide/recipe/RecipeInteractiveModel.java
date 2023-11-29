@@ -20,6 +20,7 @@ public class RecipeInteractiveModel {
 
     public RecipeInteractiveModel(){
 
+        loadedRecipeSavedIngredientsMap = new HashMap<>();
         temporaryIngredientMap = new HashMap<String,Double>();
         subsciberList = new ArrayList<RecipeInteractiveModelSubsciber>();
         loadedRecipe = null;
@@ -44,10 +45,12 @@ public class RecipeInteractiveModel {
         }
         notifySubscribers();
     }
+
     public void updateTempMap(){
         for(Map.Entry<String,Double> entry : loadedRecipeSavedIngredientsMap.entrySet()){
             temporaryIngredientMap.put(entry.getKey(),entry.getValue());
         }
+        notifySubscribers();
     }
 
     public void setCreating(boolean creating) {
@@ -63,6 +66,14 @@ public class RecipeInteractiveModel {
 
     public void setLoadedRecipeSavedIngredientsMap(Map<String, Double> loadedRecipeSavedIngredientsMap) {
         this.loadedRecipeSavedIngredientsMap = loadedRecipeSavedIngredientsMap;
+        /*for(Map.Entry<String,Double> entry : loadedRecipeSavedIngredientsMap.entrySet()){
+            this.loadedRecipeSavedIngredientsMap.put(entry.getKey(),entry.getValue());
+        }*/
+        notifySubscribers();
+    }
+
+    public Map<String, Double> getLoadedRecipeSavedIngredientsMap() {
+        return loadedRecipeSavedIngredientsMap;
     }
 
     public void addToTempMap(String ingredientName, Double recipeQuantity){
@@ -71,7 +82,7 @@ public class RecipeInteractiveModel {
 
     }
 
-    public void removeFromTempMap(Ingredient ingredient){
+    public void removeFromTempMap(String ingredient){
         if(loadedRecipe != null){
             temporaryIngredientMap.remove(ingredient);
             notifySubscribers();
