@@ -326,9 +326,27 @@ public class ProgramController {
             startupMVC.getRecipeInteractiveModel().setLoadedRecipe(null);
             setStateNotLoaded(null);
         } else {
-
+            startupMVC.getRecipeInteractiveModel().getLoadedRecipeSavedIngredientsMap().clear();
+            startupMVC.getRecipeInteractiveModel().getTemporaryIngredientMap().clear();
             Recipe recipeToLoad = recipeListView.getRecipeTable().getSelectionModel().getSelectedItem().getRecipe();
+            HashMap<String,Double> tempMap = new HashMap<>();
+            for(Map.Entry<String,Double> entry : recipeToLoad.getRecipeIngredients().entrySet()){
+                //need to reconvert pounds from this map to oz, so they get converted back correctly
+                Ingredient ingredient = this.startupMVC.getInventoryModel().getIngredientMap().get(entry.getKey());
+
+                //temporary ,map to store ingredient quantity
+                //convert oz back into pounds
+                if(ingredient.getMeasurementUnit() == Ingredient.MeasurementUnit.Pounds){
+                    tempMap.put(entry.getKey(),entry.getValue()*16);
+                } else {
+                    tempMap.put(entry.getKey(),entry.getValue());
+                }
+
+            }
             startupMVC.getRecipeInteractiveModel().setLoadedRecipe(recipeToLoad);
+            startupMVC.getRecipeInteractiveModel().setLoadedRecipeSavedIngredientsMap(tempMap);
+            startupMVC.getRecipeInteractiveModel().updateTempMap();
+
             setStateLoaded();
         }
         //cant figure out how to unselect a recipe lol
@@ -360,6 +378,7 @@ public class ProgramController {
         switch (interactionState){
             case RECIPE_LOADED -> {
                 this.managerMainView.selectRecipeMaker();
+                this.startupMVC.getRecipeInteractiveModel().notifySubscribers();
                 this.managerMainView.modelChanged();
                 this.startupMVC.getInventoryModel().notifySubs();
                 this.recipeMakerView.updateMenuHandlers(this);//and updates the handlers for every new menu item
@@ -511,7 +530,6 @@ public class ProgramController {
      */
     public double ozToPounds(double ounces){
         double pounds = ounces / 16.0;
-        pounds = Math.round(pounds * 10.)/10.0;
         return pounds;
     }
 
