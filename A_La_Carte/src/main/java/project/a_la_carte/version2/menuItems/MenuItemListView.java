@@ -25,7 +25,6 @@ public class MenuItemListView extends StackPane implements MenuItemModelSubscrib
     Label selectedTitle;
     Label menuItemDescription;
     Label menuItemPrice;
-    Label menuItemPrepT;
     Button mainMenu;
     Button createNewButton;
     Button deleteButton;
@@ -85,14 +84,6 @@ public class MenuItemListView extends StackPane implements MenuItemModelSubscrib
         priceHBox.setPrefWidth(400);
         priceHBox.setPadding(new Insets(5));
 
-        Label prepLabel = new Label("Estimated Prep Time: ");
-        prepLabel.setFont(new Font(20));
-        this.menuItemPrepT = new Label();
-        this.menuItemPrepT.setPrefWidth(400);
-        this.menuItemPrepT.setStyle("-fx-border-color: black;\n");
-        VBox prepVBox = new VBox(prepLabel,menuItemPrepT);
-        prepVBox.setPrefSize(400,100);
-        prepVBox.setPadding(new Insets(5));
 
         this.editButton = new Button("Edit Recipe");
         this.deleteButton = new Button("Delete Recipe");
@@ -102,7 +93,7 @@ public class MenuItemListView extends StackPane implements MenuItemModelSubscrib
         modifyButtons.setAlignment(Pos.BOTTOM_CENTER);
         modifyButtons.setPadding(new Insets(2));
 
-        VBox informationVBox = new VBox(descVBox,priceHBox,prepVBox, modifyButtons);
+        VBox informationVBox = new VBox(descVBox,priceHBox, modifyButtons);
         informationVBox.setPrefSize(400,500);
         informationVBox.setStyle("-fx-border-color: black;\n");
 
@@ -170,7 +161,6 @@ public class MenuItemListView extends StackPane implements MenuItemModelSubscrib
             this.selectedTitle.setText("Selected Item: "+ menuItemModel.getSelectedItem().getName());
             this.menuItemDescription.setText(menuItemModel.getSelectedItem().getDescription());
             this.menuItemPrice.setText(String.valueOf(menuItemModel.getSelectedItem().getPrice()));
-            this.menuItemPrepT.setText(String.valueOf(menuItemModel.getSelectedItem().getPrepTime()));
             this.modifyButtons.getChildren().addAll(editButton,deleteButton);
 
             if (menuItemModel.selectedItem.getMenuItemRecipes() != null) {
@@ -184,7 +174,6 @@ public class MenuItemListView extends StackPane implements MenuItemModelSubscrib
             this.selectedTitle.setText("Selected Item: Select Item");
             this.menuItemDescription.setText("");
             this.menuItemPrice.setText("");
-            this.menuItemPrepT.setText("");
         }
     }
 }

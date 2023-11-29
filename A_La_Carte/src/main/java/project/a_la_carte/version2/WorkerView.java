@@ -42,6 +42,7 @@ public class WorkerView extends StackPane {
         customizeView = new CustomizeView(this);
         customizeView.setController(startupMVC.getController());
         customizeView.setServerModel(startupMVC.getServerModel());
+        customizeView.setInventoryModel(startupMVC.getInventoryModel());
 
         startupMVC.getServerModel().setCustomizeView(customizeView);
 

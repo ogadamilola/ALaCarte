@@ -91,7 +91,7 @@ public class StopWatch {
             zeroMillSec = String.valueOf(millSec);
         }
 
-        return min + ":" + zeroSec + ":" + zeroMillSec;
+        return min + ":" + zeroSec;
 
     }
 }

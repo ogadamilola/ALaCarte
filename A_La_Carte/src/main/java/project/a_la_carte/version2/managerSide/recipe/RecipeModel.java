@@ -24,12 +24,12 @@ import java.util.Map;
 public class RecipeModel {
     RecipeListView recipeListView;
     RecipeMakerView recipeMakerView;
-    ArrayList<Recipe> recipeList;
+    List<Recipe> recipeList;
     List<RecipeModelSubscriber> subscriberList;
     private static final String FILE_PATH = "recipes.json";
 
     public RecipeModel(){
-        InventoryModel model = new InventoryModel();
+        recipeList = new ArrayList<>();
 
         //reading in json file
         Gson gson = new GsonBuilder()
@@ -48,6 +48,7 @@ public class RecipeModel {
 
         subscriberList = new ArrayList<>();
         Map<String,Ingredient> ingredients = model.getIngredientMap();
+
 
 
         //setting buttons for all recipes loaded in
@@ -75,6 +76,8 @@ public class RecipeModel {
         newRecipe.setDescription(desc);
         newRecipe.setPrepInstruction(instruction);
         newRecipe.setPrepTime((float) prepTime);
+
+
         newRecipe.setRecipeIngredients(ingredientMap);
         recipeList.add(newRecipe);
         System.out.println(newRecipe);

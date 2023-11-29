@@ -10,15 +10,17 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import project.a_la_carte.version2.interfaces.KitchenViewsInterface;
 import project.a_la_carte.version2.kitchen.KitchenModel;
+import project.a_la_carte.version2.managerSide.RestaurantInfo.RestaurantModel;
 import project.a_la_carte.version2.serverSide.widgets.RefundOptions;
 
 import java.util.ArrayList;
 
 public class RefundView extends StackPane implements KitchenViewsInterface {
     KitchenModel kitchenModel;
+    RestaurantModel restaurantModel;
     FlowPane flowPane;
     ArrayList<RefundOptions> refundOptions;
-    public RefundView(KitchenModel model){
+    public RefundView(KitchenModel model, RestaurantModel restaurantModel){
         this.setPrefSize(600,400);
 
         Label title = new Label("REFUND");
@@ -29,6 +31,7 @@ public class RefundView extends StackPane implements KitchenViewsInterface {
         titleBox.setAlignment(Pos.CENTER);
 
         kitchenModel = model;
+        this.restaurantModel =restaurantModel;
         refundOptions = new ArrayList<>();
 
         this.flowPane = new FlowPane();
@@ -55,6 +58,7 @@ public class RefundView extends StackPane implements KitchenViewsInterface {
                 refund.getRefundButton().setOnAction((event -> {
                     this.refundOptions.remove(refund);
                     this.kitchenModel.refundOrder(order);
+                    this.restaurantModel.handleOrderRefund(order);
                 }));
             }));
         }

@@ -105,7 +105,7 @@ public class RecipeListView extends StackPane implements RecipeModelSubscriber, 
         HBox nameHBox = new HBox(name,recipeNameText);
         nameHBox.setPadding(new Insets(5,5,5,5));
 
-        Label price = new Label("Price: ");
+        Label price = new Label("Price of Ingredients: ");
         recipePriceText = new TextField();
         recipePriceText.setStyle("-fx-border-color: black;\n");
         recipePriceText.setPrefWidth(150);

@@ -241,7 +241,7 @@ public class ProgramController {
             Ingredient.IngredientType type = inventoryView.getTypeComboBox().getValue();
             Ingredient.MeasurementUnit mUnit = inventoryView.getMeasurementUnitComboBox().getValue();
             Boolean commonAllergen = inventoryView.getCommonAllergenCheck().isSelected();
-            float pricePerUnit = parseFloat(inventoryView.getPriceText().getText());
+            float pricePerUnit = Float.parseFloat(inventoryView.getPriceText().getText());
             double reorderPoint = 0.0;
             if(!inventoryView.getReorderText().getText().isEmpty()){
                 reorderPoint = Double.parseDouble(inventoryView.getReorderText().getText());
@@ -292,7 +292,7 @@ public class ProgramController {
             Ingredient.IngredientType type = inventoryView.getTypeComboBox().getValue();
             Ingredient.MeasurementUnit mUnit = inventoryView.getMeasurementUnitComboBox().getValue();
             Boolean commonAllergen = inventoryView.getCommonAllergenCheck().isSelected();
-            float pricePerUnit = parseFloat(inventoryView.getPriceText().getText());
+            float pricePerUnit = Float.parseFloat(inventoryView.getPriceText().getText());
             double reorderPoint = 0.0;
             if(!inventoryView.getReorderText().getText().isEmpty()){
                 reorderPoint = Double.parseDouble(inventoryView.getReorderText().getText());
@@ -328,9 +328,27 @@ public class ProgramController {
             startupMVC.getRecipeInteractiveModel().setLoadedRecipe(null);
             setStateNotLoaded(null);
         } else {
-
+            startupMVC.getRecipeInteractiveModel().getLoadedRecipeSavedIngredientsMap().clear();
+            startupMVC.getRecipeInteractiveModel().getTemporaryIngredientMap().clear();
             Recipe recipeToLoad = recipeListView.getRecipeTable().getSelectionModel().getSelectedItem().getRecipe();
+            HashMap<String,Double> tempMap = new HashMap<>();
+            for(Map.Entry<String,Double> entry : recipeToLoad.getRecipeIngredients().entrySet()){
+                //need to reconvert pounds from this map to oz, so they get converted back correctly
+                Ingredient ingredient = this.startupMVC.getInventoryModel().getIngredientMap().get(entry.getKey());
+
+                //temporary ,map to store ingredient quantity
+                //convert oz back into pounds
+                if(ingredient.getMeasurementUnit() == Ingredient.MeasurementUnit.Pounds){
+                    tempMap.put(entry.getKey(),entry.getValue()*16);
+                } else {
+                    tempMap.put(entry.getKey(),entry.getValue());
+                }
+
+            }
             startupMVC.getRecipeInteractiveModel().setLoadedRecipe(recipeToLoad);
+            startupMVC.getRecipeInteractiveModel().setLoadedRecipeSavedIngredientsMap(tempMap);
+            startupMVC.getRecipeInteractiveModel().updateTempMap();
+
             setStateLoaded();
         }
         //cant figure out how to unselect a recipe lol
@@ -362,6 +380,7 @@ public class ProgramController {
         switch (interactionState){
             case RECIPE_LOADED -> {
                 this.managerMainView.selectRecipeMaker();
+                this.startupMVC.getRecipeInteractiveModel().notifySubscribers();
                 this.managerMainView.modelChanged();
                 this.startupMVC.getInventoryModel().notifySubs();
                 this.recipeMakerView.updateMenuHandlers(this);//and updates the handlers for every new menu item
@@ -511,7 +530,6 @@ public class ProgramController {
      */
     public double ozToPounds(double ounces){
         double pounds = ounces / 16.0;
-        pounds = Math.round(pounds * 10.)/10.0;
         return pounds;
     }
 
@@ -606,7 +624,6 @@ public class ProgramController {
         menuItemMakerView.setNameText(startupMVC.getMenuItemModel().getSelectedItem().getName());
         menuItemMakerView.setDescText(startupMVC.getMenuItemModel().getSelectedItem().getDescription());
         menuItemMakerView.setPriceText(String.valueOf(startupMVC.getMenuItemModel().getSelectedItem().getPrice()));
-        menuItemMakerView.setPrepText(String.valueOf(startupMVC.getMenuItemModel().getSelectedItem().getPrepTime()));
 
         this.startupMVC.getMenuItemModel().setSelectedAddedRecipe(this.startupMVC.getMenuItemModel().getSelectedItem().getMenuItemRecipes());
         this.startupMVC.getMenuItemModel().notifySubscribers();
@@ -631,10 +648,7 @@ public class ProgramController {
             if (menuItemMakerView.getMenuItemName() != null && menuItemMakerView.getMenuItemDescription() != null) {
                 MenuFoodItem newItem = new MenuFoodItem(startupMVC.getMenuItemModel().getAddedRecipes(), menuItemMakerView.getMenuItemName(), menuItemMakerView.getMenuItemDescription());
                 if (!menuItemMakerView.getMenuPrice().isBlank()) {
-                    newItem.setPrice(menuItemMakerView.setMenuPrice());
-                }
-                if (!menuItemMakerView.getMenuPrep().isBlank()) {
-                    newItem.setPrepTime(menuItemMakerView.setMenuPrep());
+                    newItem.setPrice(Float.parseFloat(menuItemMakerView.getMenuPrice()));
                 }
                 this.startupMVC.getMenuItemModel().addNewMenuItem(newItem);
                 menuItemMakerView.clearTextFields();
@@ -655,9 +669,6 @@ public class ProgramController {
             startupMVC.getMenuItemModel().getSelectedItem().setDescription(menuItemMakerView.getMenuItemDescription());
             if (!menuItemMakerView.getMenuPrice().isBlank()) {
                 startupMVC.getMenuItemModel().getSelectedItem().setPrice(menuItemMakerView.setMenuPrice());
-            }
-            if (!menuItemMakerView.getMenuPrep().isBlank()) {
-                startupMVC.getMenuItemModel().getSelectedItem().setPrepTime(menuItemMakerView.setMenuPrep());
             }
             menuItemMakerView.clearTextFields();
             this.startupMVC.getMenuItemModel().resetAddedRecipes();
@@ -724,6 +735,7 @@ public class ProgramController {
 
             //process order in restaurant model
             this.startupMVC.getRestaurantModel().handleOrderPunched(view.getMenuView().getCurrentOrder());
+            this.startupMVC.getInventoryModel().handleOrderPunched(view.getMenuView().getCurrentOrder());
             view.getMenuView().clearOrder();
         }
     }
@@ -731,7 +743,7 @@ public class ProgramController {
         view.getMenuView().clearOrder();
     }
     public void refundDisplay(ActionEvent event){
-        RefundView refundView = new RefundView(startupMVC.getKitchenModel());
+        RefundView refundView = new RefundView(startupMVC.getKitchenModel(),startupMVC.getRestaurantModel());
         this.startupMVC.getKitchenModel().addSubscribers(refundView);
         this.startupMVC.getKitchenModel().notifySubscribers();
 
