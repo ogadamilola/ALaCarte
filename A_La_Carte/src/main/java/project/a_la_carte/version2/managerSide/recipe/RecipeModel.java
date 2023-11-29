@@ -24,12 +24,13 @@ import java.util.Map;
 public class RecipeModel {
     RecipeListView recipeListView;
     RecipeMakerView recipeMakerView;
-    List<Recipe> recipeList;
+    ArrayList<Recipe> recipeList;
     List<RecipeModelSubscriber> subscriberList;
     private static final String FILE_PATH = "recipes.json";
 
     public RecipeModel(){
         recipeList = new ArrayList<>();
+
 
         //reading in json file
         Gson gson = new GsonBuilder()
@@ -47,6 +48,8 @@ public class RecipeModel {
         }
 
         subscriberList = new ArrayList<>();
+
+
 
 
         //setting buttons for all recipes loaded in
@@ -81,6 +84,8 @@ public class RecipeModel {
         System.out.println(newRecipe);
         saveData();
     }
+
+
 
     public void deleteRecipe(Recipe recipe) {
         recipeList.remove(recipe);
@@ -120,20 +125,18 @@ public class RecipeModel {
         this.recipeMakerView = newView;
     }
 
-    public List<Recipe> getRecipeList(){
+    public ArrayList<Recipe> getRecipeList(){
         return this.recipeList;
     }
 
     /**
      * Adapter class for button attribute so that Gson can serialize it
      */
-    private class ButtonAdapter extends TypeAdapter<MenuItemRecipeButton> {
+    public static class ButtonAdapter extends TypeAdapter<MenuItemRecipeButton> {
         @Override
         public void write(JsonWriter out, MenuItemRecipeButton button) throws IOException {out.nullValue();}
         @Override
         public MenuItemRecipeButton read(JsonReader in) {return null;}
     }
-
-
 
 }

@@ -12,16 +12,20 @@ import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import project.a_la_carte.version2.ProgramController;
 import project.a_la_carte.version2.WorkerView;
+import project.a_la_carte.version2.classesObjects.Recipe;
 import project.a_la_carte.version2.interfaces.ServerViewInterface;
+import project.a_la_carte.version2.managerSide.inventory.InventoryModel;
 import project.a_la_carte.version2.serverSide.widgets.CustomizeSelectionButton;
 import project.a_la_carte.version2.serverSide.widgets.IngredientsCustomize;
 
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class CustomizeView extends StackPane implements ServerViewInterface {
     WorkerView workerView;
     ServerModel serverModel;
+    InventoryModel inventoryModel;
     FlowPane ingredients;
     VBox optionsVBox;
     Label title;
@@ -98,6 +102,11 @@ public class CustomizeView extends StackPane implements ServerViewInterface {
     public void setServerModel(ServerModel newModel){
         this.serverModel = newModel;
     }
+
+    public void setInventoryModel(InventoryModel inventoryModel) {
+        this.inventoryModel = inventoryModel;
+    }
+
     public void setController(ProgramController controller){
         this.back.setOnAction((event -> {
             controller.openMenuView(this.workerView);
@@ -165,6 +174,12 @@ public class CustomizeView extends StackPane implements ServerViewInterface {
 
         if (this.workerView.getMenuView().getSelectedItem() != null){
             title.setText("Selected Menu Item: "+ workerView.getMenuView().getSelectedItem().getName());
+            for(Recipe recipe : this.workerView.getMenuView().getSelectedItem().getMenuItemRecipes()){
+                for(Map.Entry<String,Double> entry : recipe.getRecipeIngredients().entrySet()){
+                    serverModel.addIngredient(entry.getKey());
+                }
+            }
+
             serverModel.getIngredientList().forEach((recipe ->{
                 IngredientsCustomize newCustomize = new IngredientsCustomize(recipe.getIngredientName());
                 newCustomize.setOnAction((event -> {

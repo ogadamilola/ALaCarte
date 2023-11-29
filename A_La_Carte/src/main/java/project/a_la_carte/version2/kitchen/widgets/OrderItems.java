@@ -8,6 +8,8 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import project.a_la_carte.version2.classesObjects.MenuFoodItem;
+import project.a_la_carte.version2.classesObjects.Recipe;
+import project.a_la_carte.version2.managerSide.recipe.ShowRecipeInfoView;
 import project.a_la_carte.version2.timerSystemPrototype.StopWatch;
 
 import java.util.ArrayList;
@@ -120,6 +122,9 @@ public class OrderItems extends HBox {
                 prepTimes.set(val,prepTimes.get(val) + 1);
             });
             stringDisplay.getChildren().add(addBox);
+            viewButton.setOnAction(event ->{
+                showRecipeInfo(menuFoodItem.getMenuItemRecipes().get(val));
+            });
         }
 
         // This is in the wrong location.
@@ -171,5 +176,8 @@ public class OrderItems extends HBox {
     }
     public MenuFoodItem getMenuFoodItem(){
         return this.menuFoodItem;
+    }
+    public void showRecipeInfo(Recipe recipe){
+        ShowRecipeInfoView infoView = new ShowRecipeInfoView(recipe);
     }
 }

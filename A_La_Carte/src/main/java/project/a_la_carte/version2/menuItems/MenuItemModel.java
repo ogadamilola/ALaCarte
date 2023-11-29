@@ -1,8 +1,23 @@
 package project.a_la_carte.version2.menuItems;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.TypeAdapter;
+import com.google.gson.reflect.TypeToken;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
 import project.a_la_carte.version2.classesObjects.*;
 import project.a_la_carte.version2.interfaces.MenuItemModelSubscriber;
+import project.a_la_carte.version2.managerSide.recipe.RecipeModel;
+import project.a_la_carte.version2.menuItems.widgets.MenuItemListButton;
+import project.a_la_carte.version2.menuItems.widgets.MenuItemRecipeButton;
+import project.a_la_carte.version2.serverSide.widgets.MenuItemMainDisplay;
 
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,8 +29,37 @@ public class MenuItemModel {
     MenuFoodItem selectedItem;
     Recipe selectedRecipe;
     Recipe selectedAddedRecipe;
+    private final static String FILE_PATH = "menuItems.json";
     public MenuItemModel(){
-        menuItemsList = new ArrayList<>();
+
+        //reading in json file
+        Gson gson = new GsonBuilder()
+                .setPrettyPrinting()
+                .registerTypeAdapter(MenuItemListButton.class, new ListButtonAdapter())
+                .registerTypeAdapter(MenuItemMainDisplay.class, new MainDisplayAdapter())
+                .registerTypeAdapter(MenuItemRecipeButton.class, new RecipeModel.ButtonAdapter())
+                .create();
+        try {
+            FileReader reader = new FileReader(FILE_PATH);
+            Type arrayListType = new TypeToken<ArrayList<MenuFoodItem>>(){}.getType();
+            menuItemsList = gson.fromJson(reader, arrayListType);
+            //catching case where file empty
+            if (menuItemsList == null)
+                throw new IOException();
+        } catch (IOException e) {
+            menuItemsList = new ArrayList<>();
+        }
+
+        //setting buttons & displays for all menu items loaded in
+        for (MenuFoodItem i : menuItemsList) {
+            i.setButton();
+            i.setDisplay();
+            //setting recipe buttons inside array to avoid exceptions
+            for (Recipe r : i.getMenuItemRecipes()) {
+                r.setButton();
+            }
+        }
+
         subscriberList = new ArrayList<>();
         addedRecipes = new ArrayList<>();
     }
@@ -74,6 +118,7 @@ public class MenuItemModel {
     public void addNewMenuItem(MenuFoodItem menuFoodItem) {
         this.menuItemsList.add(menuFoodItem);
         notifySubscribers();
+        saveData();
     }
     public void deleteMenuItem(MenuFoodItem item){
         this.menuItemsList.remove(item);
@@ -81,6 +126,7 @@ public class MenuItemModel {
 
         this.selectedItem = null;
         notifySubscribers();
+        saveData();
     }
     public void selectMenuItem(MenuFoodItem newItem){
         menuItemsList.forEach((MenuFoodItem::unselectRecipe));
@@ -101,5 +147,38 @@ public class MenuItemModel {
         }
     }
 
+    public void saveData() {
+        Gson gson = new GsonBuilder()
+                .setPrettyPrinting()
+                .registerTypeAdapter(MenuItemListButton.class, new ListButtonAdapter())
+                .registerTypeAdapter(MenuItemMainDisplay.class, new MainDisplayAdapter())
+                .registerTypeAdapter(MenuItemRecipeButton.class, new RecipeModel.ButtonAdapter())
+                .create();
+        try {
+            FileWriter writer = new FileWriter(new File(FILE_PATH));
+            gson.toJson(menuItemsList, writer);
+            writer.flush();
+        } catch (IOException e) {
+            System.err.println("Error saving menu items list");
+            throw new RuntimeException(e);
+        }
+    }
+
     public ArrayList<MenuFoodItem> getMenuItemsList(){return this.menuItemsList;}
+
+    /**
+     * Adapter classes for button attributes so that Gson can serialize them
+     */
+    public static class ListButtonAdapter extends TypeAdapter<MenuItemListButton> {
+        @Override
+        public void write(JsonWriter out, MenuItemListButton button) throws IOException {out.nullValue();}
+        @Override
+        public MenuItemListButton read(JsonReader in) {return null;}
+    }
+    public static class MainDisplayAdapter extends TypeAdapter<MenuItemMainDisplay> {
+        @Override
+        public void write(JsonWriter out, MenuItemMainDisplay display) throws IOException {out.nullValue();}
+        @Override
+        public MenuItemMainDisplay read(JsonReader in) {return null;}
+    }
 }

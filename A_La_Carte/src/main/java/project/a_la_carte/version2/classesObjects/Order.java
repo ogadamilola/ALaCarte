@@ -54,6 +54,7 @@ public class Order {
         return totalPrice;
     }
 
+
     public void updateOrderFromString(String text) {
     }
 }
