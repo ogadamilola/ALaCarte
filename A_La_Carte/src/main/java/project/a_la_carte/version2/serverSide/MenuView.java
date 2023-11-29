@@ -230,7 +230,7 @@ public class MenuView extends StackPane implements ServerViewInterface {
         AtomicReference<Boolean> check = new AtomicReference<>(false);
         menuFoodDisplayList.forEach(foodItem -> {
             if ((foodItem.getName().equals(foodName.getName())) && (foodItem.getDescription().equals(foodName.getDescription()))
-            && (foodItem.getPrice() == foodName.getPrice()) && (foodItem.getPrepTime() == foodName.getPrepTime())) {
+            && (foodItem.getPrice() == foodName.getPrice())) {
                 check.set(true);
             }
         });
@@ -265,7 +265,6 @@ public class MenuView extends StackPane implements ServerViewInterface {
             serverModel.getMenuItemList().forEach((item -> {
                 MenuFoodItem newItem = new MenuFoodItem(item.getMenuItemRecipes(), item.getName(), item.getDescription());
                 newItem.setPrice(item.getPrice());
-                newItem.setPrepTime(item.getPrepTime());
                 newItem.getDisplay().setText(newItem.getName());
                 newItem.getDisplay().setOnAction((event -> {
                     this.serverModel.setSelectedMenuItem(newItem, this.menuFoodDisplayList);
