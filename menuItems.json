@@ -28,7 +28,16 @@
         "prepInstruction": "Slice potatoes.\nFry once at lower temp, rest, then fry again at higher temp.\nSalt and plate. ",
         "price": 3.0,
         "prepTime": 8.0,
-        "selectedStatus": true
+        "selectedStatus": false
+      },
+      {
+        "ingredientMap": {},
+        "name": "Spaghetti Meatball",
+        "description": "Spaghetti with meatballs and sauce",
+        "prepInstruction": "Put spag on plate",
+        "price": 15.0,
+        "prepTime": 10.0,
+        "selectedStatus": false
       }
     ],
     "name": "Test Item",

@@ -95,11 +95,6 @@ public class ProgramController {
     }
     public void setStartupMVC(StartupMVC newModel){
         this.startupMVC = newModel;
-        //This is just for testing
-//        MenuFoodItem newItem = new MenuFoodItem((ArrayList<Recipe>) startupMVC.getRecipeModel().getRecipeList(), "Test Item", "Test Description");
-//        startupMVC.getMenuItemModel().addNewMenuItem(newItem);
-        this.startupMVC.getMenuItemModel().resetAddedRecipes();
-        //----------------------------------------------
     }
     public void openInventoryScreen(ActionEvent event){
         this.managerMainView.selectInventory();
@@ -591,7 +586,7 @@ public class ProgramController {
     }
     public void openMenuMakerView(ActionEvent event){
         this.menuItemMakerView.setSave();
-        ArrayList<Recipe> newList = new ArrayList<>(startupMVC.getRecipeModel().getRecipeList());
+        ArrayList<Recipe> newList = startupMVC.getRecipeModel().getRecipeList();
 
         this.startupMVC.getMenuItemModel().setRecipeArrayList(newList);
         this.managerMainView.selectMenuMakerView();
@@ -599,6 +594,9 @@ public class ProgramController {
     }
     public void editMenuMakerView(ActionEvent event){
         this.menuItemMakerView.setEdit();
+
+        ArrayList<Recipe> newList = startupMVC.getRecipeModel().getRecipeList();
+        this.startupMVC.getMenuItemModel().setRecipeArrayList(newList);
 
         menuItemMakerView.setNameText(startupMVC.getMenuItemModel().getSelectedItem().getName());
         menuItemMakerView.setDescText(startupMVC.getMenuItemModel().getSelectedItem().getDescription());
@@ -658,6 +656,7 @@ public class ProgramController {
             }
             menuItemMakerView.clearTextFields();
             this.startupMVC.getMenuItemModel().resetAddedRecipes();
+            this.startupMVC.getMenuItemModel().saveData();
 
             this.managerMainView.selectMenuItemList();
             this.managerMainView.modelChanged();
