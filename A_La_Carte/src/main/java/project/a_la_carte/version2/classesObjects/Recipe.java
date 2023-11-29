@@ -17,6 +17,7 @@ public class Recipe {
     private float prepTime;
     private MenuItemRecipeButton menuItemRecipeButton;
     Boolean selectedStatus;
+    boolean finished;
 
     public Recipe(String name){
         this.name = name;
@@ -25,8 +26,14 @@ public class Recipe {
         //Menu Item side
         this.menuItemRecipeButton = new MenuItemRecipeButton(name);
         this.selectedStatus = false;
+        this.finished = false;
     }
-
+    public void setFinished(){
+        this.finished = true;
+    }
+    public boolean getFinished(){
+        return this.finished;
+    }
     /**
      * This is just section for adding recipes to menu item
      */

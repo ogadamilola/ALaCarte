@@ -621,7 +621,6 @@ public class ProgramController {
         menuItemMakerView.setNameText(startupMVC.getMenuItemModel().getSelectedItem().getName());
         menuItemMakerView.setDescText(startupMVC.getMenuItemModel().getSelectedItem().getDescription());
         menuItemMakerView.setPriceText(String.valueOf(startupMVC.getMenuItemModel().getSelectedItem().getPrice()));
-        menuItemMakerView.setPrepText(String.valueOf(startupMVC.getMenuItemModel().getSelectedItem().getPrepTime()));
 
         this.startupMVC.getMenuItemModel().setSelectedAddedRecipe(this.startupMVC.getMenuItemModel().getSelectedItem().getMenuItemRecipes());
         this.startupMVC.getMenuItemModel().notifySubscribers();
@@ -648,9 +647,6 @@ public class ProgramController {
                 if (!menuItemMakerView.getMenuPrice().isBlank()) {
                     newItem.setPrice(Float.parseFloat(menuItemMakerView.getMenuPrice()));
                 }
-                if (!menuItemMakerView.getMenuPrep().isBlank()) {
-                    newItem.setPrepTime(menuItemMakerView.setMenuPrep());
-                }
                 this.startupMVC.getMenuItemModel().addNewMenuItem(newItem);
                 menuItemMakerView.clearTextFields();
                 this.startupMVC.getMenuItemModel().resetAddedRecipes();
@@ -670,9 +666,6 @@ public class ProgramController {
             startupMVC.getMenuItemModel().getSelectedItem().setDescription(menuItemMakerView.getMenuItemDescription());
             if (!menuItemMakerView.getMenuPrice().isBlank()) {
                 startupMVC.getMenuItemModel().getSelectedItem().setPrice(menuItemMakerView.setMenuPrice());
-            }
-            if (!menuItemMakerView.getMenuPrep().isBlank()) {
-                startupMVC.getMenuItemModel().getSelectedItem().setPrepTime(menuItemMakerView.setMenuPrep());
             }
             menuItemMakerView.clearTextFields();
             this.startupMVC.getMenuItemModel().resetAddedRecipes();

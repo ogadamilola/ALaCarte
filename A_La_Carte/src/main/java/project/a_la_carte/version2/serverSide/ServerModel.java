@@ -85,7 +85,6 @@ public class ServerModel {
         MenuFoodItem copy = new MenuFoodItem(this.getSelectedItem().getMenuItemRecipes()
                 , this.getSelectedItem().getName(),this.getSelectedItem().getDescription());
         copy.setPrice(view.getMenuView().getSelectedItem().getPrice());
-        copy.setPrepTime(view.getMenuView().getSelectedItem().getPrepTime());
         if (!view.getCustomizeView().getSelectedOption().equals("") && !view.getCustomizeView().getSelectedIngredient().equals("")) {
             copy.setCustomizeOption(view.getCustomizeView().getSelectedOption() + " " + view.getCustomizeView().getSelectedIngredient());
         }
@@ -118,7 +117,7 @@ public class ServerModel {
         AtomicReference<Boolean> check = new AtomicReference<>(false);
         this.menuItemList.forEach(foodItem -> {
             if (foodItem.getName().equals(item.getName()) && foodItem.getDescription().equals(item.getDescription())
-            && foodItem.getPrice() == item.getPrice() && foodItem.getPrepTime() == item.getPrepTime()){
+            && foodItem.getPrice() == item.getPrice()){
                 check.set(true);
             }
         });

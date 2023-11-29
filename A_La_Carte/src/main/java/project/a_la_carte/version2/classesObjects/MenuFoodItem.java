@@ -4,8 +4,7 @@ import project.a_la_carte.version2.menuItems.widgets.*;
 import project.a_la_carte.version2.serverSide.widgets.*;
 
 import java.util.ArrayList;
-
-import static java.lang.Float.max;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /** NOTE ON CLASS NAME
  * This class could NOT be called "MenuItem" because there is already a class with this name.
@@ -17,7 +16,6 @@ public class MenuFoodItem {
     private String name;
     private String description;
     private float price = 0;
-    private float prepTime = 0;
     MenuItemListButton menuItemListButton;
     MenuItemMainDisplay menuItemMainDisplay;
     Boolean selectedStatus;
@@ -30,12 +28,6 @@ public class MenuFoodItem {
         this.menuItemListButton = new MenuItemListButton(name);
         this.menuItemMainDisplay = new MenuItemMainDisplay(name);
         selectedStatus = false;
-        if (menuItemRecipes != null) {
-            menuItemRecipes.forEach((recipe -> {
-                this.price += recipe.getPrice();
-                this.prepTime = max(recipe.getPrepTime(), this.prepTime);
-            }));
-        }
     }
     public void setCustomizeOption(String change){
         this.customizeOption = change;
@@ -97,17 +89,12 @@ public class MenuFoodItem {
         this.price = price;
     }
 
-    public float getPrepTime() {
-        return prepTime;
-    }
-    public void setPrepTime(float newTime){this.prepTime = newTime;}
     public String toString() {
         return "MenuItem{" +
                 "menuItemRecipes" + menuItemRecipes +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", price=" + price +
-                ", prepTime=" + prepTime +
                 '}';
     }
 }

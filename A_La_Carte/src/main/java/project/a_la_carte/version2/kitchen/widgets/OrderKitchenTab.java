@@ -7,26 +7,21 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import project.a_la_carte.version2.classesObjects.MenuFoodItem;
-import project.a_la_carte.version2.classesObjects.Recipe;
 import project.a_la_carte.version2.kitchen.*;
 import project.a_la_carte.version2.classesObjects.Order;
 import project.a_la_carte.version2.interfaces.*;
-import project.a_la_carte.version2.managerSide.recipe.ShowRecipeInfoView;
 
 public class OrderKitchenTab extends StackPane implements OrderClassesInterface {
     Label orderLabel;
-    ShowRecipeInfoView showRecipeInfoView;
-    Label itemsRemain;
     //We can probably add a ScrollPane for the VBox so that its not cluttered and it scrolls
     VBox ordersVBox;
     Button cancelButton;
     Order orderItems;
     KitchenModel kModel;
     public OrderKitchenTab(KitchenModel model, Order order){
-        this.setPrefSize(230,70);
+        this.setPrefSize(630,70);
         kModel = model;
-        this.cancelButton = new Button("Cancel Order");
+        this.cancelButton = new Button("Complete");
         HBox cancelBox = new HBox(cancelButton);
         cancelBox.setPrefWidth(230);
         cancelBox.setAlignment(Pos.BOTTOM_CENTER);
@@ -34,9 +29,8 @@ public class OrderKitchenTab extends StackPane implements OrderClassesInterface 
 
         this.orderItems = order;
         orderLabel = new Label("");
-        itemsRemain = new Label("");
 
-        HBox titleBox = new HBox(orderLabel, itemsRemain);
+        HBox titleBox = new HBox(orderLabel);
         titleBox.setPrefWidth(230);
         titleBox.setAlignment(Pos.CENTER);
         titleBox.setStyle("-fx-border-color: black;\n");
@@ -60,13 +54,8 @@ public class OrderKitchenTab extends StackPane implements OrderClassesInterface 
 
         if (!orderItems.isFinished()){
             orderItems.getOrderList().forEach((order ->{
-                OrderItems newDisplay = new OrderItems(order);
-                newDisplay.getCompleteButton().setOnAction((event -> {
-                    orderItems.getOrderList().remove(newDisplay.getMenuFoodItem());
-                    orderItems.completedSingleItem();
-                }));
+                OrderItems newDisplay = new OrderItems(this,order);
                 ordersVBox.getChildren().add(newDisplay);
-                newDisplay.getViewRecipeButton().setOnAction(event -> showTheInfo(order));
             }));
         }
         else {
@@ -75,13 +64,5 @@ public class OrderKitchenTab extends StackPane implements OrderClassesInterface 
 
 
         orderLabel.setText("Order #"+ orderItems.getOrderNum());
-        itemsRemain.setText("Remaining Items: "+ orderItems.getTotalItems());
-    }
-
-    public void showTheInfo(MenuFoodItem item){
-            for(Recipe recipe : item.getMenuItemRecipes()) {
-                showRecipeInfoView = new ShowRecipeInfoView(recipe);
-            }
-
     }
 }

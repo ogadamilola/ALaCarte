@@ -1,18 +1,18 @@
 {
-  "Burger Patty": 34.0,
-  "Lettuce": 16.25,
-  "Spaghetti": -4.75,
-  "Pepsi": 38.0,
+  "Burger Patty": -111.0,
+  "Lettuce": -29.0625,
+  "Spaghetti": -122.5625,
+  "Pepsi": -107.0,
   "Pork Ribs": 6.0,
   "Chicken Breast": 12.0,
-  "Burger Bun": 28.0,
-  "Cheddar Cheese": -1.9000000000000004,
-  "Mayo": -0.25,
+  "Burger Bun": -117.0,
+  "Cheddar Cheese": -92.525,
+  "Mayo": -27.4375,
   "Tomato Sauce": 3.0,
-  "Meatballs": -3.75,
+  "Meatballs": -85.3125,
   "Ketchup": 23.0,
   "Beef": 30.0,
-  "Meat sauce": 23.25,
+  "Meat sauce": -58.3125,
   "Potatoe": 50.0,
-  "Onion": 12.25
+  "Onion": -33.0625
 }
