@@ -27,14 +27,14 @@ public class ServerModel {
         this.customizeButtons = new ArrayList<>();
         this.notesArrayList = new ArrayList<>();
 
-        this.addIngredient("Cheese");
+        /*this.addIngredient("Cheese");
         this.addIngredient("Milk");
         this.addIngredient("Tomato");
         this.addIngredient("Pickles");
         this.addIngredient("Rice");
         this.addIngredient("Beans");
         this.addIngredient("Fries");
-        this.addIngredient("Poutine");
+        this.addIngredient("Poutine");*/
 
         this.addOptionButton("No");
         this.addOptionButton("Extra");
