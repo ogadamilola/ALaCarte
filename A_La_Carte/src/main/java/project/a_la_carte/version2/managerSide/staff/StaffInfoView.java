@@ -165,6 +165,7 @@ public class StaffInfoView extends StackPane implements StaffModelSubscriber {
         barChart.setTitle("Tips earned by Employees");
 
         Button closeButton = new Button("Close");
+
         barChartVBox = new VBox(barChart, closeButton);
         barChartVBox.setAlignment(Pos.TOP_RIGHT);
 
@@ -177,9 +178,7 @@ public class StaffInfoView extends StackPane implements StaffModelSubscriber {
         listVBox.setStyle("-fx-border-color: black;\n");
         listVBox.getChildren().add(dashboardButton);
         listVBox.getChildren().add(staffTable);
-        //listVBox.getChildren().add(barChart);
         listVBox.setPadding(new Insets(5,5,5,5));
-        //barChart.setVisible(false);
         barChart.setDisable(true);
 
         HBox mergeHBox = new HBox();
@@ -197,13 +196,11 @@ public class StaffInfoView extends StackPane implements StaffModelSubscriber {
             for (Staff staff : staffList) {
                 String employeeId = staff.getStaffID();
                 Number tipsEarned = staff.getTips();
-                System.out.println("Tips earned by " + employeeId + " is " + tipsEarned);
                 series.getData().add(new XYChart.Data<>(employeeId, tipsEarned));
             }
 
             barChart.getData().clear();
             barChart.getData().add(series);
-            System.out.println("Bar chart is visible");
             listVBox.getChildren().add(barChartVBox);
 
             barChart.setDisable(false);
@@ -251,6 +248,7 @@ public class StaffInfoView extends StackPane implements StaffModelSubscriber {
             idText.setText(loadedStaff.getStaffID());
             idText.setEditable(false);//don't allow for staff ID to be edited
             positionComboBox.setValue(loadedStaff.getPosition());
+            tipsText.setText(String.valueOf(loadedStaff.getTips()));
             sinText.setText(String.valueOf(loadedStaff.getSin()));
             //clear these incase they were previously filled
             userText.clear();

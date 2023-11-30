@@ -86,5 +86,13 @@
     "commonAllergen": false,
     "pricePerUnit": 10.0,
     "reorderPoint": 0.0
+  },
+  "Spinach": {
+    "name": "Spinach",
+    "ingredientType": "Vegetable",
+    "measurementUnit": "Pounds",
+    "commonAllergen": false,
+    "pricePerUnit": 15.0,
+    "reorderPoint": 0.0
   }
 }
