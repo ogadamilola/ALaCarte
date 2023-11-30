@@ -38,7 +38,7 @@ public class StaffModel { //TODO LOGIN INFORMATION, REFULAR STAFF = PIN, MANAGER
         notifySubscribers();
     }
 
-    public void addStaff(String fName, String lName, String id, Staff.position position, int sin ){
+    public void addStaff(String fName, String lName, String id, Staff.position position, int tips, int sin ){
 
             if(getStaffById(id) != null){//staff already exists with this id
                 throw new IllegalArgumentException();
@@ -49,6 +49,7 @@ public class StaffModel { //TODO LOGIN INFORMATION, REFULAR STAFF = PIN, MANAGER
                 staff.setLastName(lName);
                 staff.setStaffID(id);
                 staff.setPosition(position);
+                staff.setTips(tips);
                 staff.setSin(sin);
                 staffList.add(staff);
                 staff.setUsername(null);//not manager
@@ -60,7 +61,7 @@ public class StaffModel { //TODO LOGIN INFORMATION, REFULAR STAFF = PIN, MANAGER
 
     }
 
-    public void addManager(String fName, String lName, String id, Staff.position position,int sin,String username, String password){
+    public void addManager(String fName, String lName, String id, Staff.position position,int sin, String username, String password){
         //TODO possible exception handling here
             Staff staff = new Staff();
             staff.setFirstName(fName);
@@ -77,12 +78,13 @@ public class StaffModel { //TODO LOGIN INFORMATION, REFULAR STAFF = PIN, MANAGER
             notifySubscribers();
     }
 
-    public void updateStaff(String fName, String lName, String id, Staff.position position, int sin,String username,String password){
+    public void updateStaff(String fName, String lName, String id, Staff.position position, int sin, int tips, String username,String password){
         //TODO possible exception handling here
             Staff staff = getStaffById(id);
             staff.setFirstName(fName);
             staff.setLastName(lName);
             staff.setPosition(position);
+            staff.setTips(tips);
             staff.setSin(sin);
 
             if(position == Staff.position.Manager){
@@ -101,6 +103,7 @@ public class StaffModel { //TODO LOGIN INFORMATION, REFULAR STAFF = PIN, MANAGER
             staffList.remove(getStaffById(id));
             notifySubscribers();
             setLoadedStaff(null);
+            saveList();
         }catch (IllegalArgumentException e){
             System.out.println("Staff does not exist, can not delete");
         }catch (NullPointerException e){
@@ -153,9 +156,6 @@ public class StaffModel { //TODO LOGIN INFORMATION, REFULAR STAFF = PIN, MANAGER
         for(StaffModelSubscriber sub : subscriberList){
             sub.modelChanged(staffList,loadedStaff);
         }
-    }
-
-    public void loadList(){
 
     }
 
