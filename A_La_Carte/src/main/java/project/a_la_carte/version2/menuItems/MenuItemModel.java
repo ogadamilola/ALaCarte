@@ -71,6 +71,7 @@ public class MenuItemModel {
         newRecipe.setPrice(recipe.getPrice());
         newRecipe.setPrepTime(recipe.getPrepTime());
         newRecipe.setPrepInstruction(recipe.getPrepInstruction());
+        newRecipe.setRecipeIngredients(recipe.getRecipeIngredients());
 
         this.addedRecipes.add(newRecipe);
         notifySubscribers();
@@ -118,6 +119,7 @@ public class MenuItemModel {
         newRecipe.selectedRecipe();
     }
     public void addNewMenuItem(MenuFoodItem menuFoodItem) {
+        System.out.println(menuFoodItem.getMenuItemRecipes());
         this.menuItemsList.add(menuFoodItem);
         notifySubscribers();
         saveData();

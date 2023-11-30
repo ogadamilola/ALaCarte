@@ -450,10 +450,22 @@ public class ProgramController {
                 ingredientMap.put(entry.getKey(), ingredientQuantity);
             }
 
+            System.out.println(ingredientMap);
+
             startupMVC.getRecipeModel().addNewOrUpdateRecipe(recipeName, recipePrice, recipeDesc, recipeInstruction, recipePrepTime, ingredientMap);
 
             ArrayList<Recipe> newRecipeList = new ArrayList<>(startupMVC.getRecipeModel().getRecipeList());
             startupMVC.getMenuItemModel().setRecipeArrayList(newRecipeList);
+
+            //editing ingredient lists for recipes that have been modified in each menu item
+            for (MenuFoodItem m : startupMVC.getMenuItemModel().getMenuItemsList()) {
+                for (Recipe r : m.getMenuItemRecipes()) {
+                    if (r.getName().equals(recipeName)) {
+                        r.setRecipeIngredients(ingredientMap);
+                    }
+                }
+            }
+            startupMVC.getMenuItemModel().saveData(); //saving changes to recipes
 
             //could be deleted if we wanted to leave the recipe on the scree
             //clear all the fields
