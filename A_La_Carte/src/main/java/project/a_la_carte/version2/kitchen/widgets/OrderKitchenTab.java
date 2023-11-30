@@ -54,10 +54,10 @@ public class OrderKitchenTab extends StackPane implements OrderClassesInterface 
         ordersVBox.getChildren().clear();
 
         if (!orderItems.isFinished()){
-            orderItems.getOrderList().forEach((order ->{
-                OrderItems newDisplay = new OrderItems(this,order);
+            //orderItems.getOrderList().forEach((order ->{
+                OrderItems newDisplay = new OrderItems(this, orderItems);
                 ordersVBox.getChildren().add(newDisplay);
-            }));
+            //}));
         }
         else {
             kModel.deleteOrder(orderItems);
