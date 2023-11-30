@@ -9,6 +9,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import project.a_la_carte.version2.classesObjects.MenuFoodItem;
 import project.a_la_carte.version2.classesObjects.Order;
+import project.a_la_carte.version2.classesObjects.OrderTimers;
 import project.a_la_carte.version2.classesObjects.Recipe;
 import project.a_la_carte.version2.managerSide.recipe.ShowRecipeInfoView;
 
@@ -20,13 +21,13 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public class OrderItems extends HBox {
     OrderKitchenTab oTab;
-    Order currentOrder;
+    OrderTimers currentOrder;
     Label totalTimeElapsedLabel;
     ArrayList<Label> recipesLabels;
     ArrayList<ArrayList<Label>> recipesLabelsList;
     int numMenuItems;
 
-    public OrderItems(OrderKitchenTab orderKitchenTab, Order order){
+    public OrderItems(OrderKitchenTab orderKitchenTab, OrderTimers order){
         oTab = orderKitchenTab;
         this.currentOrder = order;
 
@@ -123,8 +124,9 @@ public class OrderItems extends HBox {
                     @Override
                     public void run() {
                         // below -- not sure, this is ever false... NeverMind?
-                        // if (totalTimeElapsedStopWatch.is_watch_Running()){
-                        totalTimeElapsedLabel.setText("Total Time: " + currentOrder.getTotalTimeElapsedStopWatch().getElapsedTimeFormatted());
+                        if (currentOrder.getTotalTimeElapsedStopWatch().is_watch_Running()) {
+                            totalTimeElapsedLabel.setText("Total Time: " + currentOrder.getTotalTimeElapsedStopWatch().getElapsedTimeFormatted());
+                        }
                         stringDisplay.setStyle(currentOrder.getBackgroundColor());
 
                         // Print Recipe StopWatches

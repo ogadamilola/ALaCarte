@@ -8,6 +8,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import project.a_la_carte.version2.classesObjects.MenuFoodItem;
+import project.a_la_carte.version2.classesObjects.OrderTimers;
 import project.a_la_carte.version2.kitchen.*;
 import project.a_la_carte.version2.classesObjects.Order;
 import project.a_la_carte.version2.interfaces.*;
@@ -55,7 +56,7 @@ public class OrderKitchenTab extends StackPane implements OrderClassesInterface 
 
         if (!orderItems.isFinished()){
             //orderItems.getOrderList().forEach((order ->{
-                OrderItems newDisplay = new OrderItems(this, orderItems);
+                OrderItems newDisplay = new OrderItems(this, new OrderTimers(orderItems));
                 ordersVBox.getChildren().add(newDisplay);
             //}));
         }
