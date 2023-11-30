@@ -13,6 +13,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import project.a_la_carte.version2.ProgramController;
 
+import project.a_la_carte.version2.WorkerView;
 import project.a_la_carte.version2.classesObjects.MenuFoodItemData;
 import project.a_la_carte.version2.interfaces.RestaurantModelSubscriber;
 
@@ -22,8 +23,6 @@ public class RestaurantInfoView extends BorderPane implements RestaurantModelSub
 
     RestaurantModel restaurantModel;
     Button mainMenu;
-    Button startDay;
-    Button endDay;
     TableView<MenuFoodItemData> menuTable;
     TableColumn<MenuFoodItemData, String> menuItemNameCol;
     TableColumn<MenuFoodItemData, Double> menuItemQuantityCol;
@@ -32,8 +31,9 @@ public class RestaurantInfoView extends BorderPane implements RestaurantModelSub
     VBox menuItemVBox;
     Label date;
     DatePicker datePicker;
-
     Button reportButton;
+
+    Button reservationButton;
     TableView<MenuFoodItemData> ingredientTable; //using MenuFoodItem data to display ingredients
     TableColumn<MenuFoodItemData, String> ingredientNameCol;
     TableColumn<MenuFoodItemData, Double> ingredientQuantityCol;
@@ -105,17 +105,16 @@ public class RestaurantInfoView extends BorderPane implements RestaurantModelSub
 
         HBox centerBox = new HBox(orderVBox,menuItemVBox,incomeVBox,inventoryVBox); // display inventory usage
 
-        startDay = new Button("Start new day");
-        endDay = new Button("End day");
-        HBox bottomBox = new HBox(startDay,endDay);
 
 
         Label reportLabel = new Label("Pick a date to view report");
         datePicker = new DatePicker();
         reportButton = new Button("Show Date Report ");
 
+        reservationButton = new Button("View Reservations");
 
-        VBox rightBox = new VBox(reportLabel,datePicker,reportButton);
+
+        VBox rightBox = new VBox(reportLabel,datePicker,reportButton,reservationButton);
         rightBox.setAlignment(Pos.CENTER);
         VBox.setVgrow(rightBox, Priority.ALWAYS);
         HBox.setHgrow(rightBox,Priority.ALWAYS);
@@ -123,7 +122,6 @@ public class RestaurantInfoView extends BorderPane implements RestaurantModelSub
         this.setTop(topBox);
         this.setRight(rightBox);
         this.setCenter(centerBox);
-        this.setBottom(bottomBox);
 
 
     }

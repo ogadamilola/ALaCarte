@@ -9,10 +9,8 @@ public class Reservation {
     private int numberOfGuests;
 
 
-    public Reservation(String name, LocalDateTime time, int numberOfGuests) {
-        this.name = name;
-        this.time = time;
-        this.numberOfGuests = numberOfGuests;
+    public Reservation() {
+        //blank constructor for json
     }
 
     public String getName() {
