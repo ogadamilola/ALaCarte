@@ -4,6 +4,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -34,7 +35,8 @@ public class MenuItemMakerView extends StackPane implements MenuItemModelSubscri
     Boolean edit;
 
     public MenuItemMakerView(){
-        this.setMaxSize(1000,500);
+        this.setMaxSize(5000,2500);
+        this.setPrefSize(1000,500);
         this.edit = false;
         //Left side of MenuItem Creator page
         //----------------------------------------------------
@@ -56,6 +58,7 @@ public class MenuItemMakerView extends StackPane implements MenuItemModelSubscri
         menuItemDescription = new TextArea();
         menuItemDescription.setPrefSize(400,100);
         menuItemDescription.setWrapText(true);
+        menuItemDescription.setPrefColumnCount(400);
 
         descVBox.getChildren().addAll(descLabel,menuItemDescription);
         descVBox.setPadding(new Insets(2,2,2,2));
@@ -75,6 +78,8 @@ public class MenuItemMakerView extends StackPane implements MenuItemModelSubscri
 
         createVBox.getChildren().addAll(mainMenu,title, nameHBox,descVBox,priceBox,priceOfRecipesLabel);
         createVBox.setPadding(new Insets(5,5,5,5));
+        HBox.setHgrow(createVBox,Priority.ALWAYS);
+        VBox.setVgrow(createVBox,Priority.ALWAYS);
 
         //Right side, recipe list ---------------------------------------------
         HBox alignHBoxRemove = new HBox();
@@ -91,10 +96,12 @@ public class MenuItemMakerView extends StackPane implements MenuItemModelSubscri
 
         ScrollPane recipeScroll = new ScrollPane(recipeVBOX);
         recipeScroll.setPrefSize(300,500);
+        recipeScroll.prefHeightProperty().bind(this.heightProperty());
 
         VBox selectBoxRemove = new VBox(recipeScroll,alignHBoxRemove);
         selectBoxRemove.setPrefSize(300,500);
         selectBoxRemove.setStyle("-fx-border-color: black;\n");
+        VBox.setVgrow(selectBoxRemove, Priority.ALWAYS);
 
         Label recipeListLabel = new Label("Recipes in item");
         VBox recipeAlign = new VBox(recipeListLabel,selectBoxRemove);
@@ -113,20 +120,24 @@ public class MenuItemMakerView extends StackPane implements MenuItemModelSubscri
         selectRecipeVBox.setPadding(new Insets(2));
         ScrollPane selectScroll = new ScrollPane(selectRecipeVBox);
         selectScroll.setPrefSize(300,500);
+        selectScroll.prefHeightProperty().bind(this.heightProperty());
 
         Label recipeSelectLabel = new Label("Add New Recipe To Item");
 
         VBox selectBox = new VBox(selectScroll,alignHBoxAdd);
         selectBox.setPrefSize(300,500);
         selectBox.setStyle("-fx-border-color: black;\n");
+        VBox.setVgrow(selectBox,Priority.ALWAYS);
 
         VBox recipeSelectAlign = new VBox(recipeSelectLabel,selectBox);
         recipeSelectAlign.setPrefSize(300,500);
         recipeSelectAlign.setPadding(new Insets(3));
+        VBox.setVgrow(recipeSelectAlign, Priority.ALWAYS);
 
         HBox alignRecipe = new HBox(recipeAlign,recipeSelectAlign);
         alignRecipe.setPrefSize(600,500);
         alignRecipe.setPadding(new Insets(2));
+        VBox.setVgrow(alignRecipe,Priority.ALWAYS);
 
         buttonsHBox = new HBox();
         menuItemList = new Button("Return to Menu Item List");
@@ -146,6 +157,8 @@ public class MenuItemMakerView extends StackPane implements MenuItemModelSubscri
         HBox connectAll = new HBox();
         connectAll.getChildren().addAll(createVBox,alignRight);
         connectAll.setPadding(new Insets(5,5,5,5));
+        HBox.setHgrow(connectAll,Priority.ALWAYS);
+        VBox.setVgrow(connectAll,Priority.ALWAYS);
 
         this.setStyle("-fx-border-color: black;\n");
         this.getChildren().add(connectAll);
