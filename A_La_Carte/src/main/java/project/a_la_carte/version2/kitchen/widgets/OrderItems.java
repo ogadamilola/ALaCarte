@@ -27,9 +27,10 @@ public class OrderItems extends HBox {
     ArrayList<ArrayList<Label>> recipesLabelsList;
     int numMenuItems;
 
-    public OrderItems(OrderKitchenTab orderKitchenTab, OrderTimers order){
+    public OrderItems(OrderKitchenTab orderKitchenTab, Order order){
+        this.currentOrder = new OrderTimers(order);
+
         oTab = orderKitchenTab;
-        this.currentOrder = order;
 
         this.setPrefSize(600,70);
         this.setPadding(new Insets(5));
@@ -76,8 +77,11 @@ public class OrderItems extends HBox {
                 buttonsBox.setSpacing(10);
                 buttonsBox.setAlignment(Pos.BASELINE_RIGHT);
 
-                Label newL = new Label("Recipe "+ currentItem.getMenuItemRecipes().get(j).getName() + " TIME " +
-                        " // " + currentOrder.getPrepTimesList().get(i).get(j) + ":00");
+                Label newL = new Label(("Recipe "
+                        + currentOrder.getMenuItems().get(i).getMenuItemRecipes().get(j).getName() + " TIME "
+                        // + currentOrder.getRecipeStopWatchList().get(i).get(j).getElapsedTimeFormatted()
+                        + " // " + currentOrder.getPrepTimesList().get(i).get(j) + ":00"));
+                        // " // " + currentOrder.getPrepTimesList().get(i).get(j) + ":00");
 
                 recipesLabels.add(newL);
 
@@ -133,8 +137,10 @@ public class OrderItems extends HBox {
                         for (int i = 0; i < numMenuItems; i++) {
                             int numRecipes = currentOrder.getMenuItems().get(i).getMenuItemRecipes().size();
                             for (int j = 0; j < numRecipes; j++) {
-                                recipesLabelsList.get(i).get(j).setText(("Recipe "+ currentOrder.getMenuItems().get(i).getMenuItemRecipes().get(j).getName() + " TIME " +
-                                        " // " + currentOrder.getPrepTimesList().get(i).get(j) + ":00"));
+                                recipesLabelsList.get(i).get(j).setText(("Recipe "
+                                        + currentOrder.getMenuItems().get(i).getMenuItemRecipes().get(j).getName() + " TIME "
+                                        + currentOrder.getRecipeStopWatchList().get(i).get(j).getElapsedTimeFormatted()
+                                        + " // " + currentOrder.getPrepTimesList().get(i).get(j) + ":00"));
 
                             }
 
@@ -142,7 +148,7 @@ public class OrderItems extends HBox {
                     }
                 });
             }
-        },0,1000);
+        },0,250);
         this.getChildren().add(stringDisplay);
     }
     public boolean isNotFinished(){

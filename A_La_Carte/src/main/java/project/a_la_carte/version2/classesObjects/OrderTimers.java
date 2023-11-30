@@ -19,6 +19,7 @@ public class OrderTimers {
     ArrayList<ArrayList<Long>> startTimesList;
     StopWatch totalTimeElapsedStopWatch;
     ArrayList<StopWatch> recipeStopWatches;
+    ArrayList<ArrayList<StopWatch>> recipeStopWatchList;
     float expectedOrderTime;
     String backgroundColor;
 
@@ -58,13 +59,16 @@ public class OrderTimers {
         totalTimeElapsedStopWatch.start();
 
         // Creating an array of un-started StopWatches
-        recipeStopWatches = new ArrayList<>();
 
+
+        recipeStopWatchList = new ArrayList<>();
         menuItems.forEach((item -> {
+            recipeStopWatches = new ArrayList<>();
             item.getMenuItemRecipes().forEach((recipe -> {
                 StopWatch newStop = new StopWatch();
                 recipeStopWatches.add(newStop);
             }));
+            recipeStopWatchList.add(recipeStopWatches);
         }));
 
         Timer t = new Timer();
@@ -74,14 +78,17 @@ public class OrderTimers {
                 Platform.runLater(new Runnable() {
                     @Override
                     public void run() {
-                        menuItems.forEach((item -> {
-                            for (int i = 0; i < item.getMenuItemRecipes().size(); i++) {
+                        //menuItems.forEach((item -> {
+                        for (int i = 0; i < menuItems.size(); i++) {
+                            for (int j = 0; j < menuItems.get(i).getMenuItemRecipes().size(); j++) {
                                 // Start StopWatch When it is passed it's startTime
-                                if ((totalTimeElapsedStopWatch.getElapsedTime() >= startTimes.get(i)) && (!recipeStopWatches.get(i).is_watch_Running()) && (!recipeStopWatches.get(i).is_watch_finished_Running())) {
-                                    recipeStopWatches.get(i).syncNewStopWatch(totalTimeElapsedStopWatch, startTimes.get(i));
+                                if ((totalTimeElapsedStopWatch.getElapsedTime() >= startTimesList.get(i).get(j))
+                                        && (!recipeStopWatchList.get(i).get(j).is_watch_Running())
+                                        && (!recipeStopWatchList.get(i).get(j).is_watch_finished_Running())) {
+                                    recipeStopWatchList.get(i).get(j).syncNewStopWatch(totalTimeElapsedStopWatch, startTimesList.get(i).get(j));
                                 }
                                 // Change BackGround Color. // Red = Late // Yellow = Two minute warning
-                                if (recipeStopWatches.get(i).is_watch_Running()) {
+                                if (recipeStopWatchList.get(i).get(j).is_watch_Running()) {
                                     if (totalTimeElapsedStopWatch.getElapsedTime() >= (expectedOrderTime * 60000L)) {
                                         backgroundColor = "-fx-background-color: red;\n";
                                     } else if (totalTimeElapsedStopWatch.getElapsedTime() >= ((expectedOrderTime - 2) * 60000L)) {
@@ -89,11 +96,11 @@ public class OrderTimers {
                                     }
                                 }
                             }
-                        }));
+                        }
                     }
                 });
             }
-        },0,1000);
+        },0,250);
     }
 
     public StopWatch getTotalTimeElapsedStopWatch() {
@@ -110,6 +117,9 @@ public class OrderTimers {
 
     public ArrayList<ArrayList<Float>> getPrepTimesList() {
         return prepTimesList;
+    }
+    public ArrayList<ArrayList<StopWatch>> getRecipeStopWatchList() {
+        return recipeStopWatchList;
     }
 
     public void addOneExecute(int i, int j) {
