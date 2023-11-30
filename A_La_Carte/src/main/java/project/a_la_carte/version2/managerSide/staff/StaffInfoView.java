@@ -3,12 +3,17 @@ package project.a_la_carte.version2.managerSide.staff;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import project.a_la_carte.version2.ProgramController;
 import project.a_la_carte.version2.classesObjects.*;
 import project.a_la_carte.version2.interfaces.StaffModelSubscriber;
@@ -18,6 +23,7 @@ import java.util.ArrayList;
 /*This view pretty much mirrors Inventory View*/
 public class StaffInfoView extends StackPane implements StaffModelSubscriber {
     TextField fNameText;
+    TextField tipsText;
     TextField lNameText;
     TextField idText;
     TextField sinText;
@@ -34,13 +40,15 @@ public class StaffInfoView extends StackPane implements StaffModelSubscriber {
     Button dashboardButton;
     HBox userHBox;
     HBox passwordHBox;
-
+    BarChart<String, Number> barChart;
+    VBox barChartVBox;
 
     javafx.scene.control.TableView<project.a_la_carte.version2.classesObjects.StaffData> staffTable;
     TableColumn<project.a_la_carte.version2.classesObjects.StaffData,String> iDCol;
     TableColumn<project.a_la_carte.version2.classesObjects.StaffData,String> fNameCol;
     TableColumn<project.a_la_carte.version2.classesObjects.StaffData,String> lNameCol;
     TableColumn<project.a_la_carte.version2.classesObjects.StaffData,String> positionCol;
+    TableColumn<project.a_la_carte.version2.classesObjects.StaffData,Integer> tipsCol;
     TableColumn<project.a_la_carte.version2.classesObjects.StaffData,Integer> sinCol;
 
     public StaffInfoView(){
@@ -77,6 +85,17 @@ public class StaffInfoView extends StackPane implements StaffModelSubscriber {
         } );
         idHBox.getChildren().addAll(idLabel,idText);
 
+        HBox tipsHBox = new HBox();
+        Label tipsHLabel = new Label("Tips earned: ");
+        tipsText = new TextField();
+        //listener to keep sin to max of 9 digits
+        tipsText.textProperty().addListener((observable, oldValue, newValue) -> {
+            if(newValue.length() > 9) {
+                tipsText.setText(oldValue);
+            }
+        } );
+        tipsHBox.getChildren().addAll(tipsHLabel, tipsText);
+
         HBox sinHBox = new HBox();
         Label sinLabel = new Label("SIN: ");
         sinText = new TextField();
@@ -100,12 +119,12 @@ public class StaffInfoView extends StackPane implements StaffModelSubscriber {
 
         submit = new Button("Submit");
         updateButton = new Button("Update");
-        deleteButton = new Button("Delete Item");
+        deleteButton = new Button("Delete");
         mainMenu = new Button("Main Menu");
         clearButton = new Button("Clear");
         dashboardButton = new Button("Dashboard");
 
-        addVBox.getChildren().addAll(mainMenu,addLabel, fNameHBox,lNameHBox,idHBox,sinHBox,postionHBox,updateButton,deleteButton,clearButton, submit);
+        addVBox.getChildren().addAll(mainMenu,addLabel, fNameHBox,lNameHBox,idHBox,sinHBox,tipsHBox,postionHBox,updateButton,deleteButton,clearButton, submit);
         addVBox.setPadding(new Insets(5,5,5,5));
 
         //done addVBox
@@ -128,22 +147,68 @@ public class StaffInfoView extends StackPane implements StaffModelSubscriber {
 
         positionCol = new TableColumn<>("Position");
 
+        tipsCol = new TableColumn<>("Tips received");
+
         sinCol = new TableColumn<>("SIN");
 
-        staffTable.getColumns().addAll(iDCol,lNameCol,fNameCol,positionCol,sinCol);
+        staffTable.getColumns().addAll(iDCol,lNameCol,fNameCol,positionCol,tipsCol,sinCol);
         staffTable.setColumnResizePolicy(javafx.scene.control.TableView.CONSTRAINED_RESIZE_POLICY);
         staffTable.setPrefSize(700,500);
+
+        CategoryAxis xAxis = new CategoryAxis();
+        xAxis.setLabel("Employee ID");
+
+        NumberAxis yAxis = new NumberAxis();
+        yAxis.setLabel("Tips received");
+
+        barChart = new BarChart<>(xAxis, yAxis);
+        barChart.setTitle("Tips earned by Employees");
+
+        Button closeButton = new Button("Close");
+        barChartVBox = new VBox(barChart, closeButton);
+        barChartVBox.setAlignment(Pos.TOP_RIGHT);
+
+        closeButton.setOnAction(e -> {
+            listVBox.getChildren().remove(barChartVBox);
+            barChart.setDisable(true);
+        });
 
         listVBox.setPrefSize(700,500);
         listVBox.setStyle("-fx-border-color: black;\n");
         listVBox.getChildren().add(dashboardButton);
         listVBox.getChildren().add(staffTable);
+        //listVBox.getChildren().add(barChart);
         listVBox.setPadding(new Insets(5,5,5,5));
-
+        //barChart.setVisible(false);
+        barChart.setDisable(true);
 
         HBox mergeHBox = new HBox();
         mergeHBox.getChildren().addAll(addVBox,listVBox);
         this.getChildren().add(mergeHBox);
+    }
+
+    public void TipTrackingDashboard(ArrayList<Staff> staffList)
+    {
+
+        if(barChart.isDisable())
+        {
+            XYChart.Series<String, Number> series = new XYChart.Series<>();
+            //series.setName("Position Distribution");
+            for (Staff staff : staffList) {
+                String employeeId = staff.getStaffID();
+                Number tipsEarned = staff.getTips();
+                System.out.println("Tips earned by " + employeeId + " is " + tipsEarned);
+                series.getData().add(new XYChart.Data<>(employeeId, tipsEarned));
+            }
+
+            barChart.getData().clear();
+            barChart.getData().add(series);
+            System.out.println("Bar chart is visible");
+            listVBox.getChildren().add(barChartVBox);
+
+            barChart.setDisable(false);
+        }
+
     }
 
     public void setController(ProgramController controller){
@@ -176,6 +241,7 @@ public class StaffInfoView extends StackPane implements StaffModelSubscriber {
         lNameCol.setCellValueFactory(cellData -> cellData.getValue().lastNameProperty());
         sinCol.setCellValueFactory(cellData -> cellData.getValue().sinProperty().asObject());
         positionCol.setCellValueFactory(cellData -> cellData.getValue().positionProperty());
+        tipsCol.setCellValueFactory(cellData -> cellData.getValue().tipsProperty().asObject());
 
         if(loadedStaff == null){
             clearFields();
@@ -196,6 +262,12 @@ public class StaffInfoView extends StackPane implements StaffModelSubscriber {
                 addVBox.getChildren().addAll(userHBox, passwordHBox);
                 userText.setText(loadedStaff.getUsername());
                 passwordText.setText(loadedStaff.getPassword());
+            }
+
+            if(!barChart.isDisable() && staffList.size() != 0)
+            {
+                barChart.setDisable(true);
+                TipTrackingDashboard(staffList);
             }
         }
     }
@@ -220,6 +292,9 @@ public class StaffInfoView extends StackPane implements StaffModelSubscriber {
     }
     public TextField getSinText() {
         return sinText;
+    }
+    public TextField getTipsText() {
+        return tipsText;
     }
     public TextField getIdText() {
         return idText;
