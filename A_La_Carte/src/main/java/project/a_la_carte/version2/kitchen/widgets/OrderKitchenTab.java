@@ -18,7 +18,7 @@ public class OrderKitchenTab extends StackPane implements OrderClassesInterface 
     //We can probably add a ScrollPane for the VBox so that its not cluttered and it scrolls
     VBox ordersVBox;
     Button cancelButton;
-    Order orderItems;
+    Order singleOrder;
     KitchenModel kModel;
     public OrderKitchenTab(KitchenModel model, Order order){
         this.setPrefSize(630,70);
@@ -29,7 +29,7 @@ public class OrderKitchenTab extends StackPane implements OrderClassesInterface 
         cancelBox.setAlignment(Pos.BOTTOM_CENTER);
         cancelBox.setPadding(new Insets(2));
 
-        this.orderItems = order;
+        this.singleOrder = order;
         orderLabel = new Label("");
 
         HBox titleBox = new HBox(orderLabel);
@@ -54,17 +54,17 @@ public class OrderKitchenTab extends StackPane implements OrderClassesInterface 
     public void modelChanged() {
         ordersVBox.getChildren().clear();
 
-        if (!orderItems.isFinished()){
+        if (!singleOrder.isFinished()){
             //orderItems.getOrderList().forEach((order ->{
-                OrderItems newDisplay = new OrderItems(this, orderItems);
-                ordersVBox.getChildren().add(newDisplay);
+            OrderItems newDisplay = new OrderItems(this, singleOrder);
+            ordersVBox.getChildren().add(newDisplay);
             //}));
         }
         else {
-            kModel.deleteOrder(orderItems);
+            kModel.deleteOrder(singleOrder);
         }
 
 
-        orderLabel.setText("Order #"+ orderItems.getOrderNum());
+        orderLabel.setText("Order #"+ singleOrder.getOrderNum());
     }
 }

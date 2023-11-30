@@ -33,21 +33,31 @@
     "menuItemRecipes": [
       {
         "ingredientMap": {},
-        "name": "5 Minute Recipe",
-        "description": "5 Minute Recipe Description",
-        "prepInstruction": "5 Minute Recipe Instructions",
-        "price": 5.0,
-        "prepTime": 5.0,
+        "name": "3 Minute Recipe",
+        "description": "3 Minute Recipe Description   ",
+        "prepInstruction": "3 Minute Recipe Instructions ",
+        "price": 3.0,
+        "prepTime": 3.0,
         "selectedStatus": false,
         "finished": false
       },
       {
         "ingredientMap": {},
-        "name": "4 Minute Recipe",
-        "description": "4 Minute Recipe Description ",
-        "prepInstruction": "4 Minute Recipe Instructions",
-        "price": 4.0,
-        "prepTime": 4.0,
+        "name": "2 Minute Recipe",
+        "description": "2 Minute Recipe Description  ",
+        "prepInstruction": "2 Minute Recipe Instructions",
+        "price": 2.0,
+        "prepTime": 2.0,
+        "selectedStatus": false,
+        "finished": false
+      },
+      {
+        "ingredientMap": {},
+        "name": "1 Minute Recipe",
+        "description": "1 Minute Recipe Description",
+        "prepInstruction": "1 Minute Recipe Instructions",
+        "price": 1.0,
+        "prepTime": 1.0,
         "selectedStatus": false,
         "finished": false
       }

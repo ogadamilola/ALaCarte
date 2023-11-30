@@ -92,27 +92,29 @@ public class OrderItems extends HBox {
                 HBox addBox = new HBox(labelBox, buttonsBox);
                 addBox.setPrefWidth(600);
 
-                int val = j;
+                int val_j = j;
+                int val_i = i;
                 complete.setOnMouseClicked(event -> {
                     labelBox.getChildren().clear();
-                    Label completeL = new Label("Recipe: "+ currentItem.getMenuItemRecipes().get(val).getName() + " COMPLETED");
-                    currentItem.getMenuItemRecipes().get(val).setFinished();
+                    Label completeL = new Label("Recipe: "+ currentItem.getMenuItemRecipes().get(val_j).getName() + " COMPLETED");
+                    currentItem.getMenuItemRecipes().get(val_j).setFinished();
                     addBox.getChildren().remove(buttonsBox);
                     labelBox.getChildren().add(completeL);
 
                     // *** figure this out
-                    //recipeStopWatches.get(val).stop(); // Randall line --> Not sure how this while affect my changes - Evan
+                    currentOrder.getRecipeStopWatchList().get(val_i).get(val_j).stop();
                     if (!isNotFinished()){
-                        orderKitchenTab.orderItems.deleteItem(currentItem);
+                        orderKitchenTab.singleOrder.deleteOrder(order);
+                        // orderKitchenTab.kModel.deleteOrder(order);
                     }
                 });
-                int val2 = i;
+
                 addOne.setOnMouseClicked(event -> {
-                    currentOrder.addOneExecute(val2, val);
+                    currentOrder.addOneExecute(val_i, val_j);
                 });
                 stringDisplay.getChildren().add(addBox);
                 viewButton.setOnAction(event ->{
-                    showRecipeInfo(currentItem.getMenuItemRecipes().get(val));
+                    showRecipeInfo(currentItem.getMenuItemRecipes().get(val_j));
                 });
             }
             recipesLabelsList.add(recipesLabels);
@@ -128,14 +130,21 @@ public class OrderItems extends HBox {
                     @Override
                     public void run() {
                         // below -- not sure, this is ever false... NeverMind?
+
                         if (currentOrder.getTotalTimeElapsedStopWatch().is_watch_Running()) {
                             totalTimeElapsedLabel.setText("Total Time: " + currentOrder.getTotalTimeElapsedStopWatch().getElapsedTimeFormatted());
                         }
                         stringDisplay.setStyle(currentOrder.getBackgroundColor());
 
+                        currentOrder.getMenuItems().forEach((item -> {
+                            item.getMenuItemRecipes().forEach((recipe -> {
+                                // if all recipe are finished delete frame
+                            }));
+                        }));
+
                         // Print Recipe StopWatches
                         for (int i = 0; i < numMenuItems; i++) {
-                            int numRecipes = currentOrder.getMenuItems().get(i).getMenuItemRecipes().size();
+                            int numRecipes = currentOrder.getMenuItems().get(i).getMenuItemRecipes().size(); // Line causes and error when all recipes are completed
                             for (int j = 0; j < numRecipes; j++) {
                                 recipesLabelsList.get(i).get(j).setText(("Recipe "
                                         + currentOrder.getMenuItems().get(i).getMenuItemRecipes().get(j).getName() + " TIME "
@@ -145,6 +154,8 @@ public class OrderItems extends HBox {
                             }
 
                         }
+
+
                     }
                 });
             }

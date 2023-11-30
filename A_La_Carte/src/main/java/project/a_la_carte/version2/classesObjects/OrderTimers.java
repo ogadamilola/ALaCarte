@@ -40,6 +40,7 @@ public class OrderTimers {
                 if (recipe.getPrepTime() >= expectedOrderTime) {
                     expectedOrderTime = recipe.getPrepTime();
                 }
+                recipe.setNotFinished();
             }));
             prepTimesList.add(prepTimes);
         }));
@@ -124,7 +125,7 @@ public class OrderTimers {
 
     public void addOneExecute(int i, int j) {
         // increase prepTime by 1 minute
-        prepTimesList.get(i).set(j, prepTimesList.get(i).get(i) + 1);
+        prepTimesList.get(i).set(j, prepTimesList.get(i).get(j) + 1);
         // update expectedOrderTime
         expectedOrderTime += 1;
 
