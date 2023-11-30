@@ -28,5 +28,45 @@
     "selectedStatus": false,
     "customized": false,
     "customizeOption": ""
+  },
+  {
+    "menuItemRecipes": [
+      {
+        "ingredientMap": {},
+        "name": "3 Minute Recipe",
+        "description": "3 Minute Recipe Description   ",
+        "prepInstruction": "3 Minute Recipe Instructions ",
+        "price": 3.0,
+        "prepTime": 3.0,
+        "selectedStatus": false,
+        "finished": false
+      },
+      {
+        "ingredientMap": {},
+        "name": "2 Minute Recipe",
+        "description": "2 Minute Recipe Description  ",
+        "prepInstruction": "2 Minute Recipe Instructions",
+        "price": 2.0,
+        "prepTime": 2.0,
+        "selectedStatus": false,
+        "finished": false
+      },
+      {
+        "ingredientMap": {},
+        "name": "1 Minute Recipe",
+        "description": "1 Minute Recipe Description",
+        "prepInstruction": "1 Minute Recipe Instructions",
+        "price": 1.0,
+        "prepTime": 1.0,
+        "selectedStatus": false,
+        "finished": false
+      }
+    ],
+    "name": "3 Minute Test Menu Item",
+    "description": "This Menu Item can test the Timing Sytem in 3 minutes.",
+    "price": 9.0,
+    "selectedStatus": false,
+    "customized": false,
+    "customizeOption": ""
   }
 ]
