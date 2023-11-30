@@ -34,6 +34,7 @@ public class StartupMVC extends StackPane {
     KitchenModel kitchenModel;
     MenuItemModel menuItemModel;
     StaffModel staffModel;
+
     RestaurantModel restaurantModel;
     Button workerButton;
     String selectedScreen = "startUp";
