@@ -62,7 +62,7 @@
         "finished": false
       }
     ],
-    "name": "3 Minute Test Menu Item",
+    "name": "3 Minute Timer Test",
     "description": "This Menu Item can test the Timing Sytem in 3 minutes.",
     "price": 9.0,
     "selectedStatus": false,
