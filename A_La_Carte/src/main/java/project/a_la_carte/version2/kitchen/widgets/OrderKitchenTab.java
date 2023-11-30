@@ -8,9 +8,13 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import project.a_la_carte.version2.classesObjects.MenuFoodItem;
+import project.a_la_carte.version2.classesObjects.Recipe;
 import project.a_la_carte.version2.kitchen.*;
 import project.a_la_carte.version2.classesObjects.Order;
 import project.a_la_carte.version2.interfaces.*;
+
+import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class OrderKitchenTab extends StackPane implements OrderClassesInterface {
     Label orderLabel;
@@ -19,8 +23,10 @@ public class OrderKitchenTab extends StackPane implements OrderClassesInterface 
     Button cancelButton;
     Order orderItems;
     KitchenModel kModel;
+    ArrayList<OrderItems> orderItemList;
     public OrderKitchenTab(KitchenModel model, Order order){
         this.setPrefSize(630,70);
+        orderItemList = new ArrayList<>();
         kModel = model;
         this.cancelButton = new Button("Complete");
         HBox cancelBox = new HBox(cancelButton);
@@ -44,25 +50,46 @@ public class OrderKitchenTab extends StackPane implements OrderClassesInterface 
         VBox align = new VBox(titleBox,this.ordersVBox, cancelBox);
         align.setPrefSize(230,70);
 
+        orderItems.getOrderList().forEach(menuItem -> {
+            OrderItems orderI = new OrderItems(this, menuItem);
+            this.orderItemList.add(orderI);
+        });
         this.getChildren().add(align);
+    }
+    public void removeItem(OrderItems item){
+        ordersVBox.getChildren().remove(item);
+        modelChanged();
     }
     public Button getCancelButton(){
         return this.cancelButton;
+    }
+    public boolean isNotIn(OrderItems items){
+        AtomicReference<Boolean> check = new AtomicReference<>(false);
+        orderItemList.forEach(orderItems1 -> {
+            if (orderItems1.totalTimeElapsedStopWatch.getElapsedTime() > 0){
+                check.set(true);
+            }
+        });
+        return check.get();
+    }
+    public Order getOrderItems(){
+        return this.orderItems;
     }
     @Override
     public void modelChanged() {
         ordersVBox.getChildren().clear();
 
         if (!orderItems.isFinished()){
-            orderItems.getOrderList().forEach((order ->{
-                OrderItems newDisplay = new OrderItems(this,order);
-                ordersVBox.getChildren().add(newDisplay);
+            this.orderItemList.forEach((order ->{
+                ordersVBox.getChildren().add(order);
             }));
         }
         else {
             kModel.deleteOrder(orderItems);
         }
-
+        //orderItemList.forEach(order -> {
+        //    ordersVBox.getChildren().add(order);
+        //});
 
         orderLabel.setText("Order #"+ orderItems.getOrderNum());
     }

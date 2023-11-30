@@ -31,7 +31,7 @@ public class OrderItems extends HBox {
     ArrayList<StopWatch> recipeStopWatches;
     OrderKitchenTab oTab;
     float expectedOrderTime;
-
+    int recipeCounter;
     public OrderItems(OrderKitchenTab orderKitchenTab, MenuFoodItem item){
         oTab = orderKitchenTab;
         this.menuFoodItem = item;
@@ -95,6 +95,7 @@ public class OrderItems extends HBox {
         // totalTimeElapsedStopWatch.start(); // This has already been called
         // recipeStopWatches.forEach(StopWatch::start); // Wrong. Start all timers at the start
 
+        recipeCounter = numberOfRecipes;
         for (int i = 0; i < numberOfRecipes; i++) {
             Button complete = new Button("Complete Recipe");
             Button addOne = new Button("Add 1 Min.");
@@ -116,12 +117,18 @@ public class OrderItems extends HBox {
                 labelBox.getChildren().clear();
                 Label completeL = new Label("Recipe: "+ menuFoodItem.getMenuItemRecipes().get(val).getName() + " COMPLETED");
                 menuFoodItem.getMenuItemRecipes().get(val).setFinished();
+                recipeCounter -= 1;
+
                 addBox.getChildren().remove(buttonsBox);
                 labelBox.getChildren().add(completeL);
 
                 //recipeStopWatches.get(val).stop(); // Randall line --> Not sure how this while affect my changes - Evan
-                if (!isNotFinished()){
+                if ((recipeCounter == 0)){
                     orderKitchenTab.orderItems.deleteItem(this.menuFoodItem);
+                    orderKitchenTab.removeItem(this);
+                }
+                if (orderKitchenTab.orderItems.getOrderList().isEmpty()){
+                    orderKitchenTab.orderItems.orderFinished();
                 }
             });
             addOne.setOnMouseClicked(event -> {
@@ -157,7 +164,7 @@ public class OrderItems extends HBox {
 
                         // for (int i = 0; i < recipesTimeElapsedLabel.size(); i++) {
                         // ^ Wrong.--> recipesTimeElapsedLabel.size()
-                        for (int i = 0; i < numberOfRecipes; i++) {
+                        for (int i = 0; i < recipesTimeElapsedLabel.size(); i++) {
                             if ((totalTimeElapsedStopWatch.getElapsedTime() >= startTimes.get(i)) && (!recipeStopWatches.get(i).is_watch_Running()) && (!recipeStopWatches.get(i).is_watch_finished_Running())) {
                                 recipeStopWatches.get(i).syncNewStopWatch(totalTimeElapsedStopWatch, startTimes.get(i));
                             }

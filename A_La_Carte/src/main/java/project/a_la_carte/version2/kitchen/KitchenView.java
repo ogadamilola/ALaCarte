@@ -14,6 +14,9 @@ import project.a_la_carte.version2.classesObjects.AlertButton;
 import project.a_la_carte.version2.interfaces.*;
 import project.a_la_carte.version2.kitchen.widgets.OrderKitchenTab;
 
+import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicReference;
+
 public class KitchenView extends StackPane implements KitchenViewsInterface {
     WorkerView workerView;
     KitchenModel kitchenModel;
@@ -21,7 +24,9 @@ public class KitchenView extends StackPane implements KitchenViewsInterface {
     AlertButton alertButton;
     Button sendNoteButton;
     FlowPane ordersVBox;
+    ArrayList<OrderKitchenTab> orderKitchenTabs;
     public KitchenView(WorkerView view){
+        orderKitchenTabs = new ArrayList<>();
         this.workerView = view;
         this.setMaxSize(5000,2500);
         this.setPrefSize(1000,500);
@@ -82,6 +87,15 @@ public class KitchenView extends StackPane implements KitchenViewsInterface {
         this.alertButton.setOnAction(controller::showKitchenAlerts);
         this.sendNoteButton.setOnAction(controller::alertSenderToServer);
     }
+    public boolean isNotDisplayed(int val){
+        AtomicReference<Boolean> check = new AtomicReference<>(false);
+        orderKitchenTabs.forEach(tabs ->{
+            if (tabs.getOrderItems().getOrderNum() == val){
+                check.set(true);
+            }
+        });
+        return check.get();
+    }
     public void modelChanged(){
         this.ordersVBox.getChildren().clear();
 
@@ -97,9 +111,17 @@ public class KitchenView extends StackPane implements KitchenViewsInterface {
                 order.addSubscriber(newTab);
                 newTab.getCancelButton().setOnAction((event -> {
                     kitchenModel.deleteOrder(order);
+                    newTab.getOrderItems().orderFinished();
                 }));
-                this.ordersVBox.getChildren().add(newTab);
+                if (!isNotDisplayed(newTab.getOrderItems().getOrderNum())){
+                    this.orderKitchenTabs.add(newTab);
+                }
             }));
         }
+        orderKitchenTabs.forEach(tabs ->{
+            if (!tabs.getOrderItems().isFinished()) {
+                this.ordersVBox.getChildren().add(tabs);
+            }
+        });
     }
 }
