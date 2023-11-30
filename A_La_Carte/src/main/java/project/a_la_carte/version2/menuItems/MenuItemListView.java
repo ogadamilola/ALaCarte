@@ -1,6 +1,5 @@
 package project.a_la_carte.version2.menuItems;
 
-import javafx.beans.binding.Bindings;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -16,8 +15,10 @@ import project.a_la_carte.version2.interfaces.MenuItemModelSubscriber;
 
 import java.util.List;
 
+/**
+ * The display for the lists of MenuItems in the database
+ */
 public class MenuItemListView extends StackPane implements MenuItemModelSubscriber {
-    // This is a comment please delete
     MenuItemModel menuItemModel;
     VBox menuItemListVBox;
     VBox recipeListVBox;
@@ -152,16 +153,22 @@ public class MenuItemListView extends StackPane implements MenuItemModelSubscrib
         this.getChildren().add(alignAll);
     }
 
+    /**
+     * Set method for MenuItemListView's MenuItemModel
+     */
     public void setMenuItemModel(MenuItemModel newModel){
         this.menuItemModel = newModel;
     }
+
+    /**
+     * Connecting MenuItemListView to the Program's controller
+     */
     public void setController(ProgramController controller){
         this.createNewButton.setOnAction(controller::openMenuMakerView);
         this.editButton.setOnAction(controller::editMenuMakerView);
         this.mainMenu.setOnAction(controller::openManagerMainView);
         this.deleteButton.setOnAction(controller::deleteMenuItem);
     }
-
 
     @Override
     public void MenuItemModelChanged(List<MenuFoodItem> menuItemList) {

@@ -8,6 +8,9 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import project.a_la_carte.version2.serverSide.ServerModel;
 
+/**
+ * Used to contain notes on ServerSide
+ */
 public class ServerNotes extends StackPane {
     Label note;
     Button deleteButton;

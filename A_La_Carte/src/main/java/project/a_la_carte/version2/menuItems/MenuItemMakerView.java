@@ -15,7 +15,9 @@ import project.a_la_carte.version2.interfaces.MenuItemModelSubscriber;
 
 import java.util.List;
 
-
+/**
+ * Display for creating a new MenuItem
+ */
 public class MenuItemMakerView extends StackPane implements MenuItemModelSubscriber {
     //TODO should make these private for the sake of good code practice
     MenuItemModel menuItemModel;
@@ -163,6 +165,10 @@ public class MenuItemMakerView extends StackPane implements MenuItemModelSubscri
         this.setStyle("-fx-border-color: black;\n");
         this.getChildren().add(connectAll);
     }
+
+    /**
+     * Getters and Setters for MenuItem information
+     */
     public String getMenuItemName(){
         return this.menuItemName.getText();
     }
@@ -184,6 +190,10 @@ public class MenuItemMakerView extends StackPane implements MenuItemModelSubscri
     public float setMenuPrice(){
         return Float.parseFloat(this.menuItemPrice.getText());
     }
+
+    /**
+     * Method for clearing the text fields
+     */
     public void clearTextFields(){
         this.menuItemName.clear();
         this.menuItemDescription.clear();
@@ -195,10 +205,17 @@ public class MenuItemMakerView extends StackPane implements MenuItemModelSubscri
     public void setEdit(){
         this.edit = true;
     }
+
+    /**
+     * Set method for MenuItemMakerView's MenuItemModel
+     */
     public void setMenuItemModel(MenuItemModel newModel) {
         this.menuItemModel = newModel;
     }
 
+    /**
+     * Connecting MenuItemMakerView to the program's controller
+     */
     public void setController(ProgramController controller){
         mainMenu.setOnAction(controller::openManagerMainView);
         menuItemList.setOnAction(controller::openMenuListView);

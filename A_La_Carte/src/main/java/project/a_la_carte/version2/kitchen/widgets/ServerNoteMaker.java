@@ -12,6 +12,9 @@ import javafx.scene.text.Font;
 import project.a_la_carte.version2.ProgramController;
 import project.a_la_carte.version2.kitchen.*;
 
+/**
+ * Display for sending notes from Kitchen side to Server side
+ */
 public class ServerNoteMaker extends StackPane{
     public ServerNoteMaker(ProgramController controller, KitchenModel model){
         this.setPrefSize(600,400);
