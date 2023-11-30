@@ -122,7 +122,7 @@ public class StaffModel {
 
     public boolean verifyServerLogIn(String pin){
         for (Staff staff : staffList){
-            if(staff.getPosition() == Staff.position.Server){
+            if(staff.getPosition() == Staff.position.Server || staff.getPosition() == Staff.position.Manager){
                 if(staff.getStaffID().equals(pin)){
                     return true;
                 }

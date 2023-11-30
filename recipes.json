@@ -79,5 +79,18 @@
     "prepTime": 3.0,
     "selectedStatus": false,
     "finished": false
+  },
+  {
+    "ingredientMap": {
+      "Ketchup": 0.375,
+      "Pork Ribs": 1.0
+    },
+    "name": "Ribs",
+    "description": "Ribs and ketchup",
+    "prepInstruction": "put ketchup on ribs",
+    "price": 10.59375,
+    "prepTime": 15.0,
+    "selectedStatus": false,
+    "finished": false
   }
 ]

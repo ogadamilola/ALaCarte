@@ -35,7 +35,16 @@ public class ShowRecipeInfoView {
 
         InventoryModel tempInvModel = new InventoryModel();
 
+        ingredientNameCol.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
+        quantityCol.setCellValueFactory(cellData -> cellData.getValue().recipeQuantityProperty().asObject());
+        measurementUnitCol.setCellValueFactory(cellData -> cellData.getValue().recipeMeasurementProperty());
+        allergenCol.setCellValueFactory(cellData -> cellData.getValue().allergenProperty());
+        ingredientTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        ingredientTable.getColumns().addAll(ingredientNameCol,quantityCol,measurementUnitCol,allergenCol);
+
+        System.out.println(recipe.getRecipeIngredients().size());
         for(Map.Entry<String, Double> entry : recipe.getRecipeIngredients().entrySet()){
+
             Double ingredientQuantity = entry.getValue();
             Ingredient ingredient = tempInvModel.getIngredientFromList(entry.getKey());
             IngredientData iData = new IngredientData(ingredient,ingredientQuantity);
@@ -43,12 +52,7 @@ public class ShowRecipeInfoView {
         }
 
         ingredientTable.setItems(ingredientData);
-        ingredientNameCol.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
-        quantityCol.setCellValueFactory(cellData -> cellData.getValue().recipeQuantityProperty().asObject());
-        measurementUnitCol.setCellValueFactory(cellData -> cellData.getValue().recipeMeasurementProperty());
-        allergenCol.setCellValueFactory(cellData -> cellData.getValue().allergenProperty());
-        ingredientTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-        ingredientTable.getColumns().addAll(ingredientNameCol,quantityCol,measurementUnitCol,allergenCol);
+
 
 
         //All these are copy pasted from Recipe List View

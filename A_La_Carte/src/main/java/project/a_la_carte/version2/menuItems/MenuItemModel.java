@@ -119,7 +119,6 @@ public class MenuItemModel {
         newRecipe.selectedRecipe();
     }
     public void addNewMenuItem(MenuFoodItem menuFoodItem) {
-        System.out.println(menuFoodItem.getMenuItemRecipes());
         this.menuItemsList.add(menuFoodItem);
         notifySubscribers();
         saveData();
