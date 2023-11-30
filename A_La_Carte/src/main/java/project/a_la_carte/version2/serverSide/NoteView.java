@@ -13,9 +13,8 @@ import javafx.scene.text.Font;
 
 import project.a_la_carte.version2.ProgramController;
 import project.a_la_carte.version2.WorkerView;
-import project.a_la_carte.version2.interfaces.ServerViewInterface;
 
-public class NoteView extends StackPane implements ServerViewInterface {
+public class NoteView extends StackPane {
     WorkerView workerView;
     ServerModel serverModel;
     TextArea noteText;
@@ -105,10 +104,5 @@ public class NoteView extends StackPane implements ServerViewInterface {
         this.save.setOnAction(event -> {
             controller.sendNoteToKitchen(this.workerView);
         });
-    }
-
-    @Override
-    public void modelChanged() {
-
     }
 }

@@ -1,6 +1,5 @@
 package project.a_la_carte.version2.menuItems;
 
-import javafx.beans.binding.Bindings;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -17,7 +16,6 @@ import project.a_la_carte.version2.interfaces.MenuItemModelSubscriber;
 import java.util.List;
 
 public class MenuItemListView extends StackPane implements MenuItemModelSubscriber {
-    // This is a comment please delete
     MenuItemModel menuItemModel;
     VBox menuItemListVBox;
     VBox recipeListVBox;

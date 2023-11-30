@@ -12,11 +12,6 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import project.a_la_carte.version2.serverSide.*;
 import project.a_la_carte.version2.kitchen.KitchenView;
-import project.a_la_carte.version2.managerSide.inventory.InventoryView;
-import project.a_la_carte.version2.managerSide.recipe.RecipeListView;
-import project.a_la_carte.version2.managerSide.recipe.RecipeMakerView;
-import project.a_la_carte.version2.menuItems.MenuItemListView;
-import project.a_la_carte.version2.menuItems.MenuItemMakerView;
 import project.a_la_carte.version2.serverSide.NoteView;
 
 public class WorkerView extends StackPane {
@@ -55,8 +50,6 @@ public class WorkerView extends StackPane {
         noteView = new NoteView(this);
         noteView.setController(startupMVC.getController());
         noteView.setServerModel(startupMVC.getServerModel());
-
-        startupMVC.getServerModel().setNoteView(noteView);
 
         tableView = new TableView(this);
         tableView.setController(startupMVC.getController());

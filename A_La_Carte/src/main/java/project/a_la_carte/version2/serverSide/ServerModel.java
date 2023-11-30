@@ -27,15 +27,6 @@ public class ServerModel {
         this.customizeButtons = new ArrayList<>();
         this.notesArrayList = new ArrayList<>();
 
-        /*this.addIngredient("Cheese");
-        this.addIngredient("Milk");
-        this.addIngredient("Tomato");
-        this.addIngredient("Pickles");
-        this.addIngredient("Rice");
-        this.addIngredient("Beans");
-        this.addIngredient("Fries");
-        this.addIngredient("Poutine");*/
-
         this.addOptionButton("No");
         this.addOptionButton("Extra");
         this.addOptionButton("Just");
@@ -134,9 +125,6 @@ public class ServerModel {
         notifySubscribers();
     }
     public void setMenuView(MenuView newView){
-        this.addSubscriber(newView);
-    }
-    public void setNoteView(NoteView newView){
         this.addSubscriber(newView);
     }
     public void setTableView(TableView newView){

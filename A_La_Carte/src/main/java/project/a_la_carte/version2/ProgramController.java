@@ -27,12 +27,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import static java.lang.Float.parseFloat;
 
 public class ProgramController {
     StartupMVC startupMVC;
     ManagerMainView managerMainView;
-    WorkerView workerView;
     InventoryView inventoryView;
     RecipeListView recipeListView;
     RecipeMakerView recipeMakerView;
@@ -58,9 +56,6 @@ public class ProgramController {
      */
     public void setManagerMainView(ManagerMainView view){
         this.managerMainView = view;
-    }
-    public void setWorkerView(WorkerView view){
-        this.workerView = view;
     }
 
     public void setRestaurantInfoView(RestaurantInfoView restaurantInfoView) {
@@ -97,9 +92,6 @@ public class ProgramController {
     }
     public void setStartupMVC(StartupMVC newModel){
         this.startupMVC = newModel;
-        //This is just for testing
-//        MenuFoodItem newItem = new MenuFoodItem((ArrayList<Recipe>) startupMVC.getRecipeModel().getRecipeList(), "Test Item", "Test Description");
-//        startupMVC.getMenuItemModel().addNewMenuItem(newItem);
         this.startupMVC.getMenuItemModel().resetAddedRecipes();
         //----------------------------------------------
     }
