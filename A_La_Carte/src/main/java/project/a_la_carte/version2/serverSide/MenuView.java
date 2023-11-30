@@ -19,6 +19,9 @@ import project.a_la_carte.version2.interfaces.ServerViewInterface;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicReference;
 
+/**
+ * The main display for Servers
+ */
 public class MenuView extends StackPane implements ServerViewInterface {
     WorkerView workerView;
     ServerModel serverModel;
@@ -192,9 +195,17 @@ public class MenuView extends StackPane implements ServerViewInterface {
 
         this.getChildren().addAll(alignAll);
     }
+
+    /**
+     * Set method for MenuView's ServerModel
+     */
     public void setServerModel(ServerModel newModel){
         this.serverModel = newModel;
     }
+
+    /**
+     * Connecting MenuView with the Program's controller
+     */
     public void setController(ProgramController controller){
         this.mainMenu.setOnAction((event -> {
             controller.openWorkerView(this.workerView);
@@ -223,9 +234,17 @@ public class MenuView extends StackPane implements ServerViewInterface {
 
 
     }
+
+    /**
+     * Add a MenuItem that is to be displayed in the MenuView
+     */
     public void addMenuDisplay(MenuFoodItem foodItem){
         this.menuFoodDisplayList.add(foodItem);
     }
+
+    /**
+     * Method for checking if the MenuItem display is already in the MenuView
+     */
     public Boolean containsMenuDisplay(MenuFoodItem foodName){
         AtomicReference<Boolean> check = new AtomicReference<>(false);
         menuFoodDisplayList.forEach(foodItem -> {
@@ -236,18 +255,34 @@ public class MenuView extends StackPane implements ServerViewInterface {
         });
         return check.get();
     }
+
+    /**
+     * Method for adding MenuItem to the order
+     */
     public void addToOrder(MenuFoodItem item){
         if (this.currentOrder == null){
             currentOrder = new Order(new ArrayList<>(),serverModel.orderNumber);
         }
         currentOrder.addItem(item);
     }
+
+    /**
+     * Get method for the selected item in the MenuView
+     */
     public MenuFoodItem getSelectedItem(){
         return this.selectedItem;
     }
+
+    /**
+     * Get method for the current order number
+     */
     public Order getCurrentOrder(){
         return this.currentOrder;
     }
+
+    /**
+     * Method for deleting the current order
+     */
     public void clearOrder(){
         this.currentOrder = null;
         modelChanged();

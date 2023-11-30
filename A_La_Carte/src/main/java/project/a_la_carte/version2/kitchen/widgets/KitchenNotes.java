@@ -8,6 +8,9 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import project.a_la_carte.version2.kitchen.*;
 
+/**
+ * Container for notes in the KitchenModel
+ */
 public class KitchenNotes extends StackPane {
     Label note;
     Button deleteButton;

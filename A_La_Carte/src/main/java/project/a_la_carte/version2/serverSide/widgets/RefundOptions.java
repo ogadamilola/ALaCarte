@@ -14,6 +14,9 @@ import javafx.stage.Stage;
 import project.a_la_carte.version2.classesObjects.MenuFoodItem;
 import project.a_la_carte.version2.classesObjects.Order;
 
+/**
+ * Used to contain refund options
+ */
 public class RefundOptions extends StackPane {
     float total = 0;
     Button refundButton;

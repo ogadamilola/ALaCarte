@@ -7,20 +7,26 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import project.a_la_carte.version2.classesObjects.MenuFoodItem;
 import project.a_la_carte.version2.kitchen.*;
 import project.a_la_carte.version2.classesObjects.Order;
 import project.a_la_carte.version2.interfaces.*;
 
+import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicReference;
+
+/**
+ * Container for OrderItems
+ */
 public class OrderKitchenTab extends StackPane implements OrderClassesInterface {
     Label orderLabel;
-    //We can probably add a ScrollPane for the VBox so that its not cluttered and it scrolls
     VBox ordersVBox;
     Button cancelButton;
     Order orderItems;
     KitchenModel kModel;
+    ArrayList<OrderItems> orderItemList;
     public OrderKitchenTab(KitchenModel model, Order order){
         this.setPrefSize(630,70);
+        orderItemList = new ArrayList<>();
         kModel = model;
         this.cancelButton = new Button("Complete");
         HBox cancelBox = new HBox(cancelButton);
@@ -44,25 +50,46 @@ public class OrderKitchenTab extends StackPane implements OrderClassesInterface 
         VBox align = new VBox(titleBox,this.ordersVBox, cancelBox);
         align.setPrefSize(230,70);
 
+        orderItems.getOrderList().forEach(menuItem -> {
+            OrderItems orderI = new OrderItems(this, menuItem);
+            this.orderItemList.add(orderI);
+        });
         this.getChildren().add(align);
     }
+
+    /**
+     * Method for removing an OrderItem
+     */
+    public void removeItem(OrderItems item){
+        ordersVBox.getChildren().remove(item);
+        modelChanged();
+    }
+
+    /**
+     * Get method for OrderKitchenTab's cancel button
+     */
     public Button getCancelButton(){
         return this.cancelButton;
+    }
+
+    /**
+     * Get method for OrderKitchenTab's Order
+     */
+    public Order getOrderItems(){
+        return this.orderItems;
     }
     @Override
     public void modelChanged() {
         ordersVBox.getChildren().clear();
 
         if (!orderItems.isFinished()){
-            orderItems.getOrderList().forEach((order ->{
-                OrderItems newDisplay = new OrderItems(this,order);
-                ordersVBox.getChildren().add(newDisplay);
+            this.orderItemList.forEach((order ->{
+                ordersVBox.getChildren().add(order);
             }));
         }
         else {
             kModel.deleteOrder(orderItems);
         }
-
 
         orderLabel.setText("Order #"+ orderItems.getOrderNum());
     }

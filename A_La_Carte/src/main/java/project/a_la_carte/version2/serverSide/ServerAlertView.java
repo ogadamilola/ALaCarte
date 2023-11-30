@@ -11,6 +11,9 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import project.a_la_carte.version2.interfaces.ServerViewInterface;
 
+/**
+ * Displays the notes sent from Kitchen side
+ */
 public class ServerAlertView extends StackPane implements ServerViewInterface {
     ServerModel serverModel;
     FlowPane alertBox;
@@ -19,7 +22,7 @@ public class ServerAlertView extends StackPane implements ServerViewInterface {
         this.setPrefSize(600,400);
         this.serverModel = model;
 
-        Label title = new Label("KitchenAlerts");
+        Label title = new Label("Kitchen Alerts");
         title.setFont(new Font(20));
         HBox titleBox = new HBox(title);
         titleBox.setPrefWidth(600);
