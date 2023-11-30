@@ -251,7 +251,7 @@ public class RecipeMakerView extends StackPane implements InventorySubscriber, R
         quantityCol.setCellValueFactory(cellData -> cellData.getValue().inventoryQuantityProperty().asObject());
         measurementUnitCol.setCellValueFactory(cellData -> cellData.getValue().recipeMeasurementProperty());
         allergenCol.setCellValueFactory(cellData -> cellData.getValue().allergenProperty());
-
+        this.getRecipePrice().setText(String.valueOf(priceOfIngredients));
         if(loadedRecipe == null) {
             if (!isCreating) {
             getRecipeName().clear();

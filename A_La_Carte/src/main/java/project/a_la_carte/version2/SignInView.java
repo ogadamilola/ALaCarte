@@ -3,6 +3,7 @@ package project.a_la_carte.version2;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
@@ -11,7 +12,7 @@ import javafx.scene.text.Font;
 
 public class SignInView extends StackPane {
     TextField usernameText;
-    TextField passwordText;
+    PasswordField passwordText;
     Button logIn;
     Button signUpButton;
     Button temp;
@@ -32,7 +33,7 @@ public class SignInView extends StackPane {
         userHBox.setAlignment(Pos.CENTER);
 
         Label passLabel = new Label("Password: ");
-        passwordText = new TextField();
+        passwordText = new PasswordField();
         passwordText.setPrefWidth(400);
         HBox passHBox = new HBox(passLabel,passwordText);
         passHBox.setMinWidth(600);

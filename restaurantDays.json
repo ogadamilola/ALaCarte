@@ -15,9 +15,9 @@
   },
   "2023-11-29": {
     "date": "2023-11-29",
-    "menuItemMap": {"Cheese burger combo":2.0},
-    "ingredientUsageMap": {},
-    "totalOrders": 2,
-    "incomeToday": 60.0
+    "menuItemMap": {"test":3.0,"Cheese burger combo":2.0},
+    "ingredientUsageMap": {"Potatoes":1.6500000000000001,"Meatballs":0.75,"Spaghetti":1.3125,"Pepsi":6.0},
+    "totalOrders": 4,
+    "incomeToday": 120.0
   }
 }

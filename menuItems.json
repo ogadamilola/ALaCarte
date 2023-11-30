@@ -87,7 +87,8 @@
         "ingredientMap": {
           "Potatoes": 0.25,
           "Meatballs": 0.25,
-          "Spaghetti": 0.4375
+          "Spaghetti": 0.4375,
+          "Pepsi": 3.0
         },
         "name": "test1",
         "description": "test",

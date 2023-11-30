@@ -48,14 +48,42 @@
     "ingredientMap": {
       "Potatoes": 0.25,
       "Meatballs": 0.25,
-      "Spaghetti": 0.4375
+      "Spaghetti": 0.4375,
+      "Pepsi": 3.0
     },
     "name": "test1",
     "description": "test",
     "prepInstruction": "test",
-    "price": 16.0,
+    "price": 8.91875,
     "prepTime": 8.0,
     "selectedStatus": true,
+    "finished": false
+  },
+  {
+    "ingredientMap": {
+      "Sliced Onion": 1.4375,
+      "Pork Ribs": 1.4375,
+      "Burger Bun": 1.0
+    },
+    "name": "test again",
+    "description": "eee",
+    "prepInstruction": "eeee",
+    "price": 15.981251,
+    "prepTime": 12.0,
+    "selectedStatus": false,
+    "finished": false
+  },
+  {
+    "ingredientMap": {
+      "Ketchup": 0.0625,
+      "Burger Bun": 1.0
+    },
+    "name": "ttetesttsts",
+    "description": "resrsd",
+    "prepInstruction": "reersfsfd",
+    "price": 0.615625,
+    "prepTime": 34.0,
+    "selectedStatus": false,
     "finished": false
   }
 ]
