@@ -14,8 +14,10 @@ import project.a_la_carte.version2.serverSide.*;
 import project.a_la_carte.version2.kitchen.KitchenView;
 import project.a_la_carte.version2.serverSide.NoteView;
 
+/**
+ * The view that opens up for Workers
+ */
 public class WorkerView extends StackPane {
-    Stage stage;
     CustomizeView customizeView;
     MenuView menuView;
     NoteView noteView;
@@ -27,7 +29,6 @@ public class WorkerView extends StackPane {
     TextField pinText;
     Button logInButton;
     String selectedScreen = "";
-    String sideSelector ="";
     public WorkerView(StartupMVC startupMVC){
         this.setPrefSize(1000,500);
 
@@ -114,25 +115,21 @@ public class WorkerView extends StackPane {
         workerView.setMaxSize(1000,500);
         serverLogInVBox.setPadding(new Insets(20,5,20,5));
 
-        //TODO someone please center this lol
         VBox workerViewAlign = new VBox(welcomeLabel,serverLogInVBox,kitchenButton);
         workerViewAlign.setPrefSize(1000,500);
         workerViewAlign.setPadding(new Insets(20,20,20,20));
         workerViewAlign.setAlignment(Pos.CENTER);
         workerView.getChildren().add(workerViewAlign);
 
-        //startupMVC.getController().setWorkerView(this);
         this.setStyle("-fx-border-color: black;\n");
         this.setController(startupMVC.getController());
         this.getChildren().add(workerView);
+    }
 
-    }
-    public void setStage(Stage newS){
-        this.stage = newS;
-    }
-    public Stage getStage(){
-        return this.stage;
-    }
+    /**
+     * Connecting the WorkerView with the Program's controller
+     * @param controller: ProgramController to access methods
+     */
     public void setController(ProgramController controller){
         serverButton.setOnAction((event -> {
             controller.openMenuView(this);
@@ -145,36 +142,40 @@ public class WorkerView extends StackPane {
         });
 
     }
+
+    /**
+     * Get method for WorkerView's NoteView
+     * @return NoteView
+     */
     public NoteView getNoteView(){
         return this.noteView;
     }
     public TextField getPinText() {
         return pinText;
     }
-    public void setServer(String string){
-        this.sideSelector = "Server";
-    }
-    public void setKitchen(String string){
-        this.sideSelector = "Kitchen";
-    }
-    public MenuView getMenuView(){
-        return this.menuView;}
-    public CustomizeView getCustomizeView(){
-        return this.customizeView;
-    }
+
+    /**
+     * Get method for WorkerView's MenuView
+     * @return MenuView
+     */
+    public MenuView getMenuView(){return this.menuView;}
+
+    /**
+     * Get method for WorkerView's CustomizeView
+     * @return CustomizeView
+     */
+    public CustomizeView getCustomizeView(){return this.customizeView;}
 
     public Button getLogInButton() {
         return logInButton;
     }
-    public void selectWorkerView(){
-        this.selectedScreen = "workerView";
-    }
-    public void selectKitchenView(){
-        this.selectedScreen = "kitchen";
-    }
-    public void selectMenuView(){
-        this.selectedScreen = "menu";
-    }
+
+    /**
+     * These methods are used for setting the current display of this WorkerView
+     */
+    public void selectWorkerView(){this.selectedScreen = "workerView";}
+    public void selectKitchenView(){this.selectedScreen = "kitchen";}
+    public void selectMenuView(){this.selectedScreen = "menu";}
     public void selectTableView(){this.selectedScreen = "tables";}
     public void selectCustomize(){this.selectedScreen ="customize";}
     public void selectNoteView(){this.selectedScreen = "note";}

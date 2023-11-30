@@ -16,6 +16,9 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/**
+ * Used to display the MenuItem and it's timers
+ */
 public class OrderItems extends HBox {
     MenuFoodItem menuFoodItem;
     ArrayList<Float> prepTimes;

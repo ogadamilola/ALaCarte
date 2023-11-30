@@ -22,6 +22,9 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 
+/**
+ * The view for adding temporary edits to Menu Item
+ */
 public class CustomizeView extends StackPane implements ServerViewInterface {
     WorkerView workerView;
     ServerModel serverModel;
@@ -99,14 +102,24 @@ public class CustomizeView extends StackPane implements ServerViewInterface {
 
         this.getChildren().add(alignAll);
     }
+
+    /**
+     * Set method for CustomizeView's ServerModel
+     */
     public void setServerModel(ServerModel newModel){
         this.serverModel = newModel;
     }
 
+    /**
+     * Set method for CustomizeView's ServerModel
+     */
     public void setInventoryModel(InventoryModel inventoryModel) {
         this.inventoryModel = inventoryModel;
     }
 
+    /**
+     * Connecting CustomizeView with the Program's controller
+     */
     public void setController(ProgramController controller){
         this.back.setOnAction((event -> {
             controller.openMenuView(this.workerView);
@@ -118,6 +131,10 @@ public class CustomizeView extends StackPane implements ServerViewInterface {
             controller.saveCustomize(this.workerView);
         });
     }
+
+    /**
+     * Method for checking if IngredientCustomize is already on the CustomizeView
+     */
     public Boolean containsIngredientCustomize(String foodName){
         AtomicReference<Boolean> check = new AtomicReference<>(false);
         ingredientsCustomizeArrayList.forEach(ingredient -> {
@@ -127,6 +144,9 @@ public class CustomizeView extends StackPane implements ServerViewInterface {
         });
         return check.get();
     }
+    /**
+     * Method for checking if CustomizeSelectionButton is already on the CustomizeView
+     */
     public Boolean containsButtonCustomize(String foodName){
         AtomicReference<Boolean> check = new AtomicReference<>(false);
         customizeSelectionButtonArrayList.forEach(button -> {
@@ -136,9 +156,17 @@ public class CustomizeView extends StackPane implements ServerViewInterface {
         });
         return check.get();
     }
+
+    /**
+     * Get method for the selected ingredient
+     */
     public String getSelectedIngredient(){
         return this.selectedIngredient;
     }
+
+    /**
+     * Method for updating the display of CustomizeView objects
+     */
     public void selectIngredient(String name) {
         this.selectedIngredient = name;
 
@@ -151,9 +179,17 @@ public class CustomizeView extends StackPane implements ServerViewInterface {
         }));
         modelChanged();
     }
+
+    /**
+     * Get method for the selected option
+     */
     public String getSelectedOption(){
         return this.selectedOption;
     }
+
+    /**
+     * Method for updating the display of CustomizeView objects
+     */
     public void selectOption(String name){
         this.selectedOption = name;
         customizeSelectionButtonArrayList.forEach((option -> {

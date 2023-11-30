@@ -14,6 +14,9 @@ import project.a_la_carte.version2.interfaces.*;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicReference;
 
+/**
+ * Container for OrderItems
+ */
 public class OrderKitchenTab extends StackPane implements OrderClassesInterface {
     Label orderLabel;
     VBox ordersVBox;
@@ -53,22 +56,25 @@ public class OrderKitchenTab extends StackPane implements OrderClassesInterface 
         });
         this.getChildren().add(align);
     }
+
+    /**
+     * Method for removing an OrderItem
+     */
     public void removeItem(OrderItems item){
         ordersVBox.getChildren().remove(item);
         modelChanged();
     }
+
+    /**
+     * Get method for OrderKitchenTab's cancel button
+     */
     public Button getCancelButton(){
         return this.cancelButton;
     }
-    public boolean isNotIn(OrderItems items){
-        AtomicReference<Boolean> check = new AtomicReference<>(false);
-        orderItemList.forEach(orderItems1 -> {
-            if (orderItems1.totalTimeElapsedStopWatch.getElapsedTime() > 0){
-                check.set(true);
-            }
-        });
-        return check.get();
-    }
+
+    /**
+     * Get method for OrderKitchenTab's Order
+     */
     public Order getOrderItems(){
         return this.orderItems;
     }

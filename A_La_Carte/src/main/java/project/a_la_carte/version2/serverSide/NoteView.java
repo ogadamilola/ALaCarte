@@ -14,6 +14,9 @@ import javafx.scene.text.Font;
 import project.a_la_carte.version2.ProgramController;
 import project.a_la_carte.version2.WorkerView;
 
+/**
+ * The view for sending notes from Server side to Kitchen side
+ */
 public class NoteView extends StackPane {
     WorkerView workerView;
     ServerModel serverModel;
@@ -91,12 +94,24 @@ public class NoteView extends StackPane {
 
         this.getChildren().add(align);
     }
+
+    /**
+     * Get method for NoteView's text field
+     */
     public String getNote(){
         return noteText.getText();
     }
+
+    /**
+     * Set method for NoteView's ServerModel
+     */
     public void setServerModel(ServerModel newModel){
         this.serverModel = newModel;
     }
+
+    /**
+     * Connecting NoteView with Program's controller
+     */
     public void setController(ProgramController controller){
         this.back.setOnAction((event -> {
             controller.openMenuView(this.workerView);

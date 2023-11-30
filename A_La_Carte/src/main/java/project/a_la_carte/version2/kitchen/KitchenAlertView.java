@@ -11,6 +11,9 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import project.a_la_carte.version2.interfaces.*;
 
+/**
+ * The display for Notes in the KitchenModel
+ */
 public class KitchenAlertView extends StackPane implements KitchenViewsInterface {
     KitchenModel kitchenModel;
     FlowPane alertBox;
