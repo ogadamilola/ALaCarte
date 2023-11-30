@@ -1,5 +1,7 @@
 package project.a_la_carte.version2;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -18,12 +20,14 @@ import project.a_la_carte.version2.managerSide.RestaurantInfo.ReportView;
 import project.a_la_carte.version2.managerSide.RestaurantInfo.RestaurantDay;
 import project.a_la_carte.version2.managerSide.RestaurantInfo.RestaurantInfoView;
 import project.a_la_carte.version2.managerSide.inventory.*;
-import project.a_la_carte.version2.managerSide.staff.DashboardView;
 import project.a_la_carte.version2.managerSide.staff.StaffInfoView;
 import project.a_la_carte.version2.menuItems.*;
 import project.a_la_carte.version2.managerSide.recipe.*;
 import project.a_la_carte.version2.serverSide.*;
 
+import java.io.FileReader;
+import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -40,7 +44,9 @@ public class ProgramController {
     RestaurantInfoView restaurantInfoView;
     SignUpView signUpView;
     SignInView signInView;
-    DashboardView dashboard;
+    ArrayList<project.a_la_carte.version2.classesObjects.Staff> staffList;
+
+    private static  final String FILE_PATH = "staffList.json";
 
     private enum INTERACTION_STATE{
         RECIPE_LOADED,
@@ -52,6 +58,18 @@ public class ProgramController {
 
 
     public ProgramController(){
+        try (FileReader reader = new FileReader(FILE_PATH)) {
+            Gson gson = new Gson();
+            //dont know whats going on here, found a solution tho-> https://stackoverflow.com/questions/27253555/com-google-gson-internal-linkedtreemap-cannot-be-cast-to-my-class
+            Type arrayListType = new TypeToken<ArrayList<Staff>>(){}.getType();
+            staffList = gson.fromJson(reader, arrayListType);
+
+            if(staffList == null){
+                throw new IOException();
+            }
+        } catch (IOException e) {
+            staffList = new ArrayList<>();
+        }
 
     }
 
@@ -603,9 +621,9 @@ public class ProgramController {
     }
 
     public void openDashboardView(ActionEvent event){
-        this.managerMainView.selectDashboardView();
-        this.managerMainView.modelChanged();
+        this.staffInfoView.TipTrackingDashboard(staffList);
     }
+
     public void editMenuMakerView(ActionEvent event){
         this.menuItemMakerView.setEdit();
 
@@ -758,15 +776,18 @@ public class ProgramController {
             String id = staffInfoView.getIdText().getText();
             Staff.position position = staffInfoView.getPositionComboBox().getValue();
             int sin = Integer.parseInt(staffInfoView.getSinText().getText());
+            int tips = Integer.parseInt(staffInfoView.getTipsText().getText());
 
-            startupMVC.getStaffModel().addStaff(fName, lName, id, position, sin);
+            startupMVC.getStaffModel().addStaff(fName, lName, id, position, tips, sin);
 
         } catch (IllegalArgumentException e){
             showErrorAlert("Illegal input, please check all fields are filled correctly", e.getMessage());
         } catch (NullPointerException e){
             showErrorAlert("Illegal input, please check all fields are filled correctly", e.getMessage());
         }
+
     }
+
 
     public void clearStaffInfoFields(ActionEvent event){
         staffInfoView.clearFields();
@@ -788,6 +809,7 @@ public class ProgramController {
             String id = staffInfoView.getIdText().getText();
             Staff.position position = staffInfoView.getPositionComboBox().getValue();
             int sin = Integer.parseInt(staffInfoView.getSinText().getText());
+            int tips = Integer.parseInt(staffInfoView.getTipsText().getText());
             String username;
             String password;
 
@@ -802,7 +824,7 @@ public class ProgramController {
             } else{
                 password = null;
             }
-            startupMVC.getStaffModel().updateStaff(fName, lName, id, position, sin,username,password);
+            startupMVC.getStaffModel().updateStaff(fName, lName, id, position, sin, tips, username,password);
             showConfirmationAlert("Staff Updated","Staff: " + id + " successfully updated");
         } /*catch (IllegalArgumentException e){
             showAlert("ERROR:", "Staff does not exist, can not update");
