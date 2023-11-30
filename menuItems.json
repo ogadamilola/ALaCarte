@@ -3,21 +3,41 @@
     "menuItemRecipes": [
       {
         "ingredientMap": {},
-        "name": "Cheese burger",
-        "description": "Burger with mustard, ketchup, onion, cheddar cheese, mayo \u0026 lettuce.",
-        "prepInstruction": "Toast bun.\nMelt cheese on top of patty.\nPut mustard, ketchup, onions \u0026 patty with cheese on bottom bun.\nPut mayo \u0026 lettuce on top bun.\nCut in half.",
-        "price": 24.0,
-        "prepTime": 12.0,
+        "name": "Spaghetti Meatball",
+        "description": "Spaghetti with meatballs and sauce",
+        "prepInstruction": "Put spag on plate",
+        "price": 15.0,
+        "prepTime": 10.0,
         "selectedStatus": false,
         "finished": false
       },
       {
         "ingredientMap": {},
-        "name": "Fries",
-        "description": "Deep fried potatoes",
-        "prepInstruction": "Slice potatoes.\nFry once at lower temp, rest, then fry again at higher temp.\nSalt and plate. ",
-        "price": 3.0,
-        "prepTime": 8.0,
+        "name": "Spaghetti Meatball",
+        "description": "Spaghetti with meatballs and sauce",
+        "prepInstruction": "Put spag on plate",
+        "price": 15.0,
+        "prepTime": 10.0,
+        "selectedStatus": false,
+        "finished": false
+      },
+      {
+        "ingredientMap": {},
+        "name": "Spaghetti Meatball",
+        "description": "Spaghetti with meatballs and sauce",
+        "prepInstruction": "Put spag on plate",
+        "price": 15.0,
+        "prepTime": 10.0,
+        "selectedStatus": false,
+        "finished": false
+      },
+      {
+        "ingredientMap": {},
+        "name": "Spaghetti Meatball",
+        "description": "Spaghetti with meatballs and sauce",
+        "prepInstruction": "Put spag on plate",
+        "price": 15.0,
+        "prepTime": 10.0,
         "selectedStatus": false,
         "finished": false
       }

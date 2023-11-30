@@ -9,10 +9,14 @@ import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 import project.a_la_carte.version2.classesObjects.MenuFoodItem;
 
+import java.util.ArrayList;
+
 public class OrderListView extends VBox {
     Button deleteButton;
     MenuFoodItem menuItem;
+    ArrayList<String> customized;
     public OrderListView(MenuFoodItem item){
+        customized = new ArrayList<>();
         this.setPrefSize(250,70);
         menuItem = item;
         double r = 1.5;

@@ -8,6 +8,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import project.a_la_carte.version2.ProgramController;
@@ -64,11 +65,14 @@ public class RestaurantInfoView extends BorderPane implements RestaurantModelSub
         orderVBox.setAlignment(Pos.CENTER);  // Center the content vertically
         orderVBox.setStyle("-fx-border-color: black; -fx-border-width: 2px;"); // Add a black border
         orderVBox.setPrefSize(200,50);
+        VBox.setVgrow(orderVBox,Priority.ALWAYS);
+        HBox.setHgrow(orderVBox,Priority.ALWAYS);
 
         //TODO show menuItems ordered Today
 
         menuTable = new TableView<>();
-
+        VBox.setVgrow(menuTable, Priority.ALWAYS);
+        HBox.setHgrow(menuTable,Priority.ALWAYS);
         menuItemNameCol = new TableColumn<>("Menu Item");
         menuItemQuantityCol = new TableColumn<>("Times Ordered");
         menuTable.getColumns().addAll(menuItemNameCol,menuItemQuantityCol);
@@ -85,10 +89,14 @@ public class RestaurantInfoView extends BorderPane implements RestaurantModelSub
         incomeVBox.setAlignment(Pos.CENTER);  // Center the content vertically
         incomeVBox.setStyle("-fx-border-color: black; -fx-border-width: 2px;"); // Add a black border
         incomeVBox.setPrefSize(200,50);
+        VBox.setVgrow(incomeVBox,Priority.ALWAYS);
+        HBox.setHgrow(incomeVBox,Priority.ALWAYS);
 
         //TODO show inventory usage
 
         ingredientTable = new TableView<>();
+        VBox.setVgrow(ingredientTable,Priority.ALWAYS);
+        HBox.setHgrow(ingredientTable,Priority.ALWAYS);
         ingredientNameCol = new TableColumn<>("Ingredient");
         ingredientQuantityCol = new TableColumn<>("Quantity Used");
         ingredientTable.getColumns().addAll(ingredientNameCol,ingredientQuantityCol);
@@ -109,7 +117,8 @@ public class RestaurantInfoView extends BorderPane implements RestaurantModelSub
 
         VBox rightBox = new VBox(reportLabel,datePicker,reportButton);
         rightBox.setAlignment(Pos.CENTER);
-
+        VBox.setVgrow(rightBox, Priority.ALWAYS);
+        HBox.setHgrow(rightBox,Priority.ALWAYS);
 
         this.setTop(topBox);
         this.setRight(rightBox);
