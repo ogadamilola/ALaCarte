@@ -19,7 +19,6 @@
       "Lettuce": 0.25,
       "Sliced Onion": 0.1,
       "Ketchup": 0.0625,
-      "Pepsi": 1.0,
       "Mustard": 0.0,
       "Burger Bun": 1.0,
       "Cheddar Cheese": 0.25,
@@ -43,6 +42,20 @@
     "price": 3.0,
     "prepTime": 8.0,
     "selectedStatus": false,
+    "finished": false
+  },
+  {
+    "ingredientMap": {
+      "Potatoes": 0.25,
+      "Meatballs": 0.25,
+      "Spaghetti": 0.4375
+    },
+    "name": "test1",
+    "description": "test",
+    "prepInstruction": "test",
+    "price": 16.0,
+    "prepTime": 8.0,
+    "selectedStatus": true,
     "finished": false
   }
 ]

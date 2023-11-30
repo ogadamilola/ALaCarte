@@ -399,7 +399,17 @@ public class ProgramController {
         if (recipeMakerView.getIngredientTable().getSelectionModel().getSelectedItem() != null) {
             Ingredient selectedIngredientName = recipeMakerView.getIngredientTable().getSelectionModel().getSelectedItem().getIngredient();
             recipeMakerView.getSelectedIngredient().setText(selectedIngredientName.getName());
+            if( selectedIngredientName != null){
+                if( selectedIngredientName.getMeasurementUnit() == Ingredient.MeasurementUnit.Count){
+                    recipeMakerView.getMeasurementBox().setText("Count");
+                }
+                else{
+                    //Ounces makes sense for small recipes, will have to convert ounce to pound
+                    recipeMakerView.getMeasurementBox().setText("Oz");
+                }
+            }
         }
+
 
     }
 
@@ -440,10 +450,22 @@ public class ProgramController {
                 ingredientMap.put(entry.getKey(), ingredientQuantity);
             }
 
+            System.out.println(ingredientMap);
+
             startupMVC.getRecipeModel().addNewOrUpdateRecipe(recipeName, recipePrice, recipeDesc, recipeInstruction, recipePrepTime, ingredientMap);
 
             ArrayList<Recipe> newRecipeList = new ArrayList<>(startupMVC.getRecipeModel().getRecipeList());
             startupMVC.getMenuItemModel().setRecipeArrayList(newRecipeList);
+
+            //editing ingredient lists for recipes that have been modified in each menu item
+            for (MenuFoodItem m : startupMVC.getMenuItemModel().getMenuItemsList()) {
+                for (Recipe r : m.getMenuItemRecipes()) {
+                    if (r.getName().equals(recipeName)) {
+                        r.setRecipeIngredients(ingredientMap);
+                    }
+                }
+            }
+            startupMVC.getMenuItemModel().saveData(); //saving changes to recipes
 
             //could be deleted if we wanted to leave the recipe on the scree
             //clear all the fields
@@ -515,11 +537,11 @@ public class ProgramController {
         //set comboBox to match measurement;
         Ingredient ingredient = searchIngredientByName(selectedIngredientName);
         if(ingredient.getMeasurementUnit() == Ingredient.MeasurementUnit.Count){
-            recipeMakerView.getMeasurementBox().setValue("Count");
+            recipeMakerView.getMeasurementBox().setText("Count");
         }
         else{
             //Ounces makes sense for small recipes, will have to convert ounce to pound
-            recipeMakerView.getMeasurementBox().setValue("Oz");
+            recipeMakerView.getMeasurementBox().setText("Oz");
         }
     }
 
@@ -619,6 +641,8 @@ public class ProgramController {
         this.managerMainView.selectMenuMakerView();
         this.managerMainView.modelChanged();
     }
+
+
     public void editMenuMakerView(ActionEvent event){
         this.menuItemMakerView.setEdit();
 

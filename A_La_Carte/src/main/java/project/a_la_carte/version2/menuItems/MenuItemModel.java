@@ -41,7 +41,9 @@ public class MenuItemModel {
                 .create();
         try {
             FileReader reader = new FileReader(FILE_PATH);
+
             Type arrayListType = new TypeToken<ArrayList<MenuFoodItem>>(){}.getType();
+
             menuItemsList = gson.fromJson(reader, arrayListType);
             //catching case where file empty
             if (menuItemsList == null)
@@ -69,6 +71,7 @@ public class MenuItemModel {
         newRecipe.setPrice(recipe.getPrice());
         newRecipe.setPrepTime(recipe.getPrepTime());
         newRecipe.setPrepInstruction(recipe.getPrepInstruction());
+        newRecipe.setRecipeIngredients(recipe.getRecipeIngredients());
 
         this.addedRecipes.add(newRecipe);
         notifySubscribers();
@@ -116,6 +119,7 @@ public class MenuItemModel {
         newRecipe.selectedRecipe();
     }
     public void addNewMenuItem(MenuFoodItem menuFoodItem) {
+        System.out.println(menuFoodItem.getMenuItemRecipes());
         this.menuItemsList.add(menuFoodItem);
         notifySubscribers();
         saveData();

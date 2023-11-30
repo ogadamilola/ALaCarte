@@ -37,7 +37,7 @@ public class RecipeMakerView extends StackPane implements InventorySubscriber, R
     MenuBar ingredientMenuBar;
 
     TextField enterMeasurementField;
-    ComboBox<Object> measurementBox;
+    Label measurementBox;
 
     TableView<IngredientData> ingredientTable;
     TableColumn<IngredientData,String> nameCol;
@@ -118,9 +118,8 @@ public class RecipeMakerView extends StackPane implements InventorySubscriber, R
         HBox amountHBox = new HBox();
         enterMeasurementField = new TextField();
 
-        measurementBox = new ComboBox<>();
-        measurementBox.getItems().add("Oz");
-        measurementBox.getItems().add(Ingredient.MeasurementUnit.Count);
+        measurementBox = new Label("Measurement Unit");
+
 
 
         amountHBox.getChildren().addAll(enterMeasurementField,measurementBox);
@@ -207,12 +206,19 @@ public class RecipeMakerView extends StackPane implements InventorySubscriber, R
                 if (ingredient.getIngredientType().getName().equals(type.getName())) {
                     MenuItem menuItem = new MenuItem(ingredient.getName());
                     typeMenu.getItems().add(menuItem);
-
                 }
 
             }
             ingredientMenuBar.getMenus().add(typeMenu);
-
+            if(loadedIngredient != null){
+            if(loadedIngredient.getMeasurementUnit() == Ingredient.MeasurementUnit.Count){
+                this.getMeasurementBox().setText("Count");
+            }
+            else{
+                //Ounces makes sense for small recipes, will have to convert ounce to pound
+                this.getMeasurementBox().setText("Oz");
+            }
+            }
         }
     }
     /**
@@ -290,7 +296,6 @@ public class RecipeMakerView extends StackPane implements InventorySubscriber, R
         }
 
         getSelectedIngredient().clear();
-        getMeasurementBox().setValue(null);
         getEnterMeasurementField().clear();
 
     }
@@ -355,7 +360,7 @@ public class RecipeMakerView extends StackPane implements InventorySubscriber, R
     public TextField getEnterMeasurementField() {
         return enterMeasurementField;
     }
-    public ComboBox<Object> getMeasurementBox() {
+    public Label getMeasurementBox() {
         return measurementBox;
     }
 
