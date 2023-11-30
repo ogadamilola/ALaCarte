@@ -3,9 +3,7 @@ package project.a_la_carte.version2.menuItems;
 import javafx.beans.binding.Bindings;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
@@ -25,8 +23,8 @@ public class MenuItemListView extends StackPane implements MenuItemModelSubscrib
     VBox recipeListVBox;
     HBox modifyButtons;
     Label selectedTitle;
-    Label menuItemDescription;
-    Label menuItemPrice;
+    TextArea menuItemDescription;
+    TextField menuItemPrice;
     Button mainMenu;
     Button createNewButton;
     Button deleteButton;
@@ -74,9 +72,9 @@ public class MenuItemListView extends StackPane implements MenuItemModelSubscrib
 
         Label descLabel = new Label("Description: ");
         descLabel.setFont(new Font(20));
-        this.menuItemDescription = new Label();
+        this.menuItemDescription = new TextArea();
         this.menuItemDescription.setPrefSize(400,300);
-        this.menuItemDescription.setAlignment(Pos.TOP_LEFT);
+        this.menuItemDescription.setEditable(false);
         this.menuItemDescription.setStyle("-fx-border-color: black;\n");
         menuItemDescription.setWrapText(true);
         menuItemDescription.prefHeightProperty().bind(this.heightProperty());
@@ -90,7 +88,8 @@ public class MenuItemListView extends StackPane implements MenuItemModelSubscrib
 
         Label priceLabel = new Label("Price: ");
         priceLabel.setFont(new Font(20));
-        this.menuItemPrice = new Label();
+        this.menuItemPrice = new TextField();
+        menuItemPrice.setEditable(false);
         this.menuItemPrice.setPrefWidth(400);
         this.menuItemPrice.setStyle("-fx-border-color: black;\n");
         menuItemPrice.prefWidthProperty().bind(this.widthProperty());
