@@ -46,16 +46,38 @@
   },
   {
     "ingredientMap": {
-      "Potatoes": 0.25,
-      "Meatballs": 0.25,
-      "Spaghetti": 0.4375
+      "Pepsi": 1.0
     },
-    "name": "test1",
-    "description": "test",
-    "prepInstruction": "test",
-    "price": 16.0,
-    "prepTime": 8.0,
-    "selectedStatus": true,
+    "name": "1 Minute Recipe",
+    "description": "1 Minute Recipe Description",
+    "prepInstruction": "1 Minute Recipe Instructions",
+    "price": 1.0,
+    "prepTime": 1.0,
+    "selectedStatus": false,
+    "finished": false
+  },
+  {
+    "ingredientMap": {
+      "Mayo": 0.0625
+    },
+    "name": "2 Minute Recipe",
+    "description": "2 Minute Recipe Description  ",
+    "prepInstruction": "2 Minute Recipe Instructions",
+    "price": 2.0,
+    "prepTime": 2.0,
+    "selectedStatus": false,
+    "finished": false
+  },
+  {
+    "ingredientMap": {
+      "Cheddar Cheese": 0.0625
+    },
+    "name": "3 Minute Recipe",
+    "description": "3 Minute Recipe Description   ",
+    "prepInstruction": "3 Minute Recipe Instructions ",
+    "price": 3.0,
+    "prepTime": 3.0,
+    "selectedStatus": false,
     "finished": false
   }
 ]

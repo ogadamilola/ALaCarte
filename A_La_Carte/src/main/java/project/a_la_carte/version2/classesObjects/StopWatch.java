@@ -1,4 +1,4 @@
-package project.a_la_carte.version2.timerSystemPrototype;
+package project.a_la_carte.version2.classesObjects;
 
 public class StopWatch {
     private long elapsedTime;

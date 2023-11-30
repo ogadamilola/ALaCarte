@@ -53,147 +53,38 @@
     "menuItemRecipes": [
       {
         "ingredientMap": {},
-        "name": "Fries",
-        "description": "Deep fried potatoes",
-        "prepInstruction": "Slice potatoes.\nFry once at lower temp, rest, then fry again at higher temp.\nSalt and plate. ",
+        "name": "3 Minute Recipe",
+        "description": "3 Minute Recipe Description   ",
+        "prepInstruction": "3 Minute Recipe Instructions ",
         "price": 3.0,
-        "prepTime": 8.0,
-        "selectedStatus": false,
-        "finished": false
-      },
-      {
-        "ingredientMap": {
-          "Potatoes": 0.3
-        },
-        "name": "Fries",
-        "description": "Deep fried potatoes",
-        "prepInstruction": "Slice potatoes.\nFry once at lower temp, rest, then fry again at higher temp.\nSalt and plate. ",
-        "price": 3.0,
-        "prepTime": 8.0,
-        "selectedStatus": true,
-        "finished": false
-      }
-    ],
-    "name": "Test Item",
-    "description": "Test Description",
-    "price": 42.0,
-    "selectedStatus": false,
-    "customized": false,
-    "customizeOption": ""
-  },
-  {
-    "menuItemRecipes": [
-      {
-        "ingredientMap": {
-          "Burger Patty": 1.0,
-          "Lettuce": 0.0,
-          "Meatballs": 0.0,
-          "Spaghetti": 0.0,
-          "Pepsi": 123.0,
-          "Burger Bun": 1.0,
-          "Mayo": 0.0,
-          "Tomato Sauce": 0.0
-        },
-        "name": "Cheese burger",
-        "description": "Burger with cheese and lettuce",
-        "prepInstruction": "Toast bun.\nMelt cheese on top of patty.\nPut mustard, ketchup, onions \u0026 patty with cheese on bottom bun.\nPut mayo \u0026 lettuce on top bun.\nCut in half.",
-        "price": 24.0,
-        "prepTime": 12.0,
-        "selectedStatus": false,
-        "finished": false
-      },
-      {
-        "ingredientMap": {
-          "Potatoes": 0.3
-        },
-        "name": "Fries",
-        "description": "Deep fried potatoes",
-        "prepInstruction": "Slice potatoes.\nFry once at lower temp, rest, then fry again at higher temp.\nSalt and plate. ",
-        "price": 3.0,
-        "prepTime": 8.0,
-        "selectedStatus": true,
-        "finished": false
-      }
-    ],
-    "name": "Cheeseburger Combo",
-    "description": "Burger with fries",
-    "price": 26.0,
-    "selectedStatus": false,
-    "customized": false,
-    "customizeOption": ""
-  },
-  {
-    "menuItemRecipes": [
-      {
-        "ingredientMap": {
-          "Potatoes": 0.25,
-          "Meatballs": 0.25,
-          "Spaghetti": 0.4375
-        },
-        "name": "test1",
-        "description": "test",
-        "prepInstruction": "test",
-        "price": 16.0,
-        "prepTime": 8.0,
-        "selectedStatus": false,
-        "finished": false
-      },
-      {
-        "ingredientMap": {
-          "Potatoes": 0.3
-        },
-        "name": "Fries",
-        "description": "Deep fried potatoes",
-        "prepInstruction": "Slice potatoes.\nFry once at lower temp, rest, then fry again at higher temp.\nSalt and plate. ",
-        "price": 3.0,
-        "prepTime": 8.0,
-        "selectedStatus": false,
-        "finished": false
-      }
-    ],
-    "name": "Test",
-    "description": "qweq",
-    "price": 0.0,
-    "selectedStatus": false,
-    "customized": false,
-    "customizeOption": ""
-  },
-  {
-    "menuItemRecipes": [
-      {
-        "ingredientMap": {},
-        "name": "Fries",
-        "description": "Deep fried potatoes",
-        "prepInstruction": "Slice potatoes.\nFry once at lower temp, rest, then fry again at higher temp.\nSalt and plate. ",
-        "price": 3.0,
-        "prepTime": 8.0,
+        "prepTime": 3.0,
         "selectedStatus": false,
         "finished": false
       },
       {
         "ingredientMap": {},
-        "name": "Spaghetti Meatball",
-        "description": "Spaghetti with meatballs and sauce",
-        "prepInstruction": "Put spag on plate",
-        "price": 15.0,
-        "prepTime": 10.0,
+        "name": "2 Minute Recipe",
+        "description": "2 Minute Recipe Description  ",
+        "prepInstruction": "2 Minute Recipe Instructions",
+        "price": 2.0,
+        "prepTime": 2.0,
         "selectedStatus": false,
         "finished": false
       },
       {
         "ingredientMap": {},
-        "name": "Cheese burger",
-        "description": "Burger with mustard, ketchup, onion, cheddar cheese, mayo \u0026 lettuce.",
-        "prepInstruction": "Toast bun.\nMelt cheese on top of patty.\nPut mustard, ketchup, onions \u0026 patty with cheese on bottom bun.\nPut mayo \u0026 lettuce on top bun.\nCut in half.",
-        "price": 24.0,
-        "prepTime": 12.0,
+        "name": "1 Minute Recipe",
+        "description": "1 Minute Recipe Description",
+        "prepInstruction": "1 Minute Recipe Instructions",
+        "price": 1.0,
+        "prepTime": 1.0,
         "selectedStatus": false,
         "finished": false
       }
     ],
-    "name": "Reap",
-    "description": "qwewq",
-    "price": 0.0,
+    "name": "3 Minute Timer Test",
+    "description": "This Menu Item can test the Timing Sytem in 3 minutes.",
+    "price": 9.0,
     "selectedStatus": false,
     "customized": false,
     "customizeOption": ""
