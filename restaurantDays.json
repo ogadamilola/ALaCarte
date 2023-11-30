@@ -1,4 +1,11 @@
 {
+  "2023-11-30": {
+    "date": "2023-11-30",
+    "menuItemMap": {},
+    "ingredientUsageMap": {},
+    "totalOrders": 0,
+    "incomeToday": 0.0
+  },
   "2023-11-28": {
     "date": "2023-11-28",
     "menuItemMap": {"Cheeseburger Combo":2.0,"Test Item":4.0},

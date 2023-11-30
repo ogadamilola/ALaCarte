@@ -101,6 +101,7 @@ public class StaffModel {
             staffList.remove(getStaffById(id));
             notifySubscribers();
             setLoadedStaff(null);
+            saveList();
         }catch (IllegalArgumentException e){
             System.out.println("Staff does not exist, can not delete");
         }catch (NullPointerException e){

@@ -5,11 +5,8 @@ import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.*;
 
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import project.a_la_carte.version2.ProgramController;
 
@@ -42,7 +39,9 @@ public class RestaurantInfoView extends BorderPane implements RestaurantModelSub
         Label title = new Label("Manage Restaurant");
         date = new Label("Day not started!");
         title.setFont(new Font(20));
+        date.setFont(new Font(20));
         HBox titleHBox = new HBox(title,date);
+
         titleHBox.setSpacing(60);
         titleHBox.setPrefWidth(600);
         titleHBox.setAlignment(Pos.TOP_CENTER);
@@ -116,8 +115,18 @@ public class RestaurantInfoView extends BorderPane implements RestaurantModelSub
 
         VBox rightBox = new VBox(reportLabel,datePicker,reportButton,reservationButton);
         rightBox.setAlignment(Pos.CENTER);
+        rightBox.setStyle("-fx-border-color: black; -fx-border-width: 2px;");
         VBox.setVgrow(rightBox, Priority.ALWAYS);
         HBox.setHgrow(rightBox,Priority.ALWAYS);
+
+
+        //empty region for spacing at the bottom
+        Region bottomRegion = new Region();
+        bottomRegion.setMinHeight(30);
+        bottomRegion.setStyle("-fx-border-color: black; -fx-border-width: 1px;");
+
+
+        this.setBottom(bottomRegion);
 
         this.setTop(topBox);
         this.setRight(rightBox);
