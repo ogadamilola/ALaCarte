@@ -635,6 +635,7 @@ public class ProgramController {
     public void openMenuMakerView(ActionEvent event){
         this.menuItemMakerView.setSave();
         ArrayList<Recipe> newList = new ArrayList<>(startupMVC.getRecipeModel().getRecipeList());
+        startupMVC.getMenuItemModel().setSelectedAddedRecipe(new ArrayList<>());
 
         this.startupMVC.getMenuItemModel().setRecipeArrayList(newList);
         this.managerMainView.selectMenuMakerView();

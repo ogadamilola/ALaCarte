@@ -2,21 +2,62 @@
   {
     "menuItemRecipes": [
       {
-        "ingredientMap": {
-          "Burger Patty": 1.0,
-          "Lettuce": 0.0,
-          "Meatballs": 0.0,
-          "Spaghetti": 0.0,
-          "Pepsi": 123.0,
-          "Burger Bun": 1.0,
-          "Mayo": 0.0,
-          "Tomato Sauce": 0.0
-        },
-        "name": "Cheese burger",
-        "description": "Burger with cheese and lettuce",
-        "prepInstruction": "Toast bun.\nMelt cheese on top of patty.\nPut mustard, ketchup, onions \u0026 patty with cheese on bottom bun.\nPut mayo \u0026 lettuce on top bun.\nCut in half.",
-        "price": 24.0,
-        "prepTime": 12.0,
+        "ingredientMap": {},
+        "name": "Spaghetti Meatball",
+        "description": "Spaghetti with meatballs and sauce",
+        "prepInstruction": "Put spag on plate",
+        "price": 15.0,
+        "prepTime": 10.0,
+        "selectedStatus": false,
+        "finished": false
+      },
+      {
+        "ingredientMap": {},
+        "name": "Spaghetti Meatball",
+        "description": "Spaghetti with meatballs and sauce",
+        "prepInstruction": "Put spag on plate",
+        "price": 15.0,
+        "prepTime": 10.0,
+        "selectedStatus": false,
+        "finished": false
+      },
+      {
+        "ingredientMap": {},
+        "name": "Spaghetti Meatball",
+        "description": "Spaghetti with meatballs and sauce",
+        "prepInstruction": "Put spag on plate",
+        "price": 15.0,
+        "prepTime": 10.0,
+        "selectedStatus": false,
+        "finished": false
+      },
+      {
+        "ingredientMap": {},
+        "name": "Spaghetti Meatball",
+        "description": "Spaghetti with meatballs and sauce",
+        "prepInstruction": "Put spag on plate",
+        "price": 15.0,
+        "prepTime": 10.0,
+        "selectedStatus": false,
+        "finished": false
+      }
+    ],
+    "name": "Cheese burger combo",
+    "description": "Our famous cheese burger with a side of home made fries",
+    "price": 30.0,
+    "selectedStatus": false,
+    "customized": false,
+    "customizeOption": ""
+  },
+  {
+    "menuItemRecipes": [
+      {
+        "ingredientMap": {},
+        "name": "Fries",
+        "description": "Deep fried potatoes",
+        "prepInstruction": "Slice potatoes.\nFry once at lower temp, rest, then fry again at higher temp.\nSalt and plate. ",
+        "price": 3.0,
+        "prepTime": 8.0,
         "selectedStatus": false,
         "finished": false
       },
@@ -110,9 +151,49 @@
         "finished": false
       }
     ],
-    "name": "test",
-    "description": "test",
-    "price": 20.0,
+    "name": "Test",
+    "description": "qweq",
+    "price": 0.0,
+    "selectedStatus": false,
+    "customized": false,
+    "customizeOption": ""
+  },
+  {
+    "menuItemRecipes": [
+      {
+        "ingredientMap": {},
+        "name": "Fries",
+        "description": "Deep fried potatoes",
+        "prepInstruction": "Slice potatoes.\nFry once at lower temp, rest, then fry again at higher temp.\nSalt and plate. ",
+        "price": 3.0,
+        "prepTime": 8.0,
+        "selectedStatus": false,
+        "finished": false
+      },
+      {
+        "ingredientMap": {},
+        "name": "Spaghetti Meatball",
+        "description": "Spaghetti with meatballs and sauce",
+        "prepInstruction": "Put spag on plate",
+        "price": 15.0,
+        "prepTime": 10.0,
+        "selectedStatus": false,
+        "finished": false
+      },
+      {
+        "ingredientMap": {},
+        "name": "Cheese burger",
+        "description": "Burger with mustard, ketchup, onion, cheddar cheese, mayo \u0026 lettuce.",
+        "prepInstruction": "Toast bun.\nMelt cheese on top of patty.\nPut mustard, ketchup, onions \u0026 patty with cheese on bottom bun.\nPut mayo \u0026 lettuce on top bun.\nCut in half.",
+        "price": 24.0,
+        "prepTime": 12.0,
+        "selectedStatus": false,
+        "finished": false
+      }
+    ],
+    "name": "Reap",
+    "description": "qwewq",
+    "price": 0.0,
     "selectedStatus": false,
     "customized": false,
     "customizeOption": ""

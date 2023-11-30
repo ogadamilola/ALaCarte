@@ -30,11 +30,15 @@ public class MenuFoodItem {
         selectedStatus = false;
     }
     public void setCustomizeOption(String change){
-        this.customizeOption = change;
+        //Preparing for adding multiple customizes
+        this.customizeOption = this.customizeOption + "\n"+change;
         this.customized = true;
     }
     public String getCustomize(){
-        return this.customizeOption;
+        //Preparing for adding multiples customizes
+        String stringC = customizeOption;
+        //customizeOption = "";
+        return stringC;
     }
     public Boolean isCustomized(){
         return this.customized;
