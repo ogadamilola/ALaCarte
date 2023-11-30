@@ -1,10 +1,15 @@
 package project.a_la_carte.version2.timerSystemPrototype;
 
+import project.a_la_carte.version2.classesObjects.StopWatch;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+
+    // **** This is a code artifact / prototype
+    // The logic demonstrated was implemented into Kitchen/widgets/OrderItems.Java
 public class TimerMainFrame extends JFrame {
     private static final int FRAME_WIDTH = 300;
     private static final int FRAME_HEIGHT = 300;

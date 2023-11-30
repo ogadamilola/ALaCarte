@@ -10,7 +10,7 @@ import javafx.scene.layout.VBox;
 import project.a_la_carte.version2.classesObjects.MenuFoodItem;
 import project.a_la_carte.version2.classesObjects.Recipe;
 import project.a_la_carte.version2.managerSide.recipe.ShowRecipeInfoView;
-import project.a_la_carte.version2.timerSystemPrototype.StopWatch;
+import project.a_la_carte.version2.classesObjects.StopWatch;
 
 import java.util.ArrayList;
 import java.util.Timer;
@@ -19,6 +19,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 //Over here would be the changing of order time on kitchen side <-- don't need this yet, not in proto todo
 //Also the prep timer
+// ^-- Implemented
 public class OrderItems extends HBox {
     MenuFoodItem menuFoodItem;
     ArrayList<Float> prepTimes;
@@ -55,7 +56,7 @@ public class OrderItems extends HBox {
         startTimes = new ArrayList<>();
         prepTimes.forEach(prep -> {
             // startTimes.add((long) (prepTimes.get(0) - prep) * 6000); // Wrong. prep times is not a sorted array list
-            startTimes.add((long) (expectedOrderTime - prep) * 60000); // Evan line
+            startTimes.add((long) ((expectedOrderTime - prep) * 60000));
         });
 
         // Starting a StopWatch for the whole order
@@ -171,7 +172,7 @@ public class OrderItems extends HBox {
                         // ^ Wrong.--> recipesTimeElapsedLabel.size()
                         for (int i = 0; i < numberOfRecipes ; i++) {
                             recipesTimeElapsedLabel.get(i).setText(("Recipe " + menuFoodItem.getMenuItemRecipes().get(i).getName() + " TIME "
-                                + recipeStopWatches.get(i).getElapsedTimeFormatted() + " // " + prepTimes.get(i) + ":00"));
+                                + recipeStopWatches.get(i).getElapsedTimeFormatted() + " // " + prepTimes.get(i) + "0"));
 
                 // Change Text color to red if recipe is late
 //                // and yellow for a two-minute warning
