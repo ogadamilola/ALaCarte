@@ -15,9 +15,9 @@
   },
   "2023-11-29": {
     "date": "2023-11-29",
-    "menuItemMap": {"Cheese burger combo":5.0,"Test Item":3.0},
+    "menuItemMap": {"3 Minute Timer Test":7.0,"Cheese burger combo":5.0,"Test Item":3.0},
     "ingredientUsageMap": {"Burger Patty":3.0,"Sliced Onion":0.30000000000000004,"Meatballs":0.6000000000000001,"Ketchup":0.1875,"Potatoes":0.8999999999999999,"Pepsi":3.0,"Tomato Sauce":0.8999999999999999,"Mayo":0.5625,"Lettuce":0.75,"Spaghetti":1.2000000000000002,"Mustard":0.0,"Burger Bun":3.0,"Cheddar Cheese":0.75},
-    "totalOrders": 4,
-    "incomeToday": 150.0
+    "totalOrders": 10,
+    "incomeToday": 213.0
   }
 }

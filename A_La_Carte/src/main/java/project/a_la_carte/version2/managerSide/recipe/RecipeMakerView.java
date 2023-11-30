@@ -119,10 +119,13 @@ public class RecipeMakerView extends StackPane implements InventorySubscriber, R
         enterMeasurementField = new TextField();
 
         measurementBox = new Label("Measurement Unit");
+        measurementBox.setFont(new Font(13));
 
 
 
         amountHBox.getChildren().addAll(enterMeasurementField,measurementBox);
+        amountHBox.setSpacing(5);
+        amountHBox.setAlignment(Pos.CENTER_LEFT);
 
         selectionVBox.getChildren().addAll( selectLabel, ingredientMenuBar,selectedIngredient,amountHBox,addAndDelBox);
 

@@ -1,5 +1,6 @@
 package project.a_la_carte.version2.managerSide.RestaurantInfo;
 
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -15,7 +16,7 @@ public class ReportView extends BorderPane {
     public ReportView(RestaurantDay day){
         this.setPrefSize(600,600);
 
-        Label title = new Label("REPORT FOR " + day.getDate());
+        Label title = new Label("Report for " + day.getDate());
         title.setFont(new Font(20));
         HBox titleBox = new HBox(title);
         titleBox.setPrefWidth(600);
@@ -34,6 +35,7 @@ public class ReportView extends BorderPane {
         }
         HBox menuAlignBox = new HBox(menuItemVBox,menuItemNumVBox);
         ScrollPane menuItemPane = new ScrollPane(menuAlignBox);
+        menuItemPane.setPadding(new Insets(5));
 
 
         VBox ingredientVBox = new VBox();
@@ -52,6 +54,7 @@ public class ReportView extends BorderPane {
 
         HBox alignBox = new HBox(ingredientVBox,ingredientNumBox);
         ScrollPane ingredientPane = new ScrollPane(alignBox);
+        ingredientPane.setPadding(new Insets(5));
 
 
         HBox centerBox = new HBox(menuItemPane,ingredientPane);
@@ -63,13 +66,11 @@ public class ReportView extends BorderPane {
         Label orderLabel = new Label("Total Orders Today");
         Label orderNum = new Label("" + day.getTotalOrders());
         VBox totalOrderBox = new VBox(orderLabel,orderNum);
-        totalOrderBox.setStyle("-fx-border-color: black; -fx-border-width: 1px;");
         totalOrderBox.setAlignment(Pos.CENTER);
 
         Label incomeLabel = new Label("Total Income Today");
         Label incomeNum = new Label("$" + day.getIncomeToday());
         VBox totalIncome = new VBox(incomeLabel,incomeNum);
-        totalIncome.setStyle("-fx-border-color: black; -fx-border-width: 1px;");
         totalIncome.setAlignment(Pos.CENTER);
 
         Label costLabel = new Label("Total Cost :");
