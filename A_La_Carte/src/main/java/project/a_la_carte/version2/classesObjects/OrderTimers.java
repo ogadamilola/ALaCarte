@@ -28,7 +28,6 @@ public class OrderTimers {
         this.menuItems = realOrder.menuItems;
         this.orderNum = realOrder.getOrderNum();
 
-        // New stuff starts here
         backgroundColor = "-fx-background-color: cornflowerblue;\n";
 
         // initialize prepTimes
@@ -60,8 +59,6 @@ public class OrderTimers {
         totalTimeElapsedStopWatch.start();
 
         // Creating an array of un-started StopWatches
-
-
         recipeStopWatchList = new ArrayList<>();
         menuItems.forEach((item -> {
             recipeStopWatches = new ArrayList<>();
@@ -79,7 +76,6 @@ public class OrderTimers {
                 Platform.runLater(new Runnable() {
                     @Override
                     public void run() {
-                        //menuItems.forEach((item -> {
                         for (int i = 0; i < menuItems.size(); i++) {
                             for (int j = 0; j < menuItems.get(i).getMenuItemRecipes().size(); j++) {
                                 // Start StopWatch When it is passed it's startTime

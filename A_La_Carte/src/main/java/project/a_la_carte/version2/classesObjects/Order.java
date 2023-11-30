@@ -32,14 +32,6 @@ public class Order {
             this.orderFinished();
         }
     }
-    public void deleteOrder(Order order){
-//        if (!menuItems.isEmpty()){
-//            this.menuItems.remove(item);
-//        }
-//        else{
-        this.orderFinished();
-        //}
-    }
     public ArrayList<MenuFoodItem> getOrderList(){
         return this.menuItems;
     }

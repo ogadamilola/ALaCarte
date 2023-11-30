@@ -19,7 +19,7 @@ import java.util.TimerTask;
 import java.util.concurrent.atomic.AtomicReference;
 
 
-public class OrderItems extends HBox {
+public class OrderWidget extends HBox {
     OrderKitchenTab oTab;
     OrderTimers currentOrder;
     Label totalTimeElapsedLabel;
@@ -27,7 +27,7 @@ public class OrderItems extends HBox {
     ArrayList<ArrayList<Label>> recipesLabelsList;
     int numMenuItems;
 
-    public OrderItems(OrderKitchenTab orderKitchenTab, Order order){
+    public OrderWidget(OrderKitchenTab orderKitchenTab, Order order){
         this.currentOrder = new OrderTimers(order);
 
         oTab = orderKitchenTab;
@@ -104,8 +104,7 @@ public class OrderItems extends HBox {
                     // *** figure this out
                     currentOrder.getRecipeStopWatchList().get(val_i).get(val_j).stop();
                     if (!isNotFinished()){
-                        orderKitchenTab.singleOrder.deleteOrder(order);
-                        // orderKitchenTab.kModel.deleteOrder(order);
+                        orderKitchenTab.singleOrder.orderFinished();
                     }
                 });
 
@@ -129,20 +128,12 @@ public class OrderItems extends HBox {
                 Platform.runLater(new Runnable() {
                     @Override
                     public void run() {
-                        // below -- not sure, this is ever false... NeverMind?
-
                         if (currentOrder.getTotalTimeElapsedStopWatch().is_watch_Running()) {
                             totalTimeElapsedLabel.setText("Total Time: " + currentOrder.getTotalTimeElapsedStopWatch().getElapsedTimeFormatted());
                         }
                         stringDisplay.setStyle(currentOrder.getBackgroundColor());
 
-                        currentOrder.getMenuItems().forEach((item -> {
-                            item.getMenuItemRecipes().forEach((recipe -> {
-                                // if all recipe are finished delete frame
-                            }));
-                        }));
-
-                        // Print Recipe StopWatches
+                        // Visually update recipe StopWatches
                         for (int i = 0; i < numMenuItems; i++) {
                             int numRecipes = currentOrder.getMenuItems().get(i).getMenuItemRecipes().size(); // Line causes and error when all recipes are completed
                             for (int j = 0; j < numRecipes; j++) {
@@ -152,10 +143,7 @@ public class OrderItems extends HBox {
                                         + " // " + currentOrder.getPrepTimesList().get(i).get(j) + ":00"));
 
                             }
-
                         }
-
-
                     }
                 });
             }

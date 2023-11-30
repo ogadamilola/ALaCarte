@@ -7,8 +7,6 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import project.a_la_carte.version2.classesObjects.MenuFoodItem;
-import project.a_la_carte.version2.classesObjects.OrderTimers;
 import project.a_la_carte.version2.kitchen.*;
 import project.a_la_carte.version2.classesObjects.Order;
 import project.a_la_carte.version2.interfaces.*;
@@ -23,7 +21,7 @@ public class OrderKitchenTab extends StackPane implements OrderClassesInterface 
     public OrderKitchenTab(KitchenModel model, Order order){
         this.setPrefSize(630,70);
         kModel = model;
-        this.cancelButton = new Button("Complete");
+        this.cancelButton = new Button("Cancel");
         HBox cancelBox = new HBox(cancelButton);
         cancelBox.setPrefWidth(230);
         cancelBox.setAlignment(Pos.BOTTOM_CENTER);
@@ -55,10 +53,8 @@ public class OrderKitchenTab extends StackPane implements OrderClassesInterface 
         ordersVBox.getChildren().clear();
 
         if (!singleOrder.isFinished()){
-            //orderItems.getOrderList().forEach((order ->{
-            OrderItems newDisplay = new OrderItems(this, singleOrder);
+            OrderWidget newDisplay = new OrderWidget(this, singleOrder);
             ordersVBox.getChildren().add(newDisplay);
-            //}));
         }
         else {
             kModel.deleteOrder(singleOrder);
