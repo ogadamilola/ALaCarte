@@ -15,9 +15,9 @@
   },
   "2023-11-29": {
     "date": "2023-11-29",
-    "menuItemMap": {"3 Minute Timer Test":2.0,"Rib combo":1.0},
-    "ingredientUsageMap": {"Ketchup":0.375,"Pork Ribs":1.0},
-    "totalOrders": 3,
-    "incomeToday": 48.0
+    "menuItemMap": {"3 Minute Timer Test":3.0,"Rib combo":8.0,"Cheese burger combo":2.0},
+    "ingredientUsageMap": {"Ketchup":6.75,"Pork Ribs":18.0},
+    "totalOrders": 10,
+    "incomeToday": 327.0
   }
 }

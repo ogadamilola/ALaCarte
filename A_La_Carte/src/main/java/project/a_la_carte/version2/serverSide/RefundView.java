@@ -60,6 +60,9 @@ public class RefundView extends StackPane implements KitchenViewsInterface {
                     this.kitchenModel.refundOrder(order);
                     this.restaurantModel.handleOrderRefund(order);
                 }));
+                refund.getViewItemsButton().setOnAction(actionEvent -> {
+                    refund.showItems(order);
+                });
             }));
         }
 

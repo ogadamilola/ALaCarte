@@ -2,11 +2,16 @@ package project.a_la_carte.version2.serverSide.widgets;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.stage.Stage;
+import project.a_la_carte.version2.classesObjects.MenuFoodItem;
 import project.a_la_carte.version2.classesObjects.Order;
 
 public class RefundOptions extends StackPane {
@@ -18,9 +23,7 @@ public class RefundOptions extends StackPane {
 
         Label orderNumber = new Label("Order #" + order.getOrderNum());
 
-        order.getOrderList().forEach((menuFoodItem -> {
-            total += menuFoodItem.getPrice();
-        }));
+        total = order.getTotalPrice();
         Label totalPrice = new Label("$" + total);
 
         this.refundButton = new Button("Refund");
@@ -43,5 +46,29 @@ public class RefundOptions extends StackPane {
     }
     public Button getRefundButton(){
         return this.refundButton;
+    }
+
+    public Button getViewItemsButton() {
+        return viewItemsButton;
+    }
+
+    public void showItems(Order order){
+        Stage stage = new Stage();
+        stage.setTitle("Items in order");
+        VBox container = new VBox();
+        for(MenuFoodItem item: order.getOrderList()){
+            Label label = new Label(item.getName() + ":   $" + item.getPrice());
+            label.setFont(new Font(15));
+            container.getChildren().add(label);
+        }
+        container.setAlignment(Pos.CENTER);
+        container.setPadding(new Insets(10));
+        FlowPane flow = new FlowPane(container);
+        Scene scene = new Scene(flow);
+        stage.setScene(scene);
+        stage.setOnCloseRequest(e -> stage.close());
+        stage.show();
+
+
     }
 }
