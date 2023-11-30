@@ -506,7 +506,7 @@ public class ProgramController {
                 ingredientMap.put(entry.getKey(), ingredientQuantity);
             }
 
-            System.out.println(ingredientMap);
+            //System.out.println(ingredientMap);
 
             startupMVC.getRecipeModel().addNewOrUpdateRecipe(recipeName, recipePrice, recipeDesc, recipeInstruction, recipePrepTime, ingredientMap);
 
@@ -531,8 +531,10 @@ public class ProgramController {
             recipeMakerView.getRecipeInstruction().clear();
             recipeMakerView.getRecipePrep().clear();
             recipeMakerView.getIngredientTable().setItems(null);
+
             setStateNotLoaded(event);
-            recipieAddedPopUp(recipeName);
+            openRecipeList(event); //kick them back out to the screen
+            showConfirmationAlert("Success", "Recipe: " + recipeName+ " saved successfully." );
 
 
         }catch(NumberFormatException e){

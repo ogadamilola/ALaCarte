@@ -1,5 +1,8 @@
 package project.a_la_carte.version2.serverSide;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -20,8 +23,14 @@ import project.a_la_carte.version2.classesObjects.Order;
 import project.a_la_carte.version2.interfaces.ServerViewInterface;
 import project.a_la_carte.version2.serverSide.tableSystem.Bill;
 import project.a_la_carte.version2.serverSide.tableSystem.Reservation;
+import project.a_la_carte.version2.serverSide.tableSystem.ReservationAdapter;
 import project.a_la_carte.version2.serverSide.tableSystem.Table;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.lang.reflect.Type;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -44,20 +53,41 @@ public class TableView extends StackPane implements ServerViewInterface {
     WorkerView workerView;
     ServerModel serverModel;
 
-    private ArrayList<Reservation> reservations = new ArrayList<>();
-    private ListView<VBox> reservationListView = new ListView<>();
+    private ArrayList<Reservation> reservations;
+    private ListView<VBox> reservationListView;
+
+    private static final String RESERVATION_FILE = "reservation.json";
+    private static final String TABLE_FILE = "tables.json";
 
     private TextField nameField, numberOfGuestsField;
     private DatePicker datePicker;
     private TextField timeField;
     private Button addReservationButton;
     public TableView(WorkerView view) {
+
+        //saving reservations
+        try(FileReader reader = new FileReader(RESERVATION_FILE)){
+            Gson gson = new GsonBuilder()
+                    .registerTypeAdapter(Reservation.class, new ReservationAdapter())
+                    .create();
+
+            Type reservationListType = new TypeToken<ArrayList<Reservation>>(){}.getType();
+            reservations = gson.fromJson(reader,reservationListType);
+        } catch (IOException e) {
+            reservations = new ArrayList<>();
+        }
+
+        tables = new ArrayList<>();
+
+
+        reservationListView= new ListView<>();
+
         workerView = view;
         this.setPrefSize(1000,500);
 
         Label title = new Label("TABLES");
         title.setFont(new Font(20));
-        tables = new ArrayList<>();
+
 
         double r = 2;
         this.back = new Button("<");
@@ -118,9 +148,22 @@ public class TableView extends StackPane implements ServerViewInterface {
         // Add the SplitPane to the main layout
         this.getChildren().add(splitPane);
 
-
     updateView();
+    saveReservationList();
     }
+
+    public void saveReservationList(){
+        try(FileWriter writer = new FileWriter(RESERVATION_FILE)){
+            Gson gson = new GsonBuilder()
+                    .registerTypeAdapter(Reservation.class, new ReservationAdapter())
+                    .setPrettyPrinting()
+                    .create();
+            gson.toJson(reservations,writer);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 
     public void addTable(Table table) {
         tables.add(table);
@@ -192,10 +235,14 @@ public class TableView extends StackPane implements ServerViewInterface {
                 return;
             }
 
-            Reservation newReservation = new Reservation(name, LocalDateTime.of(date, time), numberOfGuests);
+            Reservation newReservation = new Reservation();
+            newReservation.setName(name);
+            newReservation.setTime(LocalDateTime.of(date, time));
+            newReservation.setNumberOfGuests(numberOfGuests);
             reservations.add(newReservation);
             updateReservationListView();
 
+            saveReservationList();
             // Clear form fields
             clearReservationForm();
         } catch (NumberFormatException e) {
@@ -238,6 +285,7 @@ public class TableView extends StackPane implements ServerViewInterface {
     private void deleteReservation(Reservation reservation) {
         reservations.remove(reservation);
         updateReservationListView();
+        saveReservationList();
     }
 
     private void editReservation(Reservation reservation) {
@@ -272,11 +320,12 @@ public class TableView extends StackPane implements ServerViewInterface {
             if (dialogButton == ButtonType.OK) {
                 try {
                     LocalTime time = LocalTime.parse(editTimeField.getText(), DateTimeFormatter.ofPattern("HH:mm"));
-                    return new Reservation(
-                            editNameField.getText(),
-                            LocalDateTime.of(editDatePicker.getValue(), time),
-                            Integer.parseInt(editNumberOfGuestsField.getText())
-                    );
+                    Reservation newReservation = new Reservation();
+                    newReservation.setName(editNameField.getText());
+                    newReservation.setTime(LocalDateTime.of(editDatePicker.getValue(), time));
+                    newReservation.setNumberOfGuests(Integer.parseInt(editNumberOfGuestsField.getText()));
+                    saveReservationList();
+                    return newReservation;
                 } catch (DateTimeParseException | NumberFormatException e) {
                     showAlert("Invalid input. Please check the format of time and number of guests.");
                     return null;
@@ -289,6 +338,7 @@ public class TableView extends StackPane implements ServerViewInterface {
         result.ifPresent(newReservation -> {
             reservations.set(reservations.indexOf(reservation), newReservation);
             updateReservationListView();
+            saveReservationList();
         });
     }
 

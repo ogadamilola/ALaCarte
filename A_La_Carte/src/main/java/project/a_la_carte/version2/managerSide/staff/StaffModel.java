@@ -13,7 +13,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StaffModel { //TODO LOGIN INFORMATION, REFULAR STAFF = PIN, MANAGERS = username & password
+public class StaffModel {
     private static  final String FILE_PATH = "staffList.json";
     private ArrayList<Staff> staffList;
     private ArrayList<StaffModelSubscriber> subscriberList;
@@ -122,7 +122,7 @@ public class StaffModel { //TODO LOGIN INFORMATION, REFULAR STAFF = PIN, MANAGER
 
     public boolean verifyServerLogIn(String pin){
         for (Staff staff : staffList){
-            if(staff.getPosition() == Staff.position.Server){
+            if(staff.getPosition() == Staff.position.Server || staff.getPosition() == Staff.position.Manager){
                 if(staff.getStaffID().equals(pin)){
                     return true;
                 }

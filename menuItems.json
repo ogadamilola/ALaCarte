@@ -83,8 +83,31 @@
       }
     ],
     "name": "3 Minute Timer Test",
-    "description": "This Menu Item can test the Timing Sytem in 3 minutes.",
+    "description": "This Menu Item can test the Timing System in 3 minutes.",
     "price": 9.0,
+    "selectedStatus": false,
+    "customized": false,
+    "customizeOption": ""
+  },
+  {
+    "menuItemRecipes": [
+      {
+        "ingredientMap": {
+          "Ketchup": 0.375,
+          "Pork Ribs": 1.0
+        },
+        "name": "Ribs",
+        "description": "Ribs and ketchup",
+        "prepInstruction": "put ketchup on ribs",
+        "price": 10.59375,
+        "prepTime": 15.0,
+        "selectedStatus": false,
+        "finished": false
+      }
+    ],
+    "name": "Rib combo",
+    "description": "ribs and ketchup",
+    "price": 30.0,
     "selectedStatus": false,
     "customized": false,
     "customizeOption": ""

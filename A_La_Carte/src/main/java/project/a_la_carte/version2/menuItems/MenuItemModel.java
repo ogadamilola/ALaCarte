@@ -166,7 +166,6 @@ public class MenuItemModel {
      * Method for adding a new MenuItem to the database
      */
     public void addNewMenuItem(MenuFoodItem menuFoodItem) {
-        System.out.println(menuFoodItem.getMenuItemRecipes());
         this.menuItemsList.add(menuFoodItem);
         notifySubscribers();
         saveData();
