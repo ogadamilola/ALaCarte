@@ -26,7 +26,7 @@ public class KitchenAlertView extends StackPane implements KitchenViewsInterface
         title.setFont(new Font(20));
         HBox titleBox = new HBox(title);
         titleBox.setPrefWidth(600);
-        titleBox.setStyle("-fx-border-color: black;\n");
+        titleBox.setStyle("-fx-border-color: black;\n"+"-fx-background-color: paleturquoise;\n");
         titleBox.setAlignment(Pos.CENTER);
 
         alertBox = new FlowPane();

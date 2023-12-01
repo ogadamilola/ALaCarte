@@ -38,7 +38,11 @@ public class KitchenView extends StackPane implements KitchenViewsInterface {
         menuTitle.setFont(new Font(20));
 
         this.mainMenu = new Button("Main Menu");
+        this.mainMenu.setStyle("-fx-background-color: lightsteelblue;\n" + "-fx-border-color: lightslategray;\n"
+        + "-fx-border-radius: 15;\n"+"-fx-background-radius: 15;\n");
         this.sendNoteButton = new Button("Send Note");
+        this.sendNoteButton.setStyle("-fx-background-color: lightsteelblue;\n" + "-fx-border-color: lightslategray;\n"
+                + "-fx-border-radius: 15;\n"+"-fx-background-radius: 15;\n");
 
         HBox menuHBox = new HBox(mainMenu);
         menuHBox.setPrefWidth(200);
@@ -58,15 +62,14 @@ public class KitchenView extends StackPane implements KitchenViewsInterface {
         HBox topHBox = new HBox(menuHBox, titleHBox, alertBox);
         topHBox.setPrefWidth(1000);
         topHBox.setPadding(new Insets(5,5,5,5));
-        topHBox.setStyle("-fx-border-color: black;\n");
+        topHBox.setStyle("-fx-border-color: black;\n"+"-fx-background-color: dodgerblue;\n");
 
         this.ordersVBox = new FlowPane();
         this.ordersVBox.setPrefSize(998,455);
         this.ordersVBox.setPadding(new Insets(2,2,2,2));
         ordersVBox.setHgap(3);
         ordersVBox.setVgap(3);
-        //Bordering it red just to show the area the orders take up
-        this.ordersVBox.setStyle("-fx-border-color: red;\n");
+        this.ordersVBox.setStyle("-fx-border-color: red;\n"+"-fx-background-color: linen;\n");
         ordersVBox.prefWidthProperty().bind(Bindings.add(-2,this.widthProperty()));
         ordersVBox.prefHeightProperty().bind(Bindings.add(-47,this.heightProperty()));
 

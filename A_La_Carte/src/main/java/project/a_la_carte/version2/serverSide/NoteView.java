@@ -37,7 +37,7 @@ public class NoteView extends StackPane {
         this.back = new Button("<");
         this.back.setShape(new Circle(r));
         this.back.setMinSize(2*r,2*r);
-        this.back.setStyle("-fx-border-color: black;-fx-background-color: paleturquoise;\n");
+        this.back.setStyle("-fx-border-color: black;\n"+"-fx-background-color: mediumturquoise;\n");
 
         HBox backHBox = new HBox(back);
         backHBox.setPrefWidth(200);
@@ -48,7 +48,7 @@ public class NoteView extends StackPane {
 
         HBox topHBox = new HBox(backHBox, titleHBox);
         topHBox.setPrefWidth(1000);
-        topHBox.setStyle("-fx-border-color: black;\n");
+        topHBox.setStyle("-fx-border-color: black;\n"+"-fx-background-color: paleturquoise;\n");
         topHBox.setPadding(new Insets(5));
 
         Label textLabel = new Label("Type Here: ");
@@ -67,12 +67,14 @@ public class NoteView extends StackPane {
 
         this.save = new Button("SAVE");
         this.save.setFont(new Font(18));
-        this.save.setStyle("-fx-border-color: black;-fx-background-color: lightpink;\n");
+        this.save.setStyle("-fx-border-color: black;-fx-background-color: lightcoral;\n");
 
         this.discard = new Button("DISCARD");
         this.discard.setFont(new Font(18));
-        this.discard.setStyle("-fx-border-color: black;-fx-background-color: lightpink;\n");
+        this.discard.setStyle("-fx-border-color: black;-fx-background-color: lightcoral;\n");
         this.discard.setOnAction(e ->{
+            this.save.setStyle("-fx-border-color: black;-fx-background-color: lightcoral;\n");
+            this.discard.setStyle("-fx-border-color: black;-fx-background-color: lightpink;\n");
             this.noteText.clear();
             this.savedAlert.setText("DELETED!");
         });
@@ -109,6 +111,11 @@ public class NoteView extends StackPane {
         this.serverModel = newModel;
     }
 
+    public void resetButtons(){
+        this.discard.setStyle("-fx-border-color: black;-fx-background-color: lightcoral;\n");
+        this.save.setStyle("-fx-border-color: black;-fx-background-color: lightcoral;\n");
+    }
+
     /**
      * Connecting NoteView with Program's controller
      */
@@ -117,6 +124,8 @@ public class NoteView extends StackPane {
             controller.openMenuView(this.workerView);
         }));
         this.save.setOnAction(event -> {
+            this.discard.setStyle("-fx-border-color: black;-fx-background-color: lightcoral;\n");
+            this.save.setStyle("-fx-border-color: black;-fx-background-color: lightpink;\n");
             controller.sendNoteToKitchen(this.workerView);
         });
     }

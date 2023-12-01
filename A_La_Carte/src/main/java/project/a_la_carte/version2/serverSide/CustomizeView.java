@@ -57,7 +57,7 @@ public class CustomizeView extends StackPane implements ServerViewInterface {
         this.back = new Button("<");
         this.back.setShape(new Circle(r));
         this.back.setMinSize(2*r,2*r);
-        this.back.setStyle("-fx-border-color: black;-fx-background-color: paleturquoise;\n");
+        this.back.setStyle("-fx-border-color: darkorchid;-fx-background-color: plum;\n");
 
         HBox backHBox = new HBox(back);
         backHBox.setPrefWidth(200);
@@ -68,23 +68,27 @@ public class CustomizeView extends StackPane implements ServerViewInterface {
 
         HBox topHBox = new HBox(backHBox, titleHBox);
         topHBox.setPrefWidth(1000);
-        topHBox.setStyle("-fx-border-color: black;\n");
+        topHBox.setStyle("-fx-border-color: black;\n"+"-fx-background-color: orchid");
         topHBox.setPadding(new Insets(5));
 
         optionsVBox = new VBox();
         optionsVBox.setPrefSize(200,500);
         optionsVBox.setPadding(new Insets(5));
         optionsVBox.setSpacing(10);
-        optionsVBox.setStyle("-fx-border-color: black;\n");
+        optionsVBox.setStyle("-fx-border-color: black;\n"+"-fx-background-color: linen;\n");
 
         this.discard = new Button("DISCARD");
         this.discard.setPrefHeight(100);
         this.discard.setFont(new Font(15));
         this.discard.setPrefWidth(250);
+        this.discard.setStyle("-fx-background-color: plum;\n" + "-fx-border-color: darkorchid;\n"
+                + "-fx-border-radius: 15;\n"+"-fx-background-radius: 15;\n");
         this.set = new Button("SET");
         this.set.setPrefHeight(100);
         this.set.setFont(new Font(15));
         this.set.setPrefWidth(250);
+        this.set.setStyle("-fx-background-color: plum;\n" + "-fx-border-color: darkorchid;\n"
+                + "-fx-border-radius: 15;\n"+"-fx-background-radius: 15;\n");
 
         HBox botButtons = new HBox(discard,set);
         botButtons.setPrefSize(600,100);
@@ -101,14 +105,17 @@ public class CustomizeView extends StackPane implements ServerViewInterface {
         this.ingredients.setPadding(new Insets(5));
         this.ingredients.setHgap(3);
         this.ingredients.setVgap(3);
+        this.ingredients.setStyle("-fx-background-color: linen;\n");
 
         ScrollPane newScroll = new ScrollPane(ingredients);
         newScroll.setPrefSize(600,500);
         newScroll.prefHeightProperty().bind(this.heightProperty());
         newScroll.prefWidthProperty().bind((this.widthProperty()));
+        newScroll.setFitToWidth(true);
+        newScroll.setFitToHeight(true);
 
-        ingredients.prefWidthProperty().bind(Bindings.add(-20,newScroll.widthProperty()));
-        ingredients.prefHeightProperty().bind(Bindings.add(-10,newScroll.heightProperty()));
+        ingredients.prefWidthProperty().bind(newScroll.widthProperty());
+        ingredients.prefHeightProperty().bind(newScroll.heightProperty());
 
         HBox ingredientsAlign = new HBox(newScroll);
         ingredientsAlign.setPrefSize(600,500);
@@ -122,19 +129,23 @@ public class CustomizeView extends StackPane implements ServerViewInterface {
 
         Label itemTitle = new Label("SELECT AN ITEM");
         itemsInVBox = new VBox();
-        itemsInVBox.setPrefSize(180,500);
+        itemsInVBox.setPrefSize(200,500);
         itemsInVBox.setSpacing(3);
         itemsInVBox.setAlignment(Pos.TOP_CENTER);
         VBox.setVgrow(itemsInVBox,Priority.ALWAYS);
+        itemsInVBox.setStyle("-fx-background-color: linen;\n");
 
         ScrollPane itemsScroll = new ScrollPane(itemsInVBox);
         itemsScroll.setPrefSize(200,500);
         itemsScroll.prefHeightProperty().bind(this.heightProperty());
+        itemsScroll.setStyle("-fx-border-color: black;\n");
+        itemsScroll.setFitToHeight(true);
+        itemsScroll.setFitToWidth(true);
 
         VBox combineBox = new VBox(itemTitle,itemsScroll);
         combineBox.setPrefSize(200,500);
         VBox.setVgrow(combineBox, Priority.ALWAYS);
-        combineBox.setStyle("-fx-border-color: black;\n");
+        combineBox.setStyle("-fx-border-color: black;\n"+"-fx-background-color: cornflowerblue;\n");
 
         HBox alignBody = new HBox(optionsVBox, alignRight, combineBox);
         VBox.setVgrow(alignBody,Priority.ALWAYS);

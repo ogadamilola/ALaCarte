@@ -178,6 +178,8 @@ public class ProgramController {
      * Used to display MenuView
      */
     public void openMenuView(WorkerView view){
+        this.startupMVC.getServerModel().unselectCustomizeItem(view);
+        this.startupMVC.getServerModel().unselectMenuItem(view);
         this.startupMVC.getServerModel().notifySubscribers();
         this.startupMVC.getServerModel().setMenuItemList(startupMVC.getMenuItemModel().getMenuItemsList());
 
@@ -846,6 +848,8 @@ public class ProgramController {
     public void openNoteView(WorkerView view){
         this.startupMVC.getServerModel().clearNoteAlert(view.getNoteView());
         this.startupMVC.getServerModel().notifySubscribers();
+
+        view.getNoteView().resetButtons();
         view.selectNoteView();
         view.modelChanged();
     }
