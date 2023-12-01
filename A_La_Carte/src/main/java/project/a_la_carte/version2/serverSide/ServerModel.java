@@ -21,6 +21,7 @@ public class ServerModel {
     ArrayList<MenuFoodItem> menuItemList;
     ArrayList<ServerNotes> notesArrayList;
     MenuFoodItem selectedMenuItem;
+    MenuFoodItem selectedCustomizeItem;
     public ServerModel(){
         //Used when creating order and assigning their number
         this.orderNumber = 1;
@@ -114,15 +115,36 @@ public class ServerModel {
      * Method for adding a temporary edit on the MenuItem
      */
     public void setCustomization(WorkerView view){
-        MenuFoodItem copy = new MenuFoodItem(this.getSelectedItem().getMenuItemRecipes()
-                , this.getSelectedItem().getName(),this.getSelectedItem().getDescription());
-        copy.setPrice(view.getMenuView().getSelectedItem().getPrice());
-        if (!view.getCustomizeView().getSelectedOption().equals("") && !view.getCustomizeView().getSelectedIngredient().equals("")) {
-            copy.setCustomizeOption(view.getCustomizeView().getSelectedOption() + " " + view.getCustomizeView().getSelectedIngredient());
+        if (this.selectedCustomizeItem != null){
+            view.getMenuView().addToOrder(selectedCustomizeItem);
+            selectedCustomizeItem = null;
         }
-
-        view.getMenuView().addToOrder(copy);
+        else {
+            MenuFoodItem copy = new MenuFoodItem(this.getSelectedItem().getMenuItemRecipes()
+                    , this.getSelectedItem().getName(),this.getSelectedItem().getDescription());
+            copy.setPrice(view.getMenuView().getSelectedItem().getPrice());
+            view.getMenuView().addToOrder(copy);
+        }
         notifySubscribers();
+    }
+
+    public void addCustomize(WorkerView view){
+        if (this.selectedCustomizeItem == null) {
+            this.selectedCustomizeItem = new MenuFoodItem(this.getSelectedItem().getMenuItemRecipes()
+                    , this.getSelectedItem().getName(), this.getSelectedItem().getDescription());
+            selectedCustomizeItem.setPrice(view.getMenuView().getSelectedItem().getPrice());
+        }
+        if (!view.getCustomizeView().getSelectedOption().equals("") && !view.getCustomizeView().getSelectedIngredient().equals("")) {
+            selectedCustomizeItem.setCustomizeOption(view.getCustomizeView().getSelectedOption() + " " + view.getCustomizeView().getSelectedIngredient());
+        }
+        notifySubscribers();
+    }
+    public void setSelectedCustomizeItem(MenuFoodItem newI){
+        this.selectedCustomizeItem = newI;
+        notifySubscribers();
+    }
+    public MenuFoodItem getSelectedCustomizeItem(){
+        return this.selectedCustomizeItem;
     }
 
     /**

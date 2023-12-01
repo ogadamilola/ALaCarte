@@ -2,95 +2,18 @@
   {
     "menuItemRecipes": [
       {
-        "ingredientMap": {},
-        "name": "Spaghetti Meatball",
-        "description": "Spaghetti with meatballs and sauce",
-        "prepInstruction": "Put spag on plate",
-        "price": 15.0,
-        "prepTime": 10.0,
+        "ingredientMap": {
+          "Ketchup": 0.375,
+          "Pork Ribs": 1.0
+        },
+        "name": "Ribs",
+        "description": "Ribs and ketchup",
+        "prepInstruction": "put ketchup on ribs",
+        "price": 10.59375,
+        "prepTime": 15.0,
         "selectedStatus": false,
         "finished": false
       },
-      {
-        "ingredientMap": {},
-        "name": "Spaghetti Meatball",
-        "description": "Spaghetti with meatballs and sauce",
-        "prepInstruction": "Put spag on plate",
-        "price": 15.0,
-        "prepTime": 10.0,
-        "selectedStatus": false,
-        "finished": false
-      },
-      {
-        "ingredientMap": {},
-        "name": "Spaghetti Meatball",
-        "description": "Spaghetti with meatballs and sauce",
-        "prepInstruction": "Put spag on plate",
-        "price": 15.0,
-        "prepTime": 10.0,
-        "selectedStatus": false,
-        "finished": false
-      },
-      {
-        "ingredientMap": {},
-        "name": "Spaghetti Meatball",
-        "description": "Spaghetti with meatballs and sauce",
-        "prepInstruction": "Put spag on plate",
-        "price": 15.0,
-        "prepTime": 10.0,
-        "selectedStatus": false,
-        "finished": false
-      }
-    ],
-    "name": "Cheese burger combo",
-    "description": "Our famous cheese burger with a side of home made fries",
-    "price": 30.0,
-    "selectedStatus": false,
-    "customized": false,
-    "customizeOption": ""
-  },
-  {
-    "menuItemRecipes": [
-      {
-        "ingredientMap": {},
-        "name": "3 Minute Recipe",
-        "description": "3 Minute Recipe Description   ",
-        "prepInstruction": "3 Minute Recipe Instructions ",
-        "price": 3.0,
-        "prepTime": 3.0,
-        "selectedStatus": false,
-        "finished": false
-      },
-      {
-        "ingredientMap": {},
-        "name": "2 Minute Recipe",
-        "description": "2 Minute Recipe Description  ",
-        "prepInstruction": "2 Minute Recipe Instructions",
-        "price": 2.0,
-        "prepTime": 2.0,
-        "selectedStatus": false,
-        "finished": false
-      },
-      {
-        "ingredientMap": {},
-        "name": "1 Minute Recipe",
-        "description": "1 Minute Recipe Description",
-        "prepInstruction": "1 Minute Recipe Instructions",
-        "price": 1.0,
-        "prepTime": 1.0,
-        "selectedStatus": false,
-        "finished": false
-      }
-    ],
-    "name": "3 Minute Timer Test",
-    "description": "This Menu Item can test the Timing System in 3 minutes.",
-    "price": 9.0,
-    "selectedStatus": false,
-    "customized": false,
-    "customizeOption": ""
-  },
-  {
-    "menuItemRecipes": [
       {
         "ingredientMap": {
           "Ketchup": 0.375,
@@ -105,11 +28,11 @@
         "finished": false
       }
     ],
-    "name": "Rib combo",
-    "description": "ribs and ketchup",
-    "price": 30.0,
+    "name": "Test",
+    "description": "ese",
+    "price": 0.0,
     "selectedStatus": false,
     "customized": false,
-    "customizeOption": ""
+    "customizeOption": []
   }
 ]

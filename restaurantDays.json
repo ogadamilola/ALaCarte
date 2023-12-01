@@ -1,10 +1,10 @@
 {
   "2023-11-30": {
     "date": "2023-11-30",
-    "menuItemMap": {"3 Minute Timer Test":119.0,"Cheese burger combo":51.0},
-    "ingredientUsageMap": {},
-    "totalOrders": 95,
-    "incomeToday": 2601.0
+    "menuItemMap": {"3 Minute Timer Test":119.0,"Rib combo":3.0,"Cheese burger combo":51.0},
+    "ingredientUsageMap": {"Ketchup":1.125,"Pork Ribs":3.0},
+    "totalOrders": 97,
+    "incomeToday": 2691.0
   },
   "2023-11-28": {
     "date": "2023-11-28",

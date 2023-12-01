@@ -858,6 +858,10 @@ public class ProgramController {
         this.startupMVC.getServerModel().setCustomization(view);
         this.startupMVC.getServerModel().unselectAll(view);
     }
+    public void addCustomize(WorkerView view){
+        this.startupMVC.getServerModel().addCustomize(view);
+        this.startupMVC.getServerModel().unselectAll(view);
+    }
 
     /**
      * Method for sending the current Order to Kitchen side

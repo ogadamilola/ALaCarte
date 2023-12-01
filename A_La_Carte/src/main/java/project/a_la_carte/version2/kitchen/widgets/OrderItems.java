@@ -79,9 +79,12 @@ public class OrderItems extends HBox {
         stringDisplay.setSpacing(3);
         stringDisplay.setPrefSize(600,70);
 
+        stringDisplay.getChildren().add(nameLabel);
         if (menuFoodItem.isCustomized()){
-            Label customize = new Label("   "+ menuFoodItem.getCustomize());
-            stringDisplay.getChildren().addAll(nameLabel,customize);
+            menuFoodItem.getCustomize().forEach(change -> {
+                Label newL = new Label(change);
+                stringDisplay.getChildren().add(newL);
+            });
         }
         else {
             stringDisplay.getChildren().add(nameLabel);

@@ -4,6 +4,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
@@ -15,6 +16,7 @@ import project.a_la_carte.version2.WorkerView;
 import project.a_la_carte.version2.classesObjects.Recipe;
 import project.a_la_carte.version2.interfaces.ServerViewInterface;
 import project.a_la_carte.version2.managerSide.inventory.InventoryModel;
+import project.a_la_carte.version2.serverSide.widgets.CustomizeButton;
 import project.a_la_carte.version2.serverSide.widgets.CustomizeSelectionButton;
 import project.a_la_carte.version2.serverSide.widgets.IngredientsCustomize;
 
@@ -31,18 +33,23 @@ public class CustomizeView extends StackPane implements ServerViewInterface {
     InventoryModel inventoryModel;
     FlowPane ingredients;
     VBox optionsVBox;
+    VBox itemsInVBox;
     Label title;
     Button discard;
-    Button send;
     Button back;
+    Button set;
     ArrayList<CustomizeSelectionButton> customizeSelectionButtonArrayList;
     ArrayList<IngredientsCustomize> ingredientsCustomizeArrayList;
+    ArrayList<CustomizeButton> customizeButtons;
     String selectedIngredient = "";
     String selectedOption="";
     public CustomizeView(WorkerView view){
         this.workerView = view;
         customizeSelectionButtonArrayList = new ArrayList<>();
         ingredientsCustomizeArrayList = new ArrayList<>();
+        customizeButtons = new ArrayList<>();
+
+        this.setMaxSize(5000,2500);
         this.setPrefSize(1000,500);
 
         title = new Label("SELECT ITEM TO CUSTOMIZE");
@@ -72,31 +79,43 @@ public class CustomizeView extends StackPane implements ServerViewInterface {
         optionsVBox.setSpacing(10);
         optionsVBox.setStyle("-fx-border-color: black;\n");
 
-        this.send = new Button("SEND");
-        this.send.setPrefHeight(150);
-        this.send.setFont(new Font(15));
         this.discard = new Button("DISCARD");
         this.discard.setPrefHeight(150);
         this.discard.setFont(new Font(15));
+        this.set = new Button("SET");
+        this.set.setPrefHeight(150);
+        this.set.setFont(new Font(15));
 
-        HBox botButtons = new HBox(discard,send);
+        HBox botButtons = new HBox(discard,set);
         botButtons.setPrefSize(800,150);
         botButtons.setPadding(new Insets(5));
         botButtons.setAlignment(Pos.BOTTOM_CENTER);
         botButtons.setSpacing(15);
 
         this.ingredients = new FlowPane();
-        this.ingredients.setPrefSize(800,500);
+        this.ingredients.setPrefSize(600,500);
         this.ingredients.setPadding(new Insets(5));
 
         HBox ingredientsAlign = new HBox(ingredients);
-        ingredientsAlign.setPrefSize(800,500);
+        ingredientsAlign.setPrefSize(600,500);
         ingredientsAlign.setStyle("-fx-border-color: black;\n");
 
         VBox alignRight = new VBox(ingredientsAlign,botButtons);
-        alignRight.setPrefSize(800,500);
+        alignRight.setPrefSize(600,500);
 
-        HBox alignBody = new HBox(optionsVBox, alignRight);
+        Label itemTitle = new Label("SELECT AN ITEM");
+        itemsInVBox = new VBox();
+        itemsInVBox.setPrefSize(180,500);
+        itemsInVBox.setSpacing(3);
+        itemsInVBox.setAlignment(Pos.TOP_CENTER);
+
+        ScrollPane itemsScroll = new ScrollPane(itemsInVBox);
+        itemsScroll.setPrefSize(200,500);
+
+        VBox combineBox = new VBox(itemTitle,itemsScroll);
+        combineBox.setPrefSize(200,500);
+
+        HBox alignBody = new HBox(optionsVBox, alignRight, combineBox);
 
         VBox alignAll = new VBox(topHBox,alignBody);
 
@@ -127,8 +146,8 @@ public class CustomizeView extends StackPane implements ServerViewInterface {
         this.discard.setOnAction(event -> {
             controller.discardSelection(this.workerView);
         });
-        this.send.setOnAction(event -> {
-            controller.saveCustomize(this.workerView);
+        this.set.setOnAction(event -> {
+            controller.addCustomize(this.workerView);
         });
     }
 
@@ -148,6 +167,15 @@ public class CustomizeView extends StackPane implements ServerViewInterface {
      * Method for checking if CustomizeSelectionButton is already on the CustomizeView
      */
     public Boolean containsButtonCustomize(String foodName){
+        AtomicReference<Boolean> check = new AtomicReference<>(false);
+        customizeSelectionButtonArrayList.forEach(button -> {
+            if (button.getOptionName().equals(foodName)) {
+                check.set(true);
+            }
+        });
+        return check.get();
+    }
+    public Boolean containsItemCus(String foodName){
         AtomicReference<Boolean> check = new AtomicReference<>(false);
         customizeSelectionButtonArrayList.forEach(button -> {
             if (button.getOptionName().equals(foodName)) {
@@ -207,10 +235,22 @@ public class CustomizeView extends StackPane implements ServerViewInterface {
     public void modelChanged() {
         //ingredients.getChildren().clear();
         //optionsVBox.getChildren().clear();
+        this.itemsInVBox.getChildren().clear();
 
-        if (this.workerView.getMenuView().getSelectedItem() != null){
-            title.setText("Selected Menu Item: "+ workerView.getMenuView().getSelectedItem().getName());
-            for(Recipe recipe : this.workerView.getMenuView().getSelectedItem().getMenuItemRecipes()){
+        if (workerView.getMenuView().currentOrder != null){
+            workerView.getMenuView().currentOrder.getOrderList().forEach(items -> {
+                CustomizeButton newB = new CustomizeButton(items.getName());
+                items.getCustomize().forEach(newB::addEdit);
+                newB.getSelect().setOnAction(event -> {
+                    serverModel.setSelectedMenuItem(items, serverModel.getMenuItemList());
+                    serverModel.setSelectedCustomizeItem(items);
+                });
+                itemsInVBox.getChildren().add(newB);
+            });
+        }
+        if (this.serverModel.getSelectedCustomizeItem() != null){
+            title.setText("Selected Menu Item: " + serverModel.getSelectedCustomizeItem().getName());
+            for(Recipe recipe : this.serverModel.getSelectedCustomizeItem().getMenuItemRecipes()){
                 for(Map.Entry<String,Double> entry : recipe.getRecipeIngredients().entrySet()){
                     serverModel.addIngredient(entry.getKey());
                 }
@@ -223,7 +263,6 @@ public class CustomizeView extends StackPane implements ServerViewInterface {
                 }));
                 if (!this.containsIngredientCustomize(newCustomize.getIngredientName())) {
                     this.ingredientsCustomizeArrayList.add(newCustomize);
-
                     ingredients.getChildren().add(newCustomize);
                 }
             }));
