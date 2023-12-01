@@ -5,9 +5,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import project.a_la_carte.version2.interfaces.AlertButtonInterface;
 import project.a_la_carte.version2.interfaces.MenuItemWidget;
 
+/**
+ * Container for MenuItems that can be customized
+ */
 public class CustomizeButton extends HBox implements MenuItemWidget {
     Background selectedBG;
     Background unselectedBG;
@@ -33,6 +35,7 @@ public class CustomizeButton extends HBox implements MenuItemWidget {
         edits.setPrefSize(200,50);
         edits.setSpacing(2);
         edits.setAlignment(Pos.TOP_CENTER);
+        edits.setStyle("-fx-background-color: cornflowerblue;");
 
         StackPane merge = new StackPane(edits,select);
         merge.setPrefSize(200,50);
@@ -44,6 +47,10 @@ public class CustomizeButton extends HBox implements MenuItemWidget {
     public Button getSelect(){
         return this.select;
     }
+
+    /**
+     * Adding labels to see edits done to an order item
+     */
     public void addEdit(String edit){
         Label newL = new Label(edit);
         this.edits.getChildren().add(newL);

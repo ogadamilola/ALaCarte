@@ -128,6 +128,9 @@ public class ServerModel {
         notifySubscribers();
     }
 
+    /**
+     * Adding edits to an Item selected to be customized
+     */
     public void addCustomize(WorkerView view){
         if (this.selectedCustomizeItem == null) {
             this.selectedCustomizeItem = new MenuFoodItem(this.getSelectedItem().getMenuItemRecipes()
@@ -139,13 +142,25 @@ public class ServerModel {
         }
         notifySubscribers();
     }
+
+    /**
+     * Setting the Item selected to be customized
+     */
     public void setSelectedCustomizeItem(MenuFoodItem newI){
         this.selectedCustomizeItem = newI;
         notifySubscribers();
     }
+
+    /**
+     * Get method for Item selected to be customized
+     */
     public MenuFoodItem getSelectedCustomizeItem(){
         return this.selectedCustomizeItem;
     }
+
+    /**
+     * Discard the edits put on the Item selected to be customized
+     */
     public void discardChanges(){
         this.selectedCustomizeItem.resetCustomize();
         notifySubscribers();

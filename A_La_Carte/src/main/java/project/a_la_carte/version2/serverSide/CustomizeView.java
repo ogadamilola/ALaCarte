@@ -98,6 +98,8 @@ public class CustomizeView extends StackPane implements ServerViewInterface {
         this.ingredients = new FlowPane();
         this.ingredients.setPrefSize(600,500);
         this.ingredients.setPadding(new Insets(5));
+        this.ingredients.setHgap(3);
+        this.ingredients.setVgap(3);
         ingredients.prefWidthProperty().bind(this.widthProperty());
         ingredients.prefHeightProperty().bind(this.heightProperty());
 
@@ -109,7 +111,6 @@ public class CustomizeView extends StackPane implements ServerViewInterface {
 
         VBox alignRight = new VBox(ingredientsAlign,botButtons);
         alignRight.setPrefSize(600,500);
-        //VBox.setVgrow(alignRight,Priority.ALWAYS);
         HBox.setHgrow(alignRight,Priority.ALWAYS);
 
         Label itemTitle = new Label("SELECT AN ITEM");
@@ -247,8 +248,6 @@ public class CustomizeView extends StackPane implements ServerViewInterface {
 
     @Override
     public void modelChanged() {
-        //ingredients.getChildren().clear();
-        //optionsVBox.getChildren().clear();
         this.itemsInVBox.getChildren().clear();
 
         if (workerView.getMenuView().currentOrder != null){
