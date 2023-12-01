@@ -18,16 +18,24 @@ public class OrderKitchenTab extends StackPane implements OrderClassesInterface 
     Button cancelButton;
     Order singleOrder;
     KitchenModel kModel;
+    OrderWidget newDisplay;
+    int numItems;
+    Boolean finished = false;
     public OrderKitchenTab(KitchenModel model, Order order){
         this.setPrefSize(630,70);
         kModel = model;
-        this.cancelButton = new Button("Cancel");
+        this.numItems = order.getNumberOfItems();
+
+        this.cancelButton = new Button("Complete");
         HBox cancelBox = new HBox(cancelButton);
         cancelBox.setPrefWidth(230);
         cancelBox.setAlignment(Pos.BOTTOM_CENTER);
         cancelBox.setPadding(new Insets(2));
 
         this.singleOrder = order;
+        singleOrder.startTimers();
+        newDisplay = new OrderWidget(this, singleOrder);
+
         orderLabel = new Label("");
 
         HBox titleBox = new HBox(orderLabel);
@@ -48,15 +56,24 @@ public class OrderKitchenTab extends StackPane implements OrderClassesInterface 
     public Button getCancelButton(){
         return this.cancelButton;
     }
+    public void subItem(){
+        this.finished = true;
+        modelChanged();
+    }
+    public Order getSingleOrder(){
+        return this.singleOrder;
+    }
+    public void setFinished(){
+        this.finished = true;
+    }
+    public Boolean isFinished(){
+        return this.finished;
+    }
     @Override
     public void modelChanged() {
         ordersVBox.getChildren().clear();
 
-        if (!singleOrder.isFinished()){
-            if (!singleOrder.isStarted()) {
-                singleOrder.startTimers(singleOrder);
-            }
-            OrderWidget newDisplay = new OrderWidget(this, singleOrder);
+        if (!this.finished){
             ordersVBox.getChildren().add(newDisplay);
         }
         else {

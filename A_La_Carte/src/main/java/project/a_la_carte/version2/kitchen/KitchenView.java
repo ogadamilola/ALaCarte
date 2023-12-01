@@ -99,6 +99,20 @@ public class KitchenView extends StackPane implements KitchenViewsInterface {
         this.sendNoteButton.setOnAction(controller::alertSenderToServer);
     }
 
+    /**
+     * Method for checking if OrderKitchenTab is already in the KitchenView
+     */
+    public boolean isNotDisplayed(int val){
+        AtomicReference<Boolean> check = new AtomicReference<>(false);
+        orderKitchenTabs.forEach(tabs ->{
+            if (tabs.getSingleOrder().getOrderNum() == val){
+                check.set(true);
+            }
+        });
+        return check.get();
+    }
+
+
     public void modelChanged(){
         this.ordersVBox.getChildren().clear();
 
@@ -113,10 +127,18 @@ public class KitchenView extends StackPane implements KitchenViewsInterface {
                 OrderKitchenTab newTab = new OrderKitchenTab(kitchenModel,order);
                 order.addSubscriber(newTab);
                 newTab.getCancelButton().setOnAction((event -> {
+                    newTab.setFinished();
                     kitchenModel.deleteOrder(order);
                 }));
-                this.ordersVBox.getChildren().add(newTab);
+                if (!isNotDisplayed(newTab.getSingleOrder().getOrderNum())) {
+                    this.orderKitchenTabs.add(newTab);
+                }
             }));
         }
+        this.orderKitchenTabs.forEach(tabs -> {
+            if (!tabs.isFinished()) {
+                this.ordersVBox.getChildren().add(tabs);
+            }
+        });
     }
 }
