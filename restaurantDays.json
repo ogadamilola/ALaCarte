@@ -8,9 +8,9 @@
   },
   "2023-12-01": {
     "date": "2023-12-01",
-    "menuItemMap": {"Test":87.0},
-    "ingredientUsageMap": {"Burger Patty":348.0,"Lettuce":54.375,"Sliced Onion":32.625,"Ketchup":32.625,"Mustard":32.625,"Burger Bun":174.0,"Cheddar Cheese":32.625,"Mayo":32.625},
-    "totalOrders": 41,
+    "menuItemMap": {"Test":116.0},
+    "ingredientUsageMap": {"Burger Patty":464.0,"Lettuce":72.5,"Sliced Onion":43.5,"Ketchup":43.5,"Mustard":43.5,"Burger Bun":232.0,"Cheddar Cheese":43.5,"Mayo":43.5},
+    "totalOrders": 57,
     "incomeToday": 0.0
   },
   "2023-11-28": {

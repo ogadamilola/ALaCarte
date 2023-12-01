@@ -120,7 +120,13 @@ public class OrderTimers {
         // increase prepTime by 1 minute
         prepTimesList.get(i).set(j, prepTimesList.get(i).get(j) + 1);
         // update expectedOrderTime
-        expectedOrderTime += 1;
+        prepTimesList.forEach(prepTime -> {
+            prepTime.forEach(time -> {
+                if (time >= expectedOrderTime){
+                    expectedOrderTime = time;
+                }
+            });
+        });
 
         // increase all start times by 1 minute
         startTimesList.forEach((list -> {
