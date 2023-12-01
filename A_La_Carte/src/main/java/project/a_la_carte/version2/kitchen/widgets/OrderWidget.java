@@ -28,7 +28,7 @@ public class OrderWidget extends HBox {
     int numMenuItems;
 
     public OrderWidget(OrderKitchenTab orderKitchenTab, Order order){
-        this.currentOrder = new OrderTimers(order);
+        this.currentOrder = order.getTimerInformation();
 
         oTab = orderKitchenTab;
 
@@ -119,8 +119,6 @@ public class OrderWidget extends HBox {
             recipesLabelsList.add(recipesLabels);
         }
 
-
-        // This is in the wrong location.
         Timer t = new Timer();
         t.scheduleAtFixedRate(new TimerTask() {
             @Override

@@ -53,6 +53,9 @@ public class OrderKitchenTab extends StackPane implements OrderClassesInterface 
         ordersVBox.getChildren().clear();
 
         if (!singleOrder.isFinished()){
+            if (!singleOrder.isStarted()) {
+                singleOrder.startTimers(singleOrder);
+            }
             OrderWidget newDisplay = new OrderWidget(this, singleOrder);
             ordersVBox.getChildren().add(newDisplay);
         }

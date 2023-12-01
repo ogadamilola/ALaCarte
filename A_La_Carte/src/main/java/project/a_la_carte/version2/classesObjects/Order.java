@@ -9,6 +9,8 @@ public class Order {
     ArrayList<OrderClassesInterface> subscriber;
     int orderNum;
     Boolean completed = false;
+    Boolean isStarted = false;
+    OrderTimers timerInformation;
     public Order(ArrayList<MenuFoodItem> items, int i){
         this.menuItems = items;
         this.orderNum = i;
@@ -56,6 +58,19 @@ public class Order {
 
     public ArrayList<MenuFoodItem> getMenuItems() {
         return menuItems;
+    }
+
+    public void startTimers(Order order){
+        isStarted = true;
+        timerInformation = new OrderTimers(order);
+    }
+
+    public Boolean isStarted() {
+        return isStarted;
+    }
+
+    public OrderTimers getTimerInformation() {
+        return timerInformation;
     }
 
     public void updateOrderFromString(String text) {
