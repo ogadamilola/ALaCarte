@@ -2,7 +2,6 @@ package project.a_la_carte.version2.serverSide;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.TypeAdapter;
 import com.google.gson.reflect.TypeToken;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -21,9 +20,11 @@ import project.a_la_carte.version2.ProgramController;
 import project.a_la_carte.version2.WorkerView;
 import project.a_la_carte.version2.classesObjects.MenuFoodItem;
 import project.a_la_carte.version2.classesObjects.Order;
-import project.a_la_carte.version2.classesObjects.Recipe;
 import project.a_la_carte.version2.interfaces.ServerViewInterface;
-import project.a_la_carte.version2.serverSide.tableSystem.*;
+import project.a_la_carte.version2.serverSide.tableSystem.Bill;
+import project.a_la_carte.version2.serverSide.tableSystem.Reservation;
+import project.a_la_carte.version2.serverSide.tableSystem.ReservationAdapter;
+import project.a_la_carte.version2.serverSide.tableSystem.Table;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -41,25 +42,15 @@ import java.util.Optional;
 
 public class TableView extends StackPane implements ServerViewInterface {
 
-    public ArrayList<Table> tables;
+    private ArrayList<Table> tables;
     private GridPane grid;
 
-    private Button saveButton;
-    private TextArea orderArea;
-    private String savedOrderText;
-
-    private TextArea noteArea;
-    private String savedNoteText;
-
-
     Button back;
-    private Gson gson;
 
     private Button addButton;
     private Button removeButton;
 
-    private static TableView instance = null;
-    static WorkerView workerView;
+    WorkerView workerView;
     ServerModel serverModel;
 
     private ArrayList<Reservation> reservations;
@@ -68,22 +59,12 @@ public class TableView extends StackPane implements ServerViewInterface {
     private static final String RESERVATION_FILE = "reservation.json";
     private static final String TABLE_FILE = "tables.json";
 
-
     private TextField nameField, numberOfGuestsField;
     private DatePicker datePicker;
     private TextField timeField;
     private Button addReservationButton;
-
-
-
     public TableView(WorkerView view) {
 
-        this.gson = new GsonBuilder()
-                .registerTypeAdapter(Table.class, new TableAdapter())
-                .registerTypeAdapter(Order.class, new OrderAdapter())
-                .registerTypeAdapter(Reservation.class, new ReservationAdapter())
-                .setPrettyPrinting()
-                .create();
         //saving reservations
         try(FileReader reader = new FileReader(RESERVATION_FILE)){
             Gson gson = new GsonBuilder()
@@ -96,13 +77,10 @@ public class TableView extends StackPane implements ServerViewInterface {
             reservations = new ArrayList<>();
         }
 
-
-
-
         tables = new ArrayList<>();
 
-        reservationListView= new ListView<>();
 
+        reservationListView= new ListView<>();
 
         workerView = view;
         this.setPrefSize(1000,500);
@@ -135,7 +113,7 @@ public class TableView extends StackPane implements ServerViewInterface {
         this.getChildren().add(grid);
 
         addButton = new Button("Add Table");
-        addButton.setOnAction(e -> addTable());
+        addButton.setOnAction(e -> addTable(serverModel.sendOrderToTable(this.workerView)));
 
         removeButton = new Button("Remove Table");
         removeButton.setOnAction(e -> removeLastTable());
@@ -147,7 +125,6 @@ public class TableView extends StackPane implements ServerViewInterface {
         container.setSpacing(10);
 
         this.getChildren().add(container);
-
 
         setupReservationForm();
         setupReservationList();
@@ -163,96 +140,44 @@ public class TableView extends StackPane implements ServerViewInterface {
         reservationManagementContainer.setSpacing(10);
         reservationManagementContainer.setPadding(new Insets(10));
 
-        // Creating a SplitPane and adding both sections
+        // Create a SplitPane and add both sections
         SplitPane splitPane = new SplitPane();
         splitPane.getItems().addAll(tableManagementContainer, reservationManagementContainer);
-        splitPane.setDividerPositions(0.5);
+        splitPane.setDividerPositions(0.5); // Adjust divider position as needed
+        splitPane.setStyle("-fx-background-color: linen;\n");
 
         // Add the SplitPane to the main layout
         this.getChildren().add(splitPane);
 
-        updateView();
-        loadReservations();
-
-        // Load tables
-        loadTables();
+    updateView();
+    saveReservationList();
     }
 
-    public static TableView getInstance() {
-        if (instance == null) {
-            instance = new TableView(workerView);
-        }
-        return instance;
-    }
-
-    public void saveReservationList() {
-        try (FileWriter writer = new FileWriter(RESERVATION_FILE)) {
-            gson.toJson(reservations, writer);
+    public void saveReservationList(){
+        try(FileWriter writer = new FileWriter(RESERVATION_FILE)){
+            Gson gson = new GsonBuilder()
+                    .registerTypeAdapter(Reservation.class, new ReservationAdapter())
+                    .setPrettyPrinting()
+                    .create();
+            gson.toJson(reservations,writer);
         } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void loadReservations() {
-        try (FileReader reader = new FileReader(RESERVATION_FILE)) {
-            Type reservationListType = new TypeToken<ArrayList<Reservation>>(){}.getType();
-            reservations = gson.fromJson(reader, reservationListType);
-        } catch (IOException e) {
-            reservations = new ArrayList<>();
-        }
-    }
-
-    private void loadTables() {
-        try (FileReader reader = new FileReader(TABLE_FILE)) {
-            Type tableListType = new TypeToken<ArrayList<Table>>(){}.getType();
-            tables = gson.fromJson(reader, tableListType);
-        } catch (IOException e) {
-            tables = new ArrayList<>();
-        }
-    }
-    public void saveTableList() {
-        try (FileWriter writer = new FileWriter(TABLE_FILE)) {
-            gson.toJson(tables, writer);
-        } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 
 
-    public void addTable() {
-        int newTableNumber = findLowestAvailableTableNumber();
-        Order newOrder = createNewOrder(newTableNumber);
-        Table newTable = new Table();
-        newTable.setOrder(newOrder);
-        newTable.setNumber(newTableNumber);
-        tables.add(newTable);
-        saveTableList();
+    public void addTable(Table table) {
+        tables.add(table);
         updateView();
     }
 
-    private Order createNewOrder(int tableNumber) {
-        ArrayList<MenuFoodItem> emptyItems = new ArrayList<>();
-        int orderNumber = generateNewOrderNumber();
-        return new Order(emptyItems, orderNumber, tableNumber);
+    public void removeTable(Table table) {
+        tables.remove(table);
+        updateView();
     }
 
-    private int generateNewOrderNumber() {
-        int orderCounter = 1;
-        return ++orderCounter;
-    }
 
-    private int findLowestAvailableTableNumber() {
-        int number = 1;
-        while (true) {
-            final int currentNumber = number;
-            if (tables.stream().noneMatch(table -> table.getNumber() == currentNumber)) {
-                return number;
-            }
-            number++;
-        }
-    }
-
-    public void updateView() {
+    private void updateView() {
         grid.getChildren().clear(); // Clear existing views
         int numColumns = 3;
         for (int i = 0; i < tables.size(); i++) {
@@ -293,7 +218,6 @@ public class TableView extends StackPane implements ServerViewInterface {
     }
 
 
-
     private void addReservation() {
         try {
             String name = nameField.getText();
@@ -320,6 +244,7 @@ public class TableView extends StackPane implements ServerViewInterface {
             updateReservationListView();
 
             saveReservationList();
+            // Clear form fields
             clearReservationForm();
         } catch (NumberFormatException e) {
             showAlert("Number of guests must be a valid number.");
@@ -430,7 +355,6 @@ public class TableView extends StackPane implements ServerViewInterface {
         if (!tables.isEmpty()) {
             tables.remove(tables.size() - 1);
             updateView();
-            saveTableList();
         }
     }
 
@@ -438,7 +362,7 @@ public class TableView extends StackPane implements ServerViewInterface {
         this.serverModel = newModel;
     }
 
-    public void showTableDetails(Table table) {
+    private void showTableDetails(Table table) {
         Alert alert = new Alert(AlertType.CONFIRMATION);
         alert.setTitle("Table Details");
         alert.setHeaderText("Details for Table " + table.getNumber());
@@ -454,61 +378,40 @@ public class TableView extends StackPane implements ServerViewInterface {
         CheckBox statusCheckBox = new CheckBox("Occupied");
         statusCheckBox.setSelected(table.getStatus());
 
-        TextArea noteTextArea = new TextArea(table.getNotes());
-        noteTextArea.setEditable(true);
-
-        TextArea orderTextArea = new TextArea(table.getOrders());
+        // getOrder is empty, may or may not implement
+        TextArea orderTextArea = new TextArea(/*table.getOrder().toString()*/);
         orderTextArea.setEditable(true);
+
+
 
         grid.add(new Label("Occupants:"), 0, 0);
         grid.add(occupantsField, 1, 0);
         grid.add(new Label("Status:"), 0, 1);
         grid.add(statusCheckBox, 1, 1);
-        grid.add(new Label("Note(s):"), 0, 2);
-        grid.add(noteTextArea, 1, 2);
-        grid.add(new Label("Order(s):"), 0, 3);
-        grid.add(orderTextArea, 1, 3);
+        grid.add(new Label("Order:"), 0, 2);
+        grid.add(orderTextArea, 1, 2);
 
-        HBox layout = new HBox(5);
-        layout.getChildren().addAll(grid);
+        // Set the alert's content
+        alert.getDialogPane().setContent(grid);
 
-        alert.getDialogPane().setContent(layout);
-
+        // Handling the confirmation result
         alert.showAndWait().ifPresent(response -> {
             if (response == ButtonType.OK) {
+                // Update table properties based on user input
                 table.setOccupants(Integer.parseInt(occupantsField.getText()));
                 table.setStatus(statusCheckBox.isSelected());
-                table.setNotes(noteTextArea.getText());
-                table.setOrders(orderTextArea.getText());
-                updateView();
-                saveTableList();
+                // update the order if needed
+
+                updateView(); // Refresh the table view
             }
         });
     }
-
-
-
     public void setController(ProgramController controller){
         this.back.setOnAction(event -> {
-            controller.openMenuView(workerView);
+            controller.openMenuView(this.workerView);
         });
+
     }
-
-    public ArrayList<Table> getTables(){
-        return tables;
-    }
-
-    public Table findTableByNumber(int tableNumber) {
-        for (Table table : tables) {
-            if (table.getNumber() == tableNumber) {
-                return table;
-            }
-        }
-        return null;
-    }
-
-
-
     @Override
     public void modelChanged() {
         updateView();

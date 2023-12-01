@@ -3,7 +3,7 @@
   "Lettuce": -126.875,
   "Spaghetti": -16.300000000000004,
   "Pepsi": 97.0,
-  "Pork Ribs": -13.0,
+  "Pork Ribs": -15.0,
   "Chicken Breast": 12.0,
   "Burger Bun": -428.0,
   "Cheddar Cheese": -82.375,
@@ -11,7 +11,12 @@
   "Tomato Sauce": -1.8999999999999995,
   "Meatballs": -3.6000000000000005,
   "Potatoes": 38.20000000000002,
-  "Ketchup": 22.6875,
-  "Mustard": 20.0,
-  "Sliced Onion": 5.700000000000001
+  "Ketchup": -64.6875,
+  "Mustard": -66.625,
+  "Sliced Onion": -81.625,
+  "1Min": 60.0,
+  "2Min": 65.0,
+  "3Min": 342.0,
+  "4Min": 43.0,
+  "5Min": 432.0
 }

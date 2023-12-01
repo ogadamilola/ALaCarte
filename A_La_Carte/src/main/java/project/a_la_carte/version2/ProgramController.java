@@ -914,7 +914,6 @@ public class ProgramController {
     /**
      * A display for refunding orders
      */
-
     public void refundDisplay(ActionEvent event){
         RefundView refundView = new RefundView(startupMVC.getKitchenModel(),startupMVC.getRestaurantModel());
         this.startupMVC.getKitchenModel().addSubscribers(refundView);
