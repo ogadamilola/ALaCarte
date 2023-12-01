@@ -6,6 +6,13 @@
     "totalOrders": 105,
     "incomeToday": 2691.0
   },
+  "2023-12-01": {
+    "date": "2023-12-01",
+    "menuItemMap": {},
+    "ingredientUsageMap": {},
+    "totalOrders": 0,
+    "incomeToday": 0.0
+  },
   "2023-11-28": {
     "date": "2023-11-28",
     "menuItemMap": {"Cheeseburger Combo":2.0,"Test Item":4.0},

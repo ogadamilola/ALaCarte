@@ -11,7 +11,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.List;
 
 public class StaffModel {
     private static  final String FILE_PATH = "staffList.json";
@@ -38,7 +37,7 @@ public class StaffModel {
         notifySubscribers();
     }
 
-    public void addStaff(String fName, String lName, String id, Staff.position position, int sin ){
+    public void addStaff(String fName, String lName, String id, Staff.position position, int tips, int sin){
 
             if(getStaffById(id) != null){//staff already exists with this id
                 throw new IllegalArgumentException();
@@ -49,6 +48,7 @@ public class StaffModel {
                 staff.setLastName(lName);
                 staff.setStaffID(id);
                 staff.setPosition(position);
+                staff.setTips(tips);
                 staff.setSin(sin);
                 staffList.add(staff);
                 staff.setUsername(null);//not manager
@@ -77,12 +77,13 @@ public class StaffModel {
             notifySubscribers();
     }
 
-    public void updateStaff(String fName, String lName, String id, Staff.position position, int sin,String username,String password){
+    public void updateStaff(String fName, String lName, String id, Staff.position position, int sin, int tips, String username,String password){
         //TODO possible exception handling here
             Staff staff = getStaffById(id);
             staff.setFirstName(fName);
             staff.setLastName(lName);
             staff.setPosition(position);
+            staff.setTips(tips);
             staff.setSin(sin);
 
             if(position == Staff.position.Manager){
