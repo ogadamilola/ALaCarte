@@ -8,13 +8,17 @@ public class Order {
     ArrayList<MenuFoodItem> menuItems;
     ArrayList<OrderClassesInterface> subscriber;
     int orderNum;
+    int numItems = 0;
     Boolean completed = false;
-    Boolean isStarted = false;
     OrderTimers timerInformation;
     public Order(ArrayList<MenuFoodItem> items, int i){
         this.menuItems = items;
         this.orderNum = i;
         this.subscriber = new ArrayList<>();
+    }
+    public int getNumberOfItems(){
+        numItems = menuItems.size();
+        return numItems;
     }
     public void addSubscriber(OrderClassesInterface view){
         this.subscriber.add(view);
@@ -52,18 +56,8 @@ public class Order {
         }
         return totalPrice;
     }
-
-    public ArrayList<MenuFoodItem> getMenuItems() {
-        return menuItems;
-    }
-
-    public void startTimers(Order order){
-        isStarted = true;
-        timerInformation = new OrderTimers(order);
-    }
-
-    public Boolean isStarted() {
-        return isStarted;
+    public void startTimers(){
+        timerInformation = new OrderTimers(this);
     }
 
     public OrderTimers getTimerInformation() {

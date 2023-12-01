@@ -22,10 +22,8 @@ public class OrderTimers {
     ArrayList<ArrayList<StopWatch>> recipeStopWatchList;
     float expectedOrderTime;
     String backgroundColor;
-
-
     public OrderTimers(Order realOrder){
-        this.menuItems = realOrder.menuItems;
+        this.menuItems = realOrder.getOrderList();
         this.orderNum = realOrder.getOrderNum();
 
         backgroundColor = "-fx-background-color: cornflowerblue;\n";
@@ -99,7 +97,6 @@ public class OrderTimers {
             }
         },0,250);
     }
-
     public StopWatch getTotalTimeElapsedStopWatch() {
         return totalTimeElapsedStopWatch;
     }
