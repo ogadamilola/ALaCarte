@@ -149,7 +149,6 @@ public class MenuView extends StackPane implements ServerViewInterface {
         displayScroll.prefHeightProperty().bind(Bindings.add(-25,this.heightProperty()));
         displayScroll.prefWidthProperty().bind(Bindings.add(-30,this.widthProperty()));
         displayScroll.setFitToWidth(true);
-        displayScroll.setFitToHeight(true);
 
         VBox alignAllLeft = new VBox(topHBox,displayScroll,buttons);
         alignAllLeft.setPrefSize(600,500);
@@ -201,7 +200,6 @@ public class MenuView extends StackPane implements ServerViewInterface {
 
         ScrollPane ordersFlow = new ScrollPane(ordersVBox);
         ordersFlow.setPrefSize(400,500);
-        ordersFlow.setFitToHeight(true);
         ordersFlow.setFitToWidth(true);
         ordersFlow.prefWidthProperty().bind(this.widthProperty());
         ordersFlow.prefHeightProperty().bind(this.heightProperty());

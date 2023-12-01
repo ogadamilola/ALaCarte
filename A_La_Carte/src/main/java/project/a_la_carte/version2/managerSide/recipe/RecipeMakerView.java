@@ -105,7 +105,11 @@ public class RecipeMakerView extends StackPane implements InventorySubscriber, R
         selectedIngredient.setEditable(false);
 
         addIngredient = new Button("add ingredient");
+        addIngredient.setStyle("-fx-background-color: plum;\n" + "-fx-border-color: mediumorchid;\n"
+                + "-fx-border-radius: 15;\n"+"-fx-background-radius: 15;\n");
         deleteIngredient = new Button("Delete ingredient");
+        deleteIngredient.setStyle("-fx-background-color: plum;\n" + "-fx-border-color: mediumorchid;\n"
+                + "-fx-border-radius: 15;\n"+"-fx-background-radius: 15;\n");
 
         HBox addAndDelBox = new HBox(addIngredient,deleteIngredient);
 
@@ -121,8 +125,6 @@ public class RecipeMakerView extends StackPane implements InventorySubscriber, R
         measurementBox = new Label("Measurement Unit");
         measurementBox.setFont(new Font(13));
 
-
-
         amountHBox.getChildren().addAll(enterMeasurementField,measurementBox);
         amountHBox.setSpacing(5);
         amountHBox.setAlignment(Pos.CENTER_LEFT);
@@ -130,6 +132,8 @@ public class RecipeMakerView extends StackPane implements InventorySubscriber, R
         selectionVBox.getChildren().addAll( selectLabel, ingredientMenuBar,selectedIngredient,amountHBox,addAndDelBox);
 
         mainMenu = new Button("Main Menu");
+        mainMenu.setStyle("-fx-background-color: plum;\n" + "-fx-border-color: mediumorchid;\n"
+                + "-fx-border-radius: 15;\n"+"-fx-background-radius: 15;\n");
 
         createVBox.getChildren().addAll(mainMenu,title, nameHBox,priceHBox,descVBox,prepIVBox,prepTHBox,selectionVBox);
         createVBox.setPadding(new Insets(5,5,5,5));
@@ -143,7 +147,11 @@ public class RecipeMakerView extends StackPane implements InventorySubscriber, R
 
         HBox buttonsHBox = new HBox();
         recipeList = new Button("Return to Recipe List");
+        recipeList.setStyle("-fx-background-color: plum;\n" + "-fx-border-color: mediumorchid;\n"
+                + "-fx-border-radius: 15;\n"+"-fx-background-radius: 15;\n");
         saveRecipe = new Button("Save Recipe to Menu");
+        saveRecipe.setStyle("-fx-background-color: plum;\n" + "-fx-border-color: mediumorchid;\n"
+                + "-fx-border-radius: 15;\n"+"-fx-background-radius: 15;\n");
         buttonsHBox.getChildren().addAll(recipeList,saveRecipe);
         buttonsHBox.setPrefWidth(400);
         buttonsHBox.setSpacing(10);
@@ -186,6 +194,7 @@ public class RecipeMakerView extends StackPane implements InventorySubscriber, R
         connectAll.setPadding(new Insets(5,5,5,5));
         VBox.setVgrow(connectAll, Priority.ALWAYS);
         HBox.setHgrow(connectAll,Priority.ALWAYS);
+        connectAll.setStyle("-fx-background-color: lavender;\n");
 
         this.setStyle("-fx-border-color: black;\n");
         this.getChildren().add(connectAll);
