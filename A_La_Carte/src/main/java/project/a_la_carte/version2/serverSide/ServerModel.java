@@ -21,6 +21,7 @@ public class ServerModel {
     ArrayList<MenuFoodItem> menuItemList;
     ArrayList<ServerNotes> notesArrayList;
     MenuFoodItem selectedMenuItem;
+    MenuFoodItem selectedCustomizeItem;
     public ServerModel(){
         //Used when creating order and assigning their number
         this.orderNumber = 1;
@@ -114,14 +115,54 @@ public class ServerModel {
      * Method for adding a temporary edit on the MenuItem
      */
     public void setCustomization(WorkerView view){
-        MenuFoodItem copy = new MenuFoodItem(this.getSelectedItem().getMenuItemRecipes()
-                , this.getSelectedItem().getName(),this.getSelectedItem().getDescription());
-        copy.setPrice(view.getMenuView().getSelectedItem().getPrice());
-        if (!view.getCustomizeView().getSelectedOption().equals("") && !view.getCustomizeView().getSelectedIngredient().equals("")) {
-            copy.setCustomizeOption(view.getCustomizeView().getSelectedOption() + " " + view.getCustomizeView().getSelectedIngredient());
+        if (this.selectedCustomizeItem != null){
+            view.getMenuView().addToOrder(selectedCustomizeItem);
+            selectedCustomizeItem = null;
         }
+        else {
+            MenuFoodItem copy = new MenuFoodItem(this.getSelectedItem().getMenuItemRecipes()
+                    , this.getSelectedItem().getName(),this.getSelectedItem().getDescription());
+            copy.setPrice(view.getMenuView().getSelectedItem().getPrice());
+            view.getMenuView().addToOrder(copy);
+        }
+        notifySubscribers();
+    }
 
-        view.getMenuView().addToOrder(copy);
+    /**
+     * Adding edits to an Item selected to be customized
+     */
+    public void addCustomize(WorkerView view){
+        if (this.selectedCustomizeItem == null) {
+            this.selectedCustomizeItem = new MenuFoodItem(this.getSelectedItem().getMenuItemRecipes()
+                    , this.getSelectedItem().getName(), this.getSelectedItem().getDescription());
+            selectedCustomizeItem.setPrice(view.getMenuView().getSelectedItem().getPrice());
+        }
+        if (!view.getCustomizeView().getSelectedOption().equals("") && !view.getCustomizeView().getSelectedIngredient().equals("")) {
+            selectedCustomizeItem.setCustomizeOption(view.getCustomizeView().getSelectedOption() + " " + view.getCustomizeView().getSelectedIngredient());
+        }
+        notifySubscribers();
+    }
+
+    /**
+     * Setting the Item selected to be customized
+     */
+    public void setSelectedCustomizeItem(MenuFoodItem newI){
+        this.selectedCustomizeItem = newI;
+        notifySubscribers();
+    }
+
+    /**
+     * Get method for Item selected to be customized
+     */
+    public MenuFoodItem getSelectedCustomizeItem(){
+        return this.selectedCustomizeItem;
+    }
+
+    /**
+     * Discard the edits put on the Item selected to be customized
+     */
+    public void discardChanges(){
+        this.selectedCustomizeItem.resetCustomize();
         notifySubscribers();
     }
 

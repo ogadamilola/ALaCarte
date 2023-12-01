@@ -3,6 +3,7 @@ package project.a_la_carte.version2.serverSide.widgets;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -28,16 +29,24 @@ public class OrderListView extends VBox {
         deleteButton.setMinSize(2*r,2*r);
         deleteButton.setStyle("-fx-border-color: black;-fx-background-color: cornflowerblue;\n");
 
-        HBox buttonAlign = new HBox(deleteButton);
+
+        Label name = new Label(menuItem.getName());
+        HBox buttonAlign = new HBox(name);
         buttonAlign.setPrefWidth(250);
         buttonAlign.setAlignment(Pos.TOP_RIGHT);
 
-        Label name = new Label(menuItem.getName());
-        Label change = new Label(menuItem.getCustomize());
+        name.setGraphic(deleteButton);
+        name.setGraphicTextGap(120);
+        name.setContentDisplay(ContentDisplay.RIGHT);
 
-        VBox align = new VBox(name,change);
+        VBox align = new VBox(buttonAlign);
         align.setPadding(new Insets(5));
         align.setSpacing(5);
+
+        menuItem.getCustomize().forEach(change -> {
+            Label newLabel = new Label(change);
+            align.getChildren().add(newLabel);
+        });
 
         this.setStyle("-fx-border-color: black;-fx-background-color: cornflowerblue;\n");
         this.getChildren().addAll(buttonAlign,align);
