@@ -106,8 +106,8 @@ public class ServerModel {
 
         notifySubscribers();
     }
-    public Table sendOrderToTable(WorkerView view){
-        return new Table(view.getMenuView().getCurrentOrder());
+    public Order sendOrderToTable(){
+        return new Order(new ArrayList<>(), 0, 0);
     }
 
     /**

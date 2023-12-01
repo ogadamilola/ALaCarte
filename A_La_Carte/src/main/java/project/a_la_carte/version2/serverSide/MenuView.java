@@ -3,9 +3,7 @@ package project.a_la_carte.version2.serverSide;
 import javafx.beans.binding.Bindings;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import project.a_la_carte.version2.ProgramController;
@@ -13,9 +11,15 @@ import project.a_la_carte.version2.WorkerView;
 import project.a_la_carte.version2.classesObjects.AlertButton;
 import project.a_la_carte.version2.classesObjects.MenuFoodItem;
 import project.a_la_carte.version2.classesObjects.Order;
+import project.a_la_carte.version2.serverSide.tableSystem.Reservation;
+import project.a_la_carte.version2.serverSide.tableSystem.Table;
 import project.a_la_carte.version2.serverSide.widgets.OrderListView;
 import project.a_la_carte.version2.interfaces.ServerViewInterface;
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -37,6 +41,8 @@ public class MenuView extends StackPane implements ServerViewInterface {
     VBox ordersVBox;
     Button sendToKitchen;
     Button voidOrderButton;
+
+    Button assignTableButton;
     Button autoSend;
     Label title;
     Label total;
@@ -45,9 +51,15 @@ public class MenuView extends StackPane implements ServerViewInterface {
     MenuFoodItem selectedItem;
     Order currentOrder;
     float price = 0;
+
+    Table currentTable;
+
+
     public MenuView(WorkerView view){
         menuFoodDisplayList = new ArrayList<>();
         itemsToBeRemoved = new ArrayList<>();
+        this.currentTable = TableView.getInstance().tables.get(1);
+        //this.currentTable = TableView.getInstance().getTables().get(0);
         this.workerView = view;
         this.setMaxSize(5000,2500);
         this.setPrefSize(1000,500);
@@ -146,6 +158,9 @@ public class MenuView extends StackPane implements ServerViewInterface {
         titleViewHBox.setStyle("-fx-border-color: black;\n");
         HBox.setHgrow(titleViewHBox, Priority.ALWAYS);
 
+        this.assignTableButton = new Button("Assign TABLE");
+        this.assignTableButton.setStyle("-fx-border-color: black;-fx-background-color: lightskyblue;\n");
+
         this.sendToKitchen = new Button("SEND ORDER");
         this.sendToKitchen.setStyle("-fx-border-color: black;-fx-background-color: lightskyblue;\n");
 
@@ -163,7 +178,7 @@ public class MenuView extends StackPane implements ServerViewInterface {
         totalBox.setAlignment(Pos.BASELINE_LEFT);
         HBox.setHgrow(totalBox, Priority.ALWAYS);
 
-        HBox sendTKHBox = new HBox(voidOrderButton,sendToKitchen);
+        HBox sendTKHBox = new HBox(assignTableButton, voidOrderButton,sendToKitchen);
         sendTKHBox.setPrefSize(250,100);
         sendTKHBox.setAlignment(Pos.BASELINE_RIGHT);
         sendTKHBox.setSpacing(5);
@@ -224,6 +239,7 @@ public class MenuView extends StackPane implements ServerViewInterface {
         this.voidOrderButton.setOnAction(event -> {
             controller.voidOrder(this.workerView);
         });
+
         this.refund.setOnAction(controller::refundDisplay);
         this.Tables.setOnAction(event -> {
             controller.openTablesView(this.workerView);
@@ -261,7 +277,7 @@ public class MenuView extends StackPane implements ServerViewInterface {
      */
     public void addToOrder(MenuFoodItem item){
         if (this.currentOrder == null){
-            currentOrder = new Order(new ArrayList<>(),serverModel.orderNumber);
+            currentOrder = new Order(new ArrayList<MenuFoodItem>(),serverModel.orderNumber, currentTable.getNumber());
         }
         currentOrder.addItem(item);
     }
@@ -287,6 +303,61 @@ public class MenuView extends StackPane implements ServerViewInterface {
         this.currentOrder = null;
         modelChanged();
     }
+    /**
+     * Method to assign an order to a table (No longer implementing)
+     */
+    /* public void assignToTable(Order orderToAssign) {
+        // this.currentTable = TableView.getInstance().tables.get(1);
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Assign Order to Table");
+        GridPane grid = new GridPane();
+        TextField editTableNumber = new TextField();
+        grid.add(new Label("Assign to Table #"), 0, 0);
+        grid.add(editTableNumber, 1, 0);
+        alert.getDialogPane().setContent(grid);
+
+        alert.showAndWait().ifPresent(response -> {
+            if (response == ButtonType.OK) {
+                try {
+                    int tableNumber = Integer.parseInt(editTableNumber.getText());
+                    Table tableToAssign = TableView.getInstance().findTableByNumber(tableNumber);
+                    if (tableToAssign != null) {
+                        orderToAssign.setTableNum(tableNumber);
+                        tableToAssign.addToOrderList(orderToAssign);
+                        TableView.getInstance().updateView();
+                        showAlert("Order assigned to table " + tableNumber);
+                    } else {
+                        showAlert("Table not found");
+                    }
+                } catch (NumberFormatException e) {
+                    showAlert("Invalid input");
+                }
+            }
+        });
+    } */
+
+    private Table findTableByNumber(int tableNumber) {
+        return TableView.getInstance().findTableByNumber(tableNumber);
+    }
+
+    public Table getTableByIndex(int index) {
+        TableView tableView = TableView.getInstance();
+        if (index >= 0 && index < tableView.getTables().size()) {
+            return tableView.getTables().get(index);
+        }
+        return null;
+    }
+
+
+
+    private void showAlert(String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Information");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
     @Override
     public void modelChanged() {
         itemsToBeRemoved.clear();

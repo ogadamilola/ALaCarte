@@ -6,6 +6,13 @@
     "totalOrders": 95,
     "incomeToday": 2601.0
   },
+  "2023-12-01": {
+    "date": "2023-12-01",
+    "menuItemMap": {"Rib combo":1.0},
+    "ingredientUsageMap": {"Ketchup":0.375,"Pork Ribs":1.0},
+    "totalOrders": 1,
+    "incomeToday": 30.0
+  },
   "2023-11-28": {
     "date": "2023-11-28",
     "menuItemMap": {"Cheeseburger Combo":2.0,"Test Item":4.0},
