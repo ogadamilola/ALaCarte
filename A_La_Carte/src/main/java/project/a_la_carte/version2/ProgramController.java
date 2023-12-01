@@ -179,7 +179,7 @@ public class ProgramController {
      */
     public void openMenuView(WorkerView view){
         this.startupMVC.getServerModel().unselectCustomizeItem(view);
-        this.startupMVC.getServerModel().unselectMenuItem(view);
+        this.startupMVC.getServerModel().unselectMenuItem(view,view.getMenuView().getMenuFoodDisplayList());
         this.startupMVC.getServerModel().notifySubscribers();
         this.startupMVC.getServerModel().setMenuItemList(startupMVC.getMenuItemModel().getMenuItemsList());
 
@@ -895,6 +895,7 @@ public class ProgramController {
         if (view.getMenuView().getCurrentOrder() != null){
             this.startupMVC.getKitchenModel().addOrder(view.getMenuView().getCurrentOrder());
             this.startupMVC.getServerModel().sendOrderToKitchen();
+            this.startupMVC.getServerModel().unselectMenuItem(view,view.getMenuView().getMenuFoodDisplayList());
 
             //process order in restaurant model
             this.startupMVC.getRestaurantModel().handleOrderPunched(view.getMenuView().getCurrentOrder());

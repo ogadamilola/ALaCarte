@@ -119,7 +119,7 @@ public class ServerModel {
             view.getMenuView().addToOrder(selectedCustomizeItem);
             selectedCustomizeItem = null;
         }
-        else if(this.selectedMenuItem != null) {
+        else if(this.selectedMenuItem != null && view.getMenuView().getSelectedItem() != null) {
             MenuFoodItem copy = new MenuFoodItem(this.getSelectedItem().getMenuItemRecipes()
                     , this.getSelectedItem().getName(),this.getSelectedItem().getDescription());
             copy.setPrice(view.getMenuView().getSelectedItem().getPrice());
@@ -155,11 +155,9 @@ public class ServerModel {
         this.selectedCustomizeItem = null;
     }
 
-    public void unselectMenuItem(WorkerView view){
+    public void unselectMenuItem(WorkerView view, ArrayList<MenuFoodItem> list){
         if (view.getMenuView().getSelectedItem() != null) {
-            view.getMenuView().menuFoodDisplayList.forEach(foodItem -> {
-                foodItem.getDisplay().unselect();
-            });
+            list.forEach(MenuFoodItem::unselectDisplay);
             view.getMenuView().unselectItem();
         } else if (this.selectedMenuItem != null) {
             this.selectedMenuItem = null;

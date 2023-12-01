@@ -46,5 +46,29 @@
     "selectedStatus": false,
     "customized": false,
     "customizeOption": []
+  },
+  {
+    "menuItemRecipes": [
+      {
+        "ingredientMap": {
+          "Meatballs": 0.75,
+          "Spaghetti": 0.8125,
+          "Tomato Sauce": 0.5
+        },
+        "name": "Spaghetti Meatball",
+        "description": "Spaghetti with meat sauce and 3 balls",
+        "prepInstruction": "warm spaghetti noodles\ndrain and place on plate\nplace 3 meatballs on top\ncover in meat sauce",
+        "price": 10.35625,
+        "prepTime": 8.0,
+        "selectedStatus": false,
+        "finished": false
+      }
+    ],
+    "name": "Try",
+    "description": "reqw",
+    "price": 0.0,
+    "selectedStatus": false,
+    "customized": false,
+    "customizeOption": []
   }
 ]

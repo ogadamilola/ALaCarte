@@ -298,6 +298,10 @@ public class MenuView extends StackPane implements ServerViewInterface {
         this.selectedItem = null;
     }
 
+    public ArrayList<MenuFoodItem> getMenuFoodDisplayList(){
+        return this.menuFoodDisplayList;
+    }
+
     /**
      * Get method for the current order number
      */
