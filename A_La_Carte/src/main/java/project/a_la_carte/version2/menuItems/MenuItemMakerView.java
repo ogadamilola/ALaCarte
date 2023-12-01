@@ -76,16 +76,23 @@ public class MenuItemMakerView extends StackPane implements MenuItemModelSubscri
         priceBox.setPadding(new Insets(2));
 
         addRecipe = new Button("Add Selected Recipe");
+        addRecipe.setStyle("-fx-background-color: bisque;\n" + "-fx-border-color: burlywood;\n"
+                + "-fx-border-radius: 15;\n"+"-fx-background-radius: 15;\n");
         mainMenu = new Button("Main Menu");
+        mainMenu.setStyle("-fx-background-color: bisque;\n" + "-fx-border-color: burlywood;\n"
+                + "-fx-border-radius: 15;\n"+"-fx-background-radius: 15;\n");
 
         createVBox.getChildren().addAll(mainMenu,title, nameHBox,descVBox,priceBox,priceOfRecipesLabel);
         createVBox.setPadding(new Insets(5,5,5,5));
         HBox.setHgrow(createVBox,Priority.ALWAYS);
         VBox.setVgrow(createVBox,Priority.ALWAYS);
+        createVBox.setStyle("-fx-border-color: black;\n" + "-fx-background-color: linen;\n");
 
         //Right side, recipe list ---------------------------------------------
         HBox alignHBoxRemove = new HBox();
         this.removeRecipe = new Button("Remove Selected Recipe");
+        removeRecipe.setStyle("-fx-background-color: bisque;\n" + "-fx-border-color: burlywood;\n"
+                + "-fx-border-radius: 15;\n"+"-fx-background-radius: 15;\n");
 
         alignHBoxRemove.getChildren().add(removeRecipe);
         alignHBoxRemove.setAlignment(Pos.BOTTOM_CENTER);
@@ -93,12 +100,16 @@ public class MenuItemMakerView extends StackPane implements MenuItemModelSubscri
         alignHBoxRemove.setPadding(new Insets(5,5,5,5));
 
         recipeVBOX = new VBox();
-        recipeVBOX.setPrefSize(270,500);
+        recipeVBOX.setPrefSize(300,500);
         recipeVBOX.setPadding(new Insets(2));
+        recipeVBOX.setSpacing(2);
+        recipeVBOX.setStyle("-fx-background-color: linen;\n");
 
         ScrollPane recipeScroll = new ScrollPane(recipeVBOX);
         recipeScroll.setPrefSize(300,500);
         recipeScroll.prefHeightProperty().bind(this.heightProperty());
+        recipeScroll.setFitToHeight(true);
+        recipeScroll.setFitToWidth(true);
 
         VBox selectBoxRemove = new VBox(recipeScroll,alignHBoxRemove);
         selectBoxRemove.setPrefSize(300,500);
@@ -118,11 +129,16 @@ public class MenuItemMakerView extends StackPane implements MenuItemModelSubscri
         alignHBoxAdd.setPadding(new Insets(5,5,5,5));
 
         selectRecipeVBox = new VBox();
-        selectRecipeVBox.setPrefSize(270,500);
+        selectRecipeVBox.setPrefSize(300,500);
+        selectRecipeVBox.setSpacing(2);
         selectRecipeVBox.setPadding(new Insets(2));
+        selectRecipeVBox.setStyle("-fx-background-color: linen;\n");
+
         ScrollPane selectScroll = new ScrollPane(selectRecipeVBox);
         selectScroll.setPrefSize(300,500);
         selectScroll.prefHeightProperty().bind(this.heightProperty());
+        selectScroll.setFitToWidth(true);
+        selectScroll.setFitToHeight(true);
 
         Label recipeSelectLabel = new Label("Add New Recipe To Item");
 
@@ -143,13 +159,20 @@ public class MenuItemMakerView extends StackPane implements MenuItemModelSubscri
 
         buttonsHBox = new HBox();
         menuItemList = new Button("Return to Menu Item List");
+        menuItemList.setStyle("-fx-background-color: bisque;\n" + "-fx-border-color: burlywood;\n"
+                + "-fx-border-radius: 15;\n"+"-fx-background-radius: 15;\n");
         saveMenuItem = new Button("Save Menu Item");
+        saveMenuItem.setStyle("-fx-background-color: bisque;\n" + "-fx-border-color: burlywood;\n"
+                + "-fx-border-radius: 15;\n"+"-fx-background-radius: 15;\n");
         editMenuItem = new Button("Save Edits to Item");
+        editMenuItem.setStyle("-fx-background-color: bisque;\n" + "-fx-border-color: burlywood;\n"
+                + "-fx-border-radius: 15;\n"+"-fx-background-radius: 15;\n");
 
         buttonsHBox.getChildren().addAll(menuItemList,saveMenuItem);
         buttonsHBox.setPrefWidth(600);
         buttonsHBox.setSpacing(10);
-        buttonsHBox.setAlignment(Pos.BASELINE_RIGHT);
+        buttonsHBox.setAlignment(Pos.CENTER_RIGHT);
+        buttonsHBox.setPadding(new Insets(2));
 
         VBox alignRight = new VBox();
         alignRight.getChildren().addAll(alignRecipe,buttonsHBox);
@@ -161,6 +184,7 @@ public class MenuItemMakerView extends StackPane implements MenuItemModelSubscri
         connectAll.setPadding(new Insets(5,5,5,5));
         HBox.setHgrow(connectAll,Priority.ALWAYS);
         VBox.setVgrow(connectAll,Priority.ALWAYS);
+        connectAll.setStyle("-fx-border-color: black;\n" + "-fx-background-color: palegoldenrod;\n");
 
         this.setStyle("-fx-border-color: black;\n");
         this.getChildren().add(connectAll);

@@ -19,11 +19,11 @@ public class ServerNoteMaker extends StackPane{
     public ServerNoteMaker(ProgramController controller, KitchenModel model){
         this.setPrefSize(600,400);
 
-        Label title = new Label("Send Alert To Kitchen");
+        Label title = new Label("Send Alert To Server");
         title.setFont(new Font(20));
         HBox titleBox = new HBox(title);
         titleBox.setPrefWidth(600);
-        titleBox.setStyle("-fx-border-color: black;\n");
+        titleBox.setStyle("-fx-border-color: black;\n" + "-fx-background-color: paleturquoise;\n");
         titleBox.setAlignment(Pos.CENTER);
 
         TextArea noteText = new TextArea();
@@ -41,8 +41,13 @@ public class ServerNoteMaker extends StackPane{
 
         Button sendButton = new Button("SEND");
         sendButton.setPrefHeight(20);
+        sendButton.setPrefWidth(150);
+        sendButton.setStyle("-fx-background-color: darkturquoise;\n" + "-fx-border-color: darkcyan;\n"
+                + "-fx-border-radius: 15;\n"+"-fx-background-radius: 15;\n");
         sendButton.setOnAction((event -> {
             alertLabel.setText("SENT!");
+            sendButton.setStyle("-fx-background-color: paleturquoise;\n" + "-fx-border-color: darkcyan;\n"
+                    + "-fx-border-radius: 15;\n"+"-fx-background-radius: 15;\n");
             model.sendServerAlert(noteText.getText());
             noteText.clear();
             controller.sendKitchenAlertToServer(event);
@@ -50,14 +55,34 @@ public class ServerNoteMaker extends StackPane{
 
         Button discardButton = new Button("DISCARD");
         discardButton.setPrefHeight(20);
+        discardButton.setPrefWidth(150);
+        discardButton.setStyle("-fx-background-color: darkturquoise;\n" + "-fx-border-color: darkcyan;\n"
+                + "-fx-border-radius: 15;\n"+"-fx-background-radius: 15;\n");
+
+        sendButton.setOnAction((event -> {
+            alertLabel.setText("SENT!");
+            sendButton.setStyle("-fx-background-color: paleturquoise;\n" + "-fx-border-color: darkcyan;\n"
+                    + "-fx-border-radius: 15;\n"+"-fx-background-radius: 15;\n");
+            discardButton.setStyle("-fx-background-color: darkturquoise;\n" + "-fx-border-color: darkcyan;\n"
+                    + "-fx-border-radius: 15;\n"+"-fx-background-radius: 15;\n");
+            model.sendServerAlert(noteText.getText());
+            noteText.clear();
+            controller.sendKitchenAlertToServer(event);
+        }));
         discardButton.setOnAction((event -> {
+            discardButton.setStyle("-fx-background-color: paleturquoise;\n" + "-fx-border-color: darkcyan;\n"
+                    + "-fx-border-radius: 15;\n"+"-fx-background-radius: 15;\n");
+            sendButton.setStyle("-fx-background-color: darkturquoise;\n" + "-fx-border-color: darkcyan;\n"
+                    + "-fx-border-radius: 15;\n"+"-fx-background-radius: 15;\n");
             noteText.clear();
             alertLabel.setText("DISCARDED!");
         }));
 
         VBox alignBody = new VBox(noteBox, sendButton, discardButton, alertLabel);
         alignBody.setPadding(new Insets(5));
+        alignBody.setSpacing(2);
         alignBody.setAlignment(Pos.CENTER);
+        alignBody.setStyle("-fx-background-color: linen;\n");
 
         VBox alignAll = new VBox(titleBox,alignBody);
 

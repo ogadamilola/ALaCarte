@@ -4,6 +4,7 @@
     "lastName": "Adetula",
     "staffID": "7467",
     "sin": 123123423,
+    "tips": 0,
     "username": "dami",
     "password": "password",
     "position": "Manager"
@@ -13,6 +14,7 @@
     "lastName": "Manaloto",
     "staffID": "6622",
     "sin": 867356735,
+    "tips": 10,
     "position": "Server"
   },
   {
@@ -20,6 +22,7 @@
     "lastName": "James",
     "staffID": "8741",
     "sin": 123476754,
+    "tips": 0,
     "position": "Cook"
   },
   {
@@ -27,6 +30,7 @@
     "lastName": "Sungcang",
     "staffID": "0630",
     "sin": 895767587,
+    "tips": 5,
     "position": "Server"
   },
   {
@@ -34,6 +38,7 @@
     "lastName": "Dhorajia",
     "staffID": "1622",
     "sin": 432234432,
+    "tips": 2,
     "position": "Server"
   },
   {
@@ -41,6 +46,7 @@
     "lastName": "Nahirney",
     "staffID": "5566",
     "sin": 134564365,
+    "tips": 15,
     "position": "Cook"
   },
   {
@@ -48,6 +54,7 @@
     "lastName": "Bamimore",
     "staffID": "652",
     "sin": 763534564,
+    "tips": 15,
     "username": "tomi",
     "password": "password",
     "position": "Manager"
@@ -57,6 +64,7 @@
     "lastName": "test",
     "staffID": "test",
     "sin": 111111111,
+    "tips": 0,
     "username": "test",
     "password": "test",
     "position": "Manager"
@@ -66,6 +74,7 @@
     "lastName": "server",
     "staffID": "1111",
     "sin": 675674456,
+    "tips": 0,
     "position": "Server"
   }
 ]

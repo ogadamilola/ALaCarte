@@ -8,6 +8,7 @@ public class Order {
     ArrayList<MenuFoodItem> menuItems;
     ArrayList<OrderClassesInterface> subscriber;
     int orderNum;
+    int numItems = 0;
     Boolean completed = false;
 
     public int tableNum;
@@ -16,6 +17,10 @@ public class Order {
         this.orderNum = i;
         this.subscriber = new ArrayList<>();
         this.tableNum = tableNum;
+    }
+    public int getNumberOfItems(){
+        numItems = menuItems.size();
+        return numItems;
     }
     public void addSubscriber(OrderClassesInterface view){
         this.subscriber.add(view);
@@ -60,6 +65,9 @@ public class Order {
             totalPrice += item.getPrice();
         }
         return totalPrice;
+    }
+    public void startTimers(){
+        timerInformation = new OrderTimers(this);
     }
 
     public String toString() {

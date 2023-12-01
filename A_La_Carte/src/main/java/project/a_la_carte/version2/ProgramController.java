@@ -1,5 +1,7 @@
 package project.a_la_carte.version2;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -23,6 +25,9 @@ import project.a_la_carte.version2.menuItems.*;
 import project.a_la_carte.version2.managerSide.recipe.*;
 import project.a_la_carte.version2.serverSide.*;
 
+import java.io.FileReader;
+import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -46,11 +51,26 @@ public class ProgramController {
         RECIPE_LOADED,
         NOT_LOADED
     }
+
+    ArrayList<project.a_la_carte.version2.classesObjects.Staff> staffList;
+
+    private static  final String FILE_PATH = "staffList.json";
+
     private INTERACTION_STATE interactionState = INTERACTION_STATE.NOT_LOADED;
 
 
     public ProgramController(){
+        try (FileReader reader = new FileReader(FILE_PATH)) {
+            Gson gson = new Gson();
+            Type arrayListType = new TypeToken<ArrayList<Staff>>(){}.getType();
+            staffList = gson.fromJson(reader, arrayListType);
 
+            if(staffList == null){
+                throw new IOException();
+            }
+        } catch (IOException e) {
+            staffList = new ArrayList<>();
+        }
     }
 
     /**
@@ -158,6 +178,8 @@ public class ProgramController {
      * Used to display MenuView
      */
     public void openMenuView(WorkerView view){
+        this.startupMVC.getServerModel().unselectCustomizeItem(view);
+        this.startupMVC.getServerModel().unselectMenuItem(view,view.getMenuView().getMenuFoodDisplayList());
         this.startupMVC.getServerModel().notifySubscribers();
         this.startupMVC.getServerModel().setMenuItemList(startupMVC.getMenuItemModel().getMenuItemsList());
 
@@ -826,6 +848,8 @@ public class ProgramController {
     public void openNoteView(WorkerView view){
         this.startupMVC.getServerModel().clearNoteAlert(view.getNoteView());
         this.startupMVC.getServerModel().notifySubscribers();
+
+        view.getNoteView().resetButtons();
         view.selectNoteView();
         view.modelChanged();
     }
@@ -849,6 +873,7 @@ public class ProgramController {
     }
     public void discardSelection(WorkerView view){
         this.startupMVC.getServerModel().unselectAll(view);
+        this.startupMVC.getServerModel().discardChanges();
     }
 
     /**
@@ -856,6 +881,10 @@ public class ProgramController {
      */
     public void saveCustomize(WorkerView view){
         this.startupMVC.getServerModel().setCustomization(view);
+        this.startupMVC.getServerModel().unselectAll(view);
+    }
+    public void addCustomize(WorkerView view){
+        this.startupMVC.getServerModel().addCustomize(view);
         this.startupMVC.getServerModel().unselectAll(view);
     }
 
@@ -866,6 +895,7 @@ public class ProgramController {
         if (view.getMenuView().getCurrentOrder() != null){
             this.startupMVC.getKitchenModel().addOrder(view.getMenuView().getCurrentOrder());
             this.startupMVC.getServerModel().sendOrderToKitchen();
+            this.startupMVC.getServerModel().unselectMenuItem(view,view.getMenuView().getMenuFoodDisplayList());
 
             //process order in restaurant model
             this.startupMVC.getRestaurantModel().handleOrderPunched(view.getMenuView().getCurrentOrder());
@@ -907,8 +937,9 @@ public class ProgramController {
             String id = staffInfoView.getIdText().getText();
             Staff.position position = staffInfoView.getPositionComboBox().getValue();
             int sin = Integer.parseInt(staffInfoView.getSinText().getText());
+            int tips = Integer.parseInt(staffInfoView.getTipsText().getText());
 
-            startupMVC.getStaffModel().addStaff(fName, lName, id, position, sin);
+            startupMVC.getStaffModel().addStaff(fName, lName, id, position, tips, sin);
 
         } catch (IllegalArgumentException e){
             showErrorAlert("Illegal input, please check all fields are filled correctly", e.getMessage());
@@ -937,6 +968,7 @@ public class ProgramController {
             String id = staffInfoView.getIdText().getText();
             Staff.position position = staffInfoView.getPositionComboBox().getValue();
             int sin = Integer.parseInt(staffInfoView.getSinText().getText());
+            int tips = Integer.parseInt(staffInfoView.getTipsText().getText());
             String username;
             String password;
 
@@ -951,7 +983,7 @@ public class ProgramController {
             } else{
                 password = null;
             }
-            startupMVC.getStaffModel().updateStaff(fName, lName, id, position, sin,username,password);
+            startupMVC.getStaffModel().updateStaff(fName, lName, id, position, sin, tips, username,password);
             showConfirmationAlert("Staff Updated","Staff: " + id + " successfully updated");
         } /*catch (IllegalArgumentException e){
             showAlert("ERROR:", "Staff does not exist, can not update");
@@ -963,6 +995,9 @@ public class ProgramController {
     public void deleteStaff(ActionEvent actionEvent){
         String id = staffInfoView.getIdText().getText();
         startupMVC.getStaffModel().deleteStaff(id);
+    }
+    public void openDashboardView(ActionEvent event) {
+        this.staffInfoView.TipTrackingDashboard(staffList);
     }
     public void saveList(ActionEvent actionEvent) {
         startupMVC.getStaffModel().saveList();

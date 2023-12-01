@@ -18,7 +18,7 @@ public class AlertButton extends Button implements AlertButtonInterface {
         this.setMinSize(3*r,2*r);
         alertBG = new Background(new BackgroundFill(Color.ORANGE,new CornerRadii(3),null));
         //If the button is unselected, leave it as it
-        noAlertBG = new Background(new BackgroundFill(Color.WHITE,new CornerRadii(3),null));
+        noAlertBG = new Background(new BackgroundFill(Color.LIGHTGRAY,new CornerRadii(3),null));
 
         this.setStyle("-fx-border-color: black;\n");
         this.setBackground(noAlertBG);

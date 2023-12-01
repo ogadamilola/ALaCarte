@@ -11,30 +11,31 @@ import project.a_la_carte.version2.kitchen.*;
 import project.a_la_carte.version2.classesObjects.Order;
 import project.a_la_carte.version2.interfaces.*;
 
-import java.util.ArrayList;
-import java.util.concurrent.atomic.AtomicReference;
-
-/**
- * Container for OrderItems
- */
 public class OrderKitchenTab extends StackPane implements OrderClassesInterface {
     Label orderLabel;
+    //We can probably add a ScrollPane for the VBox so that its not cluttered and it scrolls
     VBox ordersVBox;
     Button cancelButton;
-    Order orderItems;
+    Order singleOrder;
     KitchenModel kModel;
-    ArrayList<OrderItems> orderItemList;
+    OrderWidget newDisplay;
+    int numItems;
+    Boolean finished = false;
     public OrderKitchenTab(KitchenModel model, Order order){
         this.setPrefSize(630,70);
-        orderItemList = new ArrayList<>();
         kModel = model;
+        this.numItems = order.getNumberOfItems();
+
         this.cancelButton = new Button("Complete");
         HBox cancelBox = new HBox(cancelButton);
         cancelBox.setPrefWidth(230);
         cancelBox.setAlignment(Pos.BOTTOM_CENTER);
         cancelBox.setPadding(new Insets(2));
 
-        this.orderItems = order;
+        this.singleOrder = order;
+        singleOrder.startTimers();
+        newDisplay = new OrderWidget(this, singleOrder);
+
         orderLabel = new Label("");
 
         HBox titleBox = new HBox(orderLabel);
@@ -50,47 +51,36 @@ public class OrderKitchenTab extends StackPane implements OrderClassesInterface 
         VBox align = new VBox(titleBox,this.ordersVBox, cancelBox);
         align.setPrefSize(230,70);
 
-        orderItems.getOrderList().forEach(menuItem -> {
-            OrderItems orderI = new OrderItems(this, menuItem);
-            this.orderItemList.add(orderI);
-        });
         this.getChildren().add(align);
     }
-
-    /**
-     * Method for removing an OrderItem
-     */
-    public void removeItem(OrderItems item){
-        ordersVBox.getChildren().remove(item);
-        modelChanged();
-    }
-
-    /**
-     * Get method for OrderKitchenTab's cancel button
-     */
     public Button getCancelButton(){
         return this.cancelButton;
     }
-
-    /**
-     * Get method for OrderKitchenTab's Order
-     */
-    public Order getOrderItems(){
-        return this.orderItems;
+    public void subItem(){
+        this.finished = true;
+        modelChanged();
+    }
+    public Order getSingleOrder(){
+        return this.singleOrder;
+    }
+    public void setFinished(){
+        this.finished = true;
+    }
+    public Boolean isFinished(){
+        return this.finished;
     }
     @Override
     public void modelChanged() {
         ordersVBox.getChildren().clear();
 
-        if (!orderItems.isFinished()){
-            this.orderItemList.forEach((order ->{
-                ordersVBox.getChildren().add(order);
-            }));
+        if (!this.finished){
+            ordersVBox.getChildren().add(newDisplay);
         }
         else {
-            kModel.deleteOrder(orderItems);
+            kModel.deleteOrder(singleOrder);
         }
 
-        orderLabel.setText("Order #"+ orderItems.getOrderNum());
+
+        orderLabel.setText("Order #"+ singleOrder.getOrderNum());
     }
 }

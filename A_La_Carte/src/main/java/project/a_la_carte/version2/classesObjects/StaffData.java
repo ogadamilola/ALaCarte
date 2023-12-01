@@ -34,6 +34,9 @@ public class StaffData {
     public IntegerProperty sinProperty(){
         return new SimpleIntegerProperty(staff.getSin());
     }
+    public IntegerProperty tipsProperty(){
+        return new SimpleIntegerProperty(staff.getTips());
+    }
 
 
 }
