@@ -1,95 +1,94 @@
 [
   {
     "ingredientMap": {
-      "Meatballs": 0.2,
-      "Spaghetti": 0.4,
-      "Tomato Sauce": 0.3
-    },
-    "name": "Spaghetti Meatball",
-    "description": "Spaghetti with meatballs and sauce",
-    "prepInstruction": "Put spag on plate",
-    "price": 15.0,
-    "prepTime": 10.0,
-    "selectedStatus": false,
-    "finished": false
-  },
-  {
-    "ingredientMap": {
-      "Burger Patty": 1.0,
-      "Lettuce": 0.25,
-      "Sliced Onion": 0.1,
-      "Ketchup": 0.0625,
-      "Mustard": 0.0,
-      "Burger Bun": 1.0,
-      "Cheddar Cheese": 0.25,
-      "Mayo": 0.1875
-    },
-    "name": "Cheese burger",
-    "description": "Burger with mustard, ketchup, onion, cheddar cheese, mayo \u0026 lettuce.",
-    "prepInstruction": "Toast bun.\nMelt cheese on top of patty.\nPut mustard, ketchup, onions \u0026 patty with cheese on bottom bun.\nPut mayo \u0026 lettuce on top bun.\nCut in half.",
-    "price": 24.0,
-    "prepTime": 12.0,
-    "selectedStatus": false,
-    "finished": false
-  },
-  {
-    "ingredientMap": {
-      "Potatoes": 0.3
-    },
-    "name": "Fries",
-    "description": "Deep fried potatoes",
-    "prepInstruction": "Slice potatoes.\nFry once at lower temp, rest, then fry again at higher temp.\nSalt and plate. ",
-    "price": 3.0,
-    "prepTime": 8.0,
-    "selectedStatus": false,
-    "finished": false
-  },
-  {
-    "ingredientMap": {
-      "Pepsi": 1.0
+      "1Min": 1.0
     },
     "name": "1 Minute Recipe",
-    "description": "1 Minute Recipe Description",
-    "prepInstruction": "1 Minute Recipe Instructions",
-    "price": 1.0,
+    "description": "Test 1 Minute",
+    "prepInstruction": "Wait for 1 min",
+    "price": 5.0,
     "prepTime": 1.0,
     "selectedStatus": false,
     "finished": false
   },
   {
     "ingredientMap": {
-      "Mayo": 0.0625
+      "2Min": 2.0
     },
     "name": "2 Minute Recipe",
-    "description": "2 Minute Recipe Description  ",
-    "prepInstruction": "2 Minute Recipe Instructions",
-    "price": 2.0,
+    "description": "2 Minute Recipe Test",
+    "prepInstruction": "wait 2 minutes",
+    "price": 14.0,
     "prepTime": 2.0,
     "selectedStatus": false,
     "finished": false
   },
   {
     "ingredientMap": {
-      "Cheddar Cheese": 0.0625
+      "3Min": 3.0
     },
-    "name": "3 Minute Recipe",
-    "description": "3 Minute Recipe Description   ",
-    "prepInstruction": "3 Minute Recipe Instructions ",
-    "price": 3.0,
+    "name": "3 Minute Test",
+    "description": "3 min test",
+    "prepInstruction": "wait 3 mins",
+    "price": 21.0,
     "prepTime": 3.0,
     "selectedStatus": false,
     "finished": false
   },
   {
     "ingredientMap": {
-      "Ketchup": 0.375,
-      "Pork Ribs": 1.0
+      "4Min": 6.0
     },
-    "name": "Ribs",
-    "description": "Ribs and ketchup",
-    "prepInstruction": "put ketchup on ribs",
-    "price": 10.59375,
-    "prepTime": 15.0,
+    "name": "4 Minuite Test",
+    "description": "4 minute test",
+    "prepInstruction": "wait 4 mins",
+    "price": 738.0,
+    "prepTime": 4.0,
+    "selectedStatus": false,
+    "finished": false
+  },
+  {
+    "ingredientMap": {
+      "5Min": 2.0
+    },
+    "name": "5 minute Test",
+    "description": "5 min test",
+    "prepInstruction": "wait 5 mins",
+    "price": 20.0,
+    "prepTime": 5.0,
+    "selectedStatus": false,
+    "finished": false
+  },
+  {
+    "ingredientMap": {
+      "Burger Patty": 2.0,
+      "Lettuce": 0.3125,
+      "Sliced Onion": 0.1875,
+      "Ketchup": 0.1875,
+      "Mustard": 0.1875,
+      "Burger Bun": 1.0,
+      "Cheddar Cheese": 0.1875,
+      "Mayo": 0.1875
+    },
+    "name": "Cheese Burger",
+    "description": "Cheese burger with Special Sauce, Lettuce, and Sliced Onions",
+    "prepInstruction": "Toast Buns\nSauce up the buns\nMelt cheese over 2 patties and place on bottom bun\nPut Lettuce an onions and on top of patties \nPlace top bun",
+    "price": 4.6968746,
+    "prepTime": 7.0,
+    "selectedStatus": false,
+    "finished": false
+  },
+  {
+    "ingredientMap": {
+      "Meatballs": 0.75,
+      "Spaghetti": 0.8125,
+      "Tomato Sauce": 0.5
+    },
+    "name": "Spaghetti Meatball",
+    "description": "Spaghetti with meat sauce and 3 balls",
+    "prepInstruction": "warm spaghetti noodles\ndrain and place on plate\nplace 3 meatballs on top\ncover in meat sauce",
+    "price": 10.35625,
+    "prepTime": 8.0,
     "selectedStatus": false,
     "finished": false
   }
