@@ -146,6 +146,10 @@ public class ServerModel {
     public MenuFoodItem getSelectedCustomizeItem(){
         return this.selectedCustomizeItem;
     }
+    public void discardChanges(){
+        this.selectedCustomizeItem.resetCustomize();
+        notifySubscribers();
+    }
 
     /**
      * Method for updating button displays

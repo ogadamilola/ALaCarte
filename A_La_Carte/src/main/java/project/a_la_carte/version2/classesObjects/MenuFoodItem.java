@@ -43,6 +43,9 @@ public class MenuFoodItem {
         //customizeOption = "";
         return this.customizeOption;
     }
+    public void resetCustomize(){
+        this.customizeOption = new ArrayList<>();
+    }
     public Boolean isCustomized(){
         return this.customized;
     }

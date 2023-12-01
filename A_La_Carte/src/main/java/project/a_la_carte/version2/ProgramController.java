@@ -849,6 +849,7 @@ public class ProgramController {
     }
     public void discardSelection(WorkerView view){
         this.startupMVC.getServerModel().unselectAll(view);
+        this.startupMVC.getServerModel().discardChanges();
     }
 
     /**

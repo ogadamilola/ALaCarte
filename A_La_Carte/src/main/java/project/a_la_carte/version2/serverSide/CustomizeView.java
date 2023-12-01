@@ -5,10 +5,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import project.a_la_carte.version2.ProgramController;
@@ -80,44 +77,61 @@ public class CustomizeView extends StackPane implements ServerViewInterface {
         optionsVBox.setStyle("-fx-border-color: black;\n");
 
         this.discard = new Button("DISCARD");
-        this.discard.setPrefHeight(150);
+        this.discard.setPrefHeight(100);
         this.discard.setFont(new Font(15));
+        this.discard.setPrefWidth(250);
         this.set = new Button("SET");
-        this.set.setPrefHeight(150);
+        this.set.setPrefHeight(100);
         this.set.setFont(new Font(15));
+        this.set.setPrefWidth(250);
 
         HBox botButtons = new HBox(discard,set);
-        botButtons.setPrefSize(800,150);
+        botButtons.setPrefSize(600,100);
         botButtons.setPadding(new Insets(5));
         botButtons.setAlignment(Pos.BOTTOM_CENTER);
         botButtons.setSpacing(15);
+        HBox.setHgrow(botButtons,Priority.ALWAYS);
+
+        this.set.prefWidthProperty().bind(botButtons.widthProperty());
+        this.discard.prefWidthProperty().bind(botButtons.widthProperty());
 
         this.ingredients = new FlowPane();
         this.ingredients.setPrefSize(600,500);
         this.ingredients.setPadding(new Insets(5));
+        ingredients.prefWidthProperty().bind(this.widthProperty());
+        ingredients.prefHeightProperty().bind(this.heightProperty());
 
         HBox ingredientsAlign = new HBox(ingredients);
         ingredientsAlign.setPrefSize(600,500);
         ingredientsAlign.setStyle("-fx-border-color: black;\n");
+        VBox.setVgrow(ingredientsAlign,Priority.ALWAYS);
+        HBox.setHgrow(ingredientsAlign,Priority.ALWAYS);
 
         VBox alignRight = new VBox(ingredientsAlign,botButtons);
         alignRight.setPrefSize(600,500);
+        //VBox.setVgrow(alignRight,Priority.ALWAYS);
+        HBox.setHgrow(alignRight,Priority.ALWAYS);
 
         Label itemTitle = new Label("SELECT AN ITEM");
         itemsInVBox = new VBox();
         itemsInVBox.setPrefSize(180,500);
         itemsInVBox.setSpacing(3);
         itemsInVBox.setAlignment(Pos.TOP_CENTER);
+        VBox.setVgrow(itemsInVBox,Priority.ALWAYS);
 
         ScrollPane itemsScroll = new ScrollPane(itemsInVBox);
         itemsScroll.setPrefSize(200,500);
+        itemsScroll.prefHeightProperty().bind(this.heightProperty());
 
         VBox combineBox = new VBox(itemTitle,itemsScroll);
         combineBox.setPrefSize(200,500);
+        VBox.setVgrow(combineBox, Priority.ALWAYS);
 
         HBox alignBody = new HBox(optionsVBox, alignRight, combineBox);
-
+        VBox.setVgrow(alignBody,Priority.ALWAYS);
+        HBox.setHgrow(alignBody,Priority.ALWAYS);
         VBox alignAll = new VBox(topHBox,alignBody);
+
 
         this.getChildren().add(alignAll);
     }
@@ -242,7 +256,6 @@ public class CustomizeView extends StackPane implements ServerViewInterface {
                 CustomizeButton newB = new CustomizeButton(items.getName());
                 items.getCustomize().forEach(newB::addEdit);
                 newB.getSelect().setOnAction(event -> {
-                    serverModel.setSelectedMenuItem(items, serverModel.getMenuItemList());
                     serverModel.setSelectedCustomizeItem(items);
                 });
                 itemsInVBox.getChildren().add(newB);
