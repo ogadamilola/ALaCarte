@@ -13,8 +13,8 @@ Tomi Bamimore (ise652)
 Vidhi Tusharbhai Dhorajia (ojk162)
 ````
 ## Product Description (Currently Deliverable 0 Description)
-Our group’s product will be a point of sale system for restaurants which focuses on optimizing the flow of productivity. 
-With our product, we aim to create a central hub that displays all menu items in a categorized manner, organizing food items to different stations based on the amount of time it takes to prepare a menu item in order to get each item out at similar times. 
+This product works as a management system for restaurants as well as focusing on optimizing and simplifying the flow of productivity. 
+The managers will be able to track 
 ### Product Features
 ```
 An Easy To Understand GUI that is clear and provides the user with many options

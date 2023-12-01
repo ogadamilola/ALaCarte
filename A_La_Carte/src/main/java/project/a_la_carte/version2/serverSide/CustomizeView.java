@@ -61,15 +61,22 @@ public class CustomizeView extends StackPane implements ServerViewInterface {
 
         HBox backHBox = new HBox(back);
         backHBox.setPrefWidth(200);
+        HBox.setHgrow(backHBox, Priority.ALWAYS);
 
         HBox titleHBox = new HBox(title);
         titleHBox.setPrefWidth(600);
         titleHBox.setAlignment(Pos.TOP_CENTER);
+        HBox.setHgrow(titleHBox,Priority.ALWAYS);
 
-        HBox topHBox = new HBox(backHBox, titleHBox);
+        HBox spacing = new HBox();
+        spacing.setPrefWidth(200);
+        HBox.setHgrow(spacing, Priority.ALWAYS);
+
+        HBox topHBox = new HBox(backHBox, titleHBox, spacing);
         topHBox.setPrefWidth(1000);
         topHBox.setStyle("-fx-border-color: black;\n"+"-fx-background-color: orchid");
         topHBox.setPadding(new Insets(5));
+        HBox.setHgrow(topHBox,Priority.ALWAYS);
 
         optionsVBox = new VBox();
         optionsVBox.setPrefSize(200,500);

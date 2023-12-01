@@ -46,6 +46,7 @@ public class KitchenView extends StackPane implements KitchenViewsInterface {
 
         HBox menuHBox = new HBox(mainMenu);
         menuHBox.setPrefWidth(200);
+        HBox.setHgrow(menuHBox,Priority.ALWAYS);
 
         HBox titleHBox = new HBox(menuTitle);
         titleHBox.setPrefWidth(600);
@@ -63,6 +64,7 @@ public class KitchenView extends StackPane implements KitchenViewsInterface {
         topHBox.setPrefWidth(1000);
         topHBox.setPadding(new Insets(5,5,5,5));
         topHBox.setStyle("-fx-border-color: black;\n"+"-fx-background-color: dodgerblue;\n");
+        HBox.setHgrow(topHBox,Priority.ALWAYS);
 
         this.ordersVBox = new FlowPane();
         this.ordersVBox.setPrefSize(998,455);

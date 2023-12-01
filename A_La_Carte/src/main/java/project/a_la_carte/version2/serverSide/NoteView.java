@@ -6,6 +6,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
@@ -41,15 +42,22 @@ public class NoteView extends StackPane {
 
         HBox backHBox = new HBox(back);
         backHBox.setPrefWidth(200);
+        HBox.setHgrow(backHBox, Priority.ALWAYS);
 
         HBox titleHBox = new HBox(title);
         titleHBox.setPrefWidth(600);
         titleHBox.setAlignment(Pos.TOP_CENTER);
+        HBox.setHgrow(titleHBox, Priority.ALWAYS);
 
-        HBox topHBox = new HBox(backHBox, titleHBox);
+        HBox spacing = new HBox();
+        spacing.setPrefWidth(200);
+        HBox.setHgrow(spacing, Priority.ALWAYS);
+
+        HBox topHBox = new HBox(backHBox, titleHBox, spacing);
         topHBox.setPrefWidth(1000);
         topHBox.setStyle("-fx-border-color: black;\n"+"-fx-background-color: paleturquoise;\n");
         topHBox.setPadding(new Insets(5));
+        HBox.setHgrow(topHBox, Priority.ALWAYS);
 
         Label textLabel = new Label("Type Here: ");
         textLabel.setFont(new Font(20));
