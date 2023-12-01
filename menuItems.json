@@ -3,41 +3,21 @@
     "menuItemRecipes": [
       {
         "ingredientMap": {},
-        "name": "Spaghetti Meatball",
-        "description": "Spaghetti with meatballs and sauce",
-        "prepInstruction": "Put spag on plate",
-        "price": 15.0,
-        "prepTime": 10.0,
+        "name": "Cheese burger",
+        "description": "Burger with mustard, ketchup, onion, cheddar cheese, mayo \u0026 lettuce.",
+        "prepInstruction": "Toast bun.\nMelt cheese on top of patty.\nPut mustard, ketchup, onions \u0026 patty with cheese on bottom bun.\nPut mayo \u0026 lettuce on top bun.\nCut in half.",
+        "price": 24.0,
+        "prepTime": 12.0,
         "selectedStatus": false,
         "finished": false
       },
       {
         "ingredientMap": {},
-        "name": "Spaghetti Meatball",
-        "description": "Spaghetti with meatballs and sauce",
-        "prepInstruction": "Put spag on plate",
-        "price": 15.0,
-        "prepTime": 10.0,
-        "selectedStatus": false,
-        "finished": false
-      },
-      {
-        "ingredientMap": {},
-        "name": "Spaghetti Meatball",
-        "description": "Spaghetti with meatballs and sauce",
-        "prepInstruction": "Put spag on plate",
-        "price": 15.0,
-        "prepTime": 10.0,
-        "selectedStatus": false,
-        "finished": false
-      },
-      {
-        "ingredientMap": {},
-        "name": "Spaghetti Meatball",
-        "description": "Spaghetti with meatballs and sauce",
-        "prepInstruction": "Put spag on plate",
-        "price": 15.0,
-        "prepTime": 10.0,
+        "name": "Fries",
+        "description": "Deep fried potatoes",
+        "prepInstruction": "Slice potatoes.\nFry once at lower temp, rest, then fry again at higher temp.\nSalt and plate. ",
+        "price": 3.0,
+        "prepTime": 8.0,
         "selectedStatus": false,
         "finished": false
       }
@@ -92,22 +72,29 @@
   {
     "menuItemRecipes": [
       {
-        "ingredientMap": {
-          "Ketchup": 0.375,
-          "Pork Ribs": 1.0
-        },
-        "name": "Ribs",
-        "description": "Ribs and ketchup",
-        "prepInstruction": "put ketchup on ribs",
-        "price": 10.59375,
-        "prepTime": 15.0,
+        "ingredientMap": {},
+        "name": "5 Minute Recipe",
+        "description": "5 Minute Recipe Description",
+        "prepInstruction": "5 Minute Recipe Instructions",
+        "price": 5.0,
+        "prepTime": 5.0,
+        "selectedStatus": false,
+        "finished": false
+      },
+      {
+        "ingredientMap": {},
+        "name": "4 Minute Recipe",
+        "description": "4 Minute Recipe Description ",
+        "prepInstruction": "4 Minute Recipe Instructions",
+        "price": 4.0,
+        "prepTime": 4.0,
         "selectedStatus": false,
         "finished": false
       }
     ],
-    "name": "Rib combo",
-    "description": "ribs and ketchup",
-    "price": 30.0,
+    "name": "5 Minute Timer Test",
+    "description": "This Menu Item can test the Timing Sytem in 5 minutes.",
+    "price": 5.4,
     "selectedStatus": false,
     "customized": false,
     "customizeOption": ""
