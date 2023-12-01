@@ -31,6 +31,7 @@ public class CustomizeButton extends HBox implements MenuItemWidget {
         select.prefWidthProperty().bind(this.widthProperty());
         select.prefHeightProperty().bind(this.heightProperty());
 
+        //Display the items
         edits = new VBox(nameL);
         edits.setPrefSize(200,50);
         edits.setSpacing(2);
