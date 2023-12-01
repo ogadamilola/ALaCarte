@@ -13,6 +13,7 @@ import project.a_la_carte.version2.classesObjects.OrderTimers;
 import project.a_la_carte.version2.classesObjects.Recipe;
 import project.a_la_carte.version2.managerSide.recipe.ShowRecipeInfoView;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -25,8 +26,8 @@ public class OrderWidget extends HBox {
     Label totalTimeElapsedLabel;
     ArrayList<Label> recipesLabels;
     ArrayList<ArrayList<Label>> recipesLabelsList;
+    int recipeNum = 0;
     int numMenuItems;
-
     public OrderWidget(OrderKitchenTab orderKitchenTab, Order order){
         this.currentOrder = order.getTimerInformation();
 
@@ -48,7 +49,10 @@ public class OrderWidget extends HBox {
         numMenuItems = currentOrder.getMenuItems().size();
         recipesLabelsList = new ArrayList<>();
 
-        //currentOrder.getMenuItems().forEach((item -> {
+        order.getOrderList().forEach(foodItem -> {
+            recipeNum += foodItem.getMenuItemRecipes().size();
+        });
+
         for (int i = 0; i < numMenuItems; i++) {
 
             MenuFoodItem currentItem = currentOrder.getMenuItems().get(i);
@@ -79,14 +83,10 @@ public class OrderWidget extends HBox {
 
                 Label newL = new Label(("Recipe "
                         + currentOrder.getMenuItems().get(i).getMenuItemRecipes().get(j).getName() + " TIME "
-                        // + currentOrder.getRecipeStopWatchList().get(i).get(j).getElapsedTimeFormatted()
                         + " // " + currentOrder.getPrepTimesList().get(i).get(j) + ":00"));
-                        // " // " + currentOrder.getPrepTimesList().get(i).get(j) + ":00");
 
                 recipesLabels.add(newL);
-
                 HBox labelBox = new HBox(recipesLabels.get(j));
-
                 labelBox.setPrefWidth(300);
 
                 HBox addBox = new HBox(labelBox, buttonsBox);
@@ -101,13 +101,12 @@ public class OrderWidget extends HBox {
                     addBox.getChildren().remove(buttonsBox);
                     labelBox.getChildren().add(completeL);
 
-                    // *** figure this out
-                    currentOrder.getRecipeStopWatchList().get(val_i).get(val_j).stop();
-                    if (!isNotFinished()){
-                        orderKitchenTab.singleOrder.orderFinished();
+                    recipeNum -= 1;
+                    if (recipeNum == 0) {
+                        orderKitchenTab.subItem();
                     }
-                });
 
+                });
                 addOne.setOnMouseClicked(event -> {
                     currentOrder.addOneExecute(val_i, val_j);
                 });
@@ -148,18 +147,6 @@ public class OrderWidget extends HBox {
         },0,250);
         this.getChildren().add(stringDisplay);
     }
-    public boolean isNotFinished(){
-        AtomicReference<Boolean> check = new AtomicReference<>(false);
-        currentOrder.getMenuItems().forEach(item -> {
-            item.getMenuItemRecipes().forEach(recipe -> {
-                if (!recipe.getFinished()){
-                    check.set(true);
-                }
-            });
-        });
-        return check.get();
-    }
-
     public void showRecipeInfo(Recipe recipe){
         ShowRecipeInfoView infoView = new ShowRecipeInfoView(recipe);
     }
