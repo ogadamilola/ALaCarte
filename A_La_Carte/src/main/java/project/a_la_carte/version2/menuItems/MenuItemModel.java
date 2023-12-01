@@ -246,6 +246,10 @@ public class MenuItemModel {
         @Override
         public MenuItemMainDisplay read(JsonReader in) {return null;}
     }
+
+    /**
+     * Added for customize button
+     */
     public static class CustomizeAdapter extends TypeAdapter<CustomizeButton> {
         @Override
         public void write(JsonWriter out, CustomizeButton customize) throws IOException {out.nullValue();}
