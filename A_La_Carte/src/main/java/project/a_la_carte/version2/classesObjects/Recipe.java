@@ -31,6 +31,9 @@ public class Recipe {
     public void setFinished(){
         this.finished = true;
     }
+    public void setNotFinished(){
+        this.finished = false;
+    }
     public boolean getFinished(){
         return this.finished;
     }

@@ -118,10 +118,20 @@ public class InventoryView extends StackPane implements InventorySubscriber {
         //Will probably have to be a variable as well to connect with controller class
 
         submit = new Button("Submit");
+        submit.setStyle("-fx-background-color: lightsteelblue;\n" + "-fx-border-color: gray;\n"
+                + "-fx-border-radius: 15;\n"+"-fx-background-radius: 15;\n");
         updateButton = new Button("Update");
+        updateButton.setStyle("-fx-background-color: lightsteelblue;\n" + "-fx-border-color: gray;\n"
+                + "-fx-border-radius: 15;\n"+"-fx-background-radius: 15;\n");
         deleteButton = new Button("Delete Item");
+        deleteButton.setStyle("-fx-background-color: lightsteelblue;\n" + "-fx-border-color: gray;\n"
+                + "-fx-border-radius: 15;\n"+"-fx-background-radius: 15;\n");
         mainMenu = new Button("Main Menu");
+        mainMenu.setStyle("-fx-background-color: lightsteelblue;\n" + "-fx-border-color: gray;\n"
+                + "-fx-border-radius: 15;\n"+"-fx-background-radius: 15;\n");
         clearButton = new Button("Clear");
+        clearButton.setStyle("-fx-background-color: lightsteelblue;\n" + "-fx-border-color: gray;\n"
+                + "-fx-border-radius: 15;\n"+"-fx-background-radius: 15;\n");
 
         VBox rightBox = new VBox(updateButton,submit);
         VBox leftBox = new VBox(clearButton,deleteButton);
@@ -177,6 +187,7 @@ public class InventoryView extends StackPane implements InventorySubscriber {
         HBox mergeHBox = new HBox();
         mergeHBox.getChildren().addAll(addVBox,listVBox);
         HBox.setHgrow(measureHBox,Priority.ALWAYS);
+        mergeHBox.setStyle("-fx-background-color: gainsboro;\n");
 
         this.getChildren().add(mergeHBox);
     }

@@ -5,11 +5,8 @@ import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.*;
 
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import project.a_la_carte.version2.ProgramController;
 
@@ -33,7 +30,7 @@ public class RestaurantInfoView extends BorderPane implements RestaurantModelSub
     DatePicker datePicker;
     Button reportButton;
 
-    Button reservationButton;
+
     TableView<MenuFoodItemData> ingredientTable; //using MenuFoodItem data to display ingredients
     TableColumn<MenuFoodItemData, String> ingredientNameCol;
     TableColumn<MenuFoodItemData, Double> ingredientQuantityCol;
@@ -42,12 +39,16 @@ public class RestaurantInfoView extends BorderPane implements RestaurantModelSub
         Label title = new Label("Manage Restaurant");
         date = new Label("Day not started!");
         title.setFont(new Font(20));
+        date.setFont(new Font(20));
         HBox titleHBox = new HBox(title,date);
+
         titleHBox.setSpacing(60);
         titleHBox.setPrefWidth(600);
         titleHBox.setAlignment(Pos.TOP_CENTER);
 
         this.mainMenu = new Button("Main Menu");
+        mainMenu.setStyle("-fx-background-color: lightgrey;\n" + "-fx-border-color: gray;\n"
+                + "-fx-border-radius: 15;\n"+"-fx-background-radius: 15;\n");
         HBox menuHBox = new HBox();
         menuHBox.setPrefWidth(200);
         menuHBox.getChildren().add(mainMenu);
@@ -63,7 +64,7 @@ public class RestaurantInfoView extends BorderPane implements RestaurantModelSub
         orderNumber = new Label("0");
         VBox orderVBox = new VBox(orderMessage,orderNumber);
         orderVBox.setAlignment(Pos.CENTER);  // Center the content vertically
-        orderVBox.setStyle("-fx-border-color: black; -fx-border-width: 2px;"); // Add a black border
+        orderVBox.setStyle("-fx-border-color: black; -fx-border-width: 2px;"+"-fx-background-color: seashell;\n");
         orderVBox.setPrefSize(200,50);
         VBox.setVgrow(orderVBox,Priority.ALWAYS);
         HBox.setHgrow(orderVBox,Priority.ALWAYS);
@@ -87,7 +88,7 @@ public class RestaurantInfoView extends BorderPane implements RestaurantModelSub
         incomeNumber = new Label("0");
         VBox incomeVBox = new VBox(incomeMessage, incomeNumber);
         incomeVBox.setAlignment(Pos.CENTER);  // Center the content vertically
-        incomeVBox.setStyle("-fx-border-color: black; -fx-border-width: 2px;"); // Add a black border
+        incomeVBox.setStyle("-fx-border-color: black; -fx-border-width: 2px;"+"-fx-background-color: seashell;\n");
         incomeVBox.setPrefSize(200,50);
         VBox.setVgrow(incomeVBox,Priority.ALWAYS);
         HBox.setHgrow(incomeVBox,Priority.ALWAYS);
@@ -105,25 +106,29 @@ public class RestaurantInfoView extends BorderPane implements RestaurantModelSub
 
         HBox centerBox = new HBox(orderVBox,menuItemVBox,incomeVBox,inventoryVBox); // display inventory usage
 
-
-
         Label reportLabel = new Label("Pick a date to view report");
         datePicker = new DatePicker();
         reportButton = new Button("Show Date Report ");
+        reportButton.setStyle("-fx-background-color: lightgrey;\n" + "-fx-border-color: gray;\n"
+                + "-fx-border-radius: 15;\n"+"-fx-background-radius: 15;\n");
 
-        reservationButton = new Button("View Reservations");
-
-
-        VBox rightBox = new VBox(reportLabel,datePicker,reportButton,reservationButton);
+        VBox rightBox = new VBox(reportLabel,datePicker,reportButton);
         rightBox.setAlignment(Pos.CENTER);
+        rightBox.setStyle("-fx-border-color: black; -fx-border-width: 2px;"+"-fx-background-color: seashell;\n");
         VBox.setVgrow(rightBox, Priority.ALWAYS);
         HBox.setHgrow(rightBox,Priority.ALWAYS);
+
+        //empty region for spacing at the bottom
+        Region bottomRegion = new Region();
+        bottomRegion.setMinHeight(30);
+        bottomRegion.setStyle("-fx-border-color: black; -fx-border-width: 1px;");
+
+        this.setBottom(bottomRegion);
 
         this.setTop(topBox);
         this.setRight(rightBox);
         this.setCenter(centerBox);
-
-
+        this.setStyle("-fx-background-color: mistyrose;\n");
     }
 
     public void setRestaurantModel(RestaurantModel restaurantModel) {
