@@ -55,8 +55,6 @@ public class RestaurantModel {
         } else {
             startDay();
         }
-
-        System.out.println(restaurantDayMap);
     }
 
     public void startDay(){
