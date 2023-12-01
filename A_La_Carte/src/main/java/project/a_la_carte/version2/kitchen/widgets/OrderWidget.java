@@ -32,13 +32,13 @@ public class OrderWidget extends HBox {
 
         oTab = orderKitchenTab;
 
-        this.setPrefSize(600,70);
+        this.setPrefSize(oTab.getPrefWidth(),70);
         this.setPadding(new Insets(5));
 
         VBox stringDisplay = new VBox();
 
         stringDisplay.setSpacing(3);
-        stringDisplay.setPrefSize(600,70);
+        stringDisplay.setPrefSize(oTab.getPrefWidth(),70);
 
         stringDisplay.setStyle(currentOrder.getBackgroundColor());
 

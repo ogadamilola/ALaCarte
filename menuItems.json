@@ -1,1 +1,50 @@
-[]
+[
+  {
+    "menuItemRecipes": [
+      {
+        "ingredientMap": {
+          "Burger Patty": 2.0,
+          "Lettuce": 0.3125,
+          "Sliced Onion": 0.1875,
+          "Ketchup": 0.1875,
+          "Mustard": 0.1875,
+          "Burger Bun": 1.0,
+          "Cheddar Cheese": 0.1875,
+          "Mayo": 0.1875
+        },
+        "name": "Cheese Burger",
+        "description": "Cheese burger with Special Sauce, Lettuce, and Sliced Onions",
+        "prepInstruction": "Toast Buns\nSauce up the buns\nMelt cheese over 2 patties and place on bottom bun\nPut Lettuce an onions and on top of patties \nPlace top bun",
+        "price": 4.6968746,
+        "prepTime": 7.0,
+        "selectedStatus": false,
+        "finished": false
+      },
+      {
+        "ingredientMap": {
+          "Burger Patty": 2.0,
+          "Lettuce": 0.3125,
+          "Sliced Onion": 0.1875,
+          "Ketchup": 0.1875,
+          "Mustard": 0.1875,
+          "Burger Bun": 1.0,
+          "Cheddar Cheese": 0.1875,
+          "Mayo": 0.1875
+        },
+        "name": "Cheese Burger",
+        "description": "Cheese burger with Special Sauce, Lettuce, and Sliced Onions",
+        "prepInstruction": "Toast Buns\nSauce up the buns\nMelt cheese over 2 patties and place on bottom bun\nPut Lettuce an onions and on top of patties \nPlace top bun",
+        "price": 4.6968746,
+        "prepTime": 7.0,
+        "selectedStatus": false,
+        "finished": false
+      }
+    ],
+    "name": "Test",
+    "description": "Hey",
+    "price": 0.0,
+    "selectedStatus": false,
+    "customized": false,
+    "customizeOption": []
+  }
+]

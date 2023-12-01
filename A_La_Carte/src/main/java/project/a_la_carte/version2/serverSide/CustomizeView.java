@@ -1,5 +1,6 @@
 package project.a_la_carte.version2.serverSide;
 
+import javafx.beans.binding.Bindings;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -100,10 +101,16 @@ public class CustomizeView extends StackPane implements ServerViewInterface {
         this.ingredients.setPadding(new Insets(5));
         this.ingredients.setHgap(3);
         this.ingredients.setVgap(3);
-        ingredients.prefWidthProperty().bind(this.widthProperty());
-        ingredients.prefHeightProperty().bind(this.heightProperty());
 
-        HBox ingredientsAlign = new HBox(ingredients);
+        ScrollPane newScroll = new ScrollPane(ingredients);
+        newScroll.setPrefSize(600,500);
+        newScroll.prefHeightProperty().bind(this.heightProperty());
+        newScroll.prefWidthProperty().bind((this.widthProperty()));
+
+        ingredients.prefWidthProperty().bind(Bindings.add(-20,newScroll.widthProperty()));
+        ingredients.prefHeightProperty().bind(Bindings.add(-10,newScroll.heightProperty()));
+
+        HBox ingredientsAlign = new HBox(newScroll);
         ingredientsAlign.setPrefSize(600,500);
         ingredientsAlign.setStyle("-fx-border-color: black;\n");
         VBox.setVgrow(ingredientsAlign,Priority.ALWAYS);
@@ -127,6 +134,7 @@ public class CustomizeView extends StackPane implements ServerViewInterface {
         VBox combineBox = new VBox(itemTitle,itemsScroll);
         combineBox.setPrefSize(200,500);
         VBox.setVgrow(combineBox, Priority.ALWAYS);
+        combineBox.setStyle("-fx-border-color: black;\n");
 
         HBox alignBody = new HBox(optionsVBox, alignRight, combineBox);
         VBox.setVgrow(alignBody,Priority.ALWAYS);

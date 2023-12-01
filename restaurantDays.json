@@ -1,9 +1,9 @@
 {
   "2023-11-30": {
     "date": "2023-11-30",
-    "menuItemMap": {"3 Minute Timer Test":119.0,"Rib combo":3.0,"Cheese burger combo":51.0},
-    "ingredientUsageMap": {"Ketchup":1.125,"Pork Ribs":3.0},
-    "totalOrders": 97,
+    "menuItemMap": {"3 Minute Timer Test":119.0,"Rib combo":3.0,"Test":9.0,"Cheese burger combo":51.0},
+    "ingredientUsageMap": {"Burger Patty":36.0,"Lettuce":5.625,"Sliced Onion":3.375,"Ketchup":4.5,"Pork Ribs":3.0,"Mustard":3.375,"Burger Bun":18.0,"Cheddar Cheese":3.375,"Mayo":3.375},
+    "totalOrders": 105,
     "incomeToday": 2691.0
   },
   "2023-11-28": {
