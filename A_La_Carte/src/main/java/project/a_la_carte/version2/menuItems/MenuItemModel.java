@@ -11,6 +11,7 @@ import project.a_la_carte.version2.interfaces.MenuItemModelSubscriber;
 import project.a_la_carte.version2.managerSide.recipe.RecipeModel;
 import project.a_la_carte.version2.menuItems.widgets.MenuItemListButton;
 import project.a_la_carte.version2.menuItems.widgets.MenuItemRecipeButton;
+import project.a_la_carte.version2.serverSide.widgets.CustomizeButton;
 import project.a_la_carte.version2.serverSide.widgets.MenuItemMainDisplay;
 
 import java.io.File;
@@ -41,6 +42,7 @@ public class MenuItemModel {
                 .registerTypeAdapter(MenuItemListButton.class, new ListButtonAdapter())
                 .registerTypeAdapter(MenuItemMainDisplay.class, new MainDisplayAdapter())
                 .registerTypeAdapter(MenuItemRecipeButton.class, new RecipeModel.ButtonAdapter())
+                .registerTypeAdapter(CustomizeButton.class, new CustomizeAdapter())
                 .create();
         try {
             FileReader reader = new FileReader(FILE_PATH);
@@ -215,6 +217,7 @@ public class MenuItemModel {
                 .registerTypeAdapter(MenuItemListButton.class, new ListButtonAdapter())
                 .registerTypeAdapter(MenuItemMainDisplay.class, new MainDisplayAdapter())
                 .registerTypeAdapter(MenuItemRecipeButton.class, new RecipeModel.ButtonAdapter())
+                .registerTypeAdapter(CustomizeButton.class, new CustomizeAdapter())
                 .create();
         try {
             FileWriter writer = new FileWriter(new File(FILE_PATH));
@@ -242,5 +245,15 @@ public class MenuItemModel {
         public void write(JsonWriter out, MenuItemMainDisplay display) throws IOException {out.nullValue();}
         @Override
         public MenuItemMainDisplay read(JsonReader in) {return null;}
+    }
+
+    /**
+     * Added for customize button
+     */
+    public static class CustomizeAdapter extends TypeAdapter<CustomizeButton> {
+        @Override
+        public void write(JsonWriter out, CustomizeButton customize) throws IOException {out.nullValue();}
+        @Override
+        public CustomizeButton read(JsonReader in) {return null;}
     }
 }
