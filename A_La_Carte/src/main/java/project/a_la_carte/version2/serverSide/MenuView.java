@@ -32,7 +32,7 @@ public class MenuView extends StackPane implements ServerViewInterface {
     Button mainMenu;
     Button Tables;
     AlertButton alertButton;
-    AlertButton stockButton;
+    Button stockButton;
     //View Order Variables
     VBox ordersVBox;
     Button sendToKitchen;
@@ -55,19 +55,25 @@ public class MenuView extends StackPane implements ServerViewInterface {
         menuTitle.setFont(new Font(20));
 
         this.mainMenu = new Button("Main Menu");
+        this.mainMenu.setStyle("-fx-background-color: peachpuff;\n" + "-fx-border-color: darksalmon;\n"
+                + "-fx-border-radius: 15;\n"+"-fx-background-radius: 15;\n");
         HBox menuHBox = new HBox(mainMenu);
         menuHBox.setPrefWidth(100);
 
-        this.stockButton = new AlertButton("Stock");
-        this.Tables = new Button("Tables");
+        this.stockButton = new Button("  Stock  ");
+        this.stockButton.setStyle("-fx-background-color: peachpuff;\n" + "-fx-border-color: darksalmon;\n"
+                + "-fx-border-radius: 15;\n"+"-fx-background-radius: 15;\n");
+        this.Tables = new Button("  Tables  ");
+        this.Tables.setStyle("-fx-background-color: peachpuff;\n" + "-fx-border-color: darksalmon;\n"
+                + "-fx-border-radius: 15;\n"+"-fx-background-radius: 15;\n");
 
         HBox titleHBox = new HBox(menuTitle);
         titleHBox.setPrefWidth(100);
         titleHBox.setAlignment(Pos.BASELINE_RIGHT);
         HBox.setHgrow(titleHBox, Priority.ALWAYS);
 
-        this.alertButton = new AlertButton("Alerts!");
-        HBox alertBox = new HBox(stockButton, alertButton, Tables);
+        this.alertButton = new AlertButton("!");
+        HBox alertBox = new HBox(stockButton, Tables, alertButton);
         alertBox.setPrefWidth(100);
         alertBox.setAlignment(Pos.BASELINE_RIGHT);
         HBox.setHgrow(alertBox, Priority.ALWAYS);
@@ -77,13 +83,24 @@ public class MenuView extends StackPane implements ServerViewInterface {
         HBox topHBox = new HBox(menuHBox, titleHBox,alertBox);
         topHBox.setPrefWidth(600);
         topHBox.setPadding(new Insets(5,5,5,5));
-        topHBox.setStyle("-fx-border-color: black;\n");
+        topHBox.setStyle("-fx-border-color: black;\n"+"-fx-background-color: coral;\n");
         HBox.setHgrow(topHBox, Priority.ALWAYS);
 
-        this.addNote = new Button("ADD NOTE");
-        this.customize = new Button("CUSTOMIZE");
-        this.refund = new Button("REFUND ORDER");
-        this.autoSend = new Button("ADD TO ORDER");
+        this.addNote = new Button("   ADD NOTE   ");
+        this.addNote.setStyle("-fx-background-color: peachpuff;\n" + "-fx-border-color: darksalmon;\n"
+                + "-fx-border-radius: 10;\n"+"-fx-background-radius: 10;\n");
+
+        this.customize = new Button("   CUSTOMIZE   ");
+        this.customize.setStyle("-fx-background-color: peachpuff;\n" + "-fx-border-color: darksalmon;\n"
+                + "-fx-border-radius: 10;\n"+"-fx-background-radius: 10;\n");
+
+        this.refund = new Button("   REFUND ORDER   ");
+        this.refund.setStyle("-fx-background-color: peachpuff;\n" + "-fx-border-color: darksalmon;\n"
+                + "-fx-border-radius: 10;\n"+"-fx-background-radius: 10;\n");
+
+        this.autoSend = new Button("   ADD TO ORDER   ");
+        this.autoSend.setStyle("-fx-background-color: peachpuff;\n" + "-fx-border-color: darksalmon;\n"
+                + "-fx-border-radius: 10;\n"+"-fx-background-radius: 10;\n");
 
         HBox customizeHBox = new HBox(customize);
         customizeHBox.setPrefWidth(295);
@@ -118,19 +135,20 @@ public class MenuView extends StackPane implements ServerViewInterface {
         buttons.setPadding(new Insets(5,5,5,5));
         buttons.setAlignment(Pos.BOTTOM_LEFT);
 
-
         menuDisplay = new FlowPane();
         menuDisplay.setPrefSize(584,375);
         menuDisplay.setHgap(4);
         menuDisplay.setVgap(2);
         menuDisplay.setPadding(new Insets(5));
-        menuDisplay.prefHeightProperty().bind(Bindings.add(-139,this.heightProperty()));
-        menuDisplay.prefWidthProperty().bind(Bindings.add(-405,this.widthProperty()));
+        menuDisplay.prefHeightProperty().bind(Bindings.add(-135,this.heightProperty()));
+        menuDisplay.prefWidthProperty().bind(Bindings.add(-390,this.widthProperty()));
+        menuDisplay.setStyle("-fx-background-color: linen;\n");
 
         ScrollPane displayScroll = new ScrollPane(menuDisplay);
         displayScroll.setPrefSize(600,400);
         displayScroll.prefHeightProperty().bind(Bindings.add(-25,this.heightProperty()));
         displayScroll.prefWidthProperty().bind(Bindings.add(-30,this.widthProperty()));
+        displayScroll.setFitToWidth(true);
 
         VBox alignAllLeft = new VBox(topHBox,displayScroll,buttons);
         alignAllLeft.setPrefSize(600,500);
@@ -143,7 +161,7 @@ public class MenuView extends StackPane implements ServerViewInterface {
         HBox titleViewHBox = new HBox(title);
         titleViewHBox.setPrefWidth(400);
         titleViewHBox.setAlignment(Pos.TOP_CENTER);
-        titleViewHBox.setStyle("-fx-border-color: black;\n");
+        titleViewHBox.setStyle("-fx-border-color: black;\n" + "-fx-background-color: cornflowerblue;\n");
         HBox.setHgrow(titleViewHBox, Priority.ALWAYS);
 
         this.sendToKitchen = new Button("SEND ORDER");
@@ -175,14 +193,18 @@ public class MenuView extends StackPane implements ServerViewInterface {
         HBox.setHgrow(alignBot,Priority.ALWAYS);
 
         this.ordersVBox = new VBox();
-        this.ordersVBox.setPrefSize(370,500);
+        this.ordersVBox.setPrefWidth(400);
         this.ordersVBox.setPadding(new Insets(5,50,5,50));
-        VBox.setVgrow(ordersVBox,Priority.ALWAYS);
+        this.ordersVBox.setStyle("-fx-background-color: linen;\n");
+        ordersVBox.setMaxHeight(2500);
 
         ScrollPane ordersFlow = new ScrollPane(ordersVBox);
         ordersFlow.setPrefSize(400,500);
+        ordersFlow.setFitToWidth(true);
         ordersFlow.prefWidthProperty().bind(this.widthProperty());
         ordersFlow.prefHeightProperty().bind(this.heightProperty());
+        ordersFlow.maxHeight(ScrollPane.USE_PREF_SIZE);
+        ordersVBox.prefHeightProperty().bind(this.heightProperty());
 
         VBox alignRight = new VBox(titleViewHBox,ordersFlow,alignBot);
         alignRight.setPrefSize(400,500);
@@ -271,6 +293,9 @@ public class MenuView extends StackPane implements ServerViewInterface {
      */
     public MenuFoodItem getSelectedItem(){
         return this.selectedItem;
+    }
+    public void unselectItem(){
+        this.selectedItem = null;
     }
 
     /**

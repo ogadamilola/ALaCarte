@@ -119,7 +119,7 @@ public class ServerModel {
             view.getMenuView().addToOrder(selectedCustomizeItem);
             selectedCustomizeItem = null;
         }
-        else {
+        else if(this.selectedMenuItem != null) {
             MenuFoodItem copy = new MenuFoodItem(this.getSelectedItem().getMenuItemRecipes()
                     , this.getSelectedItem().getName(),this.getSelectedItem().getDescription());
             copy.setPrice(view.getMenuView().getSelectedItem().getPrice());
@@ -132,7 +132,7 @@ public class ServerModel {
      * Adding edits to an Item selected to be customized
      */
     public void addCustomize(WorkerView view){
-        if (this.selectedCustomizeItem == null) {
+        if (this.selectedCustomizeItem == null && this.selectedMenuItem != null) {
             this.selectedCustomizeItem = new MenuFoodItem(this.getSelectedItem().getMenuItemRecipes()
                     , this.getSelectedItem().getName(), this.getSelectedItem().getDescription());
             selectedCustomizeItem.setPrice(view.getMenuView().getSelectedItem().getPrice());
@@ -149,6 +149,21 @@ public class ServerModel {
     public void setSelectedCustomizeItem(MenuFoodItem newI){
         this.selectedCustomizeItem = newI;
         notifySubscribers();
+    }
+
+    public void unselectCustomizeItem(WorkerView view){
+        this.selectedCustomizeItem = null;
+    }
+
+    public void unselectMenuItem(WorkerView view){
+        if (view.getMenuView().getSelectedItem() != null) {
+            view.getMenuView().menuFoodDisplayList.forEach(foodItem -> {
+                foodItem.getDisplay().unselect();
+            });
+            view.getMenuView().unselectItem();
+        } else if (this.selectedMenuItem != null) {
+            this.selectedMenuItem = null;
+        }
     }
 
     /**

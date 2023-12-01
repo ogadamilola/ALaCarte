@@ -149,16 +149,31 @@ public class StaffInfoView extends StackPane implements StaffModelSubscriber {
 
         submit = new Button("Submit");
         submit.setPrefWidth(100);
+        submit.setStyle("-fx-background-color: lightcoral;\n" + "-fx-border-color: indianred;\n"
+                + "-fx-border-radius: 15;\n"+"-fx-background-radius: 15;\n");
         updateButton = new Button("Update");
         updateButton.setPrefWidth(100);
+        updateButton.setStyle("-fx-background-color: lightcoral;\n" + "-fx-border-color: indianred;\n"
+                + "-fx-border-radius: 15;\n"+"-fx-background-radius: 15;\n");
+
         deleteButton = new Button("Delete");
         deleteButton.setPrefWidth(100);
+        deleteButton.setStyle("-fx-background-color: lightcoral;\n" + "-fx-border-color: indianred;\n"
+                + "-fx-border-radius: 15;\n"+"-fx-background-radius: 15;\n");
+
         mainMenu = new Button("Main Menu");
         mainMenu.setPrefWidth(100);
+        mainMenu.setStyle("-fx-background-color: lightcoral;\n" + "-fx-border-color: indianred;\n"
+                + "-fx-border-radius: 15;\n"+"-fx-background-radius: 15;\n");
         clearButton = new Button("Clear");
         clearButton.setPrefWidth(100);
+        clearButton.setStyle("-fx-background-color: lightcoral;\n" + "-fx-border-color: indianred;\n"
+                + "-fx-border-radius: 15;\n"+"-fx-background-radius: 15;\n");
+
         dashboardButton = new Button("Dashboard");
         dashboardButton.setPrefWidth(100);
+        dashboardButton.setStyle("-fx-background-color: lightcoral;\n" + "-fx-border-color: indianred;\n"
+                + "-fx-border-radius: 15;\n"+"-fx-background-radius: 15;\n");
 
         VBox buttonsVBox = new VBox(updateButton,deleteButton,clearButton,submit);
         buttonsVBox.setSpacing(3);
@@ -247,6 +262,7 @@ public class StaffInfoView extends StackPane implements StaffModelSubscriber {
         mergeHBox.getChildren().addAll(addVBox,listVBox);
         VBox.setVgrow(mergeHBox, Priority.ALWAYS);
         HBox.setHgrow(mergeHBox,Priority.ALWAYS);
+        mergeHBox.setStyle("-fx-background-color: mistyrose;\n");
 
         this.getChildren().add(mergeHBox);
     }

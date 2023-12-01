@@ -93,7 +93,7 @@ public class TableView extends StackPane implements ServerViewInterface {
         this.back = new Button("<");
         this.back.setShape(new Circle(r));
         this.back.setMinSize(2*r,2*r);
-        this.back.setStyle("-fx-border-color: black;-fx-background-color: paleturquoise;\n");
+        this.back.setStyle("-fx-border-color: goldenrod;-fx-background-color: moccasin;\n");
 
         HBox backHBox = new HBox(back);
         backHBox.setPrefWidth(200);
@@ -104,7 +104,7 @@ public class TableView extends StackPane implements ServerViewInterface {
 
         HBox topHBox = new HBox(backHBox, titleHBox);
         topHBox.setPrefWidth(1000);
-        topHBox.setStyle("-fx-border-color: black;\n");
+        topHBox.setStyle("-fx-border-color: black;\n"+"-fx-background-color: khaki;\n");
         topHBox.setPadding(new Insets(5));
 
         grid = new GridPane();
@@ -144,6 +144,7 @@ public class TableView extends StackPane implements ServerViewInterface {
         SplitPane splitPane = new SplitPane();
         splitPane.getItems().addAll(tableManagementContainer, reservationManagementContainer);
         splitPane.setDividerPositions(0.5); // Adjust divider position as needed
+        splitPane.setStyle("-fx-background-color: linen;\n");
 
         // Add the SplitPane to the main layout
         this.getChildren().add(splitPane);

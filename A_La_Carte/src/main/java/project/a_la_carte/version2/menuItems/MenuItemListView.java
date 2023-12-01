@@ -43,24 +43,27 @@ public class MenuItemListView extends StackPane implements MenuItemModelSubscrib
         HBox.setHgrow(titleHBox, Priority.ALWAYS);
 
         this.mainMenu = new Button("Main Menu");
+        this.mainMenu.setStyle("-fx-background-color: bisque;\n" + "-fx-border-color: burlywood;\n"
+                + "-fx-border-radius: 15;\n"+"-fx-background-radius: 15;\n");
         HBox menuHBox = new HBox();
         menuHBox.setPrefWidth(200);
         menuHBox.getChildren().add(mainMenu);
-        //HBox.setHgrow(menuHBox, Priority.ALWAYS);
 
         HBox topAlign = new HBox(menuHBox, titleHBox);
         topAlign.setPrefWidth(1000);
-        topAlign.setStyle("-fx-border-color: black;\n");
+        topAlign.setStyle("-fx-border-color: black;\n" + "-fx-background-color: palegoldenrod;\n");
         topAlign.setPadding(new Insets(5));
         HBox.setHgrow(topAlign,Priority.ALWAYS);
 
         Label menuTitle = new Label("Menu Items");
         this.menuItemListVBox = new VBox();
-        this.menuItemListVBox.setPrefSize(270,500);;
+        this.menuItemListVBox.setPrefSize(300,500);;
         this.menuItemListVBox.setPadding(new Insets(5));
         this.menuItemListVBox.setSpacing(2);
+
         ScrollPane menuItemScroll = new ScrollPane(menuItemListVBox);
         menuItemScroll.setPrefSize(300,500);
+        menuItemScroll.setFitToWidth(true);
         menuItemScroll.setStyle("-fx-border-color: black;\n");
         menuItemScroll.prefHeightProperty().bind(this.heightProperty());
 
@@ -76,7 +79,7 @@ public class MenuItemListView extends StackPane implements MenuItemModelSubscrib
         this.menuItemDescription = new TextArea();
         this.menuItemDescription.setPrefSize(400,300);
         this.menuItemDescription.setEditable(false);
-        this.menuItemDescription.setStyle("-fx-border-color: black;\n");
+        this.menuItemDescription.setStyle("-fx-border-color: black;"+"-fx-border-radius: 8;"+"-fx-background-radius: 8;\n");
         menuItemDescription.setWrapText(true);
         menuItemDescription.prefHeightProperty().bind(this.heightProperty());
         menuItemDescription.prefWidthProperty().bind(this.widthProperty());
@@ -92,7 +95,7 @@ public class MenuItemListView extends StackPane implements MenuItemModelSubscrib
         this.menuItemPrice = new TextField();
         menuItemPrice.setEditable(false);
         this.menuItemPrice.setPrefWidth(400);
-        this.menuItemPrice.setStyle("-fx-border-color: black;\n");
+        this.menuItemPrice.setStyle("-fx-border-color: black;"+"-fx-border-radius: 8;"+"-fx-background-radius: 8;\n");
         menuItemPrice.prefWidthProperty().bind(this.widthProperty());
 
         VBox priceHBox = new VBox(priceLabel,menuItemPrice);
@@ -101,7 +104,12 @@ public class MenuItemListView extends StackPane implements MenuItemModelSubscrib
         HBox.setHgrow(priceHBox,Priority.ALWAYS);
 
         this.editButton = new Button("Edit Recipe");
+        editButton.setStyle("-fx-background-color: bisque;\n" + "-fx-border-color: burlywood;\n"
+                + "-fx-border-radius: 15;\n"+"-fx-background-radius: 15;\n");
         this.deleteButton = new Button("Delete Recipe");
+        deleteButton.setStyle("-fx-background-color: bisque;\n" + "-fx-border-color: burlywood;\n"
+                + "-fx-border-radius: 15;\n"+"-fx-background-radius: 15;\n");
+
         modifyButtons = new HBox();
         modifyButtons.setPrefWidth(400);
         modifyButtons.setSpacing(3);
@@ -110,8 +118,9 @@ public class MenuItemListView extends StackPane implements MenuItemModelSubscrib
 
         VBox informationVBox = new VBox(descVBox,priceHBox, modifyButtons);
         informationVBox.setPrefSize(400,500);
-        informationVBox.setStyle("-fx-border-color: black;\n");
+        informationVBox.setStyle("-fx-border-color: black;\n"+"-fx-background-color: oldlace;\n");
         VBox.setVgrow(informationVBox,Priority.ALWAYS);
+
         VBox center = new VBox(selectedTitle,informationVBox);
         center.setPrefSize(400,500);
         center.setPadding(new Insets(5));
@@ -120,16 +129,19 @@ public class MenuItemListView extends StackPane implements MenuItemModelSubscrib
 
         Label recipeLabel = new Label("Recipes In Menu Item");
         this.recipeListVBox = new VBox();
-        this.recipeListVBox.setPrefSize(270,400);
+        this.recipeListVBox.setPrefSize(300,400);
         this.recipeListVBox.setPadding(new Insets(5));
         this.recipeListVBox.setSpacing(5);
 
         ScrollPane recipeScroll = new ScrollPane(recipeListVBox);
         recipeScroll.setPrefSize(300,400);
+        recipeScroll.setFitToWidth(true);
         recipeScroll.setStyle("-fx-border-color: black;\n");
         recipeScroll.prefHeightProperty().bind(this.heightProperty());
 
         this.createNewButton = new Button("Create New Menu Item");
+        createNewButton.setStyle("-fx-background-color: bisque;\n" + "-fx-border-color: burlywood;\n"
+                + "-fx-border-radius: 15;\n"+"-fx-background-radius: 15;\n");
 
         HBox createBox = new HBox(createNewButton);
         createBox.setPrefWidth(300);
@@ -146,6 +158,7 @@ public class MenuItemListView extends StackPane implements MenuItemModelSubscrib
         alignBody.setPrefSize(1000,500);
         HBox.setHgrow(alignBody,Priority.ALWAYS);
         VBox.setVgrow(alignBody, Priority.ALWAYS);
+        alignBody.setStyle("-fx-background-color: linen;\n");
 
         VBox alignAll = new VBox(topAlign,alignBody);
         alignAll.setPrefSize(1000,500);

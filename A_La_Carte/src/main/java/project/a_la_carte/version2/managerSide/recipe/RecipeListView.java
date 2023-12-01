@@ -59,6 +59,8 @@ public class RecipeListView extends StackPane implements RecipeModelSubscriber, 
         title.setFont(new Font(20));
 
         this.mainMenu = new Button("Main Menu");
+        mainMenu.setStyle("-fx-background-color: plum;\n" + "-fx-border-color: mediumorchid;\n"
+                + "-fx-border-radius: 15;\n"+"-fx-background-radius: 15;\n");
         HBox menuHBox = new HBox();
         menuHBox.getChildren().add(mainMenu);
 
@@ -99,6 +101,9 @@ public class RecipeListView extends StackPane implements RecipeModelSubscriber, 
         selectedTitle.setFont(new Font(20));
 
         this.createNewButton = new Button("Create New Recipe");
+        createNewButton.setStyle("-fx-background-color: plum;\n" + "-fx-border-color: mediumorchid;\n"
+                + "-fx-border-radius: 15;\n"+"-fx-background-radius: 15;\n");
+
         HBox createHBox = new HBox();
         createHBox.setPrefWidth(1000);
         createHBox.setAlignment(Pos.BASELINE_RIGHT);
@@ -149,11 +154,18 @@ public class RecipeListView extends StackPane implements RecipeModelSubscriber, 
 
         //When clicked, deletes the selected recipe
         this.deleteButton = new Button("Delete Recipe");
+        deleteButton.setStyle("-fx-background-color: plum;\n" + "-fx-border-color: mediumorchid;\n"
+                + "-fx-border-radius: 15;\n"+"-fx-background-radius: 15;\n");
         //When clicked, loads recipe maker with the selected Recipe's information
         //For now it will just lead to the RecipeMaker page
         this.editIngredients = new Button("Edit Recipe");
+        editIngredients.setStyle("-fx-background-color: plum;\n" + "-fx-border-color: mediumorchid;\n"
+                + "-fx-border-radius: 15;\n"+"-fx-background-radius: 15;\n");
+
 
         this.showRecipe = new Button("Display Recipe");
+        showRecipe.setStyle("-fx-background-color: plum;\n" + "-fx-border-color: mediumorchid;\n"
+                + "-fx-border-radius: 15;\n"+"-fx-background-radius: 15;\n");
         HBox buttonsHBox = new HBox(deleteButton,editIngredients,showRecipe);
         buttonsHBox.setPrefWidth(400);
         buttonsHBox.setSpacing(7);
@@ -205,7 +217,7 @@ public class RecipeListView extends StackPane implements RecipeModelSubscriber, 
 
         HBox alignRight = new HBox(selectedRecipeVBox,ingredientAlign);
         alignRight.setPrefSize(700,500);
-        alignRight.setStyle("-fx-border-color: black;\n");
+        alignRight.setStyle("-fx-border-color: black;\n"+"-fx-background-color: thistle;\n");
         HBox.setHgrow(alignRight, Priority.ALWAYS);
         VBox.setVgrow(alignRight, Priority.ALWAYS);
 
@@ -222,6 +234,7 @@ public class RecipeListView extends StackPane implements RecipeModelSubscriber, 
         alignRecipeBox.setPadding(new Insets(5,5,5,5));
         HBox.setHgrow(alignRecipeBox, Priority.ALWAYS);
         VBox.setVgrow(alignRecipeBox,Priority.ALWAYS);
+        alignRecipeBox.setStyle("-fx-background-color: lavender;\n");
 
         this.getChildren().add(alignRecipeBox);
     }

@@ -18,13 +18,13 @@ public class MenuItemRecipeButton extends Button implements MenuItemWidget {
         this.setPrefWidth(270);
 
         //If this menu item is selected, it will be highlighted
-        selectedBG = new Background(new BackgroundFill(Color.GRAY,new CornerRadii(3),null));
+        selectedBG = new Background(new BackgroundFill(Color.LIGHTGRAY,new CornerRadii(10),null));
         //If the button is unselected, leave it as it
-        unselectedBG = new Background(new BackgroundFill(Color.WHITE,new CornerRadii(3),null));
+        unselectedBG = new Background(new BackgroundFill(Color.PAPAYAWHIP,new CornerRadii(10),null));
         this.setBackground(unselectedBG);
 
         this.setStyle("-fx-border-color: black;\n"+
-                "fx-border-width: 1;\n");
+                "fx-border-width: 1;\n"+"-fx-border-radius: 10;\n");
         this.setText(name);
     }
 

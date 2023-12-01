@@ -47,6 +47,8 @@ public class RestaurantInfoView extends BorderPane implements RestaurantModelSub
         titleHBox.setAlignment(Pos.TOP_CENTER);
 
         this.mainMenu = new Button("Main Menu");
+        mainMenu.setStyle("-fx-background-color: lightgrey;\n" + "-fx-border-color: gray;\n"
+                + "-fx-border-radius: 15;\n"+"-fx-background-radius: 15;\n");
         HBox menuHBox = new HBox();
         menuHBox.setPrefWidth(200);
         menuHBox.getChildren().add(mainMenu);
@@ -62,7 +64,7 @@ public class RestaurantInfoView extends BorderPane implements RestaurantModelSub
         orderNumber = new Label("0");
         VBox orderVBox = new VBox(orderMessage,orderNumber);
         orderVBox.setAlignment(Pos.CENTER);  // Center the content vertically
-        orderVBox.setStyle("-fx-border-color: black; -fx-border-width: 2px;"); // Add a black border
+        orderVBox.setStyle("-fx-border-color: black; -fx-border-width: 2px;"+"-fx-background-color: seashell;\n");
         orderVBox.setPrefSize(200,50);
         VBox.setVgrow(orderVBox,Priority.ALWAYS);
         HBox.setHgrow(orderVBox,Priority.ALWAYS);
@@ -86,7 +88,7 @@ public class RestaurantInfoView extends BorderPane implements RestaurantModelSub
         incomeNumber = new Label("0");
         VBox incomeVBox = new VBox(incomeMessage, incomeNumber);
         incomeVBox.setAlignment(Pos.CENTER);  // Center the content vertically
-        incomeVBox.setStyle("-fx-border-color: black; -fx-border-width: 2px;"); // Add a black border
+        incomeVBox.setStyle("-fx-border-color: black; -fx-border-width: 2px;"+"-fx-background-color: seashell;\n");
         incomeVBox.setPrefSize(200,50);
         VBox.setVgrow(incomeVBox,Priority.ALWAYS);
         HBox.setHgrow(incomeVBox,Priority.ALWAYS);
@@ -104,35 +106,29 @@ public class RestaurantInfoView extends BorderPane implements RestaurantModelSub
 
         HBox centerBox = new HBox(orderVBox,menuItemVBox,incomeVBox,inventoryVBox); // display inventory usage
 
-
-
         Label reportLabel = new Label("Pick a date to view report");
         datePicker = new DatePicker();
         reportButton = new Button("Show Date Report ");
-
-
-
+        reportButton.setStyle("-fx-background-color: lightgrey;\n" + "-fx-border-color: gray;\n"
+                + "-fx-border-radius: 15;\n"+"-fx-background-radius: 15;\n");
 
         VBox rightBox = new VBox(reportLabel,datePicker,reportButton);
         rightBox.setAlignment(Pos.CENTER);
-        rightBox.setStyle("-fx-border-color: black; -fx-border-width: 2px;");
+        rightBox.setStyle("-fx-border-color: black; -fx-border-width: 2px;"+"-fx-background-color: seashell;\n");
         VBox.setVgrow(rightBox, Priority.ALWAYS);
         HBox.setHgrow(rightBox,Priority.ALWAYS);
-
 
         //empty region for spacing at the bottom
         Region bottomRegion = new Region();
         bottomRegion.setMinHeight(30);
         bottomRegion.setStyle("-fx-border-color: black; -fx-border-width: 1px;");
 
-
         this.setBottom(bottomRegion);
 
         this.setTop(topBox);
         this.setRight(rightBox);
         this.setCenter(centerBox);
-
-
+        this.setStyle("-fx-background-color: mistyrose;\n");
     }
 
     public void setRestaurantModel(RestaurantModel restaurantModel) {
