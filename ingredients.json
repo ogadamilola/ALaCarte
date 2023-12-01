@@ -118,5 +118,45 @@
     "commonAllergen": false,
     "pricePerUnit": 0.2,
     "reorderPoint": 0.0
+  },
+  "1Min": {
+    "name": "1Min",
+    "ingredientType": "Other",
+    "measurementUnit": "Count",
+    "commonAllergen": false,
+    "pricePerUnit": 5.0,
+    "reorderPoint": 0.0
+  },
+  "2Min": {
+    "name": "2Min",
+    "ingredientType": "Other",
+    "measurementUnit": "Count",
+    "commonAllergen": false,
+    "pricePerUnit": 7.0,
+    "reorderPoint": 0.0
+  },
+  "3Min": {
+    "name": "3Min",
+    "ingredientType": "Other",
+    "measurementUnit": "Count",
+    "commonAllergen": false,
+    "pricePerUnit": 7.0,
+    "reorderPoint": 0.0
+  },
+  "4Min": {
+    "name": "4Min",
+    "ingredientType": "Proteins",
+    "measurementUnit": "Count",
+    "commonAllergen": false,
+    "pricePerUnit": 123.0,
+    "reorderPoint": 0.0
+  },
+  "5Min": {
+    "name": "5Min",
+    "ingredientType": "Proteins",
+    "measurementUnit": "Count",
+    "commonAllergen": false,
+    "pricePerUnit": 10.0,
+    "reorderPoint": 0.0
   }
 }
