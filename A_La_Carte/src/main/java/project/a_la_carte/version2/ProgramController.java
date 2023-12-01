@@ -849,7 +849,6 @@ public class ProgramController {
     }
     public void discardSelection(WorkerView view){
         this.startupMVC.getServerModel().unselectAll(view);
-        this.startupMVC.getServerModel().discardChanges();
     }
 
     /**
@@ -857,10 +856,6 @@ public class ProgramController {
      */
     public void saveCustomize(WorkerView view){
         this.startupMVC.getServerModel().setCustomization(view);
-        this.startupMVC.getServerModel().unselectAll(view);
-    }
-    public void addCustomize(WorkerView view){
-        this.startupMVC.getServerModel().addCustomize(view);
         this.startupMVC.getServerModel().unselectAll(view);
     }
 

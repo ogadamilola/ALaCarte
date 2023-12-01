@@ -18,33 +18,27 @@ public class MenuFoodItem {
     private float price = 0;
     MenuItemListButton menuItemListButton;
     MenuItemMainDisplay menuItemMainDisplay;
-    CustomizeButton customizeButton;
     Boolean selectedStatus;
     Boolean customized = false;
-    ArrayList<String> customizeOption;
+    String customizeOption = "";
     public MenuFoodItem(ArrayList<Recipe> listOfRecipes, String name, String desc) {
         this.name = name;
         this.description = desc;
         this.menuItemRecipes = listOfRecipes;
         this.menuItemListButton = new MenuItemListButton(name);
         this.menuItemMainDisplay = new MenuItemMainDisplay(name);
-        this.customizeButton = new CustomizeButton(name);
-        this.customizeOption = new ArrayList<>();
         selectedStatus = false;
     }
     public void setCustomizeOption(String change){
         //Preparing for adding multiple customizes
-        this.customizeOption.add(change);
+        this.customizeOption = this.customizeOption + "\n"+change;
         this.customized = true;
     }
-    public ArrayList<String> getCustomize(){
+    public String getCustomize(){
         //Preparing for adding multiples customizes
-        //String stringC = customizeOption;
+        String stringC = customizeOption;
         //customizeOption = "";
-        return this.customizeOption;
-    }
-    public void resetCustomize(){
-        this.customizeOption = new ArrayList<>();
+        return stringC;
     }
     public Boolean isCustomized(){
         return this.customized;
