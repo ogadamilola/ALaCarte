@@ -156,9 +156,6 @@ public class StaffModel {
         }
     }
 
-    public void loadList(){
-
-    }
 
     public void saveList(){
         try (FileWriter writer = new FileWriter(FILE_PATH)) {
