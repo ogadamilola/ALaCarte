@@ -1,6 +1,7 @@
 package project.a_la_carte.version2.serverSide.tableSystem;
 
 
+import project.a_la_carte.version2.classesObjects.MenuFoodItem;
 import project.a_la_carte.version2.classesObjects.Order;
 
 import java.util.ArrayList;
@@ -9,15 +10,20 @@ public class Table {
     boolean status;
     int occupants;
     Order order;
+    ArrayList<Order> orderList;
     Bill bill;
-    private static int lastTableNumber = 0;
+
     int number;
 
-    public Table(Order newOrder){
-        this.status = false; // true indicates occupancy, false indicates vacancy
+    private String notes = "";
+    private String orders = "";
+
+    public Table(){
+        this.number = 1;
+        this.order = null;
+        this.orderList = new ArrayList<>();
+        this.status = false;
         this.occupants = 0;
-        this.number = ++lastTableNumber;
-        this.order = newOrder;
     }
 
     public boolean getStatus(){
@@ -50,9 +56,21 @@ public class Table {
 
     public Order getOrder() {
         if (this.order == null) {
-            this.order = new Order(new ArrayList<>(), 0);
+            this.order = new Order(new ArrayList<MenuFoodItem>(), 0, 1);
         }
         return this.order;
+    }
+    public void addToOrderList(Order order){
+        if (this.orderList == null){
+            this.orderList = new ArrayList<Order>();
+        }
+        this.orderList.add(order);
+    }
+    public ArrayList<Order> getOrderList(){
+        return this.orderList;
+    }
+
+    public void removeFromOrderList(){
     }
 
     public void setOrder(Order order) {
@@ -61,5 +79,37 @@ public class Table {
 
     public int getNumber() {
         return this.number;
+    }
+
+    public void setNumber(int num){
+        this.number = num;
+    }
+
+    public String toString() {
+        StringBuilder ordersString = new StringBuilder();
+        for (Order order : orderList) {
+            ordersString.append(order.toString()).append("\n");
+        }
+        return "Orders:\n" + ordersString;
+    }
+
+    public void setOrderList(ArrayList<Order> orderList) {
+        this.orderList = orderList;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
+
+    public String getOrders() {
+        return orders;
+    }
+
+    public void setOrders(String orders) {
+        this.orders = orders;
     }
 }
