@@ -6,6 +6,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -51,6 +52,7 @@ public class RecipeListView extends StackPane implements RecipeModelSubscriber, 
     Button editIngredients;
     Button showRecipe;
     public RecipeListView(){
+        this.setMaxSize(5000,2500);
         this.setPrefSize(1000,500);
 
         Label title = new Label("Recipe List");
@@ -64,6 +66,8 @@ public class RecipeListView extends StackPane implements RecipeModelSubscriber, 
         //Recipe table
 
         recipeTable = new TableView<>();
+        HBox.setHgrow(recipeTable,Priority.ALWAYS);
+        VBox.setVgrow(recipeTable,Priority.ALWAYS);
         nameCol = new TableColumn<>("Name");
         descCol = new TableColumn<>("Description");
         priceCol = new TableColumn<>("$$$");
@@ -82,11 +86,14 @@ public class RecipeListView extends StackPane implements RecipeModelSubscriber, 
         this.recipeListVBox.setStyle("-fx-border-color: black;\n");
         this.recipeListVBox.setPrefSize(300,500);
         this.recipeListVBox.getChildren().add(recipeTable);
+        VBox.setVgrow(recipeListVBox, Priority.ALWAYS);
 
         VBox leftVBox = new VBox();
         leftVBox.setPrefSize(300,500);
         leftVBox.setPadding(new Insets(5,5,5,5));
         leftVBox.getChildren().addAll(menuHBox, title,recipeListVBox);
+        HBox.setHgrow(leftVBox, Priority.ALWAYS);
+        VBox.setVgrow(leftVBox, Priority.ALWAYS);
 
         Label selectedTitle = new Label("Recipe Information");
         selectedTitle.setFont(new Font(20));
@@ -156,6 +163,8 @@ public class RecipeListView extends StackPane implements RecipeModelSubscriber, 
         selectedRecipeVBox.setPrefSize(400,500);
         selectedRecipeVBox.setPadding(new Insets(5,5,5,5));
         selectedRecipeVBox.getChildren().addAll(selectedLabel,nameHBox,priceHBox,descriptionVBox,prepInstructionVBox,prepTimeHBox,buttonsHBox);
+        VBox.setVgrow(selectedRecipeVBox,Priority.ALWAYS);
+        HBox.setHgrow(selectedRecipeVBox,Priority.ALWAYS);
 
         Label ingredientTitle = new Label("List of Ingredients");
         ingredientTitle.setFont(new Font(15));
@@ -163,6 +172,8 @@ public class RecipeListView extends StackPane implements RecipeModelSubscriber, 
         //---------------- straight up copy paste from MakerView
         //Recipe Ingredient Display
         ingredientTable = new TableView<>();
+        HBox.setHgrow(ingredientTable,Priority.ALWAYS);
+        VBox.setVgrow(ingredientTable,Priority.ALWAYS);
         ingredientNameCol = new TableColumn<>("Ingredient Name");
         ingredientNameCol.setMaxWidth(120);
         quantityCol = new TableColumn<>("Quantity");
@@ -185,24 +196,32 @@ public class RecipeListView extends StackPane implements RecipeModelSubscriber, 
         this.ingredientVBox.setStyle("-fx-border-color: black;\n");
         this.ingredientVBox.setPrefSize(300,500);
         ingredientVBox.getChildren().add(ingredientTable);
+        VBox.setVgrow(ingredientVBox, Priority.ALWAYS);
 
         VBox ingredientAlign = new VBox(ingredientTitle,ingredientVBox);
         ingredientAlign.setPrefSize(300,500);
         ingredientAlign.setPadding(new Insets(5,5,5,5));
+        VBox.setVgrow(ingredientAlign,Priority.ALWAYS);
 
         HBox alignRight = new HBox(selectedRecipeVBox,ingredientAlign);
         alignRight.setPrefSize(700,500);
         alignRight.setStyle("-fx-border-color: black;\n");
+        HBox.setHgrow(alignRight, Priority.ALWAYS);
+        VBox.setVgrow(alignRight, Priority.ALWAYS);
 
         VBox rightVBox = new VBox();
         rightVBox.setPrefSize(700,500);
         rightVBox.setPadding(new Insets(5,5,5,5));
         rightVBox.getChildren().addAll(createHBox,selectedTitle,alignRight);
+        VBox.setVgrow(rightVBox, Priority.ALWAYS);
+        HBox.setHgrow(rightVBox, Priority.ALWAYS);
 
         HBox alignRecipeBox = new HBox();
         alignRecipeBox.setPrefSize(1000,500);
         alignRecipeBox.getChildren().addAll(leftVBox,rightVBox);
         alignRecipeBox.setPadding(new Insets(5,5,5,5));
+        HBox.setHgrow(alignRecipeBox, Priority.ALWAYS);
+        VBox.setVgrow(alignRecipeBox,Priority.ALWAYS);
 
         this.getChildren().add(alignRecipeBox);
     }

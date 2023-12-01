@@ -7,6 +7,9 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.paint.Color;
 import project.a_la_carte.version2.interfaces.MenuItemWidget;
 
+/**
+ * Button container for options
+ */
 public class CustomizeSelectionButton extends Button implements MenuItemWidget {
     Background selectedBG;
     Background unselectedBG;

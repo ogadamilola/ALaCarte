@@ -15,6 +15,9 @@ import project.a_la_carte.version2.managerSide.recipe.*;
 import project.a_la_carte.version2.menuItems.*;
 import project.a_la_carte.version2.managerSide.staff.StaffInfoView;
 
+/**
+ * View that opens up for the Manager
+ */
 public class ManagerMainView extends StackPane {
     InventoryView inventoryView;
     RecipeMakerView recipeMakerView;
@@ -143,8 +146,6 @@ public class ManagerMainView extends StackPane {
         managerViewAlign.setPadding(new Insets(20,20,20,20));
         managerViewAlign.setAlignment(Pos.CENTER);
 
-
-
         //Trying BorderPane
 
         /*BorderPane borderPane = new BorderPane();
@@ -161,6 +162,11 @@ public class ManagerMainView extends StackPane {
         this.setStyle("-fx-border-color: black;\n");
         this.getChildren().add(managerMainScreen);
     }
+
+    /**
+     * Connecting the ManagerMainView to the program's controller
+     * @param controller: ProgramController
+     */
     public void setController(ProgramController controller){
         inventoryButton.setOnAction(controller::openInventoryScreen);
         recipeButton.setOnAction(controller::openRecipeList);
@@ -168,6 +174,10 @@ public class ManagerMainView extends StackPane {
         staffInfoButton.setOnAction(controller::openStaffInfoView);
         restaurantInfoButton.setOnAction(controller::openRestaurantInfoView);
     }
+
+    /**
+     * These methods are used for setting the display of the ManagerMainView
+     */
     public void selectManagerMenu(){this.selectedScreen = "managerView";}
     public void selectInventory(){
         this.selectedScreen = "inventory";

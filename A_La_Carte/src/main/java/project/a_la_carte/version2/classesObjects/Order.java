@@ -30,9 +30,6 @@ public class Order {
         if (!menuItems.isEmpty()){
             this.menuItems.remove(item);
         }
-        else{
-            this.orderFinished();
-        }
     }
     public ArrayList<MenuFoodItem> getOrderList(){
         return this.menuItems;

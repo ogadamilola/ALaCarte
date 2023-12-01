@@ -21,6 +21,9 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The program's MenuItem model
+ */
 public class MenuItemModel {
     ArrayList<MenuFoodItem> menuItemsList;
     List<MenuItemModelSubscriber> subscriberList;
@@ -65,31 +68,56 @@ public class MenuItemModel {
         subscriberList = new ArrayList<>();
         addedRecipes = new ArrayList<>();
     }
+
+    /**
+     * Method for adding Recipes to the MenuItem
+     */
     public void addRecipesToItem(Recipe recipe){
         Recipe newRecipe = new Recipe(recipe.getName());
         newRecipe.setDescription(recipe.getDescription());
         newRecipe.setPrice(recipe.getPrice());
         newRecipe.setPrepTime(recipe.getPrepTime());
         newRecipe.setPrepInstruction(recipe.getPrepInstruction());
+        newRecipe.setRecipeIngredients(recipe.getRecipeIngredients());
 
         this.addedRecipes.add(newRecipe);
         notifySubscribers();
     }
+
+    /**
+     * Method for removing Recipes in the MenuItem
+     */
     public void removeRecipeFromItem(Recipe recipe){
         this.addedRecipes.remove(recipe);
         notifySubscribers();
     }
+
+    /**
+     * Method for clearing all Recipes in the MenuItem
+     */
     public void resetAddedRecipes(){
         this.addedRecipes = new ArrayList<>();
         notifySubscribers();
     }
+
+    /**
+     * Get method for the added Recipes in the MenuItem
+     */
     public ArrayList<Recipe> getAddedRecipes(){
         return this.addedRecipes;
     }
+
+    /**
+     * Get methods for selected Recipes
+     */
     public Recipe getSelectedAddedRecipe(){return this.selectedAddedRecipe;}
     public Recipe getSelectedRecipe(){
         return this.selectedRecipe;
     }
+
+    /**
+     * Method for selecting an Added recipe in the MenuItem
+     */
     public void selectAddedRecipe(Recipe newRecipe){
         this.getRecipeArrayList().forEach((Recipe::unselectRecipe));
         this.getAddedRecipes().forEach((Recipe::unselectRecipe));
@@ -98,17 +126,33 @@ public class MenuItemModel {
         this.selectedAddedRecipe = newRecipe;
         newRecipe.selectedRecipe();
     }
+
+    /**
+     * Method for setting the Recipes that is already added to the MenuItem
+     */
     public void setSelectedAddedRecipe(ArrayList<Recipe> newList){
         this.addedRecipes = newList;
         notifySubscribers();
     }
+
+    /**
+     * Method for setting the Recipes that is in the database
+     */
     public void setRecipeArrayList(ArrayList<Recipe> newList){
         this.recipeArrayList = newList;
         notifySubscribers();
     }
+
+    /**
+     * Get method for Recipe ArrayList in the Database
+     */
     public ArrayList<Recipe> getRecipeArrayList(){
         return this.recipeArrayList;
     }
+
+    /**
+     * Method used for updating displays
+     */
     public void selectRecipe(Recipe newRecipe){
         this.getRecipeArrayList().forEach((Recipe::unselectRecipe));
         this.getAddedRecipes().forEach((Recipe::unselectRecipe));
@@ -117,11 +161,19 @@ public class MenuItemModel {
         this.selectedAddedRecipe = null;
         newRecipe.selectedRecipe();
     }
+
+    /**
+     * Method for adding a new MenuItem to the database
+     */
     public void addNewMenuItem(MenuFoodItem menuFoodItem) {
         this.menuItemsList.add(menuFoodItem);
         notifySubscribers();
         saveData();
     }
+
+    /**
+     * Delete a MenuItem in the database
+     */
     public void deleteMenuItem(MenuFoodItem item){
         this.menuItemsList.remove(item);
         menuItemsList.forEach((MenuFoodItem::unselectRecipe));
@@ -130,6 +182,10 @@ public class MenuItemModel {
         notifySubscribers();
         saveData();
     }
+
+    /**
+     * Select MenuItem in the list
+     */
     public void selectMenuItem(MenuFoodItem newItem){
         menuItemsList.forEach((MenuFoodItem::unselectRecipe));
 
@@ -138,6 +194,10 @@ public class MenuItemModel {
         this.setSelectedAddedRecipe(selectedItem.getMenuItemRecipes());
         notifySubscribers();
     }
+
+    /**
+     * Get method for the selected MenuItem
+     */
     public MenuFoodItem getSelectedItem(){return this.selectedItem;}
     public void addSubscriber(MenuItemModelSubscriber subscriber){
         subscriberList.add(subscriber);

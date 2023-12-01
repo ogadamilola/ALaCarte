@@ -9,10 +9,17 @@ import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 import project.a_la_carte.version2.classesObjects.MenuFoodItem;
 
+import java.util.ArrayList;
+
+/**
+ * Used to contain the MenuItems(with or without edits) on the current order
+ */
 public class OrderListView extends VBox {
     Button deleteButton;
     MenuFoodItem menuItem;
+    ArrayList<String> customized;
     public OrderListView(MenuFoodItem item){
+        customized = new ArrayList<>();
         this.setPrefSize(250,70);
         menuItem = item;
         double r = 1.5;
@@ -35,9 +42,17 @@ public class OrderListView extends VBox {
         this.setStyle("-fx-border-color: black;-fx-background-color: cornflowerblue;\n");
         this.getChildren().addAll(buttonAlign,align);
     }
+
+    /**
+     * Get method for the MenuItem
+     */
     public MenuFoodItem getMenuItem(){
         return this.menuItem;
     }
+
+    /**
+     * Get method for deleting
+     */
     public Button getDeleteButton(){
         return this.deleteButton;
     }

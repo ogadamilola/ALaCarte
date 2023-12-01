@@ -27,12 +27,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import static java.lang.Float.parseFloat;
-
+/**
+ * The class used as the program's controller
+ */
 public class ProgramController {
     StartupMVC startupMVC;
     ManagerMainView managerMainView;
-    WorkerView workerView;
     InventoryView inventoryView;
     RecipeListView recipeListView;
     RecipeMakerView recipeMakerView;
@@ -54,27 +54,38 @@ public class ProgramController {
     }
 
     /**
-     * These would be the action in StartupMVC
+     * Setting the program's ManagerMainView
      */
     public void setManagerMainView(ManagerMainView view){
         this.managerMainView = view;
     }
-    public void setWorkerView(WorkerView view){
-        this.workerView = view;
-    }
 
+    /**
+     * Setting the program's RestaurantInfoView
+     */
     public void setRestaurantInfoView(RestaurantInfoView restaurantInfoView) {
         this.restaurantInfoView = restaurantInfoView;
     }
 
+    /**
+     * Used to display ManagerMainView
+     */
     public void openManagerMainView(ActionEvent event){
         this.managerMainView.selectManagerMenu();
         this.managerMainView.modelChanged();
     }
+
+    /**
+     * Used to display WorkerView
+     */
     public void openWorkerView(WorkerView view){
         view.selectWorkerView();
         view.modelChanged();
     }
+
+    /**
+     * A new stage display for ManagerMainView
+     */
     public void startManagerMainView(ActionEvent event){
         ManagerMainView newView = new ManagerMainView(this.startupMVC);
 
@@ -85,6 +96,10 @@ public class ProgramController {
         managerStage.show();
 
     }
+
+    /**
+     * A new stage display for WorkerView
+     */
     public void startWorkerView(ActionEvent event){
         WorkerView newView = new WorkerView(this.startupMVC);
 
@@ -92,62 +107,95 @@ public class ProgramController {
         workerStage.setTitle("Worker");
         workerStage.getIcons().add(new Image(ProgramController.class.getResourceAsStream("/images/icon.png")));
         workerStage.setScene(new Scene(newView));
-        newView.setStage(workerStage);
         workerStage.show();
     }
+
+    /**
+     * Setting the program's StartUpMVC
+     */
     public void setStartupMVC(StartupMVC newModel){
         this.startupMVC = newModel;
-        //This is just for testing
-//        MenuFoodItem newItem = new MenuFoodItem((ArrayList<Recipe>) startupMVC.getRecipeModel().getRecipeList(), "Test Item", "Test Description");
-//        startupMVC.getMenuItemModel().addNewMenuItem(newItem);
         this.startupMVC.getMenuItemModel().resetAddedRecipes();
         //----------------------------------------------
     }
+
+    /**
+     * Used to display InventoryScreen
+     */
     public void openInventoryScreen(ActionEvent event){
         this.managerMainView.selectInventory();
         this.managerMainView.modelChanged();
         this.startupMVC.getInventoryModel().notifySubs();
     }
+
+    /**
+     * Used to display StartUpMVC
+     */
     public void openStartUpMVC(ActionEvent event){
         this.startupMVC.selectStartup();
         this.startupMVC.modelChanged();
     }
+
+    /**
+     * Used to display SignUp
+     */
     public void openSignUp(ActionEvent event){
         this.startupMVC.selectSignUp();
         this.startupMVC.modelChanged();
     }
+
+    /**
+     * Used to display RecipeListView
+     */
     public void openRecipeList(ActionEvent event){
         this.managerMainView.selectRecipeList();
         this.managerMainView.modelChanged();
         this.startupMVC.getRecipeModel().notifySubscribers();
         this.startupMVC.getRecipeInteractiveModel().clearRecipeIModel();
     }
+
+    /**
+     * Used to display MenuView
+     */
     public void openMenuView(WorkerView view){
-        //So that the new display is shown
         this.startupMVC.getServerModel().notifySubscribers();
         this.startupMVC.getServerModel().setMenuItemList(startupMVC.getMenuItemModel().getMenuItemsList());
 
         view.selectMenuView();
         view.modelChanged();
     }
+
+    /**
+     * Used to display KitchenView
+     */
     public void openKitchenView(WorkerView view){
         this.startupMVC.getKitchenModel().notifySubscribers();
 
         view.selectKitchenView();
         view.modelChanged();
     }
+
+    /**
+     * Used to display MenuListView
+     */
     public void openMenuListView(ActionEvent event){
         this.startupMVC.getMenuItemModel().notifySubscribers();
         this.managerMainView.selectMenuItemList();
         this.managerMainView.modelChanged();
     }
 
+    /**
+     * Used to display StaffInfoView
+     */
     public void openStaffInfoView(ActionEvent event){
         this.startupMVC.getStaffModel().notifySubscribers();
         this.managerMainView.selectStaffInfoView();
         this.managerMainView.modelChanged();
     }
 
+    /**
+     * Used to display RestaurantInfoView
+     */
     public void openRestaurantInfoView(ActionEvent event){
         this.startupMVC.getRestaurantModel().notifySubs();
         this.managerMainView.selectRestaurantInfoView();
@@ -170,16 +218,22 @@ public class ProgramController {
 
 
     /**
-     * Start of log in actions
+     * Setting the program's SignUpView
      */
     public void setSignUpView(SignUpView signUpView) {
         this.signUpView = signUpView;
     }
 
+    /**
+     * Setting the program's SignInView
+     */
     public void setSignInView(SignInView signInView) {
         this.signInView = signInView;
     }
 
+    /**
+     * This method is used for Managers logging in to the program
+     */
     public void handleLogIn(ActionEvent actionEvent){
         String username = signInView.getUsernameText().getText();
         String password = signInView.getPasswordText().getText();
@@ -193,6 +247,9 @@ public class ProgramController {
         }
     }
 
+    /**
+     * This method is used for Servers logging in to the program
+     */
     public void handleServerLogIn(WorkerView workerView) {
         String pin = workerView.getPinText().getText();
         boolean valid = this.startupMVC.getStaffModel().verifyServerLogIn(pin);
@@ -203,6 +260,9 @@ public class ProgramController {
         }
     }
 
+    /**
+     * This method will be used for creating new Managers in the database
+     */
     public void newManager(ActionEvent actionEvent) {
         //try {
             String fName = signUpView.getfNameText().getText();
@@ -226,10 +286,7 @@ public class ProgramController {
     }
 
     /**
-     * End of log in actions
-     */
-    /**
-     * Here would be Inventory actions
+     * Setting the program's InventoryView
      */
     public void setInventoryView(InventoryView inventoryView){
         this.inventoryView = inventoryView;
@@ -272,6 +329,9 @@ public class ProgramController {
         }
     }
 
+    /**
+     * Clearing the Text fields in the Inventory View
+     */
     public void clearInventoryViewFields(ActionEvent actionEvent) {
         inventoryView.getNameText().clear();
         inventoryView.getNameText().setEditable(true);
@@ -305,25 +365,19 @@ public class ProgramController {
     }
 
     public void deleteItem(ActionEvent actionEvent) {
-
         String ingredientName = inventoryView.getNameText().getText();
         Ingredient ingredient = searchIngredientByName(ingredientName);
         startupMVC.getInventoryModel().deleteItem(ingredient);
     }
 
     /**
-     * End of Inventory Actions
-     */
-
-    /**
-     * Here would be Recipe List Actions
+     * Setting the program's RecipeListView
      */
     public void setRecipeListView(RecipeListView recipeListView) {
         this.recipeListView = recipeListView;
     }
 
     public void loadRecipe(MouseEvent mouseEvent) {
-
         if( recipeListView.getRecipeTable().getSelectionModel().getSelectedItem() ==null){
             startupMVC.getRecipeInteractiveModel().setLoadedRecipe(null);
             setStateNotLoaded(null);
@@ -369,13 +423,15 @@ public class ProgramController {
      */
 
     /**
-     * Here would be Recipe Maker actions
+     * Setting the program's RecipeMakerView
      */
-
     public void setRecipeMakerView(RecipeMakerView recipeMakerView) {
         this.recipeMakerView = recipeMakerView;
     }
 
+    /**
+     * Used to display RecipeMakerView
+     */
     public void openRecipeMakerScreen(ActionEvent event){
         switch (interactionState){
             case RECIPE_LOADED -> {
@@ -450,10 +506,22 @@ public class ProgramController {
                 ingredientMap.put(entry.getKey(), ingredientQuantity);
             }
 
+            //System.out.println(ingredientMap);
+
             startupMVC.getRecipeModel().addNewOrUpdateRecipe(recipeName, recipePrice, recipeDesc, recipeInstruction, recipePrepTime, ingredientMap);
 
             ArrayList<Recipe> newRecipeList = new ArrayList<>(startupMVC.getRecipeModel().getRecipeList());
             startupMVC.getMenuItemModel().setRecipeArrayList(newRecipeList);
+
+            //editing ingredient lists for recipes that have been modified in each menu item
+            for (MenuFoodItem m : startupMVC.getMenuItemModel().getMenuItemsList()) {
+                for (Recipe r : m.getMenuItemRecipes()) {
+                    if (r.getName().equals(recipeName)) {
+                        r.setRecipeIngredients(ingredientMap);
+                    }
+                }
+            }
+            startupMVC.getMenuItemModel().saveData(); //saving changes to recipes
 
             //could be deleted if we wanted to leave the recipe on the scree
             //clear all the fields
@@ -463,8 +531,10 @@ public class ProgramController {
             recipeMakerView.getRecipeInstruction().clear();
             recipeMakerView.getRecipePrep().clear();
             recipeMakerView.getIngredientTable().setItems(null);
+
             setStateNotLoaded(event);
-            recipieAddedPopUp(recipeName);
+            openRecipeList(event); //kick them back out to the screen
+            showConfirmationAlert("Success", "Recipe: " + recipeName+ " saved successfully." );
 
 
         }catch(NumberFormatException e){
@@ -583,12 +653,8 @@ public class ProgramController {
 
     }
 
-
     /**
-     * End of Recipe Actions
-     */
-    /**
-     * Kitchen Actions
+     * Creates a display in Kitchen side to see notes sent from Server side
      */
     public void showKitchenAlerts(ActionEvent event){
         KitchenAlertView alertView = new KitchenAlertView(this.startupMVC.getKitchenModel());
@@ -599,6 +665,9 @@ public class ProgramController {
         kitchenAlertStage.setScene(new Scene(alertView));
         kitchenAlertStage.show();
     }
+    /**
+     * Creates a display in Kitchen side for sending notes to the Server side
+     */
     public void alertSenderToServer(ActionEvent event){
         ServerNoteMaker serverNoteMaker = new ServerNoteMaker(this, this.startupMVC.getKitchenModel());
 
@@ -606,30 +675,38 @@ public class ProgramController {
         serverNoteStage.setScene(new Scene(serverNoteMaker));
         serverNoteStage.show();
     }
+
+    /**
+     * Method to send note to Server side from Kitchen side
+     */
     public void sendKitchenAlertToServer(ActionEvent event){
         startupMVC.getServerModel().addNote(startupMVC.getKitchenModel().getSentAlert());
         startupMVC.getServerModel().notifySubscribers();
     }
-    /**
-     * End of Kitchen Actions
-     */
 
     /**
-     * Menu Action
+     * Setting the program's MenuItemMakerView
      */
     public void setMenuItemMakerView(MenuItemMakerView newView){
         this.menuItemMakerView = newView;
     }
+
+    /**
+     * Used to display MenuMakerView
+     */
     public void openMenuMakerView(ActionEvent event){
         this.menuItemMakerView.setSave();
         ArrayList<Recipe> newList = new ArrayList<>(startupMVC.getRecipeModel().getRecipeList());
+        startupMVC.getMenuItemModel().setSelectedAddedRecipe(new ArrayList<>());
 
         this.startupMVC.getMenuItemModel().setRecipeArrayList(newList);
         this.managerMainView.selectMenuMakerView();
         this.managerMainView.modelChanged();
     }
 
-
+    /**
+     * Method for setting the display for editing a MenuItem
+     */
     public void editMenuMakerView(ActionEvent event){
         this.menuItemMakerView.setEdit();
 
@@ -642,19 +719,35 @@ public class ProgramController {
         this.managerMainView.selectMenuMakerView();
         this.managerMainView.modelChanged();
     }
+
+    /**
+     * Method for deleting MenuItem
+     */
     public void deleteMenuItem(ActionEvent event){
         this.startupMVC.getMenuItemModel().deleteMenuItem(startupMVC.getMenuItemModel().getSelectedItem());
         this.startupMVC.getServerModel().setMenuItemList(startupMVC.getMenuItemModel().getMenuItemsList());
     }
+
+    /**
+     * Method for adding Recipes for MenuItem
+     */
     public void addRecipeToItem(ActionEvent event){
         if (this.startupMVC.getMenuItemModel().getSelectedRecipe() != null){
             this.startupMVC.getMenuItemModel().addRecipesToItem(this.startupMVC.getMenuItemModel().getSelectedRecipe());}
     }
+
+    /**
+     * Method for removing Recipes from MenuItem
+     */
     public void removeRecipeFromItem(ActionEvent event){
         if (this.startupMVC.getMenuItemModel().getSelectedAddedRecipe() != null) {
             this.startupMVC.getMenuItemModel().removeRecipeFromItem(this.startupMVC.getMenuItemModel().getSelectedAddedRecipe());
         }
     }
+
+    /**
+     * Method for creating MenuItems that is to be displayed on Server side
+     */
     public void addItemToMenu(ActionEvent event){
         try {
             if (menuItemMakerView.getMenuItemName() != null && menuItemMakerView.getMenuItemDescription() != null) {
@@ -675,6 +768,9 @@ public class ProgramController {
 
     }
 
+    /**
+     * Method for saving the edits made on a MenuItem
+     */
     public void saveEditsToItem(ActionEvent event){
         if (menuItemMakerView.getMenuItemName() != null && menuItemMakerView.getMenuItemDescription() != null) {
             startupMVC.getMenuItemModel().getSelectedItem().setName(menuItemMakerView.getMenuItemName());
@@ -702,6 +798,10 @@ public class ProgramController {
         inventoryAlertStage.setScene(new Scene(stockView));
         inventoryAlertStage.show();
     }
+
+    /**
+     * Method to display notes in Server side sent from Kitchen  side
+     */
     public void showServerAlerts(ActionEvent event){
         ServerAlertView alertView = new ServerAlertView(this.startupMVC.getServerModel());
         this.startupMVC.getServerModel().addSubscriber(alertView);
@@ -711,10 +811,18 @@ public class ProgramController {
         kitchenAlertStage.setScene(new Scene(alertView));
         kitchenAlertStage.show();
     }
+
+    /**
+     * Method for sending notes from ServerSide to KitchenSide
+     */
     public void sendNoteToKitchen(WorkerView view){
         this.startupMVC.getKitchenModel().addNote(view.getNoteView().getNote());
         this.startupMVC.getServerModel().setNoteMessage(view);
     }
+
+    /**
+     * Used to display NoteView
+     */
     public void openNoteView(WorkerView view){
         this.startupMVC.getServerModel().clearNoteAlert(view.getNoteView());
         this.startupMVC.getServerModel().notifySubscribers();
@@ -722,12 +830,18 @@ public class ProgramController {
         view.modelChanged();
     }
 
+    /**
+     * Used to display TablesView
+     */
     public void openTablesView(WorkerView view){
         this.startupMVC.getServerModel().notifySubscribers();
         view.selectTableView();
         view.modelChanged();
     }
 
+    /**
+     * Used to display Customize view
+     */
     public void openCustomizeView(WorkerView view){
         this.startupMVC.getServerModel().notifySubscribers();
         view.selectCustomize();
@@ -736,10 +850,18 @@ public class ProgramController {
     public void discardSelection(WorkerView view){
         this.startupMVC.getServerModel().unselectAll(view);
     }
+
+    /**
+     * Used to make a temporary edit on a Menu Item that is to be added to an order
+     */
     public void saveCustomize(WorkerView view){
         this.startupMVC.getServerModel().setCustomization(view);
         this.startupMVC.getServerModel().unselectAll(view);
     }
+
+    /**
+     * Method for sending the current Order to Kitchen side
+     */
     public void sendToKitchen(WorkerView view){
         if (view.getMenuView().getCurrentOrder() != null){
             this.startupMVC.getKitchenModel().addOrder(view.getMenuView().getCurrentOrder());
@@ -751,9 +873,17 @@ public class ProgramController {
             view.getMenuView().clearOrder();
         }
     }
+
+    /**
+     * Method for voiding the current order
+     */
     public void voidOrder(WorkerView view){
         view.getMenuView().clearOrder();
     }
+
+    /**
+     * A display for refunding orders
+     */
     public void refundDisplay(ActionEvent event){
         RefundView refundView = new RefundView(startupMVC.getKitchenModel(),startupMVC.getRestaurantModel());
         this.startupMVC.getKitchenModel().addSubscribers(refundView);

@@ -5,13 +5,12 @@ import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.*;
 
-import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import project.a_la_carte.version2.ProgramController;
 
+import project.a_la_carte.version2.WorkerView;
 import project.a_la_carte.version2.classesObjects.MenuFoodItemData;
 import project.a_la_carte.version2.interfaces.RestaurantModelSubscriber;
 
@@ -21,8 +20,6 @@ public class RestaurantInfoView extends BorderPane implements RestaurantModelSub
 
     RestaurantModel restaurantModel;
     Button mainMenu;
-    Button startDay;
-    Button endDay;
     TableView<MenuFoodItemData> menuTable;
     TableColumn<MenuFoodItemData, String> menuItemNameCol;
     TableColumn<MenuFoodItemData, Double> menuItemQuantityCol;
@@ -31,8 +28,9 @@ public class RestaurantInfoView extends BorderPane implements RestaurantModelSub
     VBox menuItemVBox;
     Label date;
     DatePicker datePicker;
-
     Button reportButton;
+
+
     TableView<MenuFoodItemData> ingredientTable; //using MenuFoodItem data to display ingredients
     TableColumn<MenuFoodItemData, String> ingredientNameCol;
     TableColumn<MenuFoodItemData, Double> ingredientQuantityCol;
@@ -41,7 +39,9 @@ public class RestaurantInfoView extends BorderPane implements RestaurantModelSub
         Label title = new Label("Manage Restaurant");
         date = new Label("Day not started!");
         title.setFont(new Font(20));
+        date.setFont(new Font(20));
         HBox titleHBox = new HBox(title,date);
+
         titleHBox.setSpacing(60);
         titleHBox.setPrefWidth(600);
         titleHBox.setAlignment(Pos.TOP_CENTER);
@@ -64,11 +64,14 @@ public class RestaurantInfoView extends BorderPane implements RestaurantModelSub
         orderVBox.setAlignment(Pos.CENTER);  // Center the content vertically
         orderVBox.setStyle("-fx-border-color: black; -fx-border-width: 2px;"); // Add a black border
         orderVBox.setPrefSize(200,50);
+        VBox.setVgrow(orderVBox,Priority.ALWAYS);
+        HBox.setHgrow(orderVBox,Priority.ALWAYS);
 
         //TODO show menuItems ordered Today
 
         menuTable = new TableView<>();
-
+        VBox.setVgrow(menuTable, Priority.ALWAYS);
+        HBox.setHgrow(menuTable,Priority.ALWAYS);
         menuItemNameCol = new TableColumn<>("Menu Item");
         menuItemQuantityCol = new TableColumn<>("Times Ordered");
         menuTable.getColumns().addAll(menuItemNameCol,menuItemQuantityCol);
@@ -85,10 +88,14 @@ public class RestaurantInfoView extends BorderPane implements RestaurantModelSub
         incomeVBox.setAlignment(Pos.CENTER);  // Center the content vertically
         incomeVBox.setStyle("-fx-border-color: black; -fx-border-width: 2px;"); // Add a black border
         incomeVBox.setPrefSize(200,50);
+        VBox.setVgrow(incomeVBox,Priority.ALWAYS);
+        HBox.setHgrow(incomeVBox,Priority.ALWAYS);
 
         //TODO show inventory usage
 
         ingredientTable = new TableView<>();
+        VBox.setVgrow(ingredientTable,Priority.ALWAYS);
+        HBox.setHgrow(ingredientTable,Priority.ALWAYS);
         ingredientNameCol = new TableColumn<>("Ingredient");
         ingredientQuantityCol = new TableColumn<>("Quantity Used");
         ingredientTable.getColumns().addAll(ingredientNameCol,ingredientQuantityCol);
@@ -97,9 +104,6 @@ public class RestaurantInfoView extends BorderPane implements RestaurantModelSub
 
         HBox centerBox = new HBox(orderVBox,menuItemVBox,incomeVBox,inventoryVBox); // display inventory usage
 
-        startDay = new Button("Start new day");
-        endDay = new Button("End day");
-        HBox bottomBox = new HBox(startDay,endDay);
 
 
         Label reportLabel = new Label("Pick a date to view report");
@@ -107,14 +111,26 @@ public class RestaurantInfoView extends BorderPane implements RestaurantModelSub
         reportButton = new Button("Show Date Report ");
 
 
+
+
         VBox rightBox = new VBox(reportLabel,datePicker,reportButton);
         rightBox.setAlignment(Pos.CENTER);
+        rightBox.setStyle("-fx-border-color: black; -fx-border-width: 2px;");
+        VBox.setVgrow(rightBox, Priority.ALWAYS);
+        HBox.setHgrow(rightBox,Priority.ALWAYS);
 
+
+        //empty region for spacing at the bottom
+        Region bottomRegion = new Region();
+        bottomRegion.setMinHeight(30);
+        bottomRegion.setStyle("-fx-border-color: black; -fx-border-width: 1px;");
+
+
+        this.setBottom(bottomRegion);
 
         this.setTop(topBox);
         this.setRight(rightBox);
         this.setCenter(centerBox);
-        this.setBottom(bottomBox);
 
 
     }

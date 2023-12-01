@@ -19,7 +19,6 @@
       "Lettuce": 0.25,
       "Sliced Onion": 0.1,
       "Ketchup": 0.0625,
-      "Pepsi": 1.0,
       "Mustard": 0.0,
       "Burger Bun": 1.0,
       "Cheddar Cheese": 0.25,
@@ -83,26 +82,14 @@
   },
   {
     "ingredientMap": {
-      "Pepsi": 4.0
+      "Ketchup": 0.375,
+      "Pork Ribs": 1.0
     },
-    "name": "4 Minute Recipe",
-    "description": "4 Minute Recipe Description ",
-    "prepInstruction": "4 Minute Recipe Instructions",
-    "price": 4.0,
-    "prepTime": 4.0,
-    "selectedStatus": false,
-    "finished": false
-  },
-  {
-    "ingredientMap": {
-      "Potatoes": 0.3125,
-      "Pepsi": 4.0
-    },
-    "name": "5 Minute Recipe",
-    "description": "5 Minute Recipe Description",
-    "prepInstruction": "5 Minute Recipe Instructions",
-    "price": 5.0,
-    "prepTime": 5.0,
+    "name": "Ribs",
+    "description": "Ribs and ketchup",
+    "prepInstruction": "put ketchup on ribs",
+    "price": 10.59375,
+    "prepTime": 15.0,
     "selectedStatus": false,
     "finished": false
   }

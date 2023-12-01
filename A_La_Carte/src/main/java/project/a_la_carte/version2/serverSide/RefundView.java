@@ -15,6 +15,9 @@ import project.a_la_carte.version2.serverSide.widgets.RefundOptions;
 
 import java.util.ArrayList;
 
+/**
+ * Display for refunding orders
+ */
 public class RefundView extends StackPane implements KitchenViewsInterface {
     KitchenModel kitchenModel;
     RestaurantModel restaurantModel;
@@ -60,6 +63,9 @@ public class RefundView extends StackPane implements KitchenViewsInterface {
                     this.kitchenModel.refundOrder(order);
                     this.restaurantModel.handleOrderRefund(order);
                 }));
+                refund.getViewItemsButton().setOnAction(actionEvent -> {
+                    refund.showItems(order);
+                });
             }));
         }
 

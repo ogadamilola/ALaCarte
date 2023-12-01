@@ -8,6 +8,9 @@ import javafx.scene.paint.Color;
 
 import project.a_la_carte.version2.interfaces.MenuItemWidget;
 
+/**
+ * Button container for MenuItem recipes
+ */
 public class MenuItemRecipeButton extends Button implements MenuItemWidget {
     Background selectedBG;
     Background unselectedBG;

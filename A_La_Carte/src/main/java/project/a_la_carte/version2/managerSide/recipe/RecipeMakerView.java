@@ -6,6 +6,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -44,7 +45,8 @@ public class RecipeMakerView extends StackPane implements InventorySubscriber, R
     TableColumn<IngredientData,String> measurementUnitCol;
     TableColumn<IngredientData, Boolean> allergenCol;
     public RecipeMakerView(){
-        this.setMaxSize(1000,500);
+        this.setMaxSize(5000,2500);
+        this.setPrefSize(1000,500);
 
         //Left side of Recipe Creator page
         //----------------------------------------------------
@@ -117,10 +119,13 @@ public class RecipeMakerView extends StackPane implements InventorySubscriber, R
         enterMeasurementField = new TextField();
 
         measurementBox = new Label("Measurement Unit");
+        measurementBox.setFont(new Font(13));
 
 
 
         amountHBox.getChildren().addAll(enterMeasurementField,measurementBox);
+        amountHBox.setSpacing(5);
+        amountHBox.setAlignment(Pos.CENTER_LEFT);
 
         selectionVBox.getChildren().addAll( selectLabel, ingredientMenuBar,selectedIngredient,amountHBox,addAndDelBox);
 
@@ -147,6 +152,8 @@ public class RecipeMakerView extends StackPane implements InventorySubscriber, R
         ingredientVBox.setStyle("-fx-border-color: black;\n");
 
         ingredientTable = new TableView<>();
+        VBox.setVgrow(ingredientTable,Priority.ALWAYS);
+        HBox.setHgrow(ingredientTable,Priority.ALWAYS);
         nameCol = new TableColumn<>("Ingredient Name");
         quantityCol = new TableColumn<>("Quantity");
         quantityCol.setMaxWidth(70);
@@ -164,15 +171,21 @@ public class RecipeMakerView extends StackPane implements InventorySubscriber, R
         ingredientTable.setPrefSize(700,1500);
         ingredientVBox.getChildren().add(ingredientTable);
         ingredientVBox.setPrefSize(600,700);
+        VBox.setVgrow(ingredientVBox,Priority.ALWAYS);
+        HBox.setHgrow(ingredientVBox,Priority.ALWAYS);
 
         VBox alignRight = new VBox();
         alignRight.getChildren().addAll(ingredientVBox,buttonsHBox);
         alignRight.setPadding(new Insets(5,5,5,5));
+        VBox.setVgrow(alignRight,Priority.ALWAYS);
+        HBox.setHgrow(alignRight,Priority.ALWAYS);
 
 
         HBox connectAll = new HBox();
         connectAll.getChildren().addAll(createVBox,alignRight);
         connectAll.setPadding(new Insets(5,5,5,5));
+        VBox.setVgrow(connectAll, Priority.ALWAYS);
+        HBox.setHgrow(connectAll,Priority.ALWAYS);
 
         this.setStyle("-fx-border-color: black;\n");
         this.getChildren().add(connectAll);
@@ -251,7 +264,7 @@ public class RecipeMakerView extends StackPane implements InventorySubscriber, R
         quantityCol.setCellValueFactory(cellData -> cellData.getValue().inventoryQuantityProperty().asObject());
         measurementUnitCol.setCellValueFactory(cellData -> cellData.getValue().recipeMeasurementProperty());
         allergenCol.setCellValueFactory(cellData -> cellData.getValue().allergenProperty());
-
+        this.getRecipePrice().setText(String.valueOf(priceOfIngredients));
         if(loadedRecipe == null) {
             if (!isCreating) {
             getRecipeName().clear();
