@@ -76,5 +76,15 @@
     "sin": 675674456,
     "tips": 0,
     "position": "Server"
+  },
+  {
+    "firstName": "Sam",
+    "lastName": "H",
+    "staffID": "1234",
+    "sin": 114556789,
+    "tips": 0,
+    "username": "samh",
+    "password": "epic",
+    "position": "Manager"
   }
 ]
