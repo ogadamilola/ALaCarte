@@ -957,11 +957,19 @@ public class ProgramController {
         }*/ catch (NullPointerException e){
             showErrorAlert("ERROR:","Illegal input, please check all fields are filled correctly");
         }
+        catch (Exception e){
+            showErrorAlert("Error", e.getMessage());
+        }
 
     }
     public void deleteStaff(ActionEvent actionEvent){
+        try {
         String id = staffInfoView.getIdText().getText();
         startupMVC.getStaffModel().deleteStaff(id);
+        } catch ( Exception e) {
+            showErrorAlert("Error", e.getMessage());
+        }
+
     }
     public void saveList(ActionEvent actionEvent) {
         startupMVC.getStaffModel().saveList();

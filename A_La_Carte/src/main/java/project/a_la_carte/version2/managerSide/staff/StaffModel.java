@@ -93,7 +93,7 @@ public class StaffModel {
             saveList();
     }
 
-    public void deleteStaff(String id){
+    public void deleteStaff(String id) throws  Exception{
         try {
             if(getStaffById(id) == null){
                 throw new IllegalArgumentException();
@@ -102,9 +102,9 @@ public class StaffModel {
             notifySubscribers();
             setLoadedStaff(null);
         }catch (IllegalArgumentException e){
-            System.out.println("Staff does not exist, can not delete");
+            throw new Exception("Staff does not exist, can not delete", e);
         }catch (NullPointerException e){
-            System.out.println("Staff does not exist, can not delete");
+            throw new Exception("Staff does not exist, can not delete");
         }
     }
 
