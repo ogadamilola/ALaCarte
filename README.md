@@ -12,7 +12,7 @@ Randall Sungcang (rts063)
 Tomi Bamimore (ise652)
 Vidhi Tusharbhai Dhorajia (ojk162)
 ````
-## Product Description (Currently Deliverable 0 Description)
+## Product Description 
 This product works as a management system for restaurants as well as focusing on optimizing and simplifying the flow of productivity. 
 The managers will be able to update the restaurant's storage, set the restaurant's menu,
 track the work done by the restaurant's workers and receive reports for how the day went.
