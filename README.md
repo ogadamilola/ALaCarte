@@ -96,10 +96,14 @@ Restaurant Summary Features:
 			
 ```
 ## Product Installation 
-For now installation is simply pull the main repository and run the StartApplication.java class
+Simply download this program's zip file and extract it.
 
-Will Update
-### Prerequisites (Undefined For Now)
+Once extracted, open the source module 370_project on IntelliJ and then build the artifact
+ALaCarteRestaurantSystem.jar.  Once the jarfile is built, run it.
+
+
+### Prerequisites 
+- IntelliJ
 ### Dependencies (Undefined For Now)
 
 ## Product Usage
@@ -180,15 +184,60 @@ Will Update
 	That is everything you need to know about the Manager Side of A La Carte Restaurant Systems!
 
 	Moving on to the server side:
-		
-	From the main program screen, hit "Worker View", this will take you to the Worker Main Screen.
-
-	From here servers will need to log in using their unique Staff ID, managers can also log in using theirs, but cooks cannot
+	    From the main program screen, hit "Worker View", this will take you to the Worker Main Screen.
+	    From here servers will need to log in using their unique Staff ID, managers can also log in using theirs, but cooks cannot
+    
+    Server Side Summary:
+        To add an Item to the Order:
+            Select an Item and press Add Order Button
+        To delete an Item in the Order:
+            Hit the X button for Items added in order
+            Or hit void order to remove all items in order
+        Adding a customization to an Item in the Order
+            Hit Customize button and select the Item display in the view
+            Select an option button on the left side and an ingredient in the Item
+            Hit the set button
+        Remove a customization on a customized Items
+            Go to Customize View, select an Item and hit the discard button
+        Sending an Order to Kitchen
+            If there is an Item in the current order, hit the send to kitchen button
+        Refunding an Order
+            Hit the refund button to open a Refund view
+            Hit refund on an Order thats been sent to the Kitchen to refund
+        Send an alert to Kitchen
+            Hit add note button which opens up a Note View where the server can send an Alert to Kitchen
+        View the alerts sent by Kitchen side
+            The server will be notified if a note is active by having an orange ! button
+            Click the ! button to view Kitchen alerts
+        Viewing Tables
+            Click the tables button and this will open up a Table View
+            The server can add/remove a table, set an order to the table and reserve a table
+        Viewing the Stock Reports
+            Hit the Stocks button to open up the list of stocks
+    Kitchen Side Summary:
+        Complete an Order
+            This can be done by completing all of the Recipes in an Order
+            Can also be done by pressing the complete button
+        Increase the order time of a recipe
+            Hit the add 1 min button on a specified recipe to increase its current time
+        View ingredients in a Recipe
+            Hit the view recipe button on a specified recipe to view its ingredients
+        Send alert to server
+            Hit the send alert button to open up a alert sender view
+            Type the alert and send it to Server
+        View alerts sent by Server
+            The Kitchen side will be notified if a note is active by having an orange ! button
+            Click the ! button to view Server alerts
 ## Authors and acknowledgment
 Great work to all the members of A La Carta coding group.
 
 Special thanks to our TAs Kartik Kapoor (kak110) and Rushil Ramdharee (rtr697)
 
 
-## Project status (Unchanged For Now)
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+## Project status 
+Currently, the program has every user story features implemented.
+We even managed to start adding extra features however not all of these extra features are implemented in the current repository.
+So if we were to continue working on the program, we would have these extra features implemented alongside with improving the whole
+program's GUI and it's containers.
+
+Overall, we managed to finish what we planned on creating.
