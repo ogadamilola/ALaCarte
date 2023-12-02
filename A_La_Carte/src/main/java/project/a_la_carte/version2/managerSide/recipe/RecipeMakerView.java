@@ -58,6 +58,7 @@ public class RecipeMakerView extends StackPane implements InventorySubscriber, R
         HBox nameHBox = new HBox();
         Label nameLabel = new Label("Enter Name");
         recipeName = new TextField();
+        recipeName.setPromptText("Recipe Name");
         nameHBox.getChildren().addAll(nameLabel,recipeName);
         nameHBox.setPadding(new Insets(2,2,2,2));
         nameHBox.setSpacing(8);
@@ -66,6 +67,7 @@ public class RecipeMakerView extends StackPane implements InventorySubscriber, R
         HBox priceHBox = new HBox();
         Label priceLabel = new Label("Price of ingredients");
         recipePrice = new TextField();
+        recipePrice.setPromptText("Leave blank, auto updates");
         priceHBox.getChildren().addAll(priceLabel,recipePrice);
         priceHBox.setPadding(new Insets(2,2,2,2));
         priceHBox.setPrefWidth(600);
@@ -74,6 +76,7 @@ public class RecipeMakerView extends StackPane implements InventorySubscriber, R
         VBox descVBox = new VBox();
         Label descLabel = new Label("Enter Description");
         recipeDescription = new TextArea();
+        recipeDescription.setPromptText("Recipe Description");
         recipeDescription.setPrefSize(600,100);
         recipeDescription.setWrapText(true);
         descVBox.getChildren().addAll(descLabel,recipeDescription);
@@ -83,6 +86,7 @@ public class RecipeMakerView extends StackPane implements InventorySubscriber, R
         VBox prepIVBox = new VBox();
         Label prepILabel = new Label("Preparation Instructions");
         recipeInstruction = new TextArea();
+        recipeInstruction.setPromptText("Preparation Instructions");
         recipeInstruction.setPrefSize(600,100);
         recipeInstruction.setWrapText(true);
         prepIVBox.getChildren().addAll(prepILabel,recipeInstruction);
@@ -90,8 +94,9 @@ public class RecipeMakerView extends StackPane implements InventorySubscriber, R
         prepIVBox.setPrefSize(600,100);
 
         HBox prepTHBox = new HBox();
-        Label prepTLabel = new Label("Estimated preptime");
+        Label prepTLabel = new Label("Estimated Prep Time");
         recipePrep = new TextField();
+        recipePrice.setPromptText("Estimated Prep Time");
         prepTHBox.getChildren().addAll(prepTLabel, recipePrep);
         prepTHBox.setPadding(new Insets(2,2,2,2));
         prepTHBox.setPrefWidth(600);
@@ -104,7 +109,7 @@ public class RecipeMakerView extends StackPane implements InventorySubscriber, R
         selectedIngredient = new TextField();
         selectedIngredient.setEditable(false);
 
-        addIngredient = new Button("add ingredient");
+        addIngredient = new Button("Add Ingredient");
         addIngredient.setStyle("-fx-background-color: plum;\n" + "-fx-border-color: mediumorchid;\n"
                 + "-fx-border-radius: 15;\n"+"-fx-background-radius: 15;\n");
         deleteIngredient = new Button("Delete ingredient");
