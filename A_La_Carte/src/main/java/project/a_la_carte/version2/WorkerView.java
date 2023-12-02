@@ -24,7 +24,6 @@ public class WorkerView extends StackPane {
     TableView tableView;
     KitchenView kitchenView;
     StackPane workerView;
-    Button serverButton;
     Button kitchenButton;
     TextField pinText;
     Button logInButton;
@@ -89,15 +88,7 @@ public class WorkerView extends StackPane {
         loginVBox.setPrefWidth(1000);
         loginVBox.setAlignment(Pos.CENTER);
 
-        serverButton = new Button("Skip Log In");
-        serverButton.setOnMouseEntered((event -> {
-            serverButton.setStyle("-fx-text-fill: blue;-fx-underline: true;\n");
-        }));
-        serverButton.setOnMouseExited((event -> {
-            serverButton.setStyle("-fx-text-fill: black;-fx-underline: false;\n");
-        }));
-        serverButton.setPrefSize(250,30);
-        VBox serverLogInVBox = new VBox(loginVBox,serverButton);
+        VBox serverLogInVBox = new VBox(loginVBox);
         serverLogInVBox.setPrefWidth(1000);
         serverLogInVBox.setAlignment(Pos.CENTER);
 
@@ -131,9 +122,6 @@ public class WorkerView extends StackPane {
      * @param controller: ProgramController to access methods
      */
     public void setController(ProgramController controller){
-        serverButton.setOnAction((event -> {
-            controller.openMenuView(this);
-        }));
         kitchenButton.setOnAction(event -> {
             controller.openKitchenView(this);
         });
