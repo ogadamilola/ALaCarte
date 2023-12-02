@@ -12,6 +12,8 @@ public class Table {
     Bill bill;
     private static int lastTableNumber = 0;
     int number;
+    private String notes = "";
+    private String orders = "";
 
     public Table(Order newOrder){
         this.status = false; // true indicates occupancy, false indicates vacancy
@@ -61,5 +63,20 @@ public class Table {
 
     public int getNumber() {
         return this.number;
+    }
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
+
+    public String getOrders() {
+        return orders;
+    }
+
+    public void setOrders(String orders) {
+        this.orders = orders;
     }
 }
