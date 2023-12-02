@@ -75,7 +75,7 @@
     "prepInstruction": "Toast Buns\nSauce up the buns\nMelt cheese over 2 patties and place on bottom bun\nPut Lettuce an onions and on top of patties \nPlace top bun",
     "price": 4.6968746,
     "prepTime": 7.0,
-    "selectedStatus": false,
+    "selectedStatus": true,
     "finished": false
   },
   {
@@ -89,6 +89,18 @@
     "prepInstruction": "warm spaghetti noodles\ndrain and place on plate\nplace 3 meatballs on top\ncover in meat sauce",
     "price": 10.35625,
     "prepTime": 8.0,
+    "selectedStatus": false,
+    "finished": false
+  },
+  {
+    "ingredientMap": {
+      "Potatoes": 0.5
+    },
+    "name": "Fries",
+    "description": "Crisp French Fries",
+    "prepInstruction": "Take pre-portioned fries and deep fry for 3 mins",
+    "price": 0.5,
+    "prepTime": 3.0,
     "selectedStatus": false,
     "finished": false
   }

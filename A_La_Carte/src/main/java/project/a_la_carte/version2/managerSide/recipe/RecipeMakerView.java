@@ -96,7 +96,7 @@ public class RecipeMakerView extends StackPane implements InventorySubscriber, R
         HBox prepTHBox = new HBox();
         Label prepTLabel = new Label("Estimated Prep Time");
         recipePrep = new TextField();
-        recipePrice.setPromptText("Estimated Prep Time");
+        recipePrep.setPromptText("Estimated Prep Time");
         prepTHBox.getChildren().addAll(prepTLabel, recipePrep);
         prepTHBox.setPadding(new Insets(2,2,2,2));
         prepTHBox.setPrefWidth(600);

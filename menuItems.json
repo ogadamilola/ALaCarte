@@ -3,20 +3,93 @@
     "menuItemRecipes": [
       {
         "ingredientMap": {
-          "Burger Patty": 2.0,
-          "Lettuce": 0.3125,
-          "Sliced Onion": 0.1875,
-          "Ketchup": 0.1875,
-          "Mustard": 0.1875,
-          "Burger Bun": 1.0,
-          "Cheddar Cheese": 0.1875,
-          "Mayo": 0.1875
+          "1Min": 1.0
         },
-        "name": "Cheese Burger",
-        "description": "Cheese burger with Special Sauce, Lettuce, and Sliced Onions",
-        "prepInstruction": "Toast Buns\nSauce up the buns\nMelt cheese over 2 patties and place on bottom bun\nPut Lettuce an onions and on top of patties \nPlace top bun",
-        "price": 4.6968746,
-        "prepTime": 7.0,
+        "name": "1 Minute Recipe",
+        "description": "Test 1 Minute",
+        "prepInstruction": "Wait for 1 min",
+        "price": 5.0,
+        "prepTime": 1.0,
+        "selectedStatus": false,
+        "finished": false
+      },
+      {
+        "ingredientMap": {
+          "2Min": 2.0
+        },
+        "name": "2 Minute Recipe",
+        "description": "2 Minute Recipe Test",
+        "prepInstruction": "wait 2 minutes",
+        "price": 14.0,
+        "prepTime": 2.0,
+        "selectedStatus": false,
+        "finished": false
+      },
+      {
+        "ingredientMap": {
+          "3Min": 3.0
+        },
+        "name": "3 Minute Test",
+        "description": "3 min test",
+        "prepInstruction": "wait 3 mins",
+        "price": 21.0,
+        "prepTime": 3.0,
+        "selectedStatus": false,
+        "finished": false
+      }
+    ],
+    "name": "3 Minute Timer Test",
+    "description": "Punch this in to view Timer demonstration for 3,2,1 minutes",
+    "price": 41.0,
+    "selectedStatus": false,
+    "customized": false,
+    "customizeOption": []
+  },
+  {
+    "menuItemRecipes": [
+      {
+        "ingredientMap": {
+          "4Min": 6.0
+        },
+        "name": "4 Minuite Test",
+        "description": "4 minute test",
+        "prepInstruction": "wait 4 mins",
+        "price": 738.0,
+        "prepTime": 4.0,
+        "selectedStatus": false,
+        "finished": false
+      },
+      {
+        "ingredientMap": {
+          "5Min": 2.0
+        },
+        "name": "5 minute Test",
+        "description": "5 min test",
+        "prepInstruction": "wait 5 mins",
+        "price": 20.0,
+        "prepTime": 5.0,
+        "selectedStatus": false,
+        "finished": false
+      }
+    ],
+    "name": "5 Minute Timer Test",
+    "description": "Punch in this order to test 5 and 4 minute timer test, inflated price to show in report",
+    "price": 800.0,
+    "selectedStatus": false,
+    "customized": false,
+    "customizeOption": []
+  },
+  {
+    "menuItemRecipes": [
+      {
+        "ingredientMap": {
+          "Potatoes": 0.5
+        },
+        "name": "Fries",
+        "description": "Crisp French Fries",
+        "prepInstruction": "Take pre-portioned fries and deep fry for 3 mins",
+        "price": 0.5,
+        "prepTime": 3.0,
         "selectedStatus": false,
         "finished": false
       },
@@ -40,9 +113,9 @@
         "finished": false
       }
     ],
-    "name": "Test",
-    "description": "Hey",
-    "price": 0.0,
+    "name": "Burger and Fry Combo",
+    "description": "Our cheese burger with a side of home made fries",
+    "price": 10.0,
     "selectedStatus": false,
     "customized": false,
     "customizeOption": []
@@ -64,9 +137,9 @@
         "finished": false
       }
     ],
-    "name": "Try",
-    "description": "reqw",
-    "price": 0.0,
+    "name": "Spaghetti Meatballs",
+    "description": "Our spaghetti with 3 meatballs and meat sauce",
+    "price": 15.0,
     "selectedStatus": false,
     "customized": false,
     "customizeOption": []

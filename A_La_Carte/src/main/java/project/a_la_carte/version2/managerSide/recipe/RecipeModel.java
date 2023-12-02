@@ -81,7 +81,6 @@ public class RecipeModel {
 
         newRecipe.setRecipeIngredients(ingredientMap);
         recipeList.add(newRecipe);
-        System.out.println(newRecipe);
         saveData();
     }
 

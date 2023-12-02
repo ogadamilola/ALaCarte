@@ -148,7 +148,7 @@
     "ingredientType": "Proteins",
     "measurementUnit": "Count",
     "commonAllergen": false,
-    "pricePerUnit": 123.0,
+    "pricePerUnit": 20.0,
     "reorderPoint": 0.0
   },
   "5Min": {
