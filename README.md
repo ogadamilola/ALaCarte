@@ -13,9 +13,7 @@ Tomi Bamimore (ise652)
 Vidhi Tusharbhai Dhorajia (ojk162)
 ````
 ## Product Description 
-This product works as a management system for restaurants as well as focusing on optimizing and simplifying the flow of productivity. 
-The managers will be able to update the restaurant's storage, set the restaurant's menu,
-track the work done by the restaurant's workers and receive reports for how the day went.
+This product works as a management system for restaurants as well as focusing on optimizing and simplifying the flow of productivity.
 Managers are able to easily access the restaurant's information and create accurate updates with relative ease.
 While actions in the program for workers could be done by a single button click, this benefits the
 general workflow of the cooks and help reduce confusion in the kitchen.
