@@ -59,6 +59,13 @@ public class TableView extends StackPane implements ServerViewInterface {
     private static final String RESERVATION_FILE = "reservation.json";
     private static final String TABLE_FILE = "tables.json";
 
+    private Button saveButton;
+    private TextArea orderArea;
+    private String savedOrderText;
+
+    private TextArea noteArea;
+    private String savedNoteText;
+
     private TextField nameField, numberOfGuestsField;
     private DatePicker datePicker;
     private TextField timeField;
@@ -365,7 +372,7 @@ public class TableView extends StackPane implements ServerViewInterface {
         this.serverModel = newModel;
     }
 
-    private void showTableDetails(Table table) {
+    public void showTableDetails(Table table) {
         Alert alert = new Alert(AlertType.CONFIRMATION);
         alert.setTitle("Table Details");
         alert.setHeaderText("Details for Table " + table.getNumber());
@@ -381,34 +388,37 @@ public class TableView extends StackPane implements ServerViewInterface {
         CheckBox statusCheckBox = new CheckBox("Occupied");
         statusCheckBox.setSelected(table.getStatus());
 
-        // getOrder is empty, may or may not implement
-        TextArea orderTextArea = new TextArea(/*table.getOrder().toString()*/);
+        TextArea noteTextArea = new TextArea(table.getNotes());
+        noteTextArea.setEditable(true);
+
+        TextArea orderTextArea = new TextArea(table.getOrders());
         orderTextArea.setEditable(true);
-
-
 
         grid.add(new Label("Occupants:"), 0, 0);
         grid.add(occupantsField, 1, 0);
         grid.add(new Label("Status:"), 0, 1);
         grid.add(statusCheckBox, 1, 1);
-        grid.add(new Label("Order:"), 0, 2);
-        grid.add(orderTextArea, 1, 2);
+        grid.add(new Label("Note(s):"), 0, 2);
+        grid.add(noteTextArea, 1, 2);
+        grid.add(new Label("Order(s):"), 0, 3);
+        grid.add(orderTextArea, 1, 3);
 
-        // Set the alert's content
-        alert.getDialogPane().setContent(grid);
+        HBox layout = new HBox(5);
+        layout.getChildren().addAll(grid);
 
-        // Handling the confirmation result
+        alert.getDialogPane().setContent(layout);
+
         alert.showAndWait().ifPresent(response -> {
             if (response == ButtonType.OK) {
-                // Update table properties based on user input
                 table.setOccupants(Integer.parseInt(occupantsField.getText()));
                 table.setStatus(statusCheckBox.isSelected());
-                // update the order if needed
-
-                updateView(); // Refresh the table view
+                table.setNotes(noteTextArea.getText());
+                table.setOrders(orderTextArea.getText());
+                updateView();
             }
         });
     }
+
     public void setController(ProgramController controller){
         this.back.setOnAction(event -> {
             controller.openMenuView(this.workerView);

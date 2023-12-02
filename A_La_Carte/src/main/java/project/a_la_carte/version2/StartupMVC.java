@@ -224,7 +224,6 @@ public class StartupMVC extends StackPane {
             case "startUp" -> this.startUpView.getChildren().add(signInView);
             case "signUp" -> {
                 this.startUpView.getChildren().add(signUpView);
-                System.out.println("Pressed");
             }
 
 
