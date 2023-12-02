@@ -5,6 +5,7 @@ import javafx.application.Platform;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class OrderTimers {
     ArrayList<MenuFoodItem> menuItems;
@@ -118,21 +119,53 @@ public class OrderTimers {
     public void addOneExecute(int i, int j) {
         // increase prepTime by 1 minute
         prepTimesList.get(i).set(j, prepTimesList.get(i).get(j) + 1);
-        // update expectedOrderTime
-//        prepTimesList.forEach(prepTime -> {
-//            prepTime.forEach(time -> {
-//                if (time >= expectedOrderTime){
-//                    expectedOrderTime = time;
-//                }
-//            });
-//        });
-        //
-        this.expectedOrderTime += 1;
-        // increase all start times by 1 minute
-        startTimesList.forEach((list -> {
-            for (int z = 0; z < list.size(); z++) {
-                startTimes.set(z, startTimes.get(z) + 60000);
-            }
+
+        //This code doesn't affect the stagger time
+        prepTimesList.forEach(prepTime -> {
+            prepTime.forEach(time -> {
+                if (time >= expectedOrderTime){
+                    expectedOrderTime = time;
+                }
+            });
+        });
+        //Un comment to test this way
+        //this.expectedOrderTime += 1;
+        System.out.println("---------------START OF ADD ONE METHOD------------------------");
+        System.out.println("Expected Order Time: "+ expectedOrderTime);
+
+        // increase all start times by 1 minute <- Not every situation for adding 1 min of recipe time should increase the StartTime of all
+        //This Basically works as statTimes += 1 for each start time
+        //Which is why some timers don't start --> Their start times is too large
+
+        //Un comment test this way
+//        startTimesList.forEach((list -> {
+//            for (int z = 0; z < list.size(); z++) {
+//                startTimes.set(z, startTimes.get(z) + 60000);
+//            }
+//        }));
+        //Resetting startTimes in accord with a change of time
+        // -> Since not every start time should increase, there are situations where start time of a timer shouldn't change
+        startTimesList = new ArrayList<>();
+        prepTimesList.forEach((list -> {
+            startTimes = new ArrayList<>();
+            list.forEach(prep -> {
+                startTimes.add((long) ((expectedOrderTime - prep) * 60000));
+            });
+            startTimesList.add(startTimes);
         }));
+
+
+        //For testing print on terminal
+        AtomicInteger item = new AtomicInteger(1);
+        startTimesList.forEach((list -> {
+            System.out.println("---------------------------------------");
+            System.out.println("Start Times for Item: " + item);
+            for (int z = 0; z < list.size(); z++) {
+                System.out.println("Recipe # " + (z+1));
+                System.out.println("Start In: "+ list.get(z)/60000 + " Min"); //<- dividing by 60000 cuz its in long
+            }
+            item.addAndGet(1);
+        }));
+        System.out.println("------------------END OF ADD 1 METHOD--------------------------------");
     }
 }

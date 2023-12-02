@@ -13,6 +13,13 @@
     "totalOrders": 80,
     "incomeToday": 1682.0
   },
+  "2023-12-02": {
+    "date": "2023-12-02",
+    "menuItemMap": {"3 Minute Timer Test":14.0,"5 Minute Timer Test":15.0},
+    "ingredientUsageMap": {"5Min":30.0,"1Min":14.0,"4Min":90.0,"2Min":28.0,"3Min":42.0},
+    "totalOrders": 16,
+    "incomeToday": 12574.0
+  },
   "2023-11-28": {
     "date": "2023-11-28",
     "menuItemMap": {"Cheeseburger Combo":2.0,"Test Item":4.0},
