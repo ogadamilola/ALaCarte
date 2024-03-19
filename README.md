@@ -1,4 +1,4 @@
-# 370_Project
+# 370 Project
 # Team # 1
 
 ## Group Name: A La Carte
