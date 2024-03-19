@@ -8,10 +8,10 @@
   },
   "2023-12-01": {
     "date": "2023-12-01",
-    "menuItemMap": {"Test":135.0,"Try":7.0},
-    "ingredientUsageMap": {"Burger Patty":564.0,"Lettuce":88.125,"Sliced Onion":52.875,"Ketchup":52.875,"Meatballs":6.75,"Spaghetti":7.3125,"Mustard":52.875,"Burger Bun":282.0,"Cheddar Cheese":52.875,"Mayo":52.875,"Tomato Sauce":4.5},
-    "totalOrders": 77,
-    "incomeToday": 0.0
+    "menuItemMap": {"3 Minute Timer Test":2.0,"Test":135.0,"Try":7.0,"5 Minute Timer Test":2.0},
+    "ingredientUsageMap": {"Burger Patty":564.0,"Sliced Onion":52.875,"Ketchup":52.875,"Meatballs":6.75,"5Min":4.0,"4Min":12.0,"3Min":6.0,"Mayo":52.875,"Tomato Sauce":4.5,"Lettuce":88.125,"Spaghetti":7.3125,"1Min":2.0,"2Min":4.0,"Mustard":52.875,"Burger Bun":282.0,"Cheddar Cheese":52.875},
+    "totalOrders": 80,
+    "incomeToday": 1682.0
   },
   "2023-11-28": {
     "date": "2023-11-28",

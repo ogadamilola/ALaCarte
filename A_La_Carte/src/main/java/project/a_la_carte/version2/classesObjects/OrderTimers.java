@@ -9,7 +9,6 @@ import java.util.TimerTask;
 public class OrderTimers {
     ArrayList<MenuFoodItem> menuItems;
     int orderNum;
-
     // ---------------------------
     // Migrated from OrderItems
     // ---------------------------
@@ -120,14 +119,16 @@ public class OrderTimers {
         // increase prepTime by 1 minute
         prepTimesList.get(i).set(j, prepTimesList.get(i).get(j) + 1);
         // update expectedOrderTime
-        prepTimesList.forEach(prepTime -> {
-            prepTime.forEach(time -> {
-                if (time >= expectedOrderTime){
-                    expectedOrderTime = time;
-                }
-            });
-        });
-
+//        prepTimesList.forEach(prepTime -> {
+//            prepTime.forEach(time -> {
+//                if (time >= expectedOrderTime){
+//                    expectedOrderTime = time;
+//                }
+//            });
+//        });
+        //
+        //
+        this.expectedOrderTime += 1;
         // increase all start times by 1 minute
         startTimesList.forEach((list -> {
             for (int z = 0; z < list.size(); z++) {
